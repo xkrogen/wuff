@@ -7,27 +7,36 @@ class User < ActiveRecord::Base
 
   # The maximum length of any user credential field
   @@MAX_CREDENTIAL_LENGTH = 128
-  # name format only contains letter, number, underscore, or whitespace characters
-	@@VALID_NAME_REGEX = /\A[\w,\s]+\z/
+  # The minimum length of passworld field
+  @@MIN_PW_LENGTH = 6
+  # name format only contains letter or whitespace characters
+	@@VALID_NAME_REGEX = /\A[a-zA-Z\s]+\z/
 	# email format is [word characters and dashes][@][domain]
 	@@VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
 	# Success return code
 	@@SUCCESS = 1
-	# Cannot find the email/password pair in the database (i.e. login fail)
-	@@ERR_BAD_CREDENTIALS = 11
 	# Invalid name: must be VALID_NAME_REGEX format; cannot be empty; cannot be longer than MAX_CREDENTIAL_LENGTH
-	@@ERR_BAD_NAME = 12
+	@@ERR_INVALID_NAME = -1
 	# Invalid email: must be VALID_EMAIL_REGEX format; cannot be empty; cannot be longer than MAX_CREDENTIAL_LENGTH
-	@@ERR_BAD_EMAIL = 13
-
+	@@ERR_INVALID_EMAIL = -2
+	# Password cannot be longer than MAX_CREDENTIAL_LENGTH or shorter than MIN_PW_LENGTH
+	@@ERR_INVALID_PASSWORD = -3
+	# Email is not unique (i.e. exists already in database)
+	@@ERR_EMAIL_TAKEN = -4
+	# Cannot find the email/password pair in the database (i.e. login fail)
+	@@ERR_BAD_CREDENTIALS = -5
+	# Generic error for an invalid property
+	@@ERR_INVALID_FIELD = -6
+	# Generic error for an unseccessful action
+	@@ERR_UNSUCCESSFUL = -7
 
 
 	#private # all following methods will be made private
 
 	def validate_name
 		if @@VALID_NAME_REGEX !~ name || name.empty? || name.length > @@MAX_CREDENTIAL_LENGTH
-			return @@ERR_BAD_NAME
+			return @@ERR_INVALID_NAME
 		end
 		@@SUCCESS
 	end
@@ -35,11 +44,14 @@ class User < ActiveRecord::Base
 
 	def validate_email
 		if @@VALID_EMAIL_REGEX !~ email || email.empty? || email.length > @@MAX_CREDENTIAL_LENGTH
-			return @@ERR_BAD_EMAIL
+			return @@ERR_INVALID_EMAIL
+		elsif not valid?
+			return @@ERR_EMAIL_TAKEN
 		end
 		@@SUCCESS
 	end
 
+	# work on this method
 	def validate_password
 		@@SUCCESS
 	end
