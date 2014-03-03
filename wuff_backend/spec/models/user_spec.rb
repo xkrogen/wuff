@@ -43,35 +43,42 @@ ERR_UNSUCCESSFUL = -7
 describe User, "#add" do
 
 	describe ":name field" do
-		context ":name can contain alphabet characters with space characters in between" do
+		context ":name can be sequence of alphabet characters with one space character in between" do
 			it "returns SUCCESS" do
 				user = User.new(name: "Bob SmItH", email: "user@example.com", password: "nopassword")
 				user.add.should eq(SUCCESS)
 			end
 		end
 
-		context ":name is an empty string" do
+		context ":name can contain dot and colon characters" do
+			it "returns SUCCESS" do
+				user = User.new(name: "J.R. O'Brian", email: "user@example.com", password: "nopassword")
+				user.add.should eq(SUCCESS)
+			end
+		end
+
+		context ":name cannot be an empty string" do
 			it "returns ERR_INVALID_NAME" do
 				user = User.new(name: "", email: "user@example.com", password: "nopassword")
 				user.add.should eq(ERR_INVALID_NAME)
 			end
 		end
 
-		context ":name contains number characters" do
+		context ":name cannot contain number characters" do
 			it "returns ERR_INVALID_NAME" do
 				user = User.new(name: "a1b2c", email: "user@example.com", password: "nopassword")
 				user.add.should eq(ERR_INVALID_NAME)
 			end
 		end
 
-		context ":name contains non-alphabet characters" do
+		context ":name cannot contain non-alphabet characters other than dot and colon" do
 			it "returns ERR_INVALID_NAME" do
 				user = User.new(name: "S+ap*_G ^&", email: "user@example.com", password: "nopassword")
 				user.add.should eq(ERR_INVALID_NAME)
 			end
 		end
 
-		context ":name contains leading white-space characters" do
+		context ":name cannot contains leading white-space characters" do
 			it "returns ERR_INVALID_NAME" do
 				user = User.new(name: " David", email: "user@example.com", password: "nopassword")
 				user.add.should eq(ERR_INVALID_NAME)
