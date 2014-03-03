@@ -1,7 +1,7 @@
 # Class for modeling Users
 class User < ActiveRecord::Base
 	# callback to force email to lowercase for uniqueness
-	before_save{ self.email = email.downcase }
+	before_save { self.email = email.downcase }
 	# validates the uniqueness of the email address, disregarding lettercase
 	validates :email, uniqueness: { case_sensitive: false }
 
@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
 
 
 
-	private # all following methods will be made private
+	#private # all following methods will be made private
 
 	def validate_name
 		if @@VALID_NAME_REGEX !~ name || name.empty? || name.length > @@MAX_CREDENTIAL_LENGTH
@@ -32,7 +32,6 @@ class User < ActiveRecord::Base
 		@@SUCCESS
 	end
 				
-	end
 
 	def validate_email
 		if @@VALID_EMAIL_REGEX !~ email || email.empty? || email.length > @@MAX_CREDENTIAL_LENGTH
@@ -44,5 +43,5 @@ class User < ActiveRecord::Base
 	def validate_password
 		@@SUCCESS
 	end
-	
+
 end
