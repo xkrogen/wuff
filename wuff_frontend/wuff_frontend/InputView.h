@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  InputView.h
 //  wuff_frontend
 //
 //  Created by Darren Tsung on 3/2/14.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
+@interface InputView : UIView
 
 @end
