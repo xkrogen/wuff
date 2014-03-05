@@ -1,29 +1,6 @@
 # Unit Tests for User model.
 require 'spec_helper'
 
-
-=begin
-	before do
-		@user = User.new(name: "Bob", email: "user@example.com")
-	end
-
-	subject { @user }
-
-	it { should respond_to(:name) }
-	it { should respond_to(:email) }
-	it { should respond_to(:password_digest) }
-
-end
-=end
-#context "TEST1: Try to add duplicate users" do
-#		it "returns ERR_USER_EXISTS" do
-#  		  	user = UsersModel.new(user: "Ex", password: "nopassword")
-#  		  	same_user = user.dup
-#  		  	user.add
-#  		  	same_user.add.should eq(ERR_USER_EXISTS)
-#  	end
-#  end
-# Success return code
 SUCCESS = 1
 # Invalid name: must be VALID_NAME_REGEX format; cannot be empty; cannot be longer than MAX_CREDENTIAL_LENGTH
 ERR_INVALID_NAME = -1
@@ -45,52 +22,52 @@ describe User, "#add" do
 	describe ":name field" do
 		context ":name can be sequence of alphabet characters with one space character in between" do
 			it "returns SUCCESS" do
-				user = User.new(name: "Bob SmItH", email: "user@example.com", password: "nopassword")
+				user = User.new(name: "Bob SmItH", email: "user0@example.com", password: "nopassword")
 				user.add.should eq(SUCCESS)
 			end
 		end
 
 		context ":name can contain dot and colon characters" do
 			it "returns SUCCESS" do
-				user = User.new(name: "J.R. O'Brian", email: "user@example.com", password: "nopassword")
+				user = User.new(name: "J.R. O'Brian", email: "user1@example.com", password: "nopassword")
 				user.add.should eq(SUCCESS)
 			end
 		end
 
 		context ":name cannot be an empty string" do
 			it "returns ERR_INVALID_NAME" do
-				user = User.new(name: "", email: "user@example.com", password: "nopassword")
+				user = User.new(name: "", email: "user2@example.com", password: "nopassword")
 				user.add.should eq(ERR_INVALID_NAME)
 			end
 		end
 
 		context ":name cannot contain number characters" do
 			it "returns ERR_INVALID_NAME" do
-				user = User.new(name: "a1b2c", email: "user@example.com", password: "nopassword")
+				user = User.new(name: "a1b2c", email: "user3@example.com", password: "nopassword")
 				user.add.should eq(ERR_INVALID_NAME)
 			end
 		end
 
 		context ":name cannot contain non-alphabet characters other than dot and colon" do
 			it "returns ERR_INVALID_NAME" do
-				user = User.new(name: "S+ap*_G ^&", email: "user@example.com", password: "nopassword")
+				user = User.new(name: "S+ap*_G ^&", email: "user4@example.com", password: "nopassword")
 				user.add.should eq(ERR_INVALID_NAME)
 			end
 		end
 
 		context ":name cannot contains leading white-space characters" do
 			it "returns ERR_INVALID_NAME" do
-				user = User.new(name: " David", email: "user@example.com", password: "nopassword")
+				user = User.new(name: " David", email: "user5@example.com", password: "nopassword")
 				user.add.should eq(ERR_INVALID_NAME)
 			end
 		end
 
 		context ":name contains trailing white-space characters" do
 			it "returns ERR_INVALID_NAME" do
-				user = User.new(name: "Ashley ", email: "user@example.com", password: "nopassword")
+				user = User.new(name: "Ashley ", email: "user6@example.com", password: "nopassword")
 				user.add.should eq(ERR_INVALID_NAME)
 			end
-		end
+		end 
 	end
 
 	describe ":email field" do
@@ -122,14 +99,6 @@ describe User, "#add" do
 			end
 		end
 
-
-		context ":email can contain underscore characters" do
-			it "returns SUCCESS" do
-				user = User.new(name: "John", email: "lebron_james@example.com", password: "nopassword")
-				user.add.should eq(ERR_INVALID_EMAIL)
-			end
-		end
-
 		context ":email cannot have white-space characters" do
 			it "returns ERR_INVALID_EMAIL" do
 				user = User.new(name: "John", email: "user @example.com", password: "nopassword")
@@ -148,26 +117,25 @@ describe User, "#add" do
 	describe ":password field" do
 		context ":password can contain any character" do
 			it "returns SUCCESS" do
-				user = User.new(name: "John", email: "user@example.com", password: "s%88! $sfa#0 0!ADSff")
+				user = User.new(name: "John", email: "password0@example.com", password: "s%88! $sfa#0 0!ADSff")
 				user.add.should eq(SUCCESS)
 			end
 		end
 
 		context ":password cannot be less than 6 characters" do
 			it "returns SUCCESS" do
-				user = User.new(name: "John", email: "user@example.com", password: "a2d4f")
+				user = User.new(name: "John", email: "password1@example.com", password: "a2d4f")
 				user.add.should eq(ERR_INVALID_PASSWORD)
 			end
 		end
 
 		context ":password cannot be more than 128 characters" do
 			it "returns SUCCESS" do
-				user = User.new(name: "John", email: "user@example.com", password: "a" * 129)
+				user = User.new(name: "John", email: "password2@example.com", password: "a" * 129)
 				user.add.should eq(ERR_INVALID_PASSWORD)
 			end
 		end
 	end
 
 end
-
 

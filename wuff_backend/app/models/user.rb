@@ -5,8 +5,8 @@ class User < ActiveRecord::Base
 	# validates the uniqueness of the email address, disregarding lettercase
 	validates :email, uniqueness: { case_sensitive: false }
 	# method call to return hashed password_digest from password to be stored in db
-	#     no value set to password_confirmation (password_confirmation designed to be done in frontend)
-	has_secure_password
+	#     validation off for empty password and password_confirmation (password_confirmation designed to be done in frontend)
+	has_secure_password validations: false
 
   # The maximum length of any user credential field
   @@MAX_CREDENTIAL_LENGTH = 128
@@ -35,36 +35,58 @@ class User < ActiveRecord::Base
 	@@ERR_UNSUCCESSFUL = -7
 
 
-	#private # all following methods will be made private
-
-	def validate_name
-		if name == nil
-			return @@ERR_INVALID_NAME
-		elsif @@VALID_NAME_REGEX !~ name || name.empty? || name.length > @@MAX_CREDENTIAL_LENGTH
-			return @@ERR_INVALID_NAME
-		end
+	# Function checks that the user does not exist, the user name, email, and password format is correct
+	# * On Success the function adds a row to the DB
+	# * On success the result is success code: SUCCESS
+	# * On failure the result is an error code (<0): 	ERR_INVALID_NAME, ERR_INVALID_EMAIL, ERR_EMAIL_TAKEN, ERR_INVALID_PASSWORD
+	def add
+		return @@ERR_INVALID_NAME if not name_valid?
+		return @@ERR_INVALID_EMAIL if not email_valid?
+		return @@ERR_INVALID_PASSWORD if not password_valid?
+		return @@ERR_EMAIL_TAKEN if not email_available?
+		#save
 		@@SUCCESS
+	end
+
+
+	private # all following methods will be made private
+
+  # Function that checks if name is formatted correctly
+  # * Return true if name matches VALID_NAME_REGEX, name exists, length non-empty and less than MAX_CREDENTIAL_LENGTH
+	def name_valid?
+		if name == nil
+			return false
+		elsif @@VALID_NAME_REGEX !~ name || name.empty? || name.length > @@MAX_CREDENTIAL_LENGTH
+			return false
+		end
+		true
 	end
 				
-
-	def validate_email
-		if email == invalid
-			return @@ERR_INVALID_EMAIL
+	# Function that checks if email is formatted correctly
+	# * Return true if email matches VALID_EMAIL_REGEX, email exists, length non-empty and less than @@MAX_CREDENTIAL_LENGTH
+	def email_valid?
+		if email == nil
+			return false
 		elsif @@VALID_EMAIL_REGEX !~ email || email.empty? || email.length > @@MAX_CREDENTIAL_LENGTH
-			return @@ERR_INVALID_EMAIL
-		elsif not valid?
-			return @@ERR_EMAIL_TAKEN
+			return false
 		end
-		@@SUCCESS
+		true
 	end
 
-	# work on this method
-	def validate_password
+	# Function that checks if email name is unique
+	# * Return true if email does not exist in db
+	def email_available?
+		self.valid?
+	end
+
+	# Function that checks if password is formatted correctly
+	# * Return truf if password exists, length greater than MIN_PW_LENGTH and less than MAX_CREDENTIAL_LENGTH
+	def password_valid?
 		if password == nil
-			return @@ERR_INVALID_PASSWORD
+			return false
 		elsif password.length < @@MIN_PW_LENGTH || password.length > @@MAX_CREDENTIAL_LENGTH
-			return @@ERR_INVALID_PASSWORD
-		@@SUCCESS
+			return false
+		end
+		true
 	end
-
 end
