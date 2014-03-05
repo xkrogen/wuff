@@ -112,6 +112,15 @@ describe User, "#add" do
 				user.add.should eq(ERR_INVALID_EMAIL)
 			end
 		end
+
+		context ":email is unique" do
+			it "returns ERR_EMAIL_TAKEN" do
+				user = User.new(name: "Jimmy", email: "taken@email.com", password: "foobar")
+				user.add
+				other =User.new(name: "Tommy", email: "taken@email.com", password: "helloworld")
+				other.add.should eq(ERR_EMAIL_TAKEN)
+			end
+		end
 	end
 
 	describe ":password field" do

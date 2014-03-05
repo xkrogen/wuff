@@ -37,15 +37,15 @@ class User < ActiveRecord::Base
 
 	# Function checks that the user does not exist, the user name, email, and password format is correct
 	# * On Success the function adds a row to the DB
-	# * On success the result is success code: SUCCESS
-	# * On failure the result is an error code (<0): 	ERR_INVALID_NAME, ERR_INVALID_EMAIL, ERR_EMAIL_TAKEN, ERR_INVALID_PASSWORD
+	# * On success, return user ID
+	# * On failure, return an error code (<0): 	ERR_INVALID_NAME, ERR_INVALID_EMAIL, ERR_EMAIL_TAKEN, ERR_INVALID_PASSWORD
 	def add
 		return @@ERR_INVALID_NAME if not name_valid?
 		return @@ERR_INVALID_EMAIL if not email_valid?
 		return @@ERR_INVALID_PASSWORD if not password_valid?
 		return @@ERR_EMAIL_TAKEN if not email_available?
-		#save
-		@@SUCCESS
+		self.save
+		self.id
 	end
 
 
@@ -54,9 +54,9 @@ class User < ActiveRecord::Base
   # Function that checks if name is formatted correctly
   # * Return true if name matches VALID_NAME_REGEX, name exists, length non-empty and less than MAX_CREDENTIAL_LENGTH
 	def name_valid?
-		if name == nil
+		if self.name == nil
 			return false
-		elsif @@VALID_NAME_REGEX !~ name || name.empty? || name.length > @@MAX_CREDENTIAL_LENGTH
+		elsif @@VALID_NAME_REGEX !~ self.name || self.name.empty? || self.name.length > @@MAX_CREDENTIAL_LENGTH
 			return false
 		end
 		true
@@ -65,9 +65,9 @@ class User < ActiveRecord::Base
 	# Function that checks if email is formatted correctly
 	# * Return true if email matches VALID_EMAIL_REGEX, email exists, length non-empty and less than @@MAX_CREDENTIAL_LENGTH
 	def email_valid?
-		if email == nil
+		if self.email == nil
 			return false
-		elsif @@VALID_EMAIL_REGEX !~ email || email.empty? || email.length > @@MAX_CREDENTIAL_LENGTH
+		elsif @@VALID_EMAIL_REGEX !~ self.email || self.email.empty? || self.email.length > @@MAX_CREDENTIAL_LENGTH
 			return false
 		end
 		true
@@ -82,9 +82,9 @@ class User < ActiveRecord::Base
 	# Function that checks if password is formatted correctly
 	# * Return truf if password exists, length greater than MIN_PW_LENGTH and less than MAX_CREDENTIAL_LENGTH
 	def password_valid?
-		if password == nil
+		if self.password == nil
 			return false
-		elsif password.length < @@MIN_PW_LENGTH || password.length > @@MAX_CREDENTIAL_LENGTH
+		elsif self.password.length < @@MIN_PW_LENGTH || self.password.length > @@MAX_CREDENTIAL_LENGTH
 			return false
 		end
 		true
