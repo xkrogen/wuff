@@ -31,7 +31,7 @@ class User < ActiveRecord::Base
 	@@ERR_BAD_CREDENTIALS = -5
 	# Generic error for an invalid property
 	@@ERR_INVALID_FIELD = -6
-	# Generic error for an unseccessful action
+	# Generic error for an unsuccessful action
 	@@ERR_UNSUCCESSFUL = -7
 
 
