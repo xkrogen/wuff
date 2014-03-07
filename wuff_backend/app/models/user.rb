@@ -1,4 +1,3 @@
-# Class for modeling Users
 class User < ActiveRecord::Base
 	# callback to force email to lowercase for uniqueness
 	before_save { self.email = email.downcase }
@@ -36,20 +35,61 @@ class User < ActiveRecord::Base
 
 
 	# Function checks that the user does not exist, the user name, email, and password format is correct
-	# * On Success the function adds a row to the DB
-	# * On success, return user ID
-	# * On failure, return an error code (<0): 	ERR_INVALID_NAME, ERR_INVALID_EMAIL, ERR_EMAIL_TAKEN, ERR_INVALID_PASSWORD
+	# * On success the function generates unique_id and remember_token
+	# * On success the function adds a row to the DB
+	# * On success return code SUCCESS
+	# * On failure return an error code (<0): ERR_INVALID_NAME, ERR_INVALID_EMAIL, ERR_EMAIL_TAKEN, ERR_INVALID_PASSWORD
 	def add
 		return @@ERR_INVALID_NAME if not name_valid?
 		return @@ERR_INVALID_EMAIL if not email_valid?
 		return @@ERR_INVALID_PASSWORD if not password_valid?
 		return @@ERR_EMAIL_TAKEN if not email_available?
+		create_unique_id
+		create_remember_token
 		self.save
-		self.id
+		@@SUCCESS
 	end
 
 
+	# Function that checks if user :email is in db, then authenticates user: password against db password_digest
+	# * On success returns { err_code: SUCCESS, user: db_result }
+	# * On failture returns { err_code: ERR_BAD_CREDENTIALS }
+	def login
+		db_result = self.class.find_by(email: self.email)
+		return { err_code: @@ERR_BAD_CREDENTIALS } if db_result == nil || !db_result.authenticate(self.password)
+		{ err_code: @@SUCCESS, user: db_result }
+	end
+
+
+
+
+
+	# Function that generates a random string of base 64
+	def self.new_token
+		SecureRandom.urlsafe_base64
+	end
+
+	# Function that hashes the random token
+	# * Param: token 
+	def self.hash(token)
+		Digest::SHA1.hexdigest(token.to_s)
+	end
+
 	private # all following methods will be made private
+
+	# Function that generates a hashed session token for user
+	def create_remember_token
+		self.remember_token = self.class.hash(User.new_token)
+	end
+
+	# Function that generates a new unique_id that is not associated with user in db yet
+	def create_unique_id
+		token = self.class.new_token
+		while self.class.find_by(unique_id: token) != nil
+			token = self.class.new_token
+		end
+		self.unique_id = token
+	end
 
   # Function that checks if name is formatted correctly
   # * Return true if name matches VALID_NAME_REGEX, name exists, length non-empty and less than MAX_CREDENTIAL_LENGTH

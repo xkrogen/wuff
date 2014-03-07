@@ -1,6 +1,7 @@
 # Unit Tests for User model.
 require 'spec_helper'
 
+# Success return code
 SUCCESS = 1
 # Invalid name: must be VALID_NAME_REGEX format; cannot be empty; cannot be longer than MAX_CREDENTIAL_LENGTH
 ERR_INVALID_NAME = -1
@@ -146,5 +147,61 @@ describe User, "#add" do
 		end
 	end
 
+	describe ":unique_id field" do
+		context "after added in db" do
+			before(:each) do
+				@user = User.new(name: "John", email: "John@example.com", password: "foobar")
+				@user.add
+			end
+			it "should not be nil" do
+				@user.unique_id.should_not eq(nil)
+			end
+			it "should be unique" do
+				other = User.new(name: "David", email: "David@example.com", password: "barfoo")
+				other.unique_id = @user.unique_id
+				other.unique_id.should be(@user.unique_id) # sanity check
+				other.add
+				other.unique_id.should_not be(@user.unique_id)
+			end
+		end
+	end
+
+	describe ":remember_token field" do
+		context "after added in db" do
+			it "should not be nil" do
+				user = User.new(name: "John", email: "John@example.com", password: "foobar")
+				user.add
+				user.remember_token.should_not eq(nil)
+			end
+		end
+	end
+end
+
+describe User, "#login" do
+	before(:each) do
+		@user = User.new(name: "Hello World", email: "hello@world.com", password: "nopassword")
+		@user.add
+	end
+
+	context "with correct credentials" do
+		it "should have success, err_code: SUCCESS" do
+			other = User.new(email: "hello@world.com", password: "nopassword")
+			other.login[:err_code].should eq(SUCCESS)
+		end
+	end
+
+	context "with unregistered email" do
+		it "should have error, errorCode: ERR_BAD_CREDENTIALS" do
+			other = User.new(email: "bye@world.com", password: "nopassword")
+			other.login[:err_code].should eq(ERR_BAD_CREDENTIALS)
+		end
+	end
+
+	context "with wrong password" do
+		it "should have error, err_code: ERR_BAD_CREDENTIALS" do
+			other = User.new(email: "hello@world.com", password: "yespassword")
+			other.login[:err_code].should eq(ERR_BAD_CREDENTIALS)
+		end
+	end
 end
 
