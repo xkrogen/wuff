@@ -1,3 +1,4 @@
+# Class for modeling the user of app
 class User < ActiveRecord::Base
 	# callback to force email to lowercase for uniqueness
 	before_save { self.email = email.downcase }
@@ -64,9 +65,13 @@ class User < ActiveRecord::Base
 
 
 
-	# Function that generates a random string of base 64
+	# Function that generates a unique remember_token, random string of base 64
 	def self.new_token
-		SecureRandom.urlsafe_base64
+		token = loop do
+			random_token = SecureRandom.urlsafe_base64
+			break random_token unless User.exists?(remember_token: User.hash(random_token))
+		end
+		token
 	end
 
 	# Function that hashes the random token
@@ -75,7 +80,7 @@ class User < ActiveRecord::Base
 		Digest::SHA1.hexdigest(token.to_s)
 	end
 
-	private # all following methods will be made private
+	private
 
 	# Function that generates a hashed session token for user
 	def create_remember_token
@@ -84,11 +89,10 @@ class User < ActiveRecord::Base
 
 	# Function that generates a new unique_id that is not associated with user in db yet
 	def create_unique_id
-		token = self.class.new_token
-		while self.class.find_by(unique_id: token) != nil
-			token = self.class.new_token
+		self.unique_id = loop do
+			random_token = SecureRandom.urlsafe_base64
+			break random_token unless User.exists?(unique_id: random_token)
 		end
-		self.unique_id = token
 	end
 
   # Function that checks if name is formatted correctly
