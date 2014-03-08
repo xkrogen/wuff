@@ -9,7 +9,7 @@ class Event < ActiveRecord::Base
 
 	# Success return code
 	SUCCESS = 1
-	# Invalid name: Name must exist and have max length @@MAX_NAME_LENGTH
+	# Invalid name: Name must exist and have max length MAX_NAME_LENGTH
 	ERR_INVALID_NAME = -1 
 	# Invalid time: Time must be a valid time
 	ERR_INVALID_TIME = -10
@@ -23,11 +23,9 @@ class Event < ActiveRecord::Base
 	# ERR_INVALID_NAME, ERR_INVALID_TIME, or ERR_INVALID_FIELD.
 	def is_valid?
 		return ERR_INVALID_NAME if not name.valid?
-		# Time doesn't exist yet. May need to change line below. 
-		# return @@ERR_INVALID_TIME if not time.valid?
+		return ERR_INVALID_TIME if Time.at(time).to_datetime.past?
 		return ERR_INVALID_FIELD if not (admin.valid? && party_list.valid?)
 		return SUCCESS
 	end
-
 
 end

@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
 	has_secure_password validations: false
 
 	# Serialize event_list (array) for easy storage.
-	serialize event_list, Array
+	serialize :event_list, Array
 
   # The maximum length of any user credential field
   @@MAX_CREDENTIAL_LENGTH = 128
@@ -64,11 +64,29 @@ class User < ActiveRecord::Base
 		{ err_code: @@SUCCESS, user: db_result }
 	end
 
-	#def add_event(event_id)
-		#curr_event_list = self.event_list
-		#if curr_event_list
+	# Adds event_id into the user's list of events. 
+	def add_event(event_id)
+		self.update_attribute(self.event_list << event_id)
+	end
 
+	# Removes event_id from the user's list of events.
+	def delete_event(event_id)
+		curr_event_list = self.event_list
+		curr_event_list.delete(event_id)
+		self.update_attribute(curr_event_list)
 
+		# Should probably remove any outstanding notifications as well
+
+	end
+
+	# Changes the user's status (e.g. attending, declined) 
+	# within event_id. 
+	def respond_event(event_id, status)
+		event = Event.find(event_id)
+		event_user_list = event.party_list
+		event_user_list[self.id] = status
+		event.update_attribute(:party_list, event_user_list)
+	end 
 
 	# Function that generates a unique remember_token, random string of base 64
 	def self.new_token

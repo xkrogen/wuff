@@ -29,7 +29,7 @@ class EventsController < ApplicationController
 		
 		user_list = {}
 		params[:user_list].split(",").each do |s|
-			if !is_valid_user_id?
+			if !is_valid_user_id?(s)
 				respond(ERR_UNSUCCESSFUL)
 				return
 			else
@@ -49,11 +49,18 @@ class EventsController < ApplicationController
   	end
 		success = @event.save
 		if !success
-			respond(_ERR_UNSUCCESSFUL)
+			respond(ERR_UNSUCCESSFUL)
 			return
 		end
+		
+		user_list.each_key do |users_id|
+			users_id.add_event(@event.id)
+
+			# Also add to their notifications here!
+
+		end
+
 		respond(SUCCESS, { event: @event.id} )
-  	# Process event... Notifications, add to users
   end
 
 
