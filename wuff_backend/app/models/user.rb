@@ -8,6 +8,9 @@ class User < ActiveRecord::Base
 	#     validation off for empty password and password_confirmation (password_confirmation designed to be done in frontend)
 	has_secure_password validations: false
 
+	# Serialize event_list (array) for easy storage.
+	serialize event_list, Array
+
   # The maximum length of any user credential field
   @@MAX_CREDENTIAL_LENGTH = 128
   # The minimum length of password field
@@ -61,7 +64,9 @@ class User < ActiveRecord::Base
 		{ err_code: @@SUCCESS, user: db_result }
 	end
 
-
+	#def add_event(event_id)
+		#curr_event_list = self.event_list
+		#if curr_event_list
 
 
 
