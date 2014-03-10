@@ -72,9 +72,9 @@ class User < ActiveRecord::Base
 	# Finds user Friend via friend_email. If valid, adds Friend.id to self.friend_list and sorts the friend_list.
 	def concat_friend(friend_email)
 		friend = self.class.find_by(email: friend_email)
-		return { err_code: @@ERR_UNSUCCESSFUL } if friend == nil
-		if self.friend_list.bsearch { |id| id == friend.id } == nil
-			self.friend_list = (self.friend_list << friend.id).sort
+		return @@ERR_UNSUCCESSFUL if friend == nil
+		if !self.friend_list.include?(friend.id)
+			self.friend_list = (self.friend_list << friend.id)
 			self.update_attribute(:friend_list, self.friend_list)
 		end
 		@@SUCCESS
