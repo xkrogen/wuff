@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		186A196E18CD224700E4BEB5 /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186A196D18CD224700E4BEB5 /* SignUpViewController.m */; };
+		186A197418CD270000E4BEB5 /* UIView+Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = 186A197318CD270000E4BEB5 /* UIView+Toast.m */; };
 		6C13DD9518C41EFD0032A56C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C13DD9418C41EFD0032A56C /* Foundation.framework */; };
 		6C13DD9718C41EFD0032A56C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C13DD9618C41EFD0032A56C /* CoreGraphics.framework */; };
 		6C13DD9918C41EFD0032A56C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C13DD9818C41EFD0032A56C /* UIKit.framework */; };
@@ -36,6 +38,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		186A196C18CD224700E4BEB5 /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
+		186A196D18CD224700E4BEB5 /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
+		186A197218CD270000E4BEB5 /* UIView+Toast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Toast.h"; sourceTree = "<group>"; };
+		186A197318CD270000E4BEB5 /* UIView+Toast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Toast.m"; sourceTree = "<group>"; };
 		6C13DD9118C41EFD0032A56C /* wuff_frontend.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = wuff_frontend.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C13DD9418C41EFD0032A56C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6C13DD9618C41EFD0032A56C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -118,6 +124,8 @@
 		6C13DD9A18C41EFD0032A56C /* wuff_frontend */ = {
 			isa = PBXGroup;
 			children = (
+				186A197218CD270000E4BEB5 /* UIView+Toast.h */,
+				186A197318CD270000E4BEB5 /* UIView+Toast.m */,
 				6C13DDA318C41EFD0032A56C /* AppDelegate.h */,
 				6C13DDA418C41EFD0032A56C /* AppDelegate.m */,
 				6C13DDA618C41EFD0032A56C /* Main.storyboard */,
@@ -127,6 +135,8 @@
 				6CF7E1B518CA538F00880712 /* HandleRequest.m */,
 				6C13DDA918C41EFD0032A56C /* LoginViewController.h */,
 				6C13DDAA18C41EFD0032A56C /* LoginViewController.m */,
+				186A196C18CD224700E4BEB5 /* SignUpViewController.h */,
+				186A196D18CD224700E4BEB5 /* SignUpViewController.m */,
 				6C13DDAC18C41EFD0032A56C /* Images.xcassets */,
 				6C13DD9B18C41EFD0032A56C /* Supporting Files */,
 			);
@@ -259,8 +269,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				186A197418CD270000E4BEB5 /* UIView+Toast.m in Sources */,
 				6C13DDAB18C41EFD0032A56C /* LoginViewController.m in Sources */,
 				6CF7E1B618CA538F00880712 /* HandleRequest.m in Sources */,
+				186A196E18CD224700E4BEB5 /* SignUpViewController.m in Sources */,
 				6C13DDCB18C43FD20032A56C /* InputView.m in Sources */,
 				6C13DDA518C41EFD0032A56C /* AppDelegate.m in Sources */,
 				6C13DDA118C41EFD0032A56C /* main.m in Sources */,

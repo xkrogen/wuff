@@ -51,7 +51,7 @@
             return false;
         
         NSURL *url = [NSURL URLWithString:URL_str];
-        NSMutableURLRequest *request = [NSURLRequest requestWithURL:url];
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
         
         
         switch (requestType)
@@ -85,6 +85,7 @@
 
 -(void)connection:(NSURLConnection*)connection didReceiveResponse:(NSURLResponse*)response
 {
+    NSLog(@"received response!");
     _data = [[NSMutableData alloc] init];
 }
 -(void)connection:(NSURLConnection*)connection didReceiveData:(NSData*)data
@@ -102,8 +103,19 @@
 }
 -(void)connectionDidFinishLoading:(NSURLConnection*)connection
 {
-    SEL sel = NSSelectorFromString(_selectorName);
-    [_delegate performSelector:sel withObject:self]; // Deal with the data
+    NSError *error = nil;
+    // allow fragments so empty fields do not crash the app
+    NSDictionary *jsonResponse = [NSJSONSerialization JSONObjectWithData:_data options:NSJSONReadingAllowFragments error:&error];
+    NSLog(@"JSONRESPONSE: %@", jsonResponse);
+    if (error)
+    {
+        NSLog(@"ERROR: %@, %@", error, [error localizedDescription]);
+    }
+    else
+    {
+        SEL sel = NSSelectorFromString(_selectorName);
+        [_delegate performSelector:sel withObject:jsonResponse]; // Deal with the data
+    }
 }
 
 @end
