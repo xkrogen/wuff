@@ -9,14 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "InputView.h"
 #import "UIView+Toast.h"
+#import "HandleRequest.h"
 
 @interface LoginViewController : UIViewController
 
 @property(nonatomic, strong) IBOutlet InputView *emailInputView;
-
 @property(nonatomic, strong) IBOutlet InputView *passwordInputView;
 
-
+@property(nonatomic, strong) HandleRequest *myRequester;
 
 
 -(IBAction)signIn;

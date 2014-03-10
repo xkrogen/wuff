@@ -24,6 +24,7 @@
 		6C13DDBE18C41EFD0032A56C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6C13DDBC18C41EFD0032A56C /* InfoPlist.strings */; };
 		6C13DDC018C41EFD0032A56C /* wuff_frontendTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C13DDBF18C41EFD0032A56C /* wuff_frontendTests.m */; };
 		6C13DDCB18C43FD20032A56C /* InputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C13DDCA18C43FD20032A56C /* InputView.m */; };
+		6CF7E1B618CA538F00880712 /* HandleRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CF7E1B518CA538F00880712 /* HandleRequest.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,8 @@
 		6C13DDBF18C41EFD0032A56C /* wuff_frontendTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = wuff_frontendTests.m; sourceTree = "<group>"; };
 		6C13DDC918C43FD20032A56C /* InputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputView.h; sourceTree = "<group>"; };
 		6C13DDCA18C43FD20032A56C /* InputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InputView.m; sourceTree = "<group>"; };
+		6CF7E1B418CA538F00880712 /* HandleRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HandleRequest.h; sourceTree = "<group>"; };
+		6CF7E1B518CA538F00880712 /* HandleRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HandleRequest.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +131,8 @@
 				6C13DDA618C41EFD0032A56C /* Main.storyboard */,
 				6C13DDC918C43FD20032A56C /* InputView.h */,
 				6C13DDCA18C43FD20032A56C /* InputView.m */,
+				6CF7E1B418CA538F00880712 /* HandleRequest.h */,
+				6CF7E1B518CA538F00880712 /* HandleRequest.m */,
 				6C13DDA918C41EFD0032A56C /* LoginViewController.h */,
 				6C13DDAA18C41EFD0032A56C /* LoginViewController.m */,
 				186A196C18CD224700E4BEB5 /* SignUpViewController.h */,
@@ -266,6 +271,7 @@
 			files = (
 				186A197418CD270000E4BEB5 /* UIView+Toast.m in Sources */,
 				6C13DDAB18C41EFD0032A56C /* LoginViewController.m in Sources */,
+				6CF7E1B618CA538F00880712 /* HandleRequest.m in Sources */,
 				186A196E18CD224700E4BEB5 /* SignUpViewController.m in Sources */,
 				6C13DDCB18C43FD20032A56C /* InputView.m in Sources */,
 				6C13DDA518C41EFD0032A56C /* AppDelegate.m in Sources */,
