@@ -4,7 +4,7 @@ require 'json'
 describe EventsController do
 	
 	describe "when creating an event" do
-		
+		# Ned tests here...
 	end
 
 end

@@ -75,6 +75,20 @@ class Event < ActiveRecord::Base
 		return @event.id
 	end
 
+	# Returns the user's status for this event: STATUS_ATTENDING,
+	# STATUS_NOT_ATTENDING, STATUS_NO_RESPONSE. Returns nil
+	# if the user is not a part of this event.
+	def get_user_status(user_id)
+		party_list[user_id][:status]
+	end
+
+	# Sets the user's status for this event. Does nothing if user_id
+	# is not a member of this event.
+	def set_user_status(user_id, new_status)
+		party_list[user_id][:status] = new_status if party_list.has_key?(user_id)
+		self.update_attribute(:party_list, party_list)
+	end
+
 	# Notifies all of the users within party_list using NOTIFICATION. 
 	def notify(notification)
 		party_list.each_key do |key|

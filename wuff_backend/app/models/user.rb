@@ -83,24 +83,23 @@ class User < ActiveRecord::Base
 	def delete_event(event_id)
 		self.event_list.delete(event_id)
 		self.update_attribute(:event_list, self.event_list)
-
-		# Should probably remove any outstanding notifications as well
-
+		self.notification_list.delete_if do |notif|
+			notif.has_key?(:event) && notif[:event] == event_id
+		end
 	end
 
 	# Changes the user's status (e.g. attending, declined) 
-	# within event_id. 
-	def respond_event(event_id, status)
+	# within event_id. Does nothing if the event doesn't exist.
+	def respond_event(event_id, new_status)
 		begin
 			event = Event.find(event_id)
 		rescue ActiveRecord::RecordNotFound
 			return
 		end
-		event_user_list = event.party_list
-		event_user_list[self.id][:status] = status
-		event.update_attribute(:party_list, event_user_list)
+		event.set_user_status(self.id, new_status)
 	end 
 
+	# Adds NOTIFICATION to the user's notification_list. 
 	def post_notification(notification)
 		self.notification_list = self.notification_list << notification.getHash
 		self.update_attribute(:notification_list, self.notification_list)

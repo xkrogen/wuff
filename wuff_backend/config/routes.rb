@@ -7,4 +7,5 @@ WuffBackend::Application.routes.draw do
   post '/user/add_friend', to: 'users#add_friend'
   delete '/user/delete_friend', to: 'users#delete_friend'
 
+	post 'event/create_event', to: 'events#create_event'
 end

@@ -204,3 +204,7 @@ describe User, "#add_friend, #delete_friend" do
 
 end
 
+describe User, "#add_event, #delete_event" do
+	# Need to add tests here...
+end
+	
