@@ -8,6 +8,8 @@ class User < ActiveRecord::Base
 	#     validation off for empty password and password_confirmation (password_confirmation designed to be done in frontend)
 	has_secure_password validations: false
 
+	# Serialize friend_list (array) for easy storage.
+	serialize :friend_list, Array
 	# Serialize event_list (array) for easy storage.
 	serialize :event_list, Array
 	# Serialize notification_list (array of hashes) for easy storage.
@@ -51,6 +53,9 @@ class User < ActiveRecord::Base
 		return @@ERR_INVALID_PASSWORD if not password_valid?
 		return @@ERR_EMAIL_TAKEN if not email_available?
 		create_remember_token
+		self.friend_list = Array.new
+		self.event_list = Array.new
+		self.notification_list = Array.new
 		self.save
 		@@SUCCESS
 	end
@@ -63,6 +68,28 @@ class User < ActiveRecord::Base
 		return { err_code: @@ERR_BAD_CREDENTIALS } if db_result == nil || !db_result.authenticate(self.password)
 		{ err_code: @@SUCCESS, user: db_result }
 	end
+
+	# Finds user Friend via friend_email. If valid, adds Friend.id to self.friend_list and sorts the friend_list.
+	def concat_friend(friend_email)
+		friend = self.class.find_by(email: friend_email)
+		return { err_code: @@ERR_UNSUCCESSFUL } if friend == nil
+		if self.friend_list.bsearch { |id| id == friend.id } == nil
+			self.friend_list = (self.friend_list << friend.id).sort
+			self.update_attribute(:friend_list, self.friend_list)
+		end
+		@@SUCCESS
+	end
+
+	# Finds user Friend via friend_email. If valid, delete Friend.id in self.friend_list.
+	def remove_friend(friend_email)
+		friend = self.class.find_by(email: friend_email)
+		if friend != nil
+			self.friend_list.delete(friend.id)
+			self.update_attribute(:friend_list, self.friend_list)
+		end
+		@@SUCCESS
+	end
+
 
 	# Adds event_id into the user's list of events. 
 	def add_event(event_id)
