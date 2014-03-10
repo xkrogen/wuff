@@ -45,7 +45,6 @@ class User < ActiveRecord::Base
 		return @@ERR_INVALID_EMAIL if not email_valid?
 		return @@ERR_INVALID_PASSWORD if not password_valid?
 		return @@ERR_EMAIL_TAKEN if not email_available?
-		create_unique_id
 		create_remember_token
 		self.save
 		@@SUCCESS
@@ -60,10 +59,6 @@ class User < ActiveRecord::Base
 		return { err_code: @@ERR_BAD_CREDENTIALS } if db_result == nil || !db_result.authenticate(self.password)
 		{ err_code: @@SUCCESS, user: db_result }
 	end
-
-
-
-
 
 	# Function that generates a unique remember_token, random string of base 64
 	def self.new_token
@@ -85,14 +80,6 @@ class User < ActiveRecord::Base
 	# Function that generates a hashed session token for user
 	def create_remember_token
 		self.remember_token = self.class.hash(User.new_token)
-	end
-
-	# Function that generates a new unique_id that is not associated with user in db yet
-	def create_unique_id
-		self.unique_id = loop do
-			random_token = SecureRandom.urlsafe_base64
-			break random_token unless User.exists?(unique_id: random_token)
-		end
 	end
 
   # Function that checks if name is formatted correctly
@@ -132,5 +119,14 @@ class User < ActiveRecord::Base
 			return false
 		end
 		true
+	end
+
+	# Function that generates a new unique_id that is not associated with user in db yet
+	# NOT USED in Iteration V1
+	def create_unique_id
+		self.unique_id = loop do
+			random_token = SecureRandom.urlsafe_base64
+			break random_token unless User.exists?(unique_id: random_token)
+		end
 	end
 end
