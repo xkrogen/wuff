@@ -3,11 +3,6 @@ require 'spec_helper'
 require 'EventNotification'
 require 'FriendNotification'
 
-NOTIF_NEW_EVENT = 1
-NOTIF_DELETE_EVENT = 2
-NOTIF_EDIT_EVENT = 3
-NOTIF_FRIEND_ADD = 4
-
 describe EventNotification do
 	
 	before { @event = Event.create(name: "My event!", admin: 2, 

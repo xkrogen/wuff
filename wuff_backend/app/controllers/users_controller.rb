@@ -1,21 +1,7 @@
 class UsersController < ApplicationController
 
- 	# Success return code
-	@@SUCCESS = 1
-	# Invalid name: must be VALID_NAME_REGEX format; cannot be empty; cannot be longer than MAX_CREDENTIAL_LENGTH
-	@@ERR_INVALID_NAME = -1
-	# Invalid email: must be VALID_EMAIL_REGEX format; cannot be empty; cannot be longer than MAX_CREDENTIAL_LENGTH
-	@@ERR_INVALID_EMAIL = -2
-	# Password cannot be longer than MAX_CREDENTIAL_LENGTH or shorter than MIN_PW_LENGTH
-	@@ERR_INVALID_PASSWORD = -3
-	# Email is not unique (i.e. exists already in database)
-	@@ERR_EMAIL_TAKEN = -4
-	# Cannot find the email/password pair in the database (i.e. login fail)
-	@@ERR_BAD_CREDENTIALS = -5
-	# Generic error for an invalid property
-	@@ERR_INVALID_FIELD = -6
-	# Generic error for an unseccessful action
-	@@ERR_UNSUCCESSFUL = -7
+   # Session ID does not match this user.remember_token
+  ERR_INVALID_SESSION = -11
 
 	# POST /user/add_user
 	# Tries to store user in db using User#add
@@ -31,7 +17,7 @@ class UsersController < ApplicationController
   	else
   		token = User.new_token
   		cookies.permanent[:current_user_token] = token
-  		user.update_attribute(:remember_token, User.hash(token))
+  		@user.update_attribute(:remember_token, User.hash(token))
   		self.current_user = @user
       respond(rval, { user_id: current_user.id })
   	end
@@ -51,10 +37,9 @@ class UsersController < ApplicationController
   		@user = rval[:user]
   		token = User.new_token
   		cookies.permanent[:current_user_token] = token
-  		user.update_attribute(:remember_token, User.hash(token))
+  		@user.update_attribute(:remember_token, User.hash(token))
   		self.current_user = @user
       respond(rval[:err_code], { user_id: current_user.id })
-  		end
   	end
   end
 
@@ -69,12 +54,42 @@ class UsersController < ApplicationController
   	self.current_user = nil
   end
 
+  # POST /user/add_friend
+  # Calls current_user.concat_friend
+  def add_friend
+    if signed_in?
+      rval = self.current_user.concat_friend(params[:friend_email])
+      respond(rval)
+    else
+      session_fail_response
+    end
+  end
+
+  # DELETE /user/delete_friend
+  # Calls current_user.remove_friend
+  def delete_friend
+    if signed_in?
+      rval = self.current_user.remove_friend(params[:friend_email])
+      respond(rval)
+    else
+      session_fail_response
+    end
+  end
+
   private
 
   # Responds. Always includes err_code set to ERROR (SUCCESS by default).
   # Additional response fields can be passed as a hash to ADDITIONAL.
   def respond(error = @@SUCCESS, additional = {})
     response = { err_code: error }.merge(additional)
+    respond_to do |format|
+      format.html { render json: response, content_type: "application/json" }
+      format.json { render json: response, content_type: "application/json" }
+    end
+  end
+
+  def session_fail_response
+    response = { err_code: @@ERR_INVALID_SESSION }
     respond_to do |format|
       format.html { render json: response, content_type: "application/json" }
       format.json { render json: response, content_type: "application/json" }

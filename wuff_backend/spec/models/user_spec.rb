@@ -1,23 +1,6 @@
 # Unit Tests for User model.
 require 'spec_helper'
 
-# Success return code
-SUCCESS = 1
-# Invalid name: must be VALID_NAME_REGEX format; cannot be empty; cannot be longer than MAX_CREDENTIAL_LENGTH
-ERR_INVALID_NAME = -1
-# Invalid email: must be VALID_EMAIL_REGEX format; cannot be empty; cannot be longer than MAX_CREDENTIAL_LENGTH
-ERR_INVALID_EMAIL = -2
-# Password cannot be longer than MAX_CREDENTIAL_LENGTH or shorter than MIN_PW_LENGTH
-ERR_INVALID_PASSWORD = -3
-# Email is not unique (i.e. exists already in database)
-ERR_EMAIL_TAKEN = -4
-# Cannot find the email/password pair in the database (i.e. login fail)
-ERR_BAD_CREDENTIALS = -5
-# Generic error for an invalid property
-ERR_INVALID_FIELD = -6
-# Generic error for an unseccessful action
-ERR_UNSUCCESSFUL = -7
-
 describe User, "#add" do
 
 	describe ":name field" do
@@ -172,7 +155,7 @@ describe User, "#login" do
 	end
 
 	context "with unregistered email" do
-		it "should have error, errorCode: ERR_BAD_CREDENTIALS" do
+		it "should have error, error_code: ERR_BAD_CREDENTIALS" do
 			other = User.new(email: "bye@world.com", password: "nopassword")
 			other.login[:err_code].should eq(ERR_BAD_CREDENTIALS)
 		end
@@ -186,3 +169,42 @@ describe User, "#login" do
 	end
 end
 
+describe User, "#add_friend, #delete_friend" do
+	before(:each) do
+		@first = User.new(name: "first", email: "first@test.com", password: "nopassword")
+		@first.add
+		@second = User.new(name: "second", email: "second@test.com", password: "nopassword")
+		@second.add
+		@third = User.new(name: "third", email: "third@test.com", password: "nopassword")
+		@third.add
+		@first.concat_friend("second@test.com")
+		@first.concat_friend("third@test.com")
+	end
+
+	context "Adding a friend twice" do
+		it "should not change friend_list" do
+			@first.concat_friend("second@test.com")
+			@first.friend_list.length.should eq(2)
+		end
+	end
+
+	context "Adding an invalid user as friend" do
+		it "should error, error_code = ERR_UNSUCCESSFUL" do
+			rval = @first.concat_friend("failure@test.com")
+			rval.should eq(ERR_UNSUCCESSFUL)
+		end
+	end
+
+	context "Delete a friend in friend_list" do
+		it "should remove the friend_id" do
+			@first.remove_friend("second@test.com")
+			@first.friend_list.length.should eq(1)
+		end
+	end
+
+end
+
+describe User, "#add_event, #delete_event" do
+	# Need to add tests here...
+end
+	
