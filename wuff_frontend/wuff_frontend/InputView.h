@@ -10,4 +10,7 @@
 
 @interface InputView : UIView
 
+@property (nonatomic,retain) IBOutlet UITextField *textField;
+
+
 @end

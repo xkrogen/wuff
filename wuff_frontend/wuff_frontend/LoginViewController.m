@@ -7,6 +7,7 @@
 //
 
 #import "LoginViewController.h"
+#import "SignUpViewController.h"
 
 @interface LoginViewController ()
 
@@ -18,7 +19,6 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    [_emailInputView initWithFrame:[[UIScreen mainScreen] bounds]];
 }
 
 - (void)didReceiveMemoryWarning
@@ -26,5 +26,20 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+-(IBAction)signIn {
+    
+    //Code to send POST Request
+    [self.view makeToast:@"Need Get/Post implemenation :("];
+    
+}
+
+-(IBAction)signUp {
+    
+    [self performSegueWithIdentifier:@"gotoSignUp" sender:self];
+    
+    
+}
+
 
 @end
