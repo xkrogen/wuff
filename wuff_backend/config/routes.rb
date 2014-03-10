@@ -4,7 +4,5 @@ WuffBackend::Application.routes.draw do
   post '/user/add_user', to: 'users#add_user'
   post '/user/login_user', to: 'users#login_user'
   delete '/user/logout_user', to: 'users#logout_user'
-  post '/user/add_friend', to: 'users#add_friend'
-  delete '/user/delete_friend', to: 'users#delete_friend'
 
 end

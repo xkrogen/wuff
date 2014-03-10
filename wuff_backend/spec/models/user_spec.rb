@@ -172,7 +172,7 @@ describe User, "#login" do
 	end
 
 	context "with unregistered email" do
-		it "should have error, error_code: ERR_BAD_CREDENTIALS" do
+		it "should have error, errorCode: ERR_BAD_CREDENTIALS" do
 			other = User.new(email: "bye@world.com", password: "nopassword")
 			other.login[:err_code].should eq(ERR_BAD_CREDENTIALS)
 		end
@@ -184,40 +184,5 @@ describe User, "#login" do
 			other.login[:err_code].should eq(ERR_BAD_CREDENTIALS)
 		end
 	end
-end
-
-describe User, "#add_friend, #delete_friend" do
-	before(:each) do
-		@first = User.new(name: "first", email: "first@test.com", password: "nopassword")
-		@first.add
-		@second = User.new(name: "second", email: "second@test.com", password: "nopassword")
-		@second.add
-		@third = User.new(name: "third", email: "third@test.com", password: "nopassword")
-		@third.add
-		@first.concat_friend("second@test.com")
-		@first.concat_friend("third@test.com")
-	end
-
-	context "Adding a friend twice" do
-		it "should not change friend_list" do
-			@first.concat_friend("second@test.com")
-			@first.friend_list.length.should eq(2)
-		end
-	end
-
-	context "Adding an invalid user as friend" do
-		it "should error, error_code = ERR_UNSUCCESSFUL" do
-			rval = @first.concat_friend("failure@test.com")
-			rval.should eq(ERR_UNSUCCESSFUL)
-		end
-	end
-
-	context "Delete a friend in friend_list" do
-		it "should remove the friend_id" do
-			@first.remove_friend("second@test.com")
-			@first.friend_list.length.should eq(1)
-		end
-	end
-
 end
 
