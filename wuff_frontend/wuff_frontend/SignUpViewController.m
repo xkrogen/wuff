@@ -39,8 +39,14 @@
 -(IBAction)signUp {
     
     //Send http Post Request
-    [self.view makeToast:@"Need Get/Post implemenation :("];
-    
+    _myRequester = [[HandleRequest alloc] initWithSelector:@"handleSignUpResponse:" andDelegate:self];
+    NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:_emailInputView.textField.text, @"email", _passwordInputView.textField.text, @"password", _nameInputView.textField.text, @"name", nil];
+    [_myRequester createRequestWithType:POST ForURL:@"http://localhost:3000/user/add_user" WithDictionary:d];
+    NSLog(@"sent request!");
+}
+
+-(void) handleSignUpResponse:(NSDictionary *)data {
+    NSLog(@"Handle signup response data here!");
 }
 
 -(IBAction)backButton {
