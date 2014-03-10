@@ -25,20 +25,15 @@ class UsersController < ApplicationController
 	# * On failure, returns JSON { :err_code }
   def add_user
   	@user = User.new(name: params[:name], email: params[:email], password: params[:password])
+    rval = @user.add
   	if rval < 0
-  		respond_to do |format|
-  			format.html { render json: { err_code: rval }, content_type: "application/json" }
-  			format.json { render json: { err_code: rval }, content_type: "application/json" }
-  		end
+      respond(rval)
   	else
   		token = User.new_token
   		cookies.permanent[:current_user_token] = token
   		user.update_attribute(:remember_token, User.hash(token))
   		self.current_user = @user
-  		respond_to do |format|
-   			format.html { render json: { err_code: rval, user_id: current_user.unique_id }, content_type: "application/json" }
-  			format.json { render json: { err_code: rval, user_id: current_user.unique_id }, content_type: "application/json" }
-  		end
+      respond(rval, { user_id: current_user.id })
   	end
   end
 
@@ -51,19 +46,14 @@ class UsersController < ApplicationController
   	@user = User.new(email: params[:email], password: params[:password])
   	rval = @user.login
   	if rval[:err_code] < 0
-  		respond_to do |format|
-  			format.html { render json: { err_code: rval[:err_code] }, content_type: "application/json" }
-  			format.json { render json: { err_code: rval[:err_code] }, content_type: "application/json" }
-  		end
+      respond(rval[:err_code])
   	else
   		@user = rval[:user]
   		token = User.new_token
   		cookies.permanent[:current_user_token] = token
   		user.update_attribute(:remember_token, User.hash(token))
   		self.current_user = @user
-  		respond_to do |format|
-   			format.html { render json: { err_code: rval[:err_code], user_id: current_user.unique_id }, content_type: "application/json" }
-  			format.json { render json: { err_code: rval[:err_code], user_id: current_user.unique_id }, content_type: "application/json" }
+      respond(rval[:err_code], { user_id: current_user.id })
   		end
   	end
   end
@@ -80,6 +70,16 @@ class UsersController < ApplicationController
   end
 
   private
+
+  # Responds. Always includes err_code set to ERROR (SUCCESS by default).
+  # Additional response fields can be passed as a hash to ADDITIONAL.
+  def respond(error = @@SUCCESS, additional = {})
+    response = { err_code: error }.merge(additional)
+    respond_to do |format|
+      format.html { render json: response, content_type: "application/json" }
+      format.json { render json: response, content_type: "application/json" }
+    end
+  end
 
   # Checks to see if there is a signed in user
   def signed_in?

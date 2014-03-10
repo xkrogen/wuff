@@ -147,25 +147,6 @@ describe User, "#add" do
 		end
 	end
 
-	describe ":unique_id field" do
-		context "after added in db" do
-			before(:each) do
-				@user = User.new(name: "John", email: "John@example.com", password: "foobar")
-				@user.add
-			end
-			it "should not be nil" do
-				@user.unique_id.should_not eq(nil)
-			end
-			it "should be unique" do
-				other = User.new(name: "David", email: "David@example.com", password: "barfoo")
-				other.unique_id = @user.unique_id
-				other.unique_id.should be(@user.unique_id) # sanity check
-				other.add
-				other.unique_id.should_not be(@user.unique_id)
-			end
-		end
-	end
-
 	describe ":remember_token field" do
 		context "after added in db" do
 			it "should not be nil" do
