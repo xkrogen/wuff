@@ -11,6 +11,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
+ActiveRecord::Schema.define(version: 20140310013425) do
+=======
 ActiveRecord::Schema.define(version: 20140310004742) do
 
   create_table "events", force: true do |t|
@@ -23,6 +26,7 @@ ActiveRecord::Schema.define(version: 20140310004742) do
     t.datetime "updated_at"
     t.integer  "time"
   end
+>>>>>>> ec9a793999abd2aa6df1e7fde2aa0ebbfa54b940
 
   create_table "users", force: true do |t|
     t.string   "name"
@@ -31,13 +35,15 @@ ActiveRecord::Schema.define(version: 20140310004742) do
     t.datetime "updated_at"
     t.string   "password_digest"
     t.string   "remember_token"
+<<<<<<< HEAD
+=======
     t.string   "unique_id"
     t.text     "event_list"
     t.text     "notification_list"
+>>>>>>> ec9a793999abd2aa6df1e7fde2aa0ebbfa54b940
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["remember_token"], name: "index_users_on_remember_token"
-  add_index "users", ["unique_id"], name: "index_users_on_unique_id", unique: true
 
 end

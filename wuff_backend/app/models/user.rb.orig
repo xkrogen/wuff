@@ -64,6 +64,8 @@ class User < ActiveRecord::Base
 		{ err_code: @@SUCCESS, user: db_result }
 	end
 
+<<<<<<< HEAD
+=======
 	# Adds event_id into the user's list of events. 
 	def add_event(event_id)
 		self.event_list = self.event_list << event_id
@@ -97,6 +99,7 @@ class User < ActiveRecord::Base
 		self.update_attribute(self.notification_list)
 	end
 
+>>>>>>> ec9a793999abd2aa6df1e7fde2aa0ebbfa54b940
 	# Function that generates a unique remember_token, random string of base 64
 	def self.new_token
 		token = loop do
