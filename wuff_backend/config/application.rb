@@ -27,5 +27,7 @@ module WuffBackend
 
     # Always force SSL connection as countermeasure for hijacking session cookie
     # config.force_ssl = true
+
+    config.autoload_paths << File.join(Rails.root, "app", "classes")
   end
 end
