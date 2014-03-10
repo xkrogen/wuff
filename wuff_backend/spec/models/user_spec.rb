@@ -195,6 +195,12 @@ describe User, "#add_friend, #delete_friend" do
 		end
 	end
 
+	context "Added friend should receive notification" do
+		it "indicated by having +1 notification_list length" do
+			@third.notification_list.size.should eq(1)
+		end
+	end
+
 	context "Delete a friend in friend_list" do
 		it "should remove the friend_id" do
 			@first.remove_friend("second@test.com")
