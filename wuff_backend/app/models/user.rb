@@ -54,12 +54,12 @@ class User < ActiveRecord::Base
 	# Finds user Friend via friend_email. If valid, adds Friend.id to self.friend_list and sorts the friend_list.
 	def concat_friend(friend_email)
 		friend = self.class.find_by(email: friend_email)
-		return @@ERR_UNSUCCESSFUL if friend == nil
+		return ERR_UNSUCCESSFUL if friend == nil
 		if !self.friend_list.include?(friend.id)
 			self.friend_list = (self.friend_list << friend.id)
 			self.update_attribute(:friend_list, self.friend_list)
 		end
-		@@SUCCESS
+		SUCCESS
 	end
 
 	# Finds user Friend via friend_email. If valid, delete Friend.id in self.friend_list.
@@ -69,7 +69,7 @@ class User < ActiveRecord::Base
 			self.friend_list.delete(friend.id)
 			self.update_attribute(:friend_list, self.friend_list)
 		end
-		@@SUCCESS
+		SUCCESS
 	end
 
 
