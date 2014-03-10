@@ -1,7 +1,7 @@
 require 'user'
 
 class EventsController < ApplicationController
-
+=begin
 	# Success return code
 	SUCCESS = 1
 	# Invalid name: Name must exist and have max length @@MAX_NAME_LENGTH
@@ -22,7 +22,7 @@ class EventsController < ApplicationController
 	NOTIF_NEW_EVENT = 1
 	NOTIF_DELETE_EVENT = 2
 	NOTIF_EDIT_EVENT = 3
-
+=end
 	# POST /event/create_event
 	# Creates a new event and stores it in the db
 	# * On success, stores the event in the database

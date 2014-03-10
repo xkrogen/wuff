@@ -9,6 +9,8 @@ describe EventsController do
 
 end
 
+# Example below from warmup testing as reference for how to 
+# do tests with json and post/get
 =begin
 
 describe UsersController do

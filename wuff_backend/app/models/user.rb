@@ -14,31 +14,13 @@ class User < ActiveRecord::Base
 	serialize :notification_list, Array
 
   # The maximum length of any user credential field
-  @@MAX_CREDENTIAL_LENGTH = 128
+  MAX_CREDENTIAL_LENGTH = 128
   # The minimum length of password field
-  @@MIN_PW_LENGTH = 6
+  MIN_PW_LENGTH = 6
   # name format only contains letter or whitespace characters
-	@@VALID_NAME_REGEX = /\A[a-zA-z\.']+(\s[a-zA-z\.']+)*\z/
+	VALID_NAME_REGEX = /\A[a-zA-z\.']+(\s[a-zA-z\.']+)*\z/
 	# email format is [word characters and dashes][@][domain]
-	@@VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
-
-	# Success return code
-	@@SUCCESS = 1
-	# Invalid name: must be VALID_NAME_REGEX format; cannot be empty; cannot be longer than MAX_CREDENTIAL_LENGTH
-	@@ERR_INVALID_NAME = -1
-	# Invalid email: must be VALID_EMAIL_REGEX format; cannot be empty; cannot be longer than MAX_CREDENTIAL_LENGTH
-	@@ERR_INVALID_EMAIL = -2
-	# Password cannot be longer than MAX_CREDENTIAL_LENGTH or shorter than MIN_PW_LENGTH
-	@@ERR_INVALID_PASSWORD = -3
-	# Email is not unique (i.e. exists already in database)
-	@@ERR_EMAIL_TAKEN = -4
-	# Cannot find the email/password pair in the database (i.e. login fail)
-	@@ERR_BAD_CREDENTIALS = -5
-	# Generic error for an invalid property
-	@@ERR_INVALID_FIELD = -6
-	# Generic error for an unsuccessful action
-	@@ERR_UNSUCCESSFUL = -7
-
+	VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
 	# Function checks that the user does not exist, the user name, email, and password format is correct
 	# * On success the function generates unique_id and remember_token
@@ -46,13 +28,13 @@ class User < ActiveRecord::Base
 	# * On success return code SUCCESS
 	# * On failure return an error code (<0): ERR_INVALID_NAME, ERR_INVALID_EMAIL, ERR_EMAIL_TAKEN, ERR_INVALID_PASSWORD
 	def add
-		return @@ERR_INVALID_NAME if not name_valid?
-		return @@ERR_INVALID_EMAIL if not email_valid?
-		return @@ERR_INVALID_PASSWORD if not password_valid?
-		return @@ERR_EMAIL_TAKEN if not email_available?
+		return ERR_INVALID_NAME if not name_valid?
+		return ERR_INVALID_EMAIL if not email_valid?
+		return ERR_INVALID_PASSWORD if not password_valid?
+		return ERR_EMAIL_TAKEN if not email_available?
 		create_remember_token
 		self.save
-		@@SUCCESS
+		SUCCESS
 	end
 
 	# Function that checks if user :email is in db, then authenticates user: password against db password_digest
@@ -60,13 +42,13 @@ class User < ActiveRecord::Base
 	# * On failture returns { err_code: ERR_BAD_CREDENTIALS }
 	def login
 		db_result = self.class.find_by(email: self.email)
-		return { err_code: @@ERR_BAD_CREDENTIALS } if db_result == nil || !db_result.authenticate(self.password)
-		{ err_code: @@SUCCESS, user: db_result }
+		return { err_code: ERR_BAD_CREDENTIALS } if db_result == nil || !db_result.authenticate(self.password)
+		{ err_code: SUCCESS, user: db_result }
 	end
 
 	# Adds event_id into the user's list of events. 
 	def add_event(event_id)
-		self.event_list = self.event_list << event_id
+		self.event_list |= [event_id]
 		self.update_attribute(:event_list, self.event_list)
 	end
 
@@ -124,18 +106,18 @@ class User < ActiveRecord::Base
 	def name_valid?
 		if self.name == nil
 			return false
-		elsif @@VALID_NAME_REGEX !~ self.name || self.name.empty? || self.name.length > @@MAX_CREDENTIAL_LENGTH
+		elsif VALID_NAME_REGEX !~ self.name || self.name.empty? || self.name.length > MAX_CREDENTIAL_LENGTH
 			return false
 		end
 		true
 	end
 				
 	# Function that checks if email is formatted correctly
-	# * Return true if email matches VALID_EMAIL_REGEX, email exists, length non-empty and less than @@MAX_CREDENTIAL_LENGTH
+	# * Return true if email matches VALID_EMAIL_REGEX, email exists, length non-empty and less than MAX_CREDENTIAL_LENGTH
 	def email_valid?
 		if self.email == nil
 			return false
-		elsif @@VALID_EMAIL_REGEX !~ self.email || self.email.empty? || self.email.length > @@MAX_CREDENTIAL_LENGTH
+		elsif VALID_EMAIL_REGEX !~ self.email || self.email.empty? || self.email.length > MAX_CREDENTIAL_LENGTH
 			return false
 		end
 		true
@@ -152,7 +134,7 @@ class User < ActiveRecord::Base
 	def password_valid?
 		if self.password == nil
 			return false
-		elsif self.password.length < @@MIN_PW_LENGTH || self.password.length > @@MAX_CREDENTIAL_LENGTH
+		elsif self.password.length < MIN_PW_LENGTH || self.password.length > MAX_CREDENTIAL_LENGTH
 			return false
 		end
 		true

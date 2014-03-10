@@ -2,27 +2,47 @@ require 'spec_helper'
 
 NAME_MAX_LENGTH = 40
 
-# Invalid time: Time must be a valid time
-ERR_INVALID_TIME = -10
-
-# Possible user statuses in respect to an event. 
-STATUS_NO_RESPONSE = 0
-STATUS_ATTENDING = 1
-STATUS_NOT_ATTENDING = -1
-
 describe Event do
 	  
   before do
-  	@admin_id = User.create(name: 'Example User', 
-  		email: 'exampleuser@example.com').id
-  	@other_user = User.create(name: 'Example Friend',
-  		email: 'examplefriend@example.com').id
+  	@admin = User.create(name: 'Example User', 
+  		email: 'exampleuser@example.com')
+  	@admin_id = @admin.id
+  	@other = User.create(name: 'Example Friend',
+  		email: 'examplefriend@example.com')
+  	@other_id = @other.id
 	end
 
 	describe "when everything is valid" do
-		before { @event_id = Event.add_event('Example Event', @admin_id, 
-  		DateTime.current.to_i + 10, [@admin_id]) }
+		before do
+			@event_id = Event.add_event('Example Event', @admin_id, 
+  			DateTime.current.to_i + 10, [@admin_id, @other_id])
+			@admin.reload
+			@other.reload
+		end
 		specify { @event_id.should be > 0 }
+
+		describe "the event_list of the users involved" do
+			specify { @admin.event_list.should include(@event_id) }
+			specify { @other.event_list.should include(@event_id) }
+		end
+
+		describe "the notification_list of the users involved" do
+			specify { @admin.notification_list.size.should eq 0 }
+			specify { @other.notification_list.size.should eq 1 }
+			specify { @other.notification_list.first[:notif_type].
+					should eq NOTIF_NEW_EVENT }
+			it "should have the current notification time" do
+				n_time = 	@other.notification_list.first[:notif_time]	
+				curr_time = DateTime.current.to_i
+				((n_time == curr_time) || (n_time == curr_time - 1)).should be_true
+			end
+			specify { @other.notification_list.first[:event].should eq @event_id }
+			specify { @other.notification_list.first[:name].should eq "Example Event" }
+			specify { @other.notification_list.first[:location].should eq "" }
+			specify { @other.notification_list.first[:creator].should eq @admin_id }
+
+		end
 	end
 
 	describe "when name field" do
@@ -90,12 +110,12 @@ describe Event do
 		end
 		describe "does not contain the admin" do
 			before { @event_id = Event.add_event('Example Event', @admin_id, 
-  			DateTime.current.to_i + 10, [@other_user]) }
+  			DateTime.current.to_i + 10, [@other_id]) }
 			specify { expect(@event_id).to eq(ERR_INVALID_FIELD) }
 		end
 		describe "contains the admin and other users" do
 			before { @event_id = Event.add_event('Example Event', @admin_id, 
-  			DateTime.current.to_i + 10, [@admin_id, @other_user]) }
+  			DateTime.current.to_i + 10, [@admin_id, @other_id]) }
 			specify { expect(@event_id).to be > 0 }
 		end
 	end
