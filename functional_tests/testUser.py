@@ -21,29 +21,27 @@ class TestUser(testLib.RestTestCase):
     # Generic error for an unseccessful action
     ERR_UNSUCCESSFUL = -7
 
-    def assertResponse(self, respData, count = 1, errCode = testLib.RestTestCase.SUCCESS):
+    def assertErrCode(self, respData, errCode = SUCCESS):
         """
         Check that the response data dictionary matches the expected values
         """
-        expected = { 'errCode' : errCode }
-        if count is not None:
-            expected['count'] = count
+        expected = { 'err_code' : errCode }
         self.assertDictEqual(expected, respData)
 
 
     def testBadAdd1(self):
         respData = self.makeRequest("/user/add_user", method="POST", data = { 'name' : '', 'email' : 'example@example.com', 'password' : 'nopassword'} )
-        self.assertResponse(respData, None, testLib.RestTestCase.ERR_BAD_USERNAME)
+        self.assertErrCode(respData, ERR_INVALID_NAME)
 
     def testBadAdd2(self):
         self.makeRequest("/users/add", method="POST", data = { 'user' : 'jim', 'password' : 'a'} )
         respData = self.makeRequest("/users/add", method="POST", data = { 'user' : 'jim', 'password' : 'b'} )
-        self.assertResponse(respData, None, testLib.RestTestCase.ERR_USER_EXISTS)
+        self.assertResponse(respData, testLib.RestTestCase.ERR_USER_EXISTS)
 
     def testBadAdd3(self):
         name = 'a' * 150
         respData = self.makeRequest("/users/add", method="POST", data = { 'user' : name, 'password' : 'pw'} )
-        self.assertResponse(respData, None, testLib.RestTestCase.ERR_BAD_USERNAME)
+        self.assertResponse(respData, testLib.RestTestCase.ERR_BAD_USERNAME)
 
     def testLogin4(self):
         self.makeRequest("/users/add", method="POST", data = { 'user' : 'jon', 'password' : 'pw'} )
