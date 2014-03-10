@@ -68,7 +68,7 @@ class User < ActiveRecord::Base
 	# Adds event_id into the user's list of events. 
 	def add_event(event_id)
 		self.event_list = self.event_list << event_id
-		self.update_attribute(self.event_list)
+		self.update_attribute(:event_list, self.event_list)
 	end
 
 	# Removes event_id from the user's list of events.
@@ -95,7 +95,7 @@ class User < ActiveRecord::Base
 
 	def post_notification(notification)
 		self.notification_list = self.notification_list << notification.getHash
-		self.update_attribute(self.notification_list)
+		self.update_attribute(:notification_list, self.notification_list)
 	end
 
 	# Function that generates a unique remember_token, random string of base 64

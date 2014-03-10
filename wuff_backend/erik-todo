@@ -1,7 +1,7 @@
 TODO LIST:
 
 Event Model:
-
++ Test for Event#notify
 
 User Model:
 + Tests for the new methods I put in (add/delete/respond)_event,

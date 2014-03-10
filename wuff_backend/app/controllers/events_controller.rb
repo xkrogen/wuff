@@ -26,72 +26,40 @@ class EventsController < ApplicationController
 	# POST /event/create_event
 	# Creates a new event and stores it in the db
 	# * On success, stores the event in the database
-	# * On success, adds the event to each invited user
+	# * On success, adds the event to each invited user and notifies them
 	# * On success, returns JSON { err_code: SUCCESS, :event}
 	# * On failure, returns JSON { :err_code }
 	def create_event
 		creator = current_user
 		
-		user_list_has_creator = false
-
-		user_list = {}
-		params[:user_list].split(",").each do |s|
-			if !is_valid_user_id?(s)
-				respond(ERR_UNSUCCESSFUL)
-				return
-			else
+		user_list = params[:user_list].split(",").map do |s|
+			begin 
 				user_id = Integer(s, 10)
-				user_list[user_id] = { status: STATUS_NO_RESPONSE }
-				user_list_has_creator = true if user_id == creator.id
+			rescue ArgumentError
+				respond(ERR_INVALID_FIELD)
+				return
 			end
+			user_id
 		end
 
-		respond(ERR_INVALID_FIELD) if not user_list_has_creator
-		user_list[creator.id][:status] = STATUS_ATTENDING 
+		rval = Event.add_event(params[:name], creator.id, params[:time].to_i,
+			user_list, params[:description], params[:location])
 
-		@event = Event.new(name: params[:name], admin: creator.id, description: params[:description], location: params[:location], party_list: user_list, time:time.to_i)
-	
-		rval = @event.is_valid?
 		if rval < 0
   		respond(rval)
-  		return
+  	else
+  		respond(SUCCESS, { event: rval } )
   	end
-		success = @event.save
-		if !success
-			respond(ERR_UNSUCCESSFUL)
-			return
-		end
-
-		user_list.each_key do |users_id|
-			users_id.add_event(@event.id)
-		end
-
-		@event.notify( EventNotification.new(NOTIF_NEW_EVENT, @event) )
-
-		respond(SUCCESS, { event: @event.id} )
   end
 
 
 	private
-	# Takes in a string, USER_ID, and checks if it is a valid 
-	# user id
-	def is_valid_user_id?(user_id)
-		begin 
-			User.find(Integer(user_id, 10))
-		rescue ActiveRecord::RecordNotFound, ArgumentError
-			return false
-		end		
-		return true
-	end
 
 	# Responds. Always includes err_code set to ERROR (SUCCESS by default). 
 	# Additional response fields can be passed as a hash to ADDITIONAL.
 	def respond(error = SUCCESS, additional = {})
 		response = { err_code: error }.merge(additional)
-		respond_to do |format|
-  		format.html { render json: response, content_type: "application/json" }
-  		format.json { render json: response, content_type: "application/json" }
-  	end
+		render json: response, status: 200
 	end
 
   # Finds the User with the remember_token stored in the session with the key :current_user_token
