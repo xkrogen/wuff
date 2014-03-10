@@ -29,6 +29,7 @@ class TestUser(testLib.RestTestCase):
         self.assertDictEqual(expected, respData)
 
 
+# Examples from Warmup
     def testBadAdd1(self):
         respData = self.makeRequest("/user/add_user", method="POST", data = { 'name' : '', 'email' : 'example@example.com', 'password' : 'nopassword'} )
         self.assertErrCode(respData, ERR_INVALID_NAME)

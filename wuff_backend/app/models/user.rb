@@ -46,25 +46,27 @@ class User < ActiveRecord::Base
 	# * On success returns { err_code: SUCCESS, user: db_result }
 	# * On failture returns { err_code: ERR_BAD_CREDENTIALS }
 	def login
-		db_result = self.class.find_by(email: self.email)
+		db_result = self.class.find_by(email: self.email.downcase)
 		return { err_code: ERR_BAD_CREDENTIALS } if db_result == nil || !db_result.authenticate(self.password)
 		{ err_code: SUCCESS, user: db_result }
 	end
 
 	# Finds user Friend via friend_email. If valid, adds Friend.id to self.friend_list and sorts the friend_list.
+	# * On success also posts FriendNotification to Friend
 	def concat_friend(friend_email)
-		friend = self.class.find_by(email: friend_email)
+		friend = self.class.find_by(email: friend_email.downcase)
 		return ERR_UNSUCCESSFUL if friend == nil
 		if !self.friend_list.include?(friend.id)
 			self.friend_list = (self.friend_list << friend.id)
 			self.update_attribute(:friend_list, self.friend_list)
+			friend.post_notification(FriendNotification.new(self))
 		end
 		SUCCESS
 	end
 
 	# Finds user Friend via friend_email. If valid, delete Friend.id in self.friend_list.
 	def remove_friend(friend_email)
-		friend = self.class.find_by(email: friend_email)
+		friend = self.class.find_by(email: friend_email.downcase)
 		if friend != nil
 			self.friend_list.delete(friend.id)
 			self.update_attribute(:friend_list, self.friend_list)
