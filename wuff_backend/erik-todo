@@ -1,0 +1,11 @@
+TODO LIST:
+
+Event Model:
+
+
+User Model:
++ Tests for the new methods I put in (add/delete/respond)_event,
+      post_notification
+
+EventsController:
++ Create tests for create_event

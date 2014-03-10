@@ -18,6 +18,11 @@ class EventsController < ApplicationController
 	STATUS_ATTENDING = 1
 	STATUS_NOT_ATTENDING = -1
 
+	# Event notification types
+	NOTIF_NEW_EVENT = 1
+	NOTIF_DELETE_EVENT = 2
+	NOTIF_EDIT_EVENT = 3
+
 	# POST /event/create_event
 	# Creates a new event and stores it in the db
 	# * On success, stores the event in the database
@@ -27,6 +32,8 @@ class EventsController < ApplicationController
 	def create_event
 		creator = current_user
 		
+		user_list_has_creator = false
+
 		user_list = {}
 		params[:user_list].split(",").each do |s|
 			if !is_valid_user_id?(s)
@@ -35,13 +42,15 @@ class EventsController < ApplicationController
 			else
 				user_id = Integer(s, 10)
 				user_list[user_id] = { status: STATUS_NO_RESPONSE }
+				user_list_has_creator = true if user_id == creator.id
 			end
 		end
 
-		@event = Event.new(name: params[:name], admin: creator, description: params[:description], location: params[:location], party_list: user_list)
-		
-		# Need to add time there as well
-		
+		respond(ERR_INVALID_FIELD) if not user_list_has_creator
+		user_list[creator.id][:status] = STATUS_ATTENDING 
+
+		@event = Event.new(name: params[:name], admin: creator.id, description: params[:description], location: params[:location], party_list: user_list, time:time.to_i)
+	
 		rval = @event.is_valid?
 		if rval < 0
   		respond(rval)
@@ -52,37 +61,34 @@ class EventsController < ApplicationController
 			respond(ERR_UNSUCCESSFUL)
 			return
 		end
-		
+
 		user_list.each_key do |users_id|
 			users_id.add_event(@event.id)
-
-			# Also add to their notifications here!
-
 		end
+
+		@event.notify( EventNotification.new(NOTIF_NEW_EVENT, @event) )
 
 		respond(SUCCESS, { event: @event.id} )
   end
 
 
-
 	private
-	
 	# Takes in a string, USER_ID, and checks if it is a valid 
 	# user id
 	def is_valid_user_id?(user_id)
 		begin 
-				User.find(Integer(user_id, 10))
+			User.find(Integer(user_id, 10))
 		rescue ActiveRecord::RecordNotFound, ArgumentError
-				return false
+			return false
 		end		
 		return true
 	end
 
 	# Responds. Always includes err_code set to ERROR (SUCCESS by default). 
 	# Additional response fields can be passed as a hash to ADDITIONAL.
-	def respond(error = @@SUCCESS, additional = {})
+	def respond(error = SUCCESS, additional = {})
 		response = { err_code: error }.merge(additional)
-		 respond_to do |format|
+		respond_to do |format|
   		format.html { render json: response, content_type: "application/json" }
   		format.json { render json: response, content_type: "application/json" }
   	end

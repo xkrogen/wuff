@@ -1,11 +1,12 @@
 class Event < ActiveRecord::Base
 	# Have Rails automatically serialize the hash for storage.
 	serialize :party_list, Hash
-	validates :name, { presence: true, length: {maximum: MAX_NAME_LENGTH} }
+	validates :name, { presence: true, length: {maximum: NAME_MAX_LENGTH} }
 	validates :admin, presence: true
 	validates :party_list, presence: true
+	validates :time, presence: true
 
-	MAX_NAME_LENGTH = 40
+	NAME_MAX_LENGTH = 40
 
 	# Success return code
 	SUCCESS = 1
@@ -22,10 +23,29 @@ class Event < ActiveRecord::Base
 	# the event are valid. Returns SUCCESS if they are. Else, returns
 	# ERR_INVALID_NAME, ERR_INVALID_TIME, or ERR_INVALID_FIELD.
 	def is_valid?
-		return ERR_INVALID_NAME if not name.valid?
-		return ERR_INVALID_TIME if Time.at(time).to_datetime.past?
-		return ERR_INVALID_FIELD if not (admin.valid? && party_list.valid?)
+		return ERR_INVALID_NAME if name.blank? || name.length > NAME_MAX_LENGTH
+		return ERR_INVALID_TIME if time.blank? || Time.at(time).to_datetime.past?
+		return ERR_INVALID_FIELD if (admin.blank? || party_list.blank? || !party_list.is_a?(Hash))
+		party_list_has_creator = false
+		party_list.each do |key, value|
+				party_list_has_creator = true if (key == admin)
+				return ERR_INVALID_FIELD if not value.is_a?(Hash)
+				return ERR_INVALID_FIELD if not value.has_key?(:status)
+		end
+		return ERR_INVALID_FIELD if !party_list_has_creator
 		return SUCCESS
+	end
+
+	def notify(notification)
+		party_list.each_key do |key|
+			next if key == admin
+			begin 
+				user = User.find(key)
+			rescue ActiveRecord::RecordNotFound
+				next
+			end
+			user.notify(notification)
+		end
 	end
 
 end

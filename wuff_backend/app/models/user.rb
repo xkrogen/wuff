@@ -10,6 +10,8 @@ class User < ActiveRecord::Base
 
 	# Serialize event_list (array) for easy storage.
 	serialize :event_list, Array
+	# Serialize notification_list (array of hashes) for easy storage.
+	serialize :notification_list, Array
 
   # The maximum length of any user credential field
   @@MAX_CREDENTIAL_LENGTH = 128
@@ -54,7 +56,6 @@ class User < ActiveRecord::Base
 		@@SUCCESS
 	end
 
-
 	# Function that checks if user :email is in db, then authenticates user: password against db password_digest
 	# * On success returns { err_code: SUCCESS, user: db_result }
 	# * On failture returns { err_code: ERR_BAD_CREDENTIALS }
@@ -66,14 +67,14 @@ class User < ActiveRecord::Base
 
 	# Adds event_id into the user's list of events. 
 	def add_event(event_id)
-		self.update_attribute(self.event_list << event_id)
+		self.event_list = self.event_list << event_id
+		self.update_attribute(self.event_list)
 	end
 
 	# Removes event_id from the user's list of events.
 	def delete_event(event_id)
-		curr_event_list = self.event_list
-		curr_event_list.delete(event_id)
-		self.update_attribute(curr_event_list)
+		self.event_list.delete(event_id)
+		self.update_attribute(:event_list, self.event_list)
 
 		# Should probably remove any outstanding notifications as well
 
@@ -82,11 +83,20 @@ class User < ActiveRecord::Base
 	# Changes the user's status (e.g. attending, declined) 
 	# within event_id. 
 	def respond_event(event_id, status)
-		event = Event.find(event_id)
+		begin
+			event = Event.find(event_id)
+		rescue ActiveRecord::RecordNotFound
+			return
+		end
 		event_user_list = event.party_list
-		event_user_list[self.id] = status
+		event_user_list[self.id][:status] = status
 		event.update_attribute(:party_list, event_user_list)
 	end 
+
+	def post_notification(notification)
+		self.notification_list = self.notification_list << notification.getHash
+		self.update_attribute(self.notification_list)
+	end
 
 	# Function that generates a unique remember_token, random string of base 64
 	def self.new_token
