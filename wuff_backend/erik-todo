@@ -1,10 +1,1 @@
 TODO LIST:
-
-Event Model:
-+ Test for Event#notify
-
-User Model:
-+ Tests for respond_event
-
-EventsController:
-+ Create tests for create_event

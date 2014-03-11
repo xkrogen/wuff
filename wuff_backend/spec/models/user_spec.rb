@@ -265,4 +265,3 @@ describe User, "#add_event, #delete_event, #post_notification" do
 		end
 	end
 end
-	
