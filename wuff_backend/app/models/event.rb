@@ -105,7 +105,7 @@ class Event < ActiveRecord::Base
 	# Returns a hash with all of the relevant information for this event.
 	# { $event: eventID, $name: event_name, $creator: event_creator,  
 	#   $time: time, $location: location, $users: user_list }  
-	def getHash
+	def get_hash
 		user_list = []
 		status_list = []
 		party_list.each do |key, value|

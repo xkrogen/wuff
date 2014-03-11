@@ -76,6 +76,32 @@ class UsersController < ApplicationController
     end
   end
 
+  # GET /user/get_events
+  # Returns all of the relevant information to display user_id’s events 
+  # on their main screen. Nested JSON for each event. user_list is a 
+  # comma separated list of user IDs with no spaces, 
+  # i.e.“user_id1,user_id2,user_id3”. list_of_states is the same format 
+  # in the same order, with the user’s status (STATUS_NO_RESPONSE, 
+  # STATUS_ATTENDING, STATUS_NOT_ATTENDING) instead of user IDs. 
+
+  # NEEDS TESTING!
+
+  def get_events
+    event_list = {}
+    event_count = 0
+    event_list.delete_if do |event_id|
+      begin 
+        event = Event.find(event_id)
+      rescue ActiveRecord::RecordNotFound
+        return true
+      end
+      event_count += 1
+      event_list[event_count] = event.get_hash
+      false
+    end
+    respond(SUCCESS, event_list)
+  end
+
   private
 
   # Responds. Always includes err_code set to ERROR (SUCCESS by default).
