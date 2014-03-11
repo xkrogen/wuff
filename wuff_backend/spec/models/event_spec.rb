@@ -2,7 +2,7 @@ require 'spec_helper'
 
 NAME_MAX_LENGTH = 40
 
-describe Event do
+describe Event, "creation" do
 	  
   before do
   	@admin = User.create(name: 'Example User', 
@@ -141,6 +141,29 @@ describe Event do
 				@admin_id, 0, [@admin_id]) }
 			specify { expect(@event_id).to eq(ERR_INVALID_TIME) }
 		end
+	end
+
+end
+
+describe Event, "get_user_status, set_user_status" do
+
+ 	before do
+  	@admin = User.create(name: 'Example User', 
+  		email: 'exampleuser@example.com')
+  	@admin_id = @admin.id
+  	@other = User.create(name: 'Example Friend',
+  		email: 'examplefriend@example.com')
+  	@other_id = @other.id
+  	@event_id = Event.add_event('Example Event', @admin_id, 
+  		DateTime.current.to_i + 10, [@admin_id, @other_id])
+  	@admin.reload
+  	@other.reload
+	end
+
+	describe "when accessing status initially" do
+		it "should be correct for admin and nonadmin" do
+
+		end	
 	end
 
 end

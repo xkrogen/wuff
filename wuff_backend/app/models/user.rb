@@ -73,10 +73,15 @@ class User < ActiveRecord::Base
 	end
 
 
-	# Adds event_id into the user's list of events. 
+	# Adds event_id into the user's list of events. Returns 
+	# ERR_UNSUCCESSFUL if the event is invalid, SUCCESS otherwise. 
 	def add_event(event_id)
+		
+		# ADD ERROR CHECKING HERE FOR INVALID EVENTS
+
 		self.event_list |= [event_id]
 		self.update_attribute(:event_list, self.event_list)
+		
 	end
 
 	# Removes event_id from the user's list of events.

@@ -204,7 +204,59 @@ describe User, "#add_friend, #delete_friend" do
 
 end
 
-describe User, "#add_event, #delete_event" do
-	# Need to add tests here...
+describe User, "#add_event, #delete_event, #post_notification" do
+	before do
+		@user1 = User.new(name: "User One", email: "user1@example.com")
+		@user2 = User.new(name: "User Two", email: "user2@example.com")
+		@user3 = User.new(name: "User Three", email: "user3@example.com")
+	end
+
+	describe "when adding/removing a valid event" do
+		before do
+			@event1 = Event.new(name: "Test Event", admin: @user1.id, 
+				party_list: { @user1.id => { status: STATUS_ATTENDING } }, 
+				time: DateTime.current.to_i + 10)
+			@user1.add_event(@event1.id)
+			@user2.add_event(@event1.id)
+			@notif = EventNotification.new(NOTIF_NEW_EVENT, @event1)
+			@user1.post_notification( @notif )
+			@user2.post_notification( @notif )
+		end
+		it "should get added succesfully" do
+			@user1.event_list.should include @event1.id
+			@user2.event_list.should include @event1.id
+			@user3.event_list.should_not include @event1.id
+			event1_notif_count = 0
+			@user1.notification_list.each do |notif|
+				event1_notif_count += 1 if notif[:event] == @event1.id
+			end
+			@user2.notification_list.each do |notif|
+				event1_notif_count += 1 if notif[:event] == @event1.id
+			end		
+			@user3.notification_list.each do |notif|
+				event1_notif_count += 1 if notif[:event] == @event1.id
+			end
+			event1_notif_count.should eq 2
+		end
+		it "should be removed succesfully" do
+			@user1.delete_event(@event1.id)
+			@user2.delete_event(@event1.id)
+			@user3.delete_event(@event1.id)
+			@user1.event_list.should_not include @event1.id
+			@user2.event_list.should_not include @event1.id
+			@user3.event_list.should_not include @event1.id
+			event1_notif_count = 0
+			@user1.notification_list.each do |notif|
+				event1_notif_count += 1 if notif[:event] == @event1.id
+			end
+			@user2.notification_list.each do |notif|
+				event1_notif_count += 1 if notif[:event] == @event1.id
+			end		
+			@user3.notification_list.each do |notif|
+				event1_notif_count += 1 if notif[:event] == @event1.id
+			end
+			event1_notif_count.should eq 0
+		end
+	end
 end
 	
