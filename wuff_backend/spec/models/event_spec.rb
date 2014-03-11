@@ -156,14 +156,24 @@ describe Event, "get_user_status, set_user_status" do
   	@other_id = @other.id
   	@event_id = Event.add_event('Example Event', @admin_id, 
   		DateTime.current.to_i + 10, [@admin_id, @other_id])
+  	@event = Event.find(@event_id)
   	@admin.reload
   	@other.reload
 	end
 
 	describe "when accessing status initially" do
 		it "should be correct for admin and nonadmin" do
-
+			@event.get_user_status(@admin_id).should eq STATUS_ATTENDING
+			@event.get_user_status(@other_id).should eq STATUS_NO_RESPONSE
 		end	
 	end
 
+	describe "when changing and accessing status" do
+		it "should be correct for admin and nonadmin" do
+			@event.set_user_status(@admin_id, STATUS_NOT_ATTENDING)
+			@event.get_user_status(@admin_id).should eq STATUS_NOT_ATTENDING
+			@event.set_user_status(@other_id, STATUS_ATTENDING)
+			@event.get_user_status(@other_id).should eq STATUS_ATTENDING
+		end
+	end
 end
