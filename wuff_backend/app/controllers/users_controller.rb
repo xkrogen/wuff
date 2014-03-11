@@ -80,7 +80,7 @@ class UsersController < ApplicationController
 
   # Responds. Always includes err_code set to ERROR (SUCCESS by default).
   # Additional response fields can be passed as a hash to ADDITIONAL.
-  def respond(error = @@SUCCESS, additional = {})
+  def respond(error = SUCCESS, additional = {})
     response = { err_code: error }.merge(additional)
     respond_to do |format|
       format.html { render json: response, content_type: "application/json" }
@@ -89,7 +89,7 @@ class UsersController < ApplicationController
   end
 
   def session_fail_response
-    response = { err_code: @@ERR_INVALID_SESSION }
+    response = { err_code: ERR_INVALID_SESSION }
     respond_to do |format|
       format.html { render json: response, content_type: "application/json" }
       format.json { render json: response, content_type: "application/json" }

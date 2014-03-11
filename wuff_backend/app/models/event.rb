@@ -102,6 +102,21 @@ class Event < ActiveRecord::Base
 		end
 	end
 
+	# Returns a hash with all of the relevant information for this event.
+	# { $event: eventID, $name: event_name, $creator: event_creator,  
+	#   $time: time, $location: location, $users: user_list }  
+	def getHash
+		user_list = []
+		status_list = []
+		party_list.each do |key, value|
+			user_list << key
+			status_list << value[:status]
+		end
+		{ event: self.id, name: name, creator: admin, 
+			time: time, location: location, users: user_list.join(','),
+			status_list: status_list.join(',')}
+	end
+
 	private
 
 	# Takes in a string, USER_ID, and checks if it is a valid 
