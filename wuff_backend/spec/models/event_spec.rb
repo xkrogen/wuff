@@ -175,7 +175,7 @@ describe Event, "misc" do
 		end
 	end
 
-	describe "getHash" do
+	describe "get_hash" do
 		before do
 	  	@admin = User.create(name: 'Example User', 
 	  		email: 'exampleuser@example.com')
@@ -187,7 +187,7 @@ describe Event, "misc" do
 		end
 
 		it "should match the hash data" do
-			hash = @event.getHash
+			hash = @event.get_hash
 			hash[:event].should eq @event_id
 			hash[:name].should eq 'Example Event'
 			hash[:creator].should eq @admin.id

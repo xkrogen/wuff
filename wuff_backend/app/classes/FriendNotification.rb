@@ -8,7 +8,7 @@ class FriendNotification
 		@time = DateTime.current
 	end
 
-	def getHash
+	def get_hash
 		return { notif_type: NOTIF_FRIEND_ADD, notif_time: @time.to_i,
 			friend_id: @friend.id, friend_name: @friend.name, 
 			friend_email: @friend.email }

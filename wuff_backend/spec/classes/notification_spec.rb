@@ -12,7 +12,7 @@ describe EventNotification do
 	describe "when creating notification for a new event" do
 		before { @notif = EventNotification.new(NOTIF_NEW_EVENT, @event) }
 		it "should return proper notification" do
-			n_hash = @notif.getHash
+			n_hash = @notif.get_hash
 			n_hash[:notif_type].should eq(NOTIF_NEW_EVENT)
 			n_hash[:event].should eq(@event.id)
 			n_hash[:name].should eq(@event.name)
@@ -32,7 +32,7 @@ describe FriendNotification do
 	describe "when creating notification for a new friend add" do
 		before { @notif = FriendNotification.new(@user) }
 		it "should return proper notification" do
-			n_hash = @notif.getHash
+			n_hash = @notif.get_hash
 			n_hash[:notif_type].should eq(NOTIF_FRIEND_ADD)
 			n_hash[:friend_name].should eq(@user.name)
 			n_hash[:friend_email].should eq(@user.email)

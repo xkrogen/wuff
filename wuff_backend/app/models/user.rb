@@ -108,7 +108,7 @@ class User < ActiveRecord::Base
 
 	# Adds NOTIFICATION to the user's notification_list. 
 	def post_notification(notification)
-		self.notification_list = self.notification_list << notification.getHash
+		self.notification_list = self.notification_list << notification.get_hash
 		self.update_attribute(:notification_list, self.notification_list)
 	end
 
