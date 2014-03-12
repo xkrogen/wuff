@@ -6,7 +6,7 @@ WuffBackend::Application.routes.draw do
   delete '/user/logout_user', to: 'users#logout_user'
   post '/user/add_friend', to: 'users#add_friend'
   delete '/user/delete_friend', to: 'users#delete_friend'
-	post '/user/get_events', to: 'users#get_events'
+	get '/user/get_events', to: 'users#get_events'
 
 	post '/event/create_event', to: 'events#create_event'
 end
