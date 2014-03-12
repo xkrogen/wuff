@@ -3,14 +3,13 @@ require 'FriendNotification'
 
 class Event < ActiveRecord::Base
 
+	NAME_MAX_LENGTH = 40
 	# Have Rails automatically serialize the hash for storage.
 	serialize :party_list, Hash
 	validates :name, { presence: true, length: {maximum: NAME_MAX_LENGTH} }
 	validates :admin, presence: true
 	validates :party_list, presence: true
 	validates :time, presence: true
-
-	NAME_MAX_LENGTH = 40
 
 	# Validates the event. Checks to ensure that all of the fields of
 	# the event are valid. Returns SUCCESS if they are. Else, returns
