@@ -8,7 +8,14 @@
 
 #import "HandleRequest.h"
 
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+
 @implementation HandleRequest
+
++(NSString *)getBaseUrl
+{
+    return @"http://wuff.herokuapp.com";
+}
 
 -(id) initWithSelector:(NSString *)selectorString andDelegate:(id)theDelegate
 {
@@ -32,7 +39,7 @@
     return false;
 }
 
--(bool)createRequestWithType:(HTTPRequestType)requestType ForURL:(NSString *)URL_str WithDictionary:(NSDictionary *)json_dict
+-(bool)createRequestWithType:(HTTPRequestType)requestType forExtension:(NSString *)extensionURL withDictionary:(NSDictionary *)json_dict
 {
     NSError *error = nil;
     NSData* jsonData = [NSJSONSerialization dataWithJSONObject:json_dict options:kNilOptions error:&error];
@@ -46,13 +53,14 @@
         // init new data
         _data = [[NSMutableData alloc] init];
         
+        NSString *URL_str = [NSString stringWithFormat:@"%@%@", [HandleRequest getBaseUrl], extensionURL];
+        
         // make sure string is not empty
         if ([HandleRequest isStringEmpty:URL_str])
             return false;
         
         NSURL *url = [NSURL URLWithString:URL_str];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-        
         
         switch (requestType)
         {
@@ -87,11 +95,17 @@
 {
     NSLog(@"received response!");
     _data = [[NSMutableData alloc] init];
+    NSHTTPURLResponse *HTTPResponse = (NSHTTPURLResponse *)response;
+    NSDictionary *fields = [HTTPResponse allHeaderFields];
+    NSString *cookie = [fields valueForKey:@"Set-Cookie"]; // It is your cookie
+    NSLog(@"Received cookie: %@", cookie);
 }
+
 -(void)connection:(NSURLConnection*)connection didReceiveData:(NSData*)data
 {
     [_data appendData:data];
 }
+
 -(void)connection:(NSURLConnection*)connection didFailWithError:(NSError*)error
 {
     // nil out the connection so the user can try again
@@ -101,6 +115,7 @@
     
     NSLog(@"ERROR: %@", error);
 }
+
 -(void)connectionDidFinishLoading:(NSURLConnection*)connection
 {
     NSError *error = nil;
