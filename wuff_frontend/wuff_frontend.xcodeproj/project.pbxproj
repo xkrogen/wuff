@@ -11,6 +11,10 @@
 		186A197418CD270000E4BEB5 /* UIView+Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = 186A197318CD270000E4BEB5 /* UIView+Toast.m */; };
 		322B9B2F18D013C70084AAF9 /* EventViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 322B9B2D18D013C70084AAF9 /* EventViewController.m */; };
 		322B9B3018D013C70084AAF9 /* EventViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 322B9B2E18D013C70084AAF9 /* EventViewController.xib */; };
+		322B9B3418D031810084AAF9 /* SignUp.m in Sources */ = {isa = PBXBuildFile; fileRef = 322B9B3218D031810084AAF9 /* SignUp.m */; };
+		322B9B3518D031810084AAF9 /* SignUp.xib in Resources */ = {isa = PBXBuildFile; fileRef = 322B9B3318D031810084AAF9 /* SignUp.xib */; };
+		322B9B3918D031E10084AAF9 /* Login.m in Sources */ = {isa = PBXBuildFile; fileRef = 322B9B3718D031E10084AAF9 /* Login.m */; };
+		322B9B3A18D031E10084AAF9 /* Login.xib in Resources */ = {isa = PBXBuildFile; fileRef = 322B9B3818D031E10084AAF9 /* Login.xib */; };
 		6C13DD9518C41EFD0032A56C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C13DD9418C41EFD0032A56C /* Foundation.framework */; };
 		6C13DD9718C41EFD0032A56C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C13DD9618C41EFD0032A56C /* CoreGraphics.framework */; };
 		6C13DD9918C41EFD0032A56C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C13DD9818C41EFD0032A56C /* UIKit.framework */; };
@@ -47,6 +51,12 @@
 		322B9B2C18D013C70084AAF9 /* EventViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventViewController.h; sourceTree = "<group>"; };
 		322B9B2D18D013C70084AAF9 /* EventViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventViewController.m; sourceTree = "<group>"; };
 		322B9B2E18D013C70084AAF9 /* EventViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventViewController.xib; sourceTree = "<group>"; };
+		322B9B3118D031810084AAF9 /* SignUp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUp.h; sourceTree = "<group>"; };
+		322B9B3218D031810084AAF9 /* SignUp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUp.m; sourceTree = "<group>"; };
+		322B9B3318D031810084AAF9 /* SignUp.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SignUp.xib; sourceTree = "<group>"; };
+		322B9B3618D031E10084AAF9 /* Login.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Login.h; sourceTree = "<group>"; };
+		322B9B3718D031E10084AAF9 /* Login.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Login.m; sourceTree = "<group>"; };
+		322B9B3818D031E10084AAF9 /* Login.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Login.xib; sourceTree = "<group>"; };
 		6C13DD9118C41EFD0032A56C /* wuff_frontend.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = wuff_frontend.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C13DD9418C41EFD0032A56C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6C13DD9618C41EFD0032A56C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -145,6 +155,12 @@
 				322B9B2E18D013C70084AAF9 /* EventViewController.xib */,
 				186A196C18CD224700E4BEB5 /* SignUpViewController.h */,
 				186A196D18CD224700E4BEB5 /* SignUpViewController.m */,
+				322B9B3118D031810084AAF9 /* SignUp.h */,
+				322B9B3618D031E10084AAF9 /* Login.h */,
+				322B9B3718D031E10084AAF9 /* Login.m */,
+				322B9B3818D031E10084AAF9 /* Login.xib */,
+				322B9B3218D031810084AAF9 /* SignUp.m */,
+				322B9B3318D031810084AAF9 /* SignUp.xib */,
 				6C13DDAC18C41EFD0032A56C /* Images.xcassets */,
 				6C13DD9B18C41EFD0032A56C /* Supporting Files */,
 			);
@@ -258,8 +274,10 @@
 			files = (
 				6C13DDAD18C41EFD0032A56C /* Images.xcassets in Resources */,
 				322B9B3018D013C70084AAF9 /* EventViewController.xib in Resources */,
+				322B9B3518D031810084AAF9 /* SignUp.xib in Resources */,
 				6C13DD9F18C41EFD0032A56C /* InfoPlist.strings in Resources */,
 				6C13DDA818C41EFD0032A56C /* Main.storyboard in Resources */,
+				322B9B3A18D031E10084AAF9 /* Login.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -283,9 +301,11 @@
 				6C13DDAB18C41EFD0032A56C /* LoginViewController.m in Sources */,
 				6CF7E1B618CA538F00880712 /* HandleRequest.m in Sources */,
 				186A196E18CD224700E4BEB5 /* SignUpViewController.m in Sources */,
+				322B9B3918D031E10084AAF9 /* Login.m in Sources */,
 				6C13DDCB18C43FD20032A56C /* InputView.m in Sources */,
 				6C13DDA518C41EFD0032A56C /* AppDelegate.m in Sources */,
 				6C13DDA118C41EFD0032A56C /* main.m in Sources */,
+				322B9B3418D031810084AAF9 /* SignUp.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
