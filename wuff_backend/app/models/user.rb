@@ -79,7 +79,7 @@ class User < ActiveRecord::Base
 	# ERR_UNSUCCESSFUL if the event is invalid, SUCCESS otherwise. 
 	def add_event(event_id)
 		
-		# ADD ERROR CHECKING HERE FOR INVALID EVENTS
+		# ADD ERROR CHECKING HERE FOR INVALID EVENT -> TEST
 
 		self.event_list |= [event_id]
 		self.update_attribute(:event_list, self.event_list)

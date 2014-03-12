@@ -9,12 +9,13 @@ class EventsController < ApplicationController
 	# * On success, returns JSON { err_code: SUCCESS, :event}
 	# * On failure, returns JSON { :err_code }
 	def create_event
-		creator = current_user
 		
-		if creator == nil
+		if !signed_in?
 			respond(ERR_INVALID_SESSION)
 			return
 		end
+
+		creator = current_user
 
 		if not params[:user_list].respond_to?('split')
 			respond(ERR_INVALID_FIELD)
@@ -49,6 +50,11 @@ class EventsController < ApplicationController
 	def respond(error = SUCCESS, additional = {})
 		response = { err_code: error }.merge(additional)
 		render json: response, status: 200
+	end
+
+	# Checks if the request was made by a properly signed in user.  
+	def signed_in?
+		return current_user != nil
 	end
 
   # Finds the User with the remember_token stored in the session with the key :current_user_token

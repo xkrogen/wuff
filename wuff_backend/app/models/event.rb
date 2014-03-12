@@ -40,10 +40,11 @@ class Event < ActiveRecord::Base
 	#  * ID of new Event ( > 0 ) upon success
 	def self.add_event(name, admin_id, time, list_of_users, description = "", location = "")
 
-		user_list_has_admin = false
-
 		user_list = {}
+
 		return ERR_INVALID_FIELD if not list_of_users.respond_to?('each')
+		return ERR_INVALID_FIELD if not list_of_users.include?(admin_id)
+		
 		list_of_users.each do |user_id|
 			if !is_valid_user_id?(user_id)
 				return ERR_INVALID_FIELD
@@ -53,7 +54,6 @@ class Event < ActiveRecord::Base
 			end
 		end
 
-		return ERR_INVALID_FIELD if not user_list_has_admin
 		user_list[admin_id][:status] = STATUS_ATTENDING 
 
 		@event = Event.new(name: name, admin: admin_id, 

@@ -33,7 +33,7 @@ describe Event, "creation" do
 			specify { @other.notification_list.first[:notif_type].
 					should eq NOTIF_NEW_EVENT }
 			specify { @other.notification_list.first[:notif_time].should 
-				be_close(DateTime.current.to_i, 1) }
+				be_within(1).of(DateTime.current.to_i) }
 			specify { @other.notification_list.first[:event].should eq @event_id }
 			specify { @other.notification_list.first[:name].should eq "Example Event" }
 			specify { @other.notification_list.first[:location].should eq "" }

@@ -83,23 +83,31 @@ class UsersController < ApplicationController
   # i.e.“user_id1,user_id2,user_id3”. list_of_states is the same format 
   # in the same order, with the user’s status (STATUS_NO_RESPONSE, 
   # STATUS_ATTENDING, STATUS_NOT_ATTENDING) instead of user IDs. 
-
-  # NEEDS TESTING!
-
+  #
+  # If invalid event IDs are found, automatically removes them from
+  # the user's event list. 
   def get_events
-    event_list = {}
+    if not signed_in?
+      session_fail_response
+      return
+    end
+    return_list = {}
     event_count = 0
-    event_list.delete_if do |event_id|
-      begin 
+    user = current_user
+    event_list_size_old = user.event_list.size
+    user.event_list.delete_if do |event_id|
+      begin
         event = Event.find(event_id)
       rescue ActiveRecord::RecordNotFound
-        return true
+        next true
       end
       event_count += 1
-      event_list[event_count] = event.get_hash
+      return_list[event_count] = event.get_hash
       false
     end
-    respond(SUCCESS, event_list)
+    user.update_attribute(:event_list, user.event_list) if event_list_size_old != user.event_list.size
+    return_list[:event_count] = event_count
+    respond(SUCCESS, return_list)
   end
 
   private
