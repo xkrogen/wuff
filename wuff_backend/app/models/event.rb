@@ -20,13 +20,13 @@ class Event < ActiveRecord::Base
 
 		return ERR_INVALID_FIELD if (admin.blank? || party_list.blank? || !party_list.is_a?(Hash))
 
-		party_list_has_creator = false
+		return ERR_INVALID_FIELD if not party_list.has_key?(admin)
+
 		party_list.each do |key, value|
-				party_list_has_creator = true if (key == admin)
 				return ERR_INVALID_FIELD if not value.is_a?(Hash)
 				return ERR_INVALID_FIELD if not value.has_key?(:status)
 		end
-		return ERR_INVALID_FIELD if !party_list_has_creator
+	
 		return SUCCESS
 	end
 
