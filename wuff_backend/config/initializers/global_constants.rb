@@ -16,6 +16,8 @@ ERR_INVALID_PASSWORD = -3
 ERR_EMAIL_TAKEN = -4
 # Cannot find the email/password pair in the database (i.e. login fail)
 ERR_BAD_CREDENTIALS = -5
+# Error when session token doesn’t match what it should be for the given user ID
+ERR_INVALID_SESSION = -11 
 
 # Possible user statuses in respect to an event. 
 STATUS_NO_RESPONSE = 0

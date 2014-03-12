@@ -75,10 +75,15 @@ class User < ActiveRecord::Base
 	end
 
 
-	# Adds event_id into the user's list of events. 
+	# Adds event_id into the user's list of events. Returns 
+	# ERR_UNSUCCESSFUL if the event is invalid, SUCCESS otherwise. 
 	def add_event(event_id)
+		
+		# ADD ERROR CHECKING HERE FOR INVALID EVENT -> TEST
+
 		self.event_list |= [event_id]
 		self.update_attribute(:event_list, self.event_list)
+		
 	end
 
 	# Removes event_id from the user's list of events.
@@ -103,7 +108,7 @@ class User < ActiveRecord::Base
 
 	# Adds NOTIFICATION to the user's notification_list. 
 	def post_notification(notification)
-		self.notification_list = self.notification_list << notification.getHash
+		self.notification_list = self.notification_list << notification.get_hash
 		self.update_attribute(:notification_list, self.notification_list)
 	end
 

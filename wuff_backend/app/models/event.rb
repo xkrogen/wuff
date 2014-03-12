@@ -40,10 +40,11 @@ class Event < ActiveRecord::Base
 	#  * ID of new Event ( > 0 ) upon success
 	def self.add_event(name, admin_id, time, list_of_users, description = "", location = "")
 
-		user_list_has_admin = false
-
 		user_list = {}
+
 		return ERR_INVALID_FIELD if not list_of_users.respond_to?('each')
+		return ERR_INVALID_FIELD if not list_of_users.include?(admin_id)
+		
 		list_of_users.each do |user_id|
 			if !is_valid_user_id?(user_id)
 				return ERR_INVALID_FIELD
@@ -53,7 +54,6 @@ class Event < ActiveRecord::Base
 			end
 		end
 
-		return ERR_INVALID_FIELD if not user_list_has_admin
 		user_list[admin_id][:status] = STATUS_ATTENDING 
 
 		@event = Event.new(name: name, admin: admin_id, 
@@ -100,6 +100,21 @@ class Event < ActiveRecord::Base
 			end
 			user.post_notification(notification)
 		end
+	end
+
+	# Returns a hash with all of the relevant information for this event.
+	# { $event: eventID, $name: event_name, $creator: event_creator,  
+	#   $time: time, $location: location, $users: user_list }  
+	def get_hash
+		user_list = []
+		status_list = []
+		party_list.each do |key, value|
+			user_list << key
+			status_list << value[:status]
+		end
+		{ event: self.id, name: name, creator: admin, 
+			time: time, location: location, users: user_list.join(','),
+			status_list: status_list.join(',')}
 	end
 
 	private

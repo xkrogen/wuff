@@ -76,11 +76,45 @@ class UsersController < ApplicationController
     end
   end
 
+  # GET /user/get_events
+  # Returns all of the relevant information to display user_id’s events 
+  # on their main screen. Nested JSON for each event. user_list is a 
+  # comma separated list of user IDs with no spaces, 
+  # i.e.“user_id1,user_id2,user_id3”. list_of_states is the same format 
+  # in the same order, with the user’s status (STATUS_NO_RESPONSE, 
+  # STATUS_ATTENDING, STATUS_NOT_ATTENDING) instead of user IDs. 
+  #
+  # If invalid event IDs are found, automatically removes them from
+  # the user's event list. 
+  def get_events
+    if not signed_in?
+      session_fail_response
+      return
+    end
+    return_list = {}
+    event_count = 0
+    user = current_user
+    event_list_size_old = user.event_list.size
+    user.event_list.delete_if do |event_id|
+      begin
+        event = Event.find(event_id)
+      rescue ActiveRecord::RecordNotFound
+        next true
+      end
+      event_count += 1
+      return_list[event_count] = event.get_hash
+      false
+    end
+    user.update_attribute(:event_list, user.event_list) if event_list_size_old != user.event_list.size
+    return_list[:event_count] = event_count
+    respond(SUCCESS, return_list)
+  end
+
   private
 
   # Responds. Always includes err_code set to ERROR (SUCCESS by default).
   # Additional response fields can be passed as a hash to ADDITIONAL.
-  def respond(error = @@SUCCESS, additional = {})
+  def respond(error = SUCCESS, additional = {})
     response = { err_code: error }.merge(additional)
     respond_to do |format|
       format.html { render json: response, content_type: "application/json" }
@@ -89,7 +123,7 @@ class UsersController < ApplicationController
   end
 
   def session_fail_response
-    response = { err_code: @@ERR_INVALID_SESSION }
+    response = { err_code: ERR_INVALID_SESSION }
     respond_to do |format|
       format.html { render json: response, content_type: "application/json" }
       format.json { render json: response, content_type: "application/json" }

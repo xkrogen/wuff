@@ -2,7 +2,7 @@ require 'spec_helper'
 
 NAME_MAX_LENGTH = 40
 
-describe Event do
+describe Event, "creation" do
 	  
   before do
   	@admin = User.create(name: 'Example User', 
@@ -32,11 +32,8 @@ describe Event do
 			specify { @other.notification_list.size.should eq 1 }
 			specify { @other.notification_list.first[:notif_type].
 					should eq NOTIF_NEW_EVENT }
-			it "should have the current notification time" do
-				n_time = 	@other.notification_list.first[:notif_time]	
-				curr_time = DateTime.current.to_i
-				((n_time == curr_time) || (n_time == curr_time - 1)).should be_true
-			end
+			specify { @other.notification_list.first[:notif_time].should 
+				be_within(1).of(DateTime.current.to_i) }
 			specify { @other.notification_list.first[:event].should eq @event_id }
 			specify { @other.notification_list.first[:name].should eq "Example Event" }
 			specify { @other.notification_list.first[:location].should eq "" }
@@ -142,5 +139,65 @@ describe Event do
 			specify { expect(@event_id).to eq(ERR_INVALID_TIME) }
 		end
 	end
+end
 
+describe Event, "misc" do
+
+	describe "#get_user_status, #set_user_status" do
+	 	before do
+	  	@admin = User.create(name: 'Example User', 
+	  		email: 'exampleuser@example.com')
+	  	@admin_id = @admin.id
+	  	@other = User.create(name: 'Example Friend',
+	  		email: 'examplefriend@example.com')
+	  	@other_id = @other.id
+	  	@event_id = Event.add_event('Example Event', @admin_id, 
+	  		DateTime.current.to_i + 10, [@admin_id, @other_id])
+	  	@event = Event.find(@event_id)
+	  	@admin.reload
+	  	@other.reload
+		end
+
+		describe "when accessing status initially" do
+			it "should be correct for admin and nonadmin" do
+				@event.get_user_status(@admin_id).should eq STATUS_ATTENDING
+				@event.get_user_status(@other_id).should eq STATUS_NO_RESPONSE
+			end	
+		end
+
+		describe "when changing and accessing status" do
+			it "should be correct for admin and nonadmin" do
+				@event.set_user_status(@admin_id, STATUS_NOT_ATTENDING)
+				@event.get_user_status(@admin_id).should eq STATUS_NOT_ATTENDING
+				@event.set_user_status(@other_id, STATUS_ATTENDING)
+				@event.get_user_status(@other_id).should eq STATUS_ATTENDING
+			end
+		end
+	end
+
+	describe "get_hash" do
+		before do
+	  	@admin = User.create(name: 'Example User', 
+	  		email: 'exampleuser@example.com')
+	  	@other = User.create(name: 'Example Friend',
+	  		email: 'examplefriend@example.com')
+	  	@event_id = Event.add_event('Example Event', @admin.id, 
+	  		DateTime.current.to_i + 10, [@admin.id, @other.id])
+	  	@event = Event.find(@event_id)
+		end
+
+		it "should match the hash data" do
+			hash = @event.get_hash
+			hash[:event].should eq @event_id
+			hash[:name].should eq 'Example Event'
+			hash[:creator].should eq @admin.id
+			hash[:time].should eq @event.time
+			hash[:location].should be_blank
+			hash[:users].split(',').should have(2).items
+			hash[:users].split(',').should include(@admin.id.to_s)
+			hash[:users].split(',').should include(@other.id.to_s)
+			hash[:status_list].split(',').should include(STATUS_ATTENDING.to_s)
+			hash[:status_list].split(',').should include(STATUS_NO_RESPONSE.to_s)
+		end
+	end
 end

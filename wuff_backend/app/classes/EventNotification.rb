@@ -11,7 +11,7 @@ class EventNotification
 		@time = DateTime.current
 	end
 
-	def getHash
+	def get_hash
 		return { notif_type: @type, notif_time: @time.to_i, event: @event.id, 
 			name: @event.name, creator: @event.admin, time: @event.time,  
 			location: @event.location }
