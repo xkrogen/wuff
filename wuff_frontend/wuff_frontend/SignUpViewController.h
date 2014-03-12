@@ -2,7 +2,7 @@
 //  SignUpViewController.h
 //  wuff_frontend
 //
-//  Created by Matthew Griffin on 3/9/14.
+//  Created by Darren Tsung on 3/11/14.
 //  Copyright (c) 2014 Wuff Productions. All rights reserved.
 //
 
@@ -10,9 +10,9 @@
 #import "InputView.h"
 #import "UIView+Toast.h"
 #import "HandleRequest.h"
+#import "LoginViewController.h"
 
 @interface SignUpViewController : UIViewController
-
 
 @property(nonatomic, strong) IBOutlet InputView *emailInputView;
 @property(nonatomic, strong) IBOutlet InputView *passwordInputView;
@@ -23,6 +23,5 @@
 -(IBAction)signUp;
 
 -(IBAction)backButton;
-
 
 @end

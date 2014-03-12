@@ -2,12 +2,11 @@
 //  SignUpViewController.m
 //  wuff_frontend
 //
-//  Created by Matthew Griffin on 3/9/14.
+//  Created by Darren Tsung on 3/11/14.
 //  Copyright (c) 2014 Wuff Productions. All rights reserved.
 //
 
 #import "SignUpViewController.h"
-#import "LoginViewController.h"
 
 @interface SignUpViewController ()
 
@@ -53,7 +52,8 @@
 }
 
 -(IBAction)backButton {
-    [self performSegueWithIdentifier:@"gotoLogin" sender:self];
+    LoginViewController *login = [[LoginViewController alloc] initWithNibName:nil bundle:nil];
+    [self presentViewController:login animated:YES completion:NULL];
 }
 
 @end

@@ -7,22 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		186A196E18CD224700E4BEB5 /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186A196D18CD224700E4BEB5 /* SignUpViewController.m */; };
 		186A197418CD270000E4BEB5 /* UIView+Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = 186A197318CD270000E4BEB5 /* UIView+Toast.m */; };
 		322B9B2F18D013C70084AAF9 /* EventViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 322B9B2D18D013C70084AAF9 /* EventViewController.m */; };
 		322B9B3018D013C70084AAF9 /* EventViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 322B9B2E18D013C70084AAF9 /* EventViewController.xib */; };
-		322B9B3418D031810084AAF9 /* SignUp.m in Sources */ = {isa = PBXBuildFile; fileRef = 322B9B3218D031810084AAF9 /* SignUp.m */; };
-		322B9B3518D031810084AAF9 /* SignUp.xib in Resources */ = {isa = PBXBuildFile; fileRef = 322B9B3318D031810084AAF9 /* SignUp.xib */; };
-		322B9B3918D031E10084AAF9 /* Login.m in Sources */ = {isa = PBXBuildFile; fileRef = 322B9B3718D031E10084AAF9 /* Login.m */; };
-		322B9B3A18D031E10084AAF9 /* Login.xib in Resources */ = {isa = PBXBuildFile; fileRef = 322B9B3818D031E10084AAF9 /* Login.xib */; };
 		6C13DD9518C41EFD0032A56C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C13DD9418C41EFD0032A56C /* Foundation.framework */; };
 		6C13DD9718C41EFD0032A56C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C13DD9618C41EFD0032A56C /* CoreGraphics.framework */; };
 		6C13DD9918C41EFD0032A56C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C13DD9818C41EFD0032A56C /* UIKit.framework */; };
 		6C13DD9F18C41EFD0032A56C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6C13DD9D18C41EFD0032A56C /* InfoPlist.strings */; };
 		6C13DDA118C41EFD0032A56C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C13DDA018C41EFD0032A56C /* main.m */; };
 		6C13DDA518C41EFD0032A56C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C13DDA418C41EFD0032A56C /* AppDelegate.m */; };
-		6C13DDA818C41EFD0032A56C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6C13DDA618C41EFD0032A56C /* Main.storyboard */; };
-		6C13DDAB18C41EFD0032A56C /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C13DDAA18C41EFD0032A56C /* LoginViewController.m */; };
 		6C13DDAD18C41EFD0032A56C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6C13DDAC18C41EFD0032A56C /* Images.xcassets */; };
 		6C13DDB418C41EFD0032A56C /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C13DDB318C41EFD0032A56C /* XCTest.framework */; };
 		6C13DDB518C41EFD0032A56C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C13DD9418C41EFD0032A56C /* Foundation.framework */; };
@@ -30,6 +23,12 @@
 		6C13DDBE18C41EFD0032A56C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6C13DDBC18C41EFD0032A56C /* InfoPlist.strings */; };
 		6C13DDC018C41EFD0032A56C /* wuff_frontendTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C13DDBF18C41EFD0032A56C /* wuff_frontendTests.m */; };
 		6C13DDCB18C43FD20032A56C /* InputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C13DDCA18C43FD20032A56C /* InputView.m */; };
+		6C6216BA18D037AA0006048A /* EventCreateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C6216B818D037AA0006048A /* EventCreateViewController.m */; };
+		6C6216BB18D037AA0006048A /* EventCreateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C6216B918D037AA0006048A /* EventCreateViewController.xib */; };
+		6C6216BF18D0390F0006048A /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C6216BD18D0390F0006048A /* LoginViewController.m */; };
+		6C6216C018D0390F0006048A /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C6216BE18D0390F0006048A /* LoginViewController.xib */; };
+		6C6216C418D0397A0006048A /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C6216C218D0397A0006048A /* SignUpViewController.m */; };
+		6C6216C518D0397A0006048A /* SignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C6216C318D0397A0006048A /* SignUpViewController.xib */; };
 		6CF7E1B618CA538F00880712 /* HandleRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CF7E1B518CA538F00880712 /* HandleRequest.m */; };
 /* End PBXBuildFile section */
 
@@ -44,19 +43,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		186A196C18CD224700E4BEB5 /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
-		186A196D18CD224700E4BEB5 /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
 		186A197218CD270000E4BEB5 /* UIView+Toast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Toast.h"; sourceTree = "<group>"; };
 		186A197318CD270000E4BEB5 /* UIView+Toast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Toast.m"; sourceTree = "<group>"; };
 		322B9B2C18D013C70084AAF9 /* EventViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventViewController.h; sourceTree = "<group>"; };
 		322B9B2D18D013C70084AAF9 /* EventViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventViewController.m; sourceTree = "<group>"; };
 		322B9B2E18D013C70084AAF9 /* EventViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventViewController.xib; sourceTree = "<group>"; };
-		322B9B3118D031810084AAF9 /* SignUp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUp.h; sourceTree = "<group>"; };
-		322B9B3218D031810084AAF9 /* SignUp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUp.m; sourceTree = "<group>"; };
-		322B9B3318D031810084AAF9 /* SignUp.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SignUp.xib; sourceTree = "<group>"; };
-		322B9B3618D031E10084AAF9 /* Login.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Login.h; sourceTree = "<group>"; };
-		322B9B3718D031E10084AAF9 /* Login.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Login.m; sourceTree = "<group>"; };
-		322B9B3818D031E10084AAF9 /* Login.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Login.xib; sourceTree = "<group>"; };
 		6C13DD9118C41EFD0032A56C /* wuff_frontend.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = wuff_frontend.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C13DD9418C41EFD0032A56C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6C13DD9618C41EFD0032A56C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -67,9 +58,6 @@
 		6C13DDA218C41EFD0032A56C /* wuff_frontend-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "wuff_frontend-Prefix.pch"; sourceTree = "<group>"; };
 		6C13DDA318C41EFD0032A56C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		6C13DDA418C41EFD0032A56C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		6C13DDA718C41EFD0032A56C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		6C13DDA918C41EFD0032A56C /* LoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
-		6C13DDAA18C41EFD0032A56C /* LoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		6C13DDAC18C41EFD0032A56C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		6C13DDB218C41EFD0032A56C /* wuff_frontendTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = wuff_frontendTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C13DDB318C41EFD0032A56C /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -78,6 +66,15 @@
 		6C13DDBF18C41EFD0032A56C /* wuff_frontendTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = wuff_frontendTests.m; sourceTree = "<group>"; };
 		6C13DDC918C43FD20032A56C /* InputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputView.h; sourceTree = "<group>"; };
 		6C13DDCA18C43FD20032A56C /* InputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InputView.m; sourceTree = "<group>"; };
+		6C6216B718D037AA0006048A /* EventCreateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventCreateViewController.h; sourceTree = "<group>"; };
+		6C6216B818D037AA0006048A /* EventCreateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventCreateViewController.m; sourceTree = "<group>"; };
+		6C6216B918D037AA0006048A /* EventCreateViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventCreateViewController.xib; sourceTree = "<group>"; };
+		6C6216BC18D0390F0006048A /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		6C6216BD18D0390F0006048A /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		6C6216BE18D0390F0006048A /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
+		6C6216C118D0397A0006048A /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
+		6C6216C218D0397A0006048A /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
+		6C6216C318D0397A0006048A /* SignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SignUpViewController.xib; sourceTree = "<group>"; };
 		6CF7E1B418CA538F00880712 /* HandleRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HandleRequest.h; sourceTree = "<group>"; };
 		6CF7E1B518CA538F00880712 /* HandleRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HandleRequest.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -139,28 +136,20 @@
 		6C13DD9A18C41EFD0032A56C /* wuff_frontend */ = {
 			isa = PBXGroup;
 			children = (
-				186A197218CD270000E4BEB5 /* UIView+Toast.h */,
-				186A197318CD270000E4BEB5 /* UIView+Toast.m */,
 				6C13DDA318C41EFD0032A56C /* AppDelegate.h */,
 				6C13DDA418C41EFD0032A56C /* AppDelegate.m */,
-				6C13DDA618C41EFD0032A56C /* Main.storyboard */,
-				6C13DDC918C43FD20032A56C /* InputView.h */,
-				6C13DDCA18C43FD20032A56C /* InputView.m */,
-				6CF7E1B418CA538F00880712 /* HandleRequest.h */,
-				6CF7E1B518CA538F00880712 /* HandleRequest.m */,
-				6C13DDA918C41EFD0032A56C /* LoginViewController.h */,
-				6C13DDAA18C41EFD0032A56C /* LoginViewController.m */,
 				322B9B2C18D013C70084AAF9 /* EventViewController.h */,
 				322B9B2D18D013C70084AAF9 /* EventViewController.m */,
 				322B9B2E18D013C70084AAF9 /* EventViewController.xib */,
-				186A196C18CD224700E4BEB5 /* SignUpViewController.h */,
-				186A196D18CD224700E4BEB5 /* SignUpViewController.m */,
-				322B9B3118D031810084AAF9 /* SignUp.h */,
-				322B9B3618D031E10084AAF9 /* Login.h */,
-				322B9B3718D031E10084AAF9 /* Login.m */,
-				322B9B3818D031E10084AAF9 /* Login.xib */,
-				322B9B3218D031810084AAF9 /* SignUp.m */,
-				322B9B3318D031810084AAF9 /* SignUp.xib */,
+				6C6216B718D037AA0006048A /* EventCreateViewController.h */,
+				6C6216B818D037AA0006048A /* EventCreateViewController.m */,
+				6C6216B918D037AA0006048A /* EventCreateViewController.xib */,
+				6C6216C118D0397A0006048A /* SignUpViewController.h */,
+				6C6216C218D0397A0006048A /* SignUpViewController.m */,
+				6C6216C318D0397A0006048A /* SignUpViewController.xib */,
+				6C6216BC18D0390F0006048A /* LoginViewController.h */,
+				6C6216BD18D0390F0006048A /* LoginViewController.m */,
+				6C6216BE18D0390F0006048A /* LoginViewController.xib */,
 				6C13DDAC18C41EFD0032A56C /* Images.xcassets */,
 				6C13DD9B18C41EFD0032A56C /* Supporting Files */,
 			);
@@ -170,6 +159,12 @@
 		6C13DD9B18C41EFD0032A56C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				186A197218CD270000E4BEB5 /* UIView+Toast.h */,
+				186A197318CD270000E4BEB5 /* UIView+Toast.m */,
+				6C13DDC918C43FD20032A56C /* InputView.h */,
+				6C13DDCA18C43FD20032A56C /* InputView.m */,
+				6CF7E1B418CA538F00880712 /* HandleRequest.h */,
+				6CF7E1B518CA538F00880712 /* HandleRequest.m */,
 				6C13DD9C18C41EFD0032A56C /* wuff_frontend-Info.plist */,
 				6C13DD9D18C41EFD0032A56C /* InfoPlist.strings */,
 				6C13DDA018C41EFD0032A56C /* main.m */,
@@ -273,11 +268,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				6C13DDAD18C41EFD0032A56C /* Images.xcassets in Resources */,
+				6C6216BB18D037AA0006048A /* EventCreateViewController.xib in Resources */,
 				322B9B3018D013C70084AAF9 /* EventViewController.xib in Resources */,
-				322B9B3518D031810084AAF9 /* SignUp.xib in Resources */,
 				6C13DD9F18C41EFD0032A56C /* InfoPlist.strings in Resources */,
-				6C13DDA818C41EFD0032A56C /* Main.storyboard in Resources */,
-				322B9B3A18D031E10084AAF9 /* Login.xib in Resources */,
+				6C6216C018D0390F0006048A /* LoginViewController.xib in Resources */,
+				6C6216C518D0397A0006048A /* SignUpViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,15 +292,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				186A197418CD270000E4BEB5 /* UIView+Toast.m in Sources */,
+				6C6216BA18D037AA0006048A /* EventCreateViewController.m in Sources */,
 				322B9B2F18D013C70084AAF9 /* EventViewController.m in Sources */,
-				6C13DDAB18C41EFD0032A56C /* LoginViewController.m in Sources */,
 				6CF7E1B618CA538F00880712 /* HandleRequest.m in Sources */,
-				186A196E18CD224700E4BEB5 /* SignUpViewController.m in Sources */,
-				322B9B3918D031E10084AAF9 /* Login.m in Sources */,
+				6C6216BF18D0390F0006048A /* LoginViewController.m in Sources */,
 				6C13DDCB18C43FD20032A56C /* InputView.m in Sources */,
 				6C13DDA518C41EFD0032A56C /* AppDelegate.m in Sources */,
 				6C13DDA118C41EFD0032A56C /* main.m in Sources */,
-				322B9B3418D031810084AAF9 /* SignUp.m in Sources */,
+				6C6216C418D0397A0006048A /* SignUpViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -334,14 +328,6 @@
 				6C13DD9E18C41EFD0032A56C /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		6C13DDA618C41EFD0032A56C /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6C13DDA718C41EFD0032A56C /* Base */,
-			);
-			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 		6C13DDBC18C41EFD0032A56C /* InfoPlist.strings */ = {

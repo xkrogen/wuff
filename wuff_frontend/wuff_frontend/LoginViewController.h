@@ -2,14 +2,13 @@
 //  LoginViewController.h
 //  wuff_frontend
 //
-//  Created by Darren Tsung on 3/2/14.
+//  Created by Darren Tsung on 3/11/14.
 //  Copyright (c) 2014 Wuff Productions. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
-#import "InputView.h"
-#import "UIView+Toast.h"
-#import "HandleRequest.h"
+#include "InputView.h"
+#include "HandleRequest.h"
 
 @interface LoginViewController : UIViewController
 

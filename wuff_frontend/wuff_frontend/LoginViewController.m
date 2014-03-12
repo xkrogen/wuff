@@ -2,7 +2,7 @@
 //  LoginViewController.m
 //  wuff_frontend
 //
-//  Created by Darren Tsung on 3/2/14.
+//  Created by Darren Tsung on 3/11/14.
 //  Copyright (c) 2014 Wuff Productions. All rights reserved.
 //
 
@@ -14,6 +14,15 @@
 @end
 
 @implementation LoginViewController
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
 
 - (void)viewDidLoad
 {
@@ -44,10 +53,8 @@
 }
 
 -(IBAction)signUp {
-    
-    [self performSegueWithIdentifier:@"gotoSignUp" sender:self];
-    
-    
+    SignUpViewController *signUp = [[SignUpViewController alloc] initWithNibName:nil bundle:nil];
+    [self presentViewController:signUp animated:YES completion:NULL];
 }
 
 
