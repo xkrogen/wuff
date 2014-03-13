@@ -18,8 +18,7 @@
 @property(nonatomic, strong) HandleRequest *myRequester;
 
 
--(IBAction)signIn;
-
+-(IBAction)login;
 -(IBAction)signUp;
 
 

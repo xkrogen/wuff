@@ -36,7 +36,7 @@
     // Dispose of any resources that can be recreated.
 }
 
--(IBAction)signIn {
+-(IBAction)login {
     
     //Code to send POST Request
     _myRequester = [[HandleRequest alloc] initWithSelector:@"handleSignInResponse:" andDelegate:self];
