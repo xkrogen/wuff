@@ -46,6 +46,7 @@ class EventsController < ApplicationController
 	# adds the event to their event_list, and notifies them.
 	# You must be signed in, and you must be the admin of the event
 	# for this call to succeed. 
+	# Duplicate users (users already in the event) will be ignored.
 	def invite_users
 		
 		if !signed_in?
@@ -61,7 +62,7 @@ class EventsController < ApplicationController
 			return
 		end
 		
-		if not event.is_admin?(current_user)
+		if not event.is_admin?(current_user.id)
 			respond(ERR_INVALID_PERMISSIONS)
 			return
 		end
@@ -75,10 +76,14 @@ class EventsController < ApplicationController
 			user.id
 		end
 
+		curr_party_list = event.party_list
+		user_list.delete_if { |user_id| curr_party_list.has_key?(user_id) }
+
 		event.add_user_list(user_list)
 		event.add_to_user_event_lists(user_list)
 		event.notify( EventNotification.new(NOTIF_NEW_EVENT, event), user_list)
 
+		respond(SUCCESS)
 	end
 
 	private

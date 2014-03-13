@@ -96,7 +96,8 @@ class Event < ActiveRecord::Base
 	# STATUS_NOT_ATTENDING, STATUS_NO_RESPONSE. Returns nil
 	# if the user is not a part of this event.
 	def get_user_status(user_id)
-		party_list[user_id][:status]
+		return nil if not party_list[user_id]
+		return party_list[user_id][:status]
 	end
 
 	# Sets the user's status for this event. Does nothing if user_id
