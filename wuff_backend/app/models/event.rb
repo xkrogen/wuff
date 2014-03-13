@@ -67,6 +67,11 @@ class Event < ActiveRecord::Base
 		return @event.id
 	end
 
+	# Checks if the user is listed as an admin for this event.
+	def is_admin?(user_id)
+		return admin == user_id
+	end
+
 	# Adds user_list to the party_list for this event.
 	# If skip_attribute_update = true, doesn't update the attribute
 	# within the databse (should probably only be used in add_event)

@@ -16,8 +16,11 @@ ERR_INVALID_PASSWORD = -3
 ERR_EMAIL_TAKEN = -4
 # Cannot find the email/password pair in the database (i.e. login fail)
 ERR_BAD_CREDENTIALS = -5
-# Error when session token doesn’t match what it should be for the given user ID
+# Error when session token doesn’t match a valid logged in session. 
 ERR_INVALID_SESSION = -11 
+# Error when you don't have permission to do something 
+# (i.e. you try to delete an event you don't own
+ERR_INVALID_PERMISSIONS = -12
 
 # Possible user statuses in respect to an event. 
 STATUS_NO_RESPONSE = 0
