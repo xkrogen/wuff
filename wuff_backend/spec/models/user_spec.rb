@@ -197,7 +197,7 @@ describe User, "#add_friend, #delete_friend" do
 
 	context "Added friend should receive notification" do
 		it "indicated by having +1 notification_list length" do
-			@third.notification_list.size.should eq(1)
+			User.find_by(email: "third@test.com").notification_list.size.should eq(1)
 		end
 	end
 

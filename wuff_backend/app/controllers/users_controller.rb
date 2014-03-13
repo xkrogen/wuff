@@ -110,6 +110,46 @@ class UsersController < ApplicationController
     respond(SUCCESS, return_list)
   end
 
+  # GET /user/has_notifications
+  # Check if the user.notification_list is empty
+  # Upon success, format JSON { err_code: code, notif: val }
+  def has_notifications?
+    if not signed_in?
+      session_fail_response
+      return
+    end
+    val = !self.current_user.notification_list.empty?
+    respond(SUCCESS, { notif: val })
+  end
+
+  # GET /user/get_notifications
+  # Returns a list of pending notifications as JSON
+  def get_notifications
+    if not signed_in?
+      session_fail_response
+      return
+    end
+    return_list = {}
+    notif_count = 0
+    current_user.notification_list.each do |notif|
+      notif_count += 1
+      return_list[notif_count] = notif
+    end
+    return_list[:notif_count] = notif_count
+    respond(SUCCESS, return_list)
+  end
+
+  # DELETE /user/clear_notifications
+  # Upon Success, the current_user.notification_list is empty
+  def clear_notifications
+    if not signed_in?
+      session_fail_response
+      returns
+    end
+    current_user.update_attribute(:notification_list, Array.new)
+    respond(SUCCESS)
+  end
+
   private
 
   # Responds. Always includes err_code set to ERROR (SUCCESS by default).
