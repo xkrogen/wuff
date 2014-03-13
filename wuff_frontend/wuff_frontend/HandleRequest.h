@@ -18,6 +18,7 @@ typedef enum {
 
 @property (nonatomic, strong) NSURLConnection *connection;
 @property (nonatomic, strong) NSMutableData *data;
+@property (nonatomic, strong) NSString *cookie;
 @property (nonatomic, strong) id delegate;
 @property (nonatomic, strong) NSString *selectorName;
 
