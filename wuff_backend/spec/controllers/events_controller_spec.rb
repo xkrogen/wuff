@@ -19,7 +19,7 @@ describe EventsController do
 					password: "test_password")
 				@other.add
 				post 'create_event', { format: 'json', 
-					user_list: "#{@user.id},#{@other.id}",
+					user_list: "#{@user.email},#{@other.email}",
 					name: "Test Event", time: DateTime.current.to_i + 10}
 				@user.reload
 				@other.reload
@@ -38,7 +38,7 @@ describe EventsController do
 			before { @request.cookies['current_user_token'] = 'invalid token' }
 
 			it "should return err_code of ERR_INVALID_SESSION" do
-				post 'create_event', { format: 'json', user_list: @user.id.to_s,
+				post 'create_event', { format: 'json', user_list: @user.email,
 					name: "Test Event", time: DateTime.current.to_i + 10}
 
 				response.status.should eq 200
@@ -50,7 +50,7 @@ describe EventsController do
 		describe "with invalid/missing inputs" do
 			describe " - missing name" do
 				before { post 'create_event', { format: 'json', 
-					user_list: @user.id.to_s, time: DateTime.current.to_i} }
+					user_list: @user.email, time: DateTime.current.to_i} }
 				specify { JSON.parse(response.body)['err_code'].should eq ERR_INVALID_NAME }
 			end
 			describe " - missing user_list" do
@@ -67,16 +67,16 @@ describe EventsController do
 			describe " - invalid user_list 2" do
 				before { post 'create_event', { format: 'json', 
 					name: "Test Event", time: DateTime.current.to_i,
-					user_list: "#{@user.id},userid"} }
+					user_list: "#{@user.email},userid"} }
 				specify { JSON.parse(response.body)['err_code'].should eq ERR_INVALID_FIELD }
 			end
 			describe " - missing time" do
 				before { post 'create_event', { format: 'json', 
-					name: "Test Event", user_list: @user.id.to_s} }
+					name: "Test Event", user_list: @user.email } }
 				specify { JSON.parse(response.body)['err_code'].should eq ERR_INVALID_TIME }
 			end
 			describe " - time in the past" do
-				before { post 'create_event', { format: 'json', time: DateTime.current.to_i - 50, name: "Test Event", user_list: @user.id.to_s} }
+				before { post 'create_event', { format: 'json', time: DateTime.current.to_i - 50, name: "Test Event", user_list: @user.email} }
 				specify { JSON.parse(response.body)['err_code'].should eq ERR_INVALID_TIME }
 			end
 		end

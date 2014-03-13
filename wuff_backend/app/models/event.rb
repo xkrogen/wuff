@@ -37,41 +37,54 @@ class Event < ActiveRecord::Base
 	# Returns:
 	#  * Error code ( < 0 ) upon failure
 	#  * ID of new Event ( > 0 ) upon success
-	def self.add_event(name, admin_id, time, list_of_users, description = "", location = "")
+	def self.add_event(name, admin_id, time, user_list, description = "", location = "")
 
-		user_list = {}
-
-		return ERR_INVALID_FIELD if not list_of_users.respond_to?('each')
-		return ERR_INVALID_FIELD if not list_of_users.include?(admin_id)
+		return ERR_INVALID_FIELD if not user_list.respond_to?('each')
+		return ERR_INVALID_FIELD if not user_list.include?(admin_id)
 		
-		list_of_users.each do |user_id|
-			if !is_valid_user_id?(user_id)
-				return ERR_INVALID_FIELD
-			else
-				user_list[user_id] = { status: STATUS_NO_RESPONSE }
-				user_list_has_admin = true if user_id == admin_id
-			end
+		user_list.each do |user_id|
+			return ERR_INVALID_FIELD if not is_valid_user_id?(user_id)
 		end
-
-		user_list[admin_id][:status] = STATUS_ATTENDING 
 
 		@event = Event.new(name: name, admin: admin_id, 
 			description: description, location: location, 
-			party_list: user_list, time:time)
+			party_list: {}, time:time)
 	
+		@event.add_user_list(user_list, true)
+
 		validity = @event.is_valid?
 		return validity if validity < 0
 		success = @event.save
 		return ERR_UNSUCCESSFUL if !success
 		
-		user_list.each_key do |users_id| 
-			user = User.find(users_id)
-			user.add_event(@event.id)
-		end
+		@event.set_user_status(admin_id, STATUS_ATTENDING)
 
-		@event.notify( EventNotification.new(NOTIF_NEW_EVENT, @event) )
+		@event.add_to_user_event_lists(user_list)
+
+		@event.notify( EventNotification.new(NOTIF_NEW_EVENT, @event),
+			user_list )
 
 		return @event.id
+	end
+
+	# Adds user_list to the party_list for this event.
+	# If skip_attribute_update = true, doesn't update the attribute
+	# within the databse (should probably only be used in add_event)
+	def add_user_list(user_list, skip_attribute_update = false)
+		user_hash = {}
+		user_list.each do |user_id|
+				user_hash[user_id] = { status: STATUS_NO_RESPONSE }
+		end
+		self.party_list.merge!(user_hash) { |key, old, new| old }
+		self.update_attribute(:party_list, self.party_list) if !skip_attribute_update
+	end
+
+	# Add this event to the user list of all users in user_list
+	def add_to_user_event_lists(user_list)
+		user_list.each do |users_id| 
+			user = User.find(users_id)
+			user.add_event(self.id)
+		end
 	end
 
 	# Returns the user's status for this event: STATUS_ATTENDING,
@@ -88,16 +101,31 @@ class Event < ActiveRecord::Base
 		self.update_attribute(:party_list, party_list)
 	end
 
-	# Notifies all of the users within party_list using NOTIFICATION. 
-	def notify(notification)
-		party_list.each_key do |key|
-			next if key == admin
-			begin 
-				user = User.find(key)
-			rescue ActiveRecord::RecordNotFound
-				next
+	# Notifies the users within user_list using NOTIFICATION. 
+	# If user_list isn't specified, uses party_list (all users).
+	# Skips the admin either way (any notification should be generated
+	# by the admin).
+	def notify(notification, user_list = nil)
+		if not user_list
+			party_list.each_key do |key|
+				next if key == admin
+				begin 
+					user = User.find(key)
+				rescue ActiveRecord::RecordNotFound
+					next
+				end
+				user.post_notification(notification)
 			end
-			user.post_notification(notification)
+		else
+			user_list.each do |key|
+				next if key == admin
+				begin 
+					user = User.find(key)
+				rescue ActiveRecord::RecordNotFound
+					next
+				end
+				user.post_notification(notification)
+			end
 		end
 	end
 
@@ -105,15 +133,17 @@ class Event < ActiveRecord::Base
 	# { $event: eventID, $name: event_name, $creator: event_creator,  
 	#   $time: time, $location: location, $users: user_list }  
 	def get_hash
-		user_list = []
-		status_list = []
+		user_list = {}
+		user_count = 0
 		party_list.each do |key, value|
-			user_list << key
-			status_list << value[:status]
+			user_count += 1
+			curr_user = User.find(key)
+			user_list[user_count] = { name: curr_user.name,
+					email: curr_user.email, status: value[:status] }
 		end
+		user_list[:user_count] = user_count
 		{ event: self.id, name: name, creator: admin, 
-			time: time, location: location, users: user_list.join(','),
-			status_list: status_list.join(',')}
+			time: time, location: location, users: user_list}
 	end
 
 	private

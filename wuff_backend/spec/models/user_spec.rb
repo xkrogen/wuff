@@ -212,9 +212,15 @@ end
 
 describe User, "#add_event, #delete_event, #post_notification" do
 	before do
-		@user1 = User.new(name: "User One", email: "user1@example.com")
-		@user2 = User.new(name: "User Two", email: "user2@example.com")
-		@user3 = User.new(name: "User Three", email: "user3@example.com")
+		@user1 = User.new(name: "User One", email: "user1@example.com",
+				password: "test_password")
+		@user1.add
+		@user2 = User.new(name: "User Two", email: "user2@example.com",
+				password: "test_password")
+		@user2.add
+		@user3 = User.new(name: "User Three", email: "user3@example.com",
+				password: "test_password")
+		@user3.add
 	end
 
 	describe "when adding/removing a valid event" do

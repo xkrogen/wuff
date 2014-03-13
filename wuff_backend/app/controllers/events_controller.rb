@@ -22,14 +22,13 @@ class EventsController < ApplicationController
 			return
 		end
 
-		user_list = params[:user_list].split(",").map do |s|
-			begin 
-				user_id = Integer(s, 10)
-			rescue ArgumentError
+		user_list = params[:user_list].split(",").map do |email|
+			user = User.find_by(email: email.strip)
+			if user == nil
 				respond(ERR_INVALID_FIELD)
-				return
+				return 
 			end
-			user_id
+			user.id
 		end
 
 		rval = Event.add_event(params[:name], creator.id, params[:time].to_i,

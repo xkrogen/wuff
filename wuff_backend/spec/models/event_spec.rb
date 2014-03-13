@@ -37,8 +37,8 @@ describe Event, "creation" do
 			specify { @other.notification_list.first[:event].should eq @event_id }
 			specify { @other.notification_list.first[:name].should eq "Example Event" }
 			specify { @other.notification_list.first[:location].should eq "" }
-			specify { @other.notification_list.first[:creator].should eq @admin_id }
-
+			specify { @other.notification_list.first[:creator][:name].should eq 'Example User' }
+			specify { @other.notification_list.first[:creator][:email].should eq 'exampleuser@example.com' }
 		end
 	end
 
@@ -193,11 +193,17 @@ describe Event, "misc" do
 			hash[:creator].should eq @admin.id
 			hash[:time].should eq @event.time
 			hash[:location].should be_blank
-			hash[:users].split(',').should have(2).items
-			hash[:users].split(',').should include(@admin.id.to_s)
-			hash[:users].split(',').should include(@other.id.to_s)
-			hash[:status_list].split(',').should include(STATUS_ATTENDING.to_s)
-			hash[:status_list].split(',').should include(STATUS_NO_RESPONSE.to_s)
+			hash[:users].should have(3).items
+			hash[:users][:user_count].should eq 2
+			user_names = [ hash[:users][1][:name], hash[:users][2][:name]]
+			user_emails = [ hash[:users][1][:email], hash[:users][2][:email]]
+			user_status = [ hash[:users][1][:status], hash[:users][2][:status]]
+			user_names.should include("Example User")
+			user_names.should include("Example Friend")
+			user_emails.should include("exampleuser@example.com")
+			user_emails.should include("examplefriend@example.com")
+			user_status.should include(STATUS_NO_RESPONSE)
+			user_status.should include(STATUS_ATTENDING)
 		end
 	end
 end
