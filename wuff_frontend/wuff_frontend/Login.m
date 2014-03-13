@@ -1,19 +1,18 @@
 //
-//  LoginViewController.m
+//  Login.m
 //  wuff_frontend
 //
-//  Created by Darren Tsung on 3/11/14.
+//  Created by Yang Xiang on 3/11/14.
 //  Copyright (c) 2014 Wuff Productions. All rights reserved.
 //
 
-#import "LoginViewController.h"
-#import "SignUpViewController.h"
-
-@interface LoginViewController ()
+#import "Login.h"
+#import "SignUp.h"
+@interface Login ()
 
 @end
 
-@implementation LoginViewController
+@implementation Login
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -53,7 +52,7 @@
 }
 
 -(IBAction)signUp {
-    SignUpViewController *signUp = [[SignUpViewController alloc] initWithNibName:nil bundle:nil];
+    SignUp *signUp = [[SignUp alloc] initWithNibName:nil bundle:nil];
     [self presentViewController:signUp animated:YES completion:NULL];
 }
 

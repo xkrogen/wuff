@@ -18,11 +18,13 @@ typedef enum {
 
 @property (nonatomic, strong) NSURLConnection *connection;
 @property (nonatomic, strong) NSMutableData *data;
+@property (nonatomic, strong) NSString *cookie;
 @property (nonatomic, strong) id delegate;
 @property (nonatomic, strong) NSString *selectorName;
 
++(NSString *)getBaseUrl;
 -(id) initWithSelector:(NSString *)selectorString andDelegate:(id)theDelegate;
 +(bool) isStringEmpty:(NSString *)string;
--(bool) createRequestWithType:(HTTPRequestType)requestType ForURL:(NSString *)URL_str WithDictionary:(NSDictionary *)json_dict;
+-(bool) createRequestWithType:(HTTPRequestType)requestType forExtension:(NSString *)extensionURL withDictionary:(NSDictionary *)json_dict;
 
 @end
