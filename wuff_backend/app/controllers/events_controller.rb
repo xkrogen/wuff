@@ -41,6 +41,50 @@ class EventsController < ApplicationController
   	end
   end
 
+	# POST /event/invite_users
+	# Invites users to the event: adds them to the event's party_list,
+	# adds the event to their event_list, and notifies them.
+	# You must be signed in, and you must be the admin of the event
+	# for this call to succeed. 
+	# Duplicate users (users already in the event) will be ignored.
+	def invite_users
+		
+		if !signed_in?
+			respond(ERR_INVALID_SESSION)
+			return
+		end
+
+		event_id = params[:event].to_i
+		begin
+			event = Event.find(event_id)
+		rescue ActiveRecord::RecordNotFound
+			respond(ERR_INVALID_FIELD)
+			return
+		end
+		
+		if not event.is_admin?(current_user.id)
+			respond(ERR_INVALID_PERMISSIONS)
+			return
+		end
+
+		user_list = params[:user_list].split(',').map do |email|
+			user = User.find_by(email: email)
+			if not user
+				respond(ERR_INVALID_FIELD)
+				return
+			end
+			user.id
+		end
+
+		curr_party_list = event.party_list
+		user_list.delete_if { |user_id| curr_party_list.has_key?(user_id) }
+
+		event.add_user_list(user_list)
+		event.add_to_user_event_lists(user_list)
+		event.notify( EventNotification.new(NOTIF_NEW_EVENT, event), user_list)
+
+		respond(SUCCESS)
+	end
 
   # POST /event/update_user_status
   # Updates the currently logged in user's status within this event.
