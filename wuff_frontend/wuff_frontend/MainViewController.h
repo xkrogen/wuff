@@ -15,7 +15,7 @@
 @interface MainViewController : UIViewController <UITableViewDataSource, UITabBarDelegate>
 
 @property(nonatomic, strong) HandleRequest *myRequester;
-@property (copy, nonatomic) NSMutableArray *eventList;
+@property (nonatomic) NSMutableArray *eventList;
 
 -(IBAction)createEvent;
 

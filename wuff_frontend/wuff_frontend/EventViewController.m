@@ -41,7 +41,15 @@
     eventAttenders.text = self.attenders;
     eventAttenders.lineBreakMode = NSLineBreakByWordWrapping;
     eventAttenders.numberOfLines = 0;
+    [eventAttenders sizeToFit];
     
+    eventDescription.text = self.description;
+    eventDescription.lineBreakMode = NSLineBreakByWordWrapping;
+    eventDescription.numberOfLines = 0;
+    [eventDescription sizeToFit];
+    
+
+
 }
 
 - (void)didReceiveMemoryWarning
