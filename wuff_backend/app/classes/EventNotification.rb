@@ -12,8 +12,9 @@ class EventNotification
 	end
 
 	def get_hash
+		admin = User.find(@event.admin)
 		return { notif_type: @type, notif_time: @time.to_i, event: @event.id, 
-			name: @event.name, creator: @event.admin, time: @event.time,  
+			name: @event.name, creator: { name: admin.name, email: admin.email }, time: @event.time,  
 			location: @event.location }
 	end
 
