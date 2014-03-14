@@ -22,9 +22,16 @@ class EventsController < ApplicationController
 			return
 		end
 
+<<<<<<< HEAD
 		user_list = params[:user_list].split(",").map do |email|
 			user = User.find_by(email: email.strip)
 			if user == nil
+=======
+		user_list = params[:user_list].split(",").map do |s|
+			begin 
+				user_id = Integer(s, 10)
+			rescue ArgumentError
+>>>>>>> sampson
 				respond(ERR_INVALID_FIELD)
 				return 
 			end

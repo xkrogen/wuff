@@ -1,3 +1,6 @@
+require 'EventNotification'
+require 'FriendNotification'
+
 # Class for modeling the user of app
 class User < ActiveRecord::Base
 	# callback to force email to lowercase for uniqueness
@@ -108,8 +111,7 @@ class User < ActiveRecord::Base
 
 	# Adds NOTIFICATION to the user's notification_list. 
 	def post_notification(notification)
-		self.notification_list = self.notification_list << notification.get_hash
-		self.update_attribute(:notification_list, self.notification_list)
+		self.update_attribute(:notification_list, self.notification_list << notification.get_hash)
 	end
 
 	# Function that generates a unique remember_token, random string of base 64

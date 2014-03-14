@@ -14,25 +14,37 @@
 
 @implementation EventCreateViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
+
+-(IBAction)createEvent {
+    
+    _myRequester = [[HandleRequest alloc] initWithSelector:@"handleSignInResponse:" andDelegate:self];
+    NSMutableDictionary *d = [NSMutableDictionary dictionary];
+    [d setObject:_nameInputView.textField.text forKey:@"name"];
+    [d setObject:_descriptionInputView.textField.text forKey:@"description"];
+    [d setObject:[_emailListInputView.textField.text componentsSeparatedByString:@","] forKey:@"user_list"];
+    [d setObject:[NSNumber numberWithDouble:[[_datePicker date]timeIntervalSince1970]] forKey:@"time"];
+    [d setObject:_locationInputView.textField.text forKey:@"location"];
+    
+    [_myRequester createRequestWithType:POST forExtension:@"/event/create_event" withDictionary:d];
+    NSLog(@"sent create event request!");
+    
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+-(IBAction)cancel {
+    
+    MainViewController *main = [[MainViewController alloc] initWithNibName:nil bundle:nil];
+    [self presentViewController:main animated:YES completion:NULL];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+
+-(void)handleCreate {
+    
+    
+    
+    
+    
+    
 }
+
 
 @end

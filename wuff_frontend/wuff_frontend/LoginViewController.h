@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #include "InputView.h"
 #include "HandleRequest.h"
+#include "MainViewController.h"
 
 @interface LoginViewController : UIViewController
 
@@ -17,6 +18,7 @@
 
 @property(nonatomic, strong) HandleRequest *myRequester;
 
+-(void) handleSignInResponse:(NSDictionary *)data;
 
 -(IBAction)login;
 -(IBAction)signUp;

@@ -98,7 +98,7 @@
     NSHTTPURLResponse *HTTPResponse = (NSHTTPURLResponse *)response;
     NSDictionary *fields = [HTTPResponse allHeaderFields];
     NSString *cookie = [fields valueForKey:@"Set-Cookie"]; // It is your cookie
-    NSLog(@"Received cookie: %@", cookie);
+    _cookie = cookie;
 }
 
 -(void)connection:(NSURLConnection*)connection didReceiveData:(NSData*)data
@@ -120,7 +120,7 @@
 {
     NSError *error = nil;
     // allow fragments so empty fields do not crash the app
-    NSDictionary *jsonResponse = [NSJSONSerialization JSONObjectWithData:_data options:NSJSONReadingAllowFragments error:&error];
+    NSMutableDictionary *jsonResponse = [NSMutableDictionary dictionaryWithDictionary:[NSJSONSerialization JSONObjectWithData:_data options:NSJSONReadingAllowFragments error:&error]];
     NSLog(@"JSONRESPONSE: %@", jsonResponse);
     if (error)
     {

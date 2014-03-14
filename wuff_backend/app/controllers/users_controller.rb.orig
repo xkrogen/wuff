@@ -110,6 +110,8 @@ class UsersController < ApplicationController
     respond(SUCCESS, return_list)
   end
 
+<<<<<<< HEAD
+=======
   # GET /user/has_notifications
   # Check if the user.notification_list is empty
   # Upon success, format JSON { err_code: code, notif: val }
@@ -150,6 +152,7 @@ class UsersController < ApplicationController
     respond(SUCCESS)
   end
 
+>>>>>>> sampson
   private
 
   # Responds. Always includes err_code set to ERROR (SUCCESS by default).

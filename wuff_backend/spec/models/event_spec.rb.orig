@@ -193,6 +193,7 @@ describe Event, "misc" do
 			hash[:creator].should eq @admin.id
 			hash[:time].should eq @event.time
 			hash[:location].should be_blank
+<<<<<<< HEAD
 			hash[:users].should have(3).items
 			hash[:users][:user_count].should eq 2
 			user_names = [ hash[:users][1][:name], hash[:users][2][:name]]
@@ -204,6 +205,13 @@ describe Event, "misc" do
 			user_emails.should include("examplefriend@example.com")
 			user_status.should include(STATUS_NO_RESPONSE)
 			user_status.should include(STATUS_ATTENDING)
+=======
+			hash[:users].split(',').should have(2).items
+			hash[:users].split(',').should include(@admin.id.to_s)
+			hash[:users].split(',').should include(@other.id.to_s)
+			hash[:status_list].split(',').should include(STATUS_ATTENDING.to_s)
+			hash[:status_list].split(',').should include(STATUS_NO_RESPONSE.to_s)
+>>>>>>> sampson
 		end
 	end
 end
