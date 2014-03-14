@@ -239,4 +239,58 @@ describe EventsController do
 			end	
 		end
 	end
+
+	describe "when updating an existing user's status" do
+		before do
+			@admin = User.new(name: "Test Name", email: "test@example.com",
+				password: "test_password")
+			@admin.add
+			@request.cookies['current_user_token'] = @token
+			@other = User.new(name: "Test Other", email: "t_other@example.com",
+				password: "test_password")
+			@other.add
+			@event_id = Event.add_event("Test Event", @admin.id, DateTime.current.to_i + 10, [@admin.id, @other.id])
+			@event = Event.find(@event_id)
+			@admin_token = User.new_token
+			@other_token = User.new_token
+			@admin.reload
+			@other.reload
+			@admin.update_attribute(:remember_token, User.hash(@admin_token))
+			@other.update_attribute(:remember_token, User.hash(@other_token))
+		end
+
+		it "should fail if the user isn't signed in" do
+			@request.cookies['current_user_token'] = 'aBdsfg135_123'
+			post 'update_user_status', { format: 'json', event: @event_id,
+				status: STATUS_NOT_ATTENDING }
+			JSON.parse(response.body)['err_code'].should eq ERR_INVALID_SESSION
+		end
+
+		it "should fail if the event ID isn't valid" do
+			@request.cookies['current_user_token'] = @admin_token
+			post 'update_user_status', { format: 'json', event: 234525731,
+				status: STATUS_NOT_ATTENDING }
+			JSON.parse(response.body)['err_code'].should eq ERR_INVALID_FIELD
+		end
+
+		it "should change the admin's status" do
+			@request.cookies['current_user_token'] = @admin_token
+			post 'update_user_status', { format: 'json', event: @event_id,
+				status: STATUS_NOT_ATTENDING }
+			JSON.parse(response.body)['err_code'].should eq SUCCESS
+			@event.reload
+			@event.get_user_status(@admin.id).should eq STATUS_NOT_ATTENDING
+			@event.get_user_status(@other.id).should eq STATUS_NO_RESPONSE
+		end
+
+		it "should change the other user's status" do
+			@request.cookies['current_user_token'] = @other_token
+			post 'update_user_status', { format: 'json', event: @event_id,
+				status: STATUS_ATTENDING }
+			JSON.parse(response.body)['err_code'].should eq SUCCESS
+			@event.reload
+			@event.get_user_status(@other.id).should eq STATUS_ATTENDING
+			@event.get_user_status(@admin.id).should eq STATUS_ATTENDING
+		end
+	end
 end
