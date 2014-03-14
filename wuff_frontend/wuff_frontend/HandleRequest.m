@@ -128,7 +128,6 @@
     }
     else
     {
-        [jsonResponse setObject:_cookie forKey:@"cookie"];
         SEL sel = NSSelectorFromString(_selectorName);
         [_delegate performSelector:sel withObject:jsonResponse]; // Deal with the data
     }
