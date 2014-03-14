@@ -13,6 +13,7 @@
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
+        _textField.delegate = self;
         self.clipsToBounds = YES;
         
         CALayer *rightBorder = [CALayer layer];
@@ -42,6 +43,11 @@
     }
     return self;
 
+}
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    return YES;
 }
 
 @end
