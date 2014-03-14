@@ -26,8 +26,32 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    MainViewController *main = [[MainViewController alloc] initWithNibName:nil bundle:nil];
+    [self presentViewController:main animated:YES completion:NULL];
+    //Currently commented out for easy mock navigation
+    
+    //Code to send POST Request
+     _myRequester = [[HandleRequest alloc] initWithSelector:@"handleMainResponse:" andDelegate:self];
+    
+     NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys: nil];
+    
+     [_myRequester createRequestWithType:GET forExtension:@"/user/get_events" withDictionary:d];
+     NSLog(@"sent request!");
+    
+    
+    //self.eventList = @[@"Join MEH", @"SUPA FUN TIME", @"Lonely need friends and this is a super long ass event name so idk how it should go"];
+}
 
-    self.eventList = @[@"Join MEH", @"SUPA FUN TIME", @"Lonely need friends and this is a super long ass event name so idk how it should go"];
+
+-(void) handleMainResponse:(NSDictionary *)data {
+    NSLog(@"Handle response here!");
+    self.eventList = [[NSMutableArray alloc] init];
+    
+    for(NSString *key in [data allKeys]) {
+        [self.eventList addObject:[data objectForKey:key]];
+        NSLog(@"Key:%@, Value:%@", key, [data objectForKey:key]);
+    }
+    
 }
 
 - (IBAction)createEvent{
