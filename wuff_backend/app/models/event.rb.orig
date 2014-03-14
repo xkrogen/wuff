@@ -37,6 +37,7 @@ class Event < ActiveRecord::Base
 	# Returns:
 	#  * Error code ( < 0 ) upon failure
 	#  * ID of new Event ( > 0 ) upon success
+<<<<<<< HEAD
 	def self.add_event(name, admin_id, time, user_list, description = "", location = "")
 
 		return ERR_INVALID_FIELD if not user_list.respond_to?('each')
@@ -46,6 +47,26 @@ class Event < ActiveRecord::Base
 			return ERR_INVALID_FIELD if not is_valid_user_id?(user_id)
 		end
 
+=======
+	def self.add_event(name, admin_id, time, list_of_users, description = "", location = "")
+
+		user_list = {}
+
+		return ERR_INVALID_FIELD if not list_of_users.respond_to?('each')
+		return ERR_INVALID_FIELD if not list_of_users.include?(admin_id)
+		
+		list_of_users.each do |user_id|
+			if !is_valid_user_id?(user_id)
+				return ERR_INVALID_FIELD
+			else
+				user_list[user_id] = { status: STATUS_NO_RESPONSE }
+				user_list_has_admin = true if user_id == admin_id
+			end
+		end
+
+		user_list[admin_id][:status] = STATUS_ATTENDING 
+
+>>>>>>> sampson
 		@event = Event.new(name: name, admin: admin_id, 
 			description: description, location: location, 
 			party_list: {}, time:time)
@@ -139,6 +160,7 @@ class Event < ActiveRecord::Base
 	# { $event: eventID, $name: event_name, $creator: event_creator,  
 	#   $time: time, $location: location, $users: user_list }  
 	def get_hash
+<<<<<<< HEAD
 		user_list = {}
 		user_count = 0
 		party_list.each do |key, value|
@@ -150,6 +172,17 @@ class Event < ActiveRecord::Base
 		user_list[:user_count] = user_count
 		{ event: self.id, name: name, creator: admin, 
 			time: time, location: location, users: user_list}
+=======
+		user_list = []
+		status_list = []
+		party_list.each do |key, value|
+			user_list << key
+			status_list << value[:status]
+		end
+		{ event: self.id, name: name, creator: admin, 
+			time: time, location: location, users: user_list.join(','),
+			status_list: status_list.join(',')}
+>>>>>>> sampson
 	end
 
 	private
