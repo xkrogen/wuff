@@ -81,6 +81,8 @@
         [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
         [request setHTTPBody:jsonData];
         
+        [request addValue:[[NSUserDefaults standardUserDefaults] objectForKey:@"current_user_token"] forHTTPHeaderField:@"Cookie"];
+        
         // if there is no connection going on, start a new connection
         if (!_connection)
         {
@@ -97,10 +99,10 @@
     _data = [[NSMutableData alloc] init];
     NSHTTPURLResponse *HTTPResponse = (NSHTTPURLResponse *)response;
     
-    NSString *current_user_token = [[NSUserDefaults standardUserDefaults] objectForKey:@"current_user_token"];
-    NSLog(@"current_user_token: %@", current_user_token);
+    NSString *cookie_stored = [[NSUserDefaults standardUserDefaults] objectForKey:@"cookie"];
+    NSLog(@"stored cookie: %@", cookie_stored);
     // if we don't have a current user token
-    if ([current_user_token isEqualToString:@""] || current_user_token == NULL)
+    if ([cookie_stored isEqualToString:@""] || cookie_stored == NULL)
     {
         NSDictionary *fields = [HTTPResponse allHeaderFields];
         NSString *cookieString = [fields valueForKey:@"Set-Cookie"]; // It is your cookie
@@ -114,9 +116,9 @@
         else
         {
             NSTextCheckingResult *match = [regex firstMatchInString:cookieString options:0 range:NSMakeRange(0, [cookieString length])];
-            NSString *cookie = [cookieString substringWithRange:[match rangeAtIndex:1]];
+            NSString *cookie = [cookieString substringWithRange:[match rangeAtIndex:0]];
             NSLog(@"Cookie: %@", cookie);
-            [[NSUserDefaults standardUserDefaults] setObject:cookie forKey:@"current_user_token"];
+            [[NSUserDefaults standardUserDefaults] setObject:cookie forKey:@"cookie"];
         }
     }
 }

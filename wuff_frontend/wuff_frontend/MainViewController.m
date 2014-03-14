@@ -26,15 +26,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    MainViewController *main = [[MainViewController alloc] initWithNibName:nil bundle:nil];
-    [self presentViewController:main animated:YES completion:NULL];
-    //Currently commented out for easy mock navigation
-    
     //Code to send POST Request
      _myRequester = [[HandleRequest alloc] initWithSelector:@"handleMainResponse:" andDelegate:self];
     
      NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys: nil];
-    
      [_myRequester createRequestWithType:GET forExtension:@"/user/get_events" withDictionary:d];
      NSLog(@"sent request!");
     
@@ -51,7 +46,6 @@
         [self.eventList addObject:[data objectForKey:key]];
         NSLog(@"Key:%@, Value:%@", key, [data objectForKey:key]);
     }
-    
 }
 
 - (IBAction)createEvent{
