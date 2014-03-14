@@ -32,8 +32,8 @@
 
 -(IBAction)cancel {
     
-    //Code to Goto Main Screen
-    
+    MainViewController *main = [[MainViewController alloc] initWithNibName:nil bundle:nil];
+    [self presentViewController:main animated:YES completion:NULL];
 }
 
 

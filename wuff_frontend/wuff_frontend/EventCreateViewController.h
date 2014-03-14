@@ -10,7 +10,7 @@
 #import "HandleRequest.h"
 #import "UIView+Toast.h"
 #import "InputView.h"
-
+#import "MainViewController.h"
 @interface EventCreateViewController : UIViewController
 
 @property(nonatomic, strong) IBOutlet InputView *nameInputView;

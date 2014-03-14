@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #include "InputView.h"
 #include "HandleRequest.h"
+#include "MainViewController.h"
 
 @interface LoginViewController : UIViewController
 

@@ -10,6 +10,8 @@
 		186A197418CD270000E4BEB5 /* UIView+Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = 186A197318CD270000E4BEB5 /* UIView+Toast.m */; };
 		322B9B2F18D013C70084AAF9 /* EventViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 322B9B2D18D013C70084AAF9 /* EventViewController.m */; };
 		322B9B3018D013C70084AAF9 /* EventViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 322B9B2E18D013C70084AAF9 /* EventViewController.xib */; };
+		322B9B3E18D256C80084AAF9 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 322B9B3C18D256C80084AAF9 /* MainViewController.m */; };
+		322B9B3F18D256C80084AAF9 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 322B9B3D18D256C80084AAF9 /* MainViewController.xib */; };
 		6C13DD9518C41EFD0032A56C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C13DD9418C41EFD0032A56C /* Foundation.framework */; };
 		6C13DD9718C41EFD0032A56C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C13DD9618C41EFD0032A56C /* CoreGraphics.framework */; };
 		6C13DD9918C41EFD0032A56C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C13DD9818C41EFD0032A56C /* UIKit.framework */; };
@@ -48,6 +50,9 @@
 		322B9B2C18D013C70084AAF9 /* EventViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventViewController.h; sourceTree = "<group>"; };
 		322B9B2D18D013C70084AAF9 /* EventViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventViewController.m; sourceTree = "<group>"; };
 		322B9B2E18D013C70084AAF9 /* EventViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventViewController.xib; sourceTree = "<group>"; };
+		322B9B3B18D256C80084AAF9 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		322B9B3C18D256C80084AAF9 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		322B9B3D18D256C80084AAF9 /* MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
 		6C13DD9118C41EFD0032A56C /* wuff_frontend.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = wuff_frontend.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C13DD9418C41EFD0032A56C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6C13DD9618C41EFD0032A56C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -138,6 +143,9 @@
 			children = (
 				6C13DDA318C41EFD0032A56C /* AppDelegate.h */,
 				6C13DDA418C41EFD0032A56C /* AppDelegate.m */,
+				322B9B3B18D256C80084AAF9 /* MainViewController.h */,
+				322B9B3C18D256C80084AAF9 /* MainViewController.m */,
+				322B9B3D18D256C80084AAF9 /* MainViewController.xib */,
 				322B9B2C18D013C70084AAF9 /* EventViewController.h */,
 				322B9B2D18D013C70084AAF9 /* EventViewController.m */,
 				322B9B2E18D013C70084AAF9 /* EventViewController.xib */,
@@ -272,6 +280,7 @@
 				322B9B3018D013C70084AAF9 /* EventViewController.xib in Resources */,
 				6C13DD9F18C41EFD0032A56C /* InfoPlist.strings in Resources */,
 				6C6216C018D0390F0006048A /* LoginViewController.xib in Resources */,
+				322B9B3F18D256C80084AAF9 /* MainViewController.xib in Resources */,
 				6C6216C518D0397A0006048A /* SignUpViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -294,6 +303,7 @@
 				186A197418CD270000E4BEB5 /* UIView+Toast.m in Sources */,
 				6C6216BA18D037AA0006048A /* EventCreateViewController.m in Sources */,
 				322B9B2F18D013C70084AAF9 /* EventViewController.m in Sources */,
+				322B9B3E18D256C80084AAF9 /* MainViewController.m in Sources */,
 				6CF7E1B618CA538F00880712 /* HandleRequest.m in Sources */,
 				6C6216BF18D0390F0006048A /* LoginViewController.m in Sources */,
 				6C13DDCB18C43FD20032A56C /* InputView.m in Sources */,

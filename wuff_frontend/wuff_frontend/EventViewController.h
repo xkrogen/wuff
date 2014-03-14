@@ -25,5 +25,7 @@
 @property(nonatomic) NSString *attenders;
 @property(nonatomic) NSString *description;
 
+-(IBAction)backButton;
+
 
 @end

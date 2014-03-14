@@ -7,7 +7,7 @@
 //
 
 #import "EventViewController.h"
-
+#import "MainViewController.h"
 @interface EventViewController ()
 
 @end
@@ -41,12 +41,18 @@
     eventAttenders.text = self.attenders;
     eventAttenders.lineBreakMode = NSLineBreakByWordWrapping;
     eventAttenders.numberOfLines = 0;
+    
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(IBAction)backButton {
+    MainViewController *main = [[MainViewController alloc] initWithNibName:nil bundle:nil];
+    [self presentViewController:main animated:YES completion:NULL];
 }
 
 @end

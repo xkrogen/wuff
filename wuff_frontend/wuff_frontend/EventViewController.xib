@@ -28,7 +28,11 @@
                     </textAttributes>
                     <items>
                         <navigationItem title="Event" id="dmW-eO-56Z">
-                            <barButtonItem key="leftBarButtonItem" title="Back" style="plain" id="ztC-dv-Qfc"/>
+                            <barButtonItem key="leftBarButtonItem" title="Back" style="plain" id="ztC-dv-Qfc">
+                                <connections>
+                                    <action selector="backButton" destination="-1" id="4D7-mk-74c"/>
+                                </connections>
+                            </barButtonItem>
                         </navigationItem>
                     </items>
                 </navigationBar>
