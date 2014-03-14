@@ -69,6 +69,8 @@
                 break;
             case POST:
                 [request setHTTPMethod:@"POST"];
+                [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+                [request setHTTPBody:jsonData];
                 break;
             case DELETE:
                 [request setHTTPMethod:@"DELETE"];
@@ -78,10 +80,13 @@
                 [request setHTTPMethod:@"POST"];
                 break;
         }
-        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        [request setHTTPBody:jsonData];
-        
-        [request addValue:[[NSUserDefaults standardUserDefaults] objectForKey:@"current_user_token"] forHTTPHeaderField:@"Cookie"];
+        NSString *cookie_stored = [[NSUserDefaults standardUserDefaults] objectForKey:@"cookieString"];
+        // if we do have a current user token
+        if (!([cookie_stored isEqualToString:@""] || cookie_stored == NULL))
+        {
+            NSLog(@"adding cookie to request");
+            [request addValue:[[NSUserDefaults standardUserDefaults] objectForKey:@"cookieString"] forHTTPHeaderField:@"Cookie"];
+        }
         
         // if there is no connection going on, start a new connection
         if (!_connection)
@@ -99,27 +104,14 @@
     _data = [[NSMutableData alloc] init];
     NSHTTPURLResponse *HTTPResponse = (NSHTTPURLResponse *)response;
     
-    NSString *cookie_stored = [[NSUserDefaults standardUserDefaults] objectForKey:@"cookie"];
-    NSLog(@"stored cookie: %@", cookie_stored);
+    NSString *cookie_stored = [[NSUserDefaults standardUserDefaults] objectForKey:@"cookieString"];
     // if we don't have a current user token
     if ([cookie_stored isEqualToString:@""] || cookie_stored == NULL)
     {
         NSDictionary *fields = [HTTPResponse allHeaderFields];
-        NSString *cookieString = [fields valueForKey:@"Set-Cookie"]; // It is your cookie
-        NSError *error = NULL;
-        NSString *pattern = @"current_user_token=(\\S*);";
-        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:0 error:&error];
-        if (error)
-        {
-            NSLog(@"Error: Couldn't parse regex expression in HandleRequest");
-        }
-        else
-        {
-            NSTextCheckingResult *match = [regex firstMatchInString:cookieString options:0 range:NSMakeRange(0, [cookieString length])];
-            NSString *cookie = [cookieString substringWithRange:[match rangeAtIndex:0]];
-            NSLog(@"Cookie: %@", cookie);
-            [[NSUserDefaults standardUserDefaults] setObject:cookie forKey:@"cookie"];
-        }
+        NSString *cookieString = [fields valueForKey:@"Set-Cookie"]; // your cookie
+        NSLog(@"storing cookie in NSUserDefaults");
+        [[NSUserDefaults standardUserDefaults] setObject:cookieString forKey:@"cookieString"];
     }
 }
 

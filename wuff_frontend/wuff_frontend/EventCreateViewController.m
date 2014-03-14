@@ -35,7 +35,6 @@
 
 -(IBAction)cancel
 {
-    
     MainViewController *main = [[MainViewController alloc] initWithNibName:nil bundle:nil];
     [self presentViewController:main animated:YES completion:NULL];
 }
@@ -43,7 +42,15 @@
 
 -(void)handleCreateEvent:(NSDictionary *)response
 {
-    
+    ErrorCode err_code = (ErrorCode)[[response objectForKey:@"err_code"] integerValue];
+    switch (err_code)
+    {
+        case SUCCESS:
+            NSLog(@"Moving to main screen");
+            MainViewController *main = [[MainViewController alloc] initWithNibName:nil bundle:nil];
+            [self presentViewController:main animated:YES completion:NULL];
+            break;
+    }
 }
 
 @end

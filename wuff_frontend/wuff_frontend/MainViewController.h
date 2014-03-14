@@ -16,6 +16,7 @@
 
 @property(nonatomic, strong) HandleRequest *myRequester;
 @property (nonatomic) NSMutableArray *eventList;
+@property (nonatomic, strong) IBOutlet UITableView *mainTable;
 
 -(IBAction)createEvent;
 

@@ -32,10 +32,17 @@
      NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys: @"all events", @"email", nil];
      [_myRequester createRequestWithType:GET forExtension:@"/user/get_events" withDictionary:d];
      NSLog(@"sent request!");
+    
     self.eventList = [[NSMutableArray alloc] init];
-    NSArray *attenders1 = @[@"hello1", @"bob1", @"cheese1"];
-    NSArray *attenders2 = @[@"hello2", @"bob2", @"cheese2"];
-    NSArray *attenders3 = @[@"hello3", @"bob3", @"cheese3"];
+    NSDictionary *attenders1 = @{@"1" : @{ @"name" : @"Darren T" },
+                                 @"2" : @{ @"name" : @"Erik K" },
+                                 @"3" : @{ @"name" : @"Yang X"} };
+    NSDictionary *attenders2 = @{@"1" : @{ @"name" : @"Matt G" },
+                                 @"2" : @{ @"name" : @"Sampson G" },
+                                 @"3" : @{ @"name" : @"Kevin Y"} };
+    NSDictionary *attenders3 = @{@"1" : @{ @"name" : @"Rick L" },
+                                 @"2" : @{ @"name" : @"Bob M" },
+                                 @"3" : @{ @"name" : @"Jonathan L"} };
 
     NSMutableDictionary *dict = [[NSMutableDictionary alloc]init];
     [dict setObject:@"name_0" forKey:@"name"];
@@ -69,17 +76,28 @@
     NSLog(@"Handle response here!");
     //self.eventList = [[NSMutableArray alloc] init];
     
-    for(NSString *key in [data allKeys]) {
-        //[self.eventList addObject:[data objectForKey:key]];
-        NSLog(@"Key:%@, Value:%@", key, [data objectForKey:key]);
+    ErrorCode err_code = (ErrorCode)[[data objectForKey:@"err_code"] integerValue];;
+    switch (err_code)
+    {
+        case SUCCESS:
+        {
+            int eventCount = (int)[[data objectForKey:@"event_count"] integerValue];
+            for(int i=1; i<=eventCount; i++) {
+                NSDictionary *event = [data objectForKey:[NSString stringWithFormat:@"%d", i]];
+                NSLog(@"Event: %@", event);
+                [self.eventList addObject:event];
+            }
+        } break;
     }
+    [_mainTable reloadData];
 }
 
 - (IBAction)createEvent{
     EventCreateViewController *eventCreate = [[EventCreateViewController alloc]  initWithNibName:nil bundle:nil];
     [self presentViewController:eventCreate animated:YES completion:NULL];
-    
 }
+
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -108,14 +126,27 @@
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     EventViewController *eventView = [[EventViewController alloc]  initWithNibName:nil bundle:nil];
-    eventView.tit = [self.eventList[indexPath.row] objectForKey:@"name"];
-    eventView.time = [self.eventList[indexPath.row] objectForKey:@"time"];
+    eventView.myTitle = [self.eventList[indexPath.row] objectForKey:@"name"];
+    
+    NSDate *time = [NSDate dateWithTimeIntervalSince1970:[[self.eventList[indexPath.row] objectForKey:@"time"] integerValue]];
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+    [format setDateFormat:@"MMM dd, yyyy | hh:mm a"];
+    eventView.time = [format stringFromDate:time];
+
+    
     eventView.location = [self.eventList[indexPath.row] objectForKey:@"location"];
-    eventView.description = [self.eventList[indexPath.row] objectForKey:@"description"];
+    //eventView.description = [self.eventList[indexPath.row] objectForKey:@"description"];
+    eventView.description = @"Nothing here!";
+    
+    // parse attendees
     eventView.attenders = @"";
-    for (NSString *user in [self.eventList[indexPath.row] objectForKey:@"users"]) {
-        eventView.attenders = [NSString stringWithFormat:@"%@ %@", user, eventView.attenders];
+    NSDictionary *users = [self.eventList[indexPath.row] objectForKey:@"users"];
+    int user_count = [[users objectForKey:@"user_count"] intValue];
+    for (int i=1; i<=user_count; i++) {
+        NSDictionary *user = [users objectForKey:[NSString stringWithFormat:@"%d", i]];
+        eventView.attenders = [NSString stringWithFormat:@"%@ %@", [user objectForKey:@"name"], eventView.attenders];
     }
+    
     [self presentViewController:eventView animated:YES completion:NULL];
 }
 

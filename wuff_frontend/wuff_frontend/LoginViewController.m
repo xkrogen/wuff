@@ -9,10 +9,7 @@
 #import "LoginViewController.h"
 
 @interface LoginViewController ()
-    typedef enum {
-        SUCCESS = 1,
-        
-    } ErrorCode;
+    
 @end
 
 @implementation LoginViewController
@@ -22,6 +19,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"cookieString"];
     }
     return self;
 }

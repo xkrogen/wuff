@@ -18,12 +18,12 @@
     
     
 }
-//set in main menue and will be passed to Event View
-@property(nonatomic) NSString *tit;
-@property(nonatomic) NSString *location;
-@property(nonatomic) NSString *time;
-@property(nonatomic) NSString *attenders;
-@property(nonatomic) NSString *description;
+// set in main menu and will be passed to Event View
+@property(nonatomic, strong) NSString *myTitle;
+@property(nonatomic, strong) NSString *location;
+@property(nonatomic, strong) NSString *time;
+@property(nonatomic, strong) NSString *attenders;
+@property(nonatomic, strong) NSString *description;
 
 -(IBAction)backButton;
 
