@@ -41,6 +41,37 @@ class EventsController < ApplicationController
   	end
   end
 
+
+  # POST /event/update_user_status
+  # Updates the currently logged in user's status within this event.
+  # Does nothing when attempting to change status within an 
+  # event that the user is not a member of.
+  def update_user_status
+		
+		if !signed_in?
+			respond(ERR_INVALID_SESSION)
+			return
+		end
+
+		event_id = params[:event].to_i
+		begin
+			event = Event.find(event_id)
+		rescue ActiveRecord::RecordNotFound
+			respond(ERR_INVALID_FIELD)
+			return
+		end
+		
+		new_status = params[:status]
+		if not [STATUS_NO_RESPONSE, STATUS_NOT_ATTENDING,
+			STATUS_ATTENDING].include?(new_status)
+			respond(ERR_INVALID_FIELD)
+			return
+		end
+
+		event.set_user_status(current_user.id, new_status)
+		respond(SUCCESS)
+  end
+
 	# POST /event/invite_users
 	# Invites users to the event: adds them to the event's party_list,
 	# adds the event to their event_list, and notifies them.
