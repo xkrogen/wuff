@@ -11,6 +11,8 @@ group :development, :test do
 	gem 'sqlite3'
 	# Use Rspec for unit testing
 	gem 'rspec-rails'
+  # Use simplecov for determining test coverage
+  gem 'simplecov', '0.8.2'
 end
 
 # Use SCSS for stylesheets

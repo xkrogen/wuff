@@ -15,7 +15,8 @@
 @implementation EventCreateViewController
 
 
--(IBAction)createEvent {
+-(IBAction)createEvent
+{
     _myRequester = [[HandleRequest alloc] initWithSelector:@"handleCreateEvent:" andDelegate:self];
     NSMutableDictionary *d = [NSMutableDictionary dictionary];
     [d setObject:_nameInputView.textField.text forKey:@"name"];
@@ -32,17 +33,17 @@
     
 }
 
--(IBAction)cancel {
+-(IBAction)cancel
+{
     
     MainViewController *main = [[MainViewController alloc] initWithNibName:nil bundle:nil];
     [self presentViewController:main animated:YES completion:NULL];
 }
 
 
--(void)handleCreateEvent:(NSDictionary *)response {
-    
+-(void)handleCreateEvent:(NSDictionary *)response
+{
     
 }
-
 
 @end

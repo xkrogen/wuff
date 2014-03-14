@@ -173,6 +173,13 @@ describe Event, "misc" do
 				@event.get_user_status(@other_id).should eq STATUS_ATTENDING
 			end
 		end
+
+		describe "when attempting to change status for a user that isn't in the event" do
+			it "should do nothing" do
+				@event.set_user_status(234573456, STATUS_ATTENDING)
+				@event.get_user_status(234573456).should eq nil
+			end
+		end
 	end
 
 	describe "get_hash" do
