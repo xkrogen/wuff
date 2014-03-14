@@ -45,10 +45,21 @@
 }
 
 -(void) handleSignUpResponse:(NSDictionary *)data {
-    NSLog(@"Handle signup response data here!");
-    for(NSString *key in [data allKeys]) {
-        NSLog(@"Key:%@, Value:%@", key, [data objectForKey:key]);
+    
+    
+    if( [data[@"err_code"] isEqualToNumber:@1] ) {
+        //If Success
+        //IMPORTANT: CODE TO STORE token
+        MainViewController *mainVC = [[MainViewController alloc] initWithNibName:nil bundle:nil];
+        [self presentViewController:mainVC animated:YES completion:NULL];
     }
+    
+    else {
+        
+        [self.view makeToast:@"There was An Error"];
+    }
+    
+    
 }
 
 -(IBAction)backButton {
