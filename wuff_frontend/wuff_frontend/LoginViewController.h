@@ -18,9 +18,9 @@
 
 @property(nonatomic, strong) HandleRequest *myRequester;
 
+-(void) handleSignInResponse:(NSDictionary *)data;
 
--(IBAction)signIn;
-
+-(IBAction)login;
 -(IBAction)signUp;
 
 

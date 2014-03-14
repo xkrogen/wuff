@@ -36,13 +36,11 @@
     // Dispose of any resources that can be recreated.
 }
 
--(IBAction)signIn {
-    MainViewController *main = [[MainViewController alloc] initWithNibName:nil bundle:nil];
-    [self presentViewController:main animated:YES completion:NULL];
-    //Currently commented out for easy mock navigation
-    /*Code to send POST Request
-    _myRequester = [[HandleRequest alloc] initWithSelector:@"handleSignInResponse:" andDelegate:self];
+-(IBAction)login {
     NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:_emailInputView.textField.text, @"email", _passwordInputView.textField.text, @"password", nil];
+    
+    //Code to send POST Request
+    _myRequester = [[HandleRequest alloc] initWithSelector:@"handleSignInResponse:" andDelegate:self];
     [_myRequester createRequestWithType:POST forExtension:@"/user/login_user" withDictionary:d];
     NSLog(@"sent request!");
 }
@@ -51,7 +49,7 @@
     NSLog(@"Handle response here!");
     for(NSString *key in [data allKeys]) {
         NSLog(@"Key:%@, Value:%@", key, [data objectForKey:key]);
-    }*/
+    }
 }
 
 -(IBAction)signUp {

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface InputView : UIView
+@interface InputView : UIView <UITextFieldDelegate>
 
 @property (nonatomic,retain) IBOutlet UITextField *textField;
 
