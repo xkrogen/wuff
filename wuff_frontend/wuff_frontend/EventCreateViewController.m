@@ -16,14 +16,16 @@
 
 
 -(IBAction)createEvent {
-    
-    _myRequester = [[HandleRequest alloc] initWithSelector:@"handleSignInResponse:" andDelegate:self];
+    _myRequester = [[HandleRequest alloc] initWithSelector:@"handleCreateEvent:" andDelegate:self];
     NSMutableDictionary *d = [NSMutableDictionary dictionary];
     [d setObject:_nameInputView.textField.text forKey:@"name"];
     [d setObject:_descriptionInputView.textField.text forKey:@"description"];
-    [d setObject:[_emailListInputView.textField.text componentsSeparatedByString:@","] forKey:@"user_list"];
-    [d setObject:[NSNumber numberWithDouble:[[_datePicker date]timeIntervalSince1970]] forKey:@"time"];
+    [d setObject:_emailListInputView.textField.text forKey:@"user_list"];
+    [d setObject:[[NSNumber numberWithDouble:[[_datePicker date]timeIntervalSince1970]] stringValue] forKey:@"time"];
     [d setObject:_locationInputView.textField.text forKey:@"location"];
+    
+    for(id key in d)
+        NSLog(@"key=%@ value=%@", key, [d objectForKey:key]);
     
     [_myRequester createRequestWithType:POST forExtension:@"/event/create_event" withDictionary:d];
     NSLog(@"sent create event request!");
@@ -37,11 +39,7 @@
 }
 
 
--(void)handleCreate {
-    
-    
-    
-    
+-(void)handleCreateEvent:(NSDictionary *)response {
     
     
 }

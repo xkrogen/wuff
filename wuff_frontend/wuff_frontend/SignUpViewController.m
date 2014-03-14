@@ -45,17 +45,13 @@
 }
 
 -(void) handleSignUpResponse:(NSDictionary *)data {
-    
-    
     if( [data[@"err_code"] isEqualToNumber:@1] ) {
         //If Success
         //IMPORTANT: CODE TO STORE token
         MainViewController *mainVC = [[MainViewController alloc] initWithNibName:nil bundle:nil];
         [self presentViewController:mainVC animated:YES completion:NULL];
     }
-    
     else {
-        
         [self.view makeToast:@"There was An Error"];
     }
     

@@ -141,13 +141,16 @@
     NSError *error = nil;
     // allow fragments so empty fields do not crash the app
     NSMutableDictionary *jsonResponse = [NSMutableDictionary dictionaryWithDictionary:[NSJSONSerialization JSONObjectWithData:_data options:NSJSONReadingAllowFragments error:&error]];
-    NSLog(@"JSONRESPONSE: %@", jsonResponse);
     if (error)
     {
         NSLog(@"ERROR: %@, %@", error, [error localizedDescription]);
+        unsigned char byteBuffer[[_data length]];
+        [_data getBytes:byteBuffer];
+        NSLog(@"Output: %s", (char *)byteBuffer);
     }
     else
     {
+        NSLog(@"JSONRESPONSE: %@", jsonResponse);
         SEL sel = NSSelectorFromString(_selectorName);
         [_delegate performSelector:sel withObject:jsonResponse]; // Deal with the data
     }
