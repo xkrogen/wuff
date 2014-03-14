@@ -39,7 +39,7 @@
 -(IBAction)signIn {
     MainViewController *main = [[MainViewController alloc] initWithNibName:nil bundle:nil];
     [self presentViewController:main animated:YES completion:NULL];
-
+    //Currently commented out for easy mock navigation
     /*Code to send POST Request
     _myRequester = [[HandleRequest alloc] initWithSelector:@"handleSignInResponse:" andDelegate:self];
     NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:_emailInputView.textField.text, @"email", _passwordInputView.textField.text, @"password", nil];
