@@ -17,7 +17,7 @@
 
 -(IBAction)createEvent {
     
-    _myRequester = [[HandleRequest alloc] initWithSelector:@"handleSignInResponse:" andDelegate:self];
+    _myRequester = [[HandleRequest alloc] initWithSelector:@"handleCreate:" andDelegate:self];
     NSMutableDictionary *d = [NSMutableDictionary dictionary];
     [d setObject:_nameInputView.textField.text forKey:@"name"];
     [d setObject:_descriptionInputView.textField.text forKey:@"description"];
@@ -39,10 +39,7 @@
 
 -(void)handleCreate {
     
-    
-    
-    
-    
+
     
 }
 

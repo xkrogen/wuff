@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#include "InputView.h"
-#include "HandleRequest.h"
-#include "MainViewController.h"
+#import "InputView.h"
+#import "HandleRequest.h"
+#import "MainViewController.h"
+#import "SignUpViewController.h"
 
 @interface LoginViewController : UIViewController
 

@@ -96,9 +96,29 @@
     NSLog(@"received response!");
     _data = [[NSMutableData alloc] init];
     NSHTTPURLResponse *HTTPResponse = (NSHTTPURLResponse *)response;
-    NSDictionary *fields = [HTTPResponse allHeaderFields];
-    NSString *cookie = [fields valueForKey:@"Set-Cookie"]; // It is your cookie
-    _cookie = cookie;
+    
+    NSString *current_user_token = [[NSUserDefaults standardUserDefaults] objectForKey:@"current_user_token"];
+    NSLog(@"current_user_token: %@", current_user_token);
+    // if we don't have a current user token
+    if ([current_user_token isEqualToString:@""] || current_user_token == NULL)
+    {
+        NSDictionary *fields = [HTTPResponse allHeaderFields];
+        NSString *cookieString = [fields valueForKey:@"Set-Cookie"]; // It is your cookie
+        NSError *error = NULL;
+        NSString *pattern = @"current_user_token=(\\S*);";
+        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:0 error:&error];
+        if (error)
+        {
+            NSLog(@"Error: Couldn't parse regex expression in HandleRequest");
+        }
+        else
+        {
+            NSTextCheckingResult *match = [regex firstMatchInString:cookieString options:0 range:NSMakeRange(0, [cookieString length])];
+            NSString *cookie = [cookieString substringWithRange:[match rangeAtIndex:1]];
+            NSLog(@"Cookie: %@", cookie);
+            [[NSUserDefaults standardUserDefaults] setObject:cookie forKey:@"current_user_token"];
+        }
+    }
 }
 
 -(void)connection:(NSURLConnection*)connection didReceiveData:(NSData*)data
