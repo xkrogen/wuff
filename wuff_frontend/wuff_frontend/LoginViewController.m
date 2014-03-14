@@ -7,10 +7,12 @@
 //
 
 #import "LoginViewController.h"
-#import "SignUpViewController.h"
 
 @interface LoginViewController ()
-
+    typedef enum {
+        SUCCESS = 1,
+        
+    } ErrorCode;
 @end
 
 @implementation LoginViewController
@@ -46,9 +48,14 @@
 }
 
 -(void) handleSignInResponse:(NSDictionary *)data {
-    NSLog(@"Handle response here!");
-    for(NSString *key in [data allKeys]) {
-        NSLog(@"Key:%@, Value:%@", key, [data objectForKey:key]);
+    ErrorCode err_code = (ErrorCode)[[data objectForKey:@"err_code"] integerValue];
+    switch (err_code)
+    {
+        case SUCCESS:
+            NSLog(@"Moving to main screen");
+            MainViewController *main = [[MainViewController alloc] initWithNibName:nil bundle:nil];
+            [self presentViewController:main animated:YES completion:NULL];
+            break;
     }
 }
 
