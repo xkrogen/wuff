@@ -18,6 +18,8 @@ class Event < ActiveRecord::Base
 		return ERR_INVALID_NAME if name.blank? || name.length > NAME_MAX_LENGTH
 		return ERR_INVALID_TIME if time.blank? || Time.at(time).to_datetime.past?
 
+		# NOTE: For future iteration, allow time a few minutes in the past to allow for possible time lags
+
 		return ERR_INVALID_FIELD if (admin.blank? || party_list.blank? || !party_list.is_a?(Hash))
 
 		return ERR_INVALID_FIELD if not party_list.has_key?(admin)

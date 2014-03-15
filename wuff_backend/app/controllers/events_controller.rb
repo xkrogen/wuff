@@ -9,7 +9,7 @@ class EventsController < ApplicationController
 	# * On success, returns JSON { err_code: SUCCESS, :event}
 	# * On failure, returns JSON { :err_code }
 	def create_event
-		
+
 		if !signed_in?
 			respond(ERR_INVALID_SESSION)
 			return
