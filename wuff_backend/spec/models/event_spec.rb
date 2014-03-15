@@ -188,18 +188,44 @@ describe Event, "misc" do
 	  		email: 'exampleuser@example.com')
 	  	@other = User.create(name: 'Example Friend',
 	  		email: 'examplefriend@example.com')
-	  	@event_id = Event.add_event('Example Event', @admin.id, 
-	  		DateTime.current.to_i + 10, [@admin.id, @other.id])
-	  	@event = Event.find(@event_id)
 		end
 
-		it "should match the hash data" do
+		it "should match the hash data 1" do
+			@event_id = Event.add_event('Example Event', @admin.id, 
+	  		DateTime.current.to_i + 10, [@admin.id, @other.id])
+	  	@event = Event.find(@event_id)
 			hash = @event.get_hash
 			hash[:event].should eq @event_id
 			hash[:title].should eq 'Example Event'
 			hash[:creator].should eq @admin.id
 			hash[:time].should eq @event.time
 			hash[:location].should be_blank
+			hash[:description].should be_blank
+			hash[:users].should have(3).items
+			hash[:users][:user_count].should eq 2
+			user_names = [ hash[:users][1][:name], hash[:users][2][:name]]
+			user_emails = [ hash[:users][1][:email], hash[:users][2][:email]]
+			user_status = [ hash[:users][1][:status], hash[:users][2][:status]]
+			user_names.should include("Example User")
+			user_names.should include("Example Friend")
+			user_emails.should include("exampleuser@example.com")
+			user_emails.should include("examplefriend@example.com")
+			user_status.should include(STATUS_NO_RESPONSE)
+			user_status.should include(STATUS_ATTENDING)
+		end
+
+
+		it "should match the hash data 2" do
+			@event_id = Event.add_event('Example Event', @admin.id, 
+	  		DateTime.current.to_i + 10, [@admin.id, @other.id], "This is the description of an example event!", "In an example area")
+	  	@event = Event.find(@event_id)
+			hash = @event.get_hash
+			hash[:event].should eq @event_id
+			hash[:title].should eq 'Example Event'
+			hash[:creator].should eq @admin.id
+			hash[:time].should eq @event.time
+			hash[:location].should eq "In an example area"
+			hash[:description].should eq "This is the description of an example event!"
 			hash[:users].should have(3).items
 			hash[:users][:user_count].should eq 2
 			user_names = [ hash[:users][1][:name], hash[:users][2][:name]]

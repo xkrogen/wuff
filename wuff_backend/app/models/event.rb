@@ -151,7 +151,7 @@ class Event < ActiveRecord::Base
 		end
 		user_list[:user_count] = user_count
 		{ event: self.id, title: name, creator: admin, 
-			time: time, location: location, users: user_list}
+			time: time, location: location, users: user_list, description: description}
 	end
 
 	private
