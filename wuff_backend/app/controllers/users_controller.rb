@@ -18,7 +18,7 @@ class UsersController < ApplicationController
   		token = User.new_token
   		cookies.permanent[:current_user_token] = token
   		@user.update_attribute(:remember_token, User.hash(token))
-  		self.current_user = @user
+  		current_user = @user
       respond(rval, { user_id: current_user.id })
   	end
   end
@@ -38,12 +38,12 @@ class UsersController < ApplicationController
   		token = User.new_token
   		cookies.permanent[:current_user_token] = token
   		@user.update_attribute(:remember_token, User.hash(token))
-  		self.current_user = @user
+  		current_user = @user
       respond(rval[:err_code], { user_id: current_user.id })
   	end
   end
 
-  # POST /user/logout_user
+  # DELETE /user/logout_user
   # Logout the current_user
   # * Changes current_user's remember_token in database
   # * Deletes cookies[current_user_token] and set current_user = nil
@@ -51,29 +51,30 @@ class UsersController < ApplicationController
   	token = User.new_token
   	current_user.update_attribute(:remember_token, User.hash(token))
   	cookies.delete(:current_user_token)
-  	self.current_user = nil
+  	current_user = nil
+    respond(SUCCESS)
   end
 
   # POST /user/add_friend
   # Calls current_user.concat_friend
   def add_friend
-    if signed_in?
-      rval = self.current_user.concat_friend(params[:friend_email])
-      respond(rval)
-    else
+    if not signed_in?
       session_fail_response
+      return
     end
+    rval = current_user.concat_friend(params[:friend_email])
+    respond(rval)
   end
 
   # DELETE /user/delete_friend
   # Calls current_user.remove_friend
   def delete_friend
-    if signed_in?
-      rval = self.current_user.remove_friend(params[:friend_email])
-      respond(rval)
-    else
+    if not signed_in?
       session_fail_response
+      return
     end
+    rval = current_user.remove_friend(params[:friend_email])
+    respond(rval)
   end
 
   # GET /user/get_events
@@ -118,7 +119,7 @@ class UsersController < ApplicationController
       session_fail_response
       return
     end
-    val = !self.current_user.notification_list.empty?
+    val = current_user.notification_list.size >= 1
     respond(SUCCESS, { notif: val })
   end
 

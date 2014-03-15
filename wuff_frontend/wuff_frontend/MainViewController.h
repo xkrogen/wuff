@@ -10,8 +10,16 @@
 #import "EventViewController.h"
 #import "EventCreateViewController.h"
 #import "HandleRequest.h"
+#import "UIView+Toast.h"
+
 @interface MainViewController : UIViewController <UITableViewDataSource, UITabBarDelegate>
 
-@property (copy, nonatomic) NSArray *eventList;
+@property(nonatomic, strong) HandleRequest *myRequester;
+@property (nonatomic) NSMutableArray *eventList;
+@property (nonatomic, strong) IBOutlet UITableView *mainTable;
+
 -(IBAction)createEvent;
+
+-(void) handleMainResponse:(NSDictionary *)data;
+
 @end

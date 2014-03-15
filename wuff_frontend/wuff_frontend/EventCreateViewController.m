@@ -15,33 +15,42 @@
 @implementation EventCreateViewController
 
 
--(IBAction)createEvent {
-    
-    _myRequester = [[HandleRequest alloc] initWithSelector:@"handleCreate:" andDelegate:self];
+-(IBAction)createEvent
+{
+    _myRequester = [[HandleRequest alloc] initWithSelector:@"handleCreateEvent:" andDelegate:self];
     NSMutableDictionary *d = [NSMutableDictionary dictionary];
     [d setObject:_nameInputView.textField.text forKey:@"name"];
     [d setObject:_descriptionInputView.textField.text forKey:@"description"];
-    [d setObject:[_emailListInputView.textField.text componentsSeparatedByString:@","] forKey:@"user_list"];
-    [d setObject:[NSNumber numberWithDouble:[[_datePicker date]timeIntervalSince1970]] forKey:@"time"];
+    [d setObject:_emailListInputView.textField.text forKey:@"user_list"];
+    [d setObject:[[NSNumber numberWithDouble:[[_datePicker date]timeIntervalSince1970]] stringValue] forKey:@"time"];
     [d setObject:_locationInputView.textField.text forKey:@"location"];
+    
+    for(id key in d)
+        NSLog(@"key=%@ value=%@", key, [d objectForKey:key]);
     
     [_myRequester createRequestWithType:POST forExtension:@"/event/create_event" withDictionary:d];
     NSLog(@"sent create event request!");
     
 }
 
--(IBAction)cancel {
-    
+-(IBAction)cancel
+{
     MainViewController *main = [[MainViewController alloc] initWithNibName:nil bundle:nil];
     [self presentViewController:main animated:YES completion:NULL];
 }
 
 
--(void)handleCreate {
-    
-
-    
+-(void)handleCreateEvent:(NSDictionary *)response
+{
+    ErrorCode err_code = (ErrorCode)[[response objectForKey:@"err_code"] integerValue];
+    switch (err_code)
+    {
+        case SUCCESS:
+            NSLog(@"Moving to main screen");
+            MainViewController *main = [[MainViewController alloc] initWithNibName:nil bundle:nil];
+            [self presentViewController:main animated:YES completion:NULL];
+            break;
+    }
 }
-
 
 @end

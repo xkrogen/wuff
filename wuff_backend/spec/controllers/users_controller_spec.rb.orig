@@ -1,4 +1,9 @@
 require 'spec_helper'
+<<<<<<< HEAD
+
+describe UsersController do
+
+=======
 require 'json'
 
 describe UsersController do
@@ -157,6 +162,7 @@ describe UsersController do
 
 	end
 
+>>>>>>> sampson
 	describe "get_events" do
 		before do
 			@user = User.new(name: "Test Name", email: "test@example.com",

@@ -28,20 +28,25 @@
     [super viewDidLoad];
     eventLocation.text = self.location;
     eventLocation.lineBreakMode = NSLineBreakByWordWrapping;
-    eventLocation.numberOfLines = 0;
+    eventLocation.numberOfLines = 1;
     
-    eventTitle.text = self.tit;
+    eventTitle.text = self.myTitle;
     eventTitle.lineBreakMode = NSLineBreakByWordWrapping;
-    eventTitle.numberOfLines = 0;
+    eventTitle.numberOfLines = 1;
     
     eventTime.text = self.time;
     eventTime.lineBreakMode = NSLineBreakByWordWrapping;
-    eventTime.numberOfLines = 0;
+    eventTime.numberOfLines = 1;
     
     eventAttenders.text = self.attenders;
     eventAttenders.lineBreakMode = NSLineBreakByWordWrapping;
-    eventAttenders.numberOfLines = 0;
+    eventAttenders.numberOfLines = 1;
+    [eventAttenders sizeToFit];
     
+    eventDescription.text = self.description;
+    eventDescription.lineBreakMode = NSLineBreakByWordWrapping;
+    eventDescription.numberOfLines = 1;
+    [eventDescription sizeToFit];
 }
 
 - (void)didReceiveMemoryWarning

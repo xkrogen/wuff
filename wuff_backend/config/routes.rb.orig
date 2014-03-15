@@ -7,14 +7,14 @@ WuffBackend::Application.routes.draw do
   post '/user/add_friend', to: 'users#add_friend'
   delete '/user/delete_friend', to: 'users#delete_friend'
 	get '/user/get_events', to: 'users#get_events'
-<<<<<<< HEAD
-
-	post '/event/invite_users', to: 'events#invite_users'
-=======
 	get '/user/has_notifications', to: 'users#has_notifications?'
 	get '/user/get_notifications', to: 'users#get_notifications'
 	delete '/user/clear_notifications', to: 'users#clear_notifications'
 
+<<<<<<< HEAD
+	post '/event/update_user_status', to: 'events#update_user_status'
+=======
 >>>>>>> sampson
+	post '/event/invite_users', to: 'events#invite_users'
 	post '/event/create_event', to: 'events#create_event'
 end
