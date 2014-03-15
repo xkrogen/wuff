@@ -20,7 +20,7 @@ describe EventsController do
 				@other.add
 				post 'create_event', { format: 'json', 
 					user_list: "#{@user.email},#{@other.email}",
-					name: "Test Event", time: DateTime.current.to_i + 10}
+					title: "Test Event", time: DateTime.current.to_i + 10}
 				@user.reload
 				@other.reload
 				@event_id = JSON.parse(response.body)['event']
@@ -39,7 +39,7 @@ describe EventsController do
 
 			it "should return err_code of ERR_INVALID_SESSION" do
 				post 'create_event', { format: 'json', user_list: @user.email,
-					name: "Test Event", time: DateTime.current.to_i + 10}
+					title: "Test Event", time: DateTime.current.to_i + 10}
 
 				response.status.should eq 200
 				JSON.parse(response.body)['err_code'].should eq ERR_INVALID_SESSION
@@ -55,28 +55,28 @@ describe EventsController do
 			end
 			describe " - missing user_list" do
 				before { post 'create_event', { format: 'json', 
-					name: "Test Event", time: DateTime.current.to_i} }
+					title: "Test Event", time: DateTime.current.to_i} }
 				specify { JSON.parse(response.body)['err_code'].should eq ERR_INVALID_FIELD }
 			end
 			describe " - invalid user_list 1" do
 				before { post 'create_event', { format: 'json', 
-					name: "Test Event", time: DateTime.current.to_i,
+					title: "Test Event", time: DateTime.current.to_i,
 					user_list: "userid"} }
 				specify { JSON.parse(response.body)['err_code'].should eq ERR_INVALID_FIELD }
 			end
 			describe " - invalid user_list 2" do
 				before { post 'create_event', { format: 'json', 
-					name: "Test Event", time: DateTime.current.to_i,
+					title: "Test Event", time: DateTime.current.to_i,
 					user_list: "#{@user.email},userid"} }
 				specify { JSON.parse(response.body)['err_code'].should eq ERR_INVALID_FIELD }
 			end
 			describe " - missing time" do
 				before { post 'create_event', { format: 'json', 
-					name: "Test Event", user_list: @user.email } }
+					title: "Test Event", user_list: @user.email } }
 				specify { JSON.parse(response.body)['err_code'].should eq ERR_INVALID_TIME }
 			end
 			describe " - time in the past" do
-				before { post 'create_event', { format: 'json', time: DateTime.current.to_i - 50, name: "Test Event", user_list: @user.email} }
+				before { post 'create_event', { format: 'json', time: DateTime.current.to_i - 50, title: "Test Event", user_list: @user.email} }
 				specify { JSON.parse(response.body)['err_code'].should eq ERR_INVALID_TIME }
 			end
 		end

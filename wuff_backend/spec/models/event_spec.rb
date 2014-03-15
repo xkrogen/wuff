@@ -196,7 +196,7 @@ describe Event, "misc" do
 		it "should match the hash data" do
 			hash = @event.get_hash
 			hash[:event].should eq @event_id
-			hash[:name].should eq 'Example Event'
+			hash[:title].should eq 'Example Event'
 			hash[:creator].should eq @admin.id
 			hash[:time].should eq @event.time
 			hash[:location].should be_blank

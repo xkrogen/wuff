@@ -31,7 +31,7 @@ class EventsController < ApplicationController
 			user.id
 		end
 
-		rval = Event.add_event(params[:name], creator.id, params[:time].to_i,
+		rval = Event.add_event(params[:title], creator.id, params[:time].to_i,
 			user_list, params[:description], params[:location])
 
 		if rval < 0

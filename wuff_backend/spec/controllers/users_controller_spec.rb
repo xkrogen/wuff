@@ -187,7 +187,7 @@ describe UsersController do
 				it "should appear with proper fields" do
 					JSON.parse(response.body)['event_count'].should eq 1
 					JSON.parse(response.body)['1']['event'].should eq @event_id
-					JSON.parse(response.body)['1']['name'].should eq "Test Event"
+					JSON.parse(response.body)['1']['title'].should eq "Test Event"
 					users = JSON.parse(response.body)['1']['users']
 					user_count = users['user_count']
 					user_count.should eq 2
@@ -217,7 +217,7 @@ describe UsersController do
 				it "should appear with proper fields" do
 					JSON.parse(response.body)['event_count'].should eq 1
 					JSON.parse(response.body)['1']['event'].should eq @event_id
-					JSON.parse(response.body)['1']['name'].should eq "Test Event"
+					JSON.parse(response.body)['1']['title'].should eq "Test Event"
 				end				
 			end
 		end
@@ -245,8 +245,8 @@ describe UsersController do
 						JSON.parse(response.body)['2']['event'] ]
 					event_ids.should include(@event1_id)
 					event_ids.should include(@event2_id)
-					event_names = [ JSON.parse(response.body)['1']['name'], 
-						JSON.parse(response.body)['2']['name'] ]
+					event_names = [ JSON.parse(response.body)['1']['title'], 
+						JSON.parse(response.body)['2']['title'] ]
 					event_names.should include("Test Event #1")	
 					event_names.should include("Test Event #2")
 				end				
@@ -265,9 +265,9 @@ describe UsersController do
 					event_ids.should include(@event1_id)
 					event_ids.should include(@event2_id)
 					event_ids.should include(@event3_id)
-					event_names = [ JSON.parse(response.body)['1']['name'], 
-						JSON.parse(response.body)['2']['name'], 
-						JSON.parse(response.body)['3']['name'] ]
+					event_names = [ JSON.parse(response.body)['1']['title'], 
+						JSON.parse(response.body)['2']['title'], 
+						JSON.parse(response.body)['3']['title'] ]
 					event_names.should include("Test Event #1")	
 					event_names.should include("Test Event #2")
 					event_names.should include("Test Event #3")
@@ -295,7 +295,7 @@ describe UsersController do
 				it "valid events should appear with proper fields" do
 					JSON.parse(response.body)['event_count'].should eq 1
 					JSON.parse(response.body)['1']['event'].should eq @event1_id
-					JSON.parse(response.body)['1']['name'].should eq "Test Event #1"
+					JSON.parse(response.body)['1']['title'].should eq "Test Event #1"
 				end				
 				it "invalid events should be removed from event_list" do
 					@user.reload
@@ -314,8 +314,8 @@ describe UsersController do
 						JSON.parse(response.body)['2']['event'] ]
 					event_ids.should include(@event1_id)
 					event_ids.should include(@event2_id)
-					event_names = [ JSON.parse(response.body)['1']['name'], 
-						JSON.parse(response.body)['2']['name'] ]
+					event_names = [ JSON.parse(response.body)['1']['title'], 
+						JSON.parse(response.body)['2']['title'] ]
 					event_names.should include("Test Event #1")	
 					event_names.should include("Test Event #2")
 				end				
