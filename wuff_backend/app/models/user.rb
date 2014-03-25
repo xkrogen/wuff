@@ -17,6 +17,8 @@ class User < ActiveRecord::Base
 	serialize :event_list, Array
 	# Serialize notification_list (array of hashes) for easy storage.
 	serialize :notification_list, Array
+	# Serialize group list (array) for easy storage.
+	serialize :group_list, Array
 
   # The maximum length of any user credential field
   MAX_CREDENTIAL_LENGTH = 128
@@ -77,7 +79,6 @@ class User < ActiveRecord::Base
 		SUCCESS
 	end
 
-
 	# Adds event_id into the user's list of events. Returns 
 	# ERR_UNSUCCESSFUL if the event is invalid, SUCCESS otherwise. 
 	def add_event(event_id)
@@ -97,6 +98,24 @@ class User < ActiveRecord::Base
 			notif.has_key?(:event) && notif[:event] == event_id
 		end
 	end
+
+	# Adds group_id into the user's list of groups. Returns 
+	# ERR_UNSUCCESSFUL if the group is invalid, SUCCESS otherwise. 
+	def add_group(group_id)
+		
+		# ADD ERROR CHECKING HERE FOR INVALID GROUP -> TEST
+
+		self.group_list |= [group_id]
+		self.update_attribute(:group_list, self.group_list)
+		
+	end
+
+	# Removes group_id from the user's list of groups.
+	def delete_group(group_id)
+		self.group_list.delete(group_id)
+		self.update_attribute(:group_list, self.group_list)
+	end
+
 
 	# Changes the user's status (e.g. attending, declined) 
 	# within event_id. Does nothing if the event doesn't exist.

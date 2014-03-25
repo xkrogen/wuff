@@ -271,3 +271,38 @@ describe User, "#add_event, #delete_event, #post_notification" do
 		end
 	end
 end
+
+describe User, "#add_group, #delete_group" do
+	before do
+		@user1 = User.new(name: "User One", email: "user1@example.com",
+				password: "test_password")
+		@user1.add
+		@user2 = User.new(name: "User Two", email: "user2@example.com",
+				password: "test_password")
+		@user2.add
+		@user3 = User.new(name: "User Three", email: "user3@example.com",
+				password: "test_password")
+		@user3.add
+	end
+
+	describe "when adding/removing a valid group" do
+		before do
+			@group1 = Group.new(name: "Test Group", user_list: [@user1.id])
+			@user1.add_group(@group1.id)
+			@user2.add_group(@group1.id)
+		end
+		it "should get added succesfully" do
+			@user1.group_list.should include @group1.id
+			@user2.group_list.should include @group1.id
+			@user3.group_list.should_not include @group1.id
+		end
+		it "should be removed succesfully" do
+			@user1.delete_group(@group1.id)
+			@user2.delete_group(@group1.id)
+			@user3.delete_group(@group1.id)
+			@user1.group_list.should_not include @group1.id
+			@user2.group_list.should_not include @group1.id
+			@user3.group_list.should_not include @group1.id
+		end
+	end
+end
