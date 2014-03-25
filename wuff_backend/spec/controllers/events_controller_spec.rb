@@ -293,4 +293,47 @@ describe EventsController do
 			@event.get_user_status(@admin.id).should eq STATUS_ATTENDING
 		end
 	end
+
+	describe "when viewing an event (event/view)" do
+		before do
+			@admin = User.new(name: "Test Name", email: "test@example.com",
+				password: "test_password")
+			@admin.add
+			@request.cookies['current_user_token'] = @token
+			@other = User.new(name: "Test Other", email: "t_other@example.com",
+				password: "test_password")
+			@other.add
+			@event_id = Event.add_event("Test Event", @admin.id, DateTime.current.to_i + 10, [@admin.id, @other.id], "Testing Event", "A Test Facility")
+			@event = Event.find(@event_id)
+			@admin_token = User.new_token
+			@admin.reload
+			@other.reload
+			@admin.update_attribute(:remember_token, User.hash(@admin_token))
+		end
+
+		it "should fail if the user isn't signed in" do
+			@request.cookies['current_user_token'] = 'aBdsfg135_123'
+			post 'view', { format: 'json', event: @event_id }
+			JSON.parse(response.body)['err_code'].should eq ERR_INVALID_SESSION
+		end
+
+		it "should fail if the event ID isn't valid" do
+			@request.cookies['current_user_token'] = @admin_token
+			post 'view', { format: 'json', event: 234525731 }
+			JSON.parse(response.body)['err_code'].should eq ERR_INVALID_FIELD
+		end
+
+		it "should return the correct fields" do
+			@request.cookies['current_user_token'] = @admin_token
+			post 'view', { format: 'json', event: @event_id }
+			JSON.parse(response.body)['err_code'].should eq SUCCESS
+			JSON.parse(response.body)['event'].should eq @event_id
+			JSON.parse(response.body)['title'].should eq "Test Event"
+			JSON.parse(response.body)['creator'].should eq @admin.id
+			JSON.parse(response.body)['time'].should eq @event.time
+			JSON.parse(response.body)['location'].should eq "A Test Facility"
+			JSON.parse(response.body)['users']['user_count'].should eq 2
+			JSON.parse(response.body)['description'].should eq "Testing Event"
+		end
+	end
 end

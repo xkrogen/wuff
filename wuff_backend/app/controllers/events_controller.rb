@@ -116,6 +116,28 @@ class EventsController < ApplicationController
 		respond(SUCCESS)
   end
 
+  # POST /event/view
+  # Returns relevant information about the given event. 
+  def view
+
+  	if !signed_in?
+			respond(ERR_INVALID_SESSION)
+			return
+		end
+
+		event_id = params[:event].to_i
+		begin
+			event = Event.find(event_id)
+		rescue ActiveRecord::RecordNotFound
+			respond(ERR_INVALID_FIELD)
+			return
+		end
+
+		respond(SUCCESS, event.get_hash)
+		return
+	end
+
+
 	# POST /event/invite_users
 	# Invites users to the event: adds them to the event's party_list,
 	# adds the event to their event_list, and notifies them.

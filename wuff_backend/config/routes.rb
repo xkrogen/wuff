@@ -14,4 +14,5 @@ WuffBackend::Application.routes.draw do
 	post '/event/update_user_status', to: 'events#update_user_status'
 	post '/event/invite_users', to: 'events#invite_users'
 	post '/event/create_event', to: 'events#create_event'
+	post '/event/view', to: 'events#view'
 end
