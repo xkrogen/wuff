@@ -88,7 +88,6 @@ describe EventsController do
 			@admin = User.new(name: "Test Name", email: "test@example.com",
 				password: "test_password")
 			@admin.add
-			@request.cookies['current_user_token'] = @token
 			@other = User.new(name: "Test Other", email: "t_other@example.com",
 				password: "test_password")
 			@other.add
@@ -245,7 +244,6 @@ describe EventsController do
 			@admin = User.new(name: "Test Name", email: "test@example.com",
 				password: "test_password")
 			@admin.add
-			@request.cookies['current_user_token'] = @token
 			@other = User.new(name: "Test Other", email: "t_other@example.com",
 				password: "test_password")
 			@other.add
@@ -299,7 +297,6 @@ describe EventsController do
 			@admin = User.new(name: "Test Name", email: "test@example.com",
 				password: "test_password")
 			@admin.add
-			@request.cookies['current_user_token'] = @token
 			@other = User.new(name: "Test Other", email: "t_other@example.com",
 				password: "test_password")
 			@other.add
@@ -334,6 +331,186 @@ describe EventsController do
 			JSON.parse(response.body)['location'].should eq "A Test Facility"
 			JSON.parse(response.body)['users']['user_count'].should eq 2
 			JSON.parse(response.body)['description'].should eq "Testing Event"
+		end
+	end
+
+	describe "when removing a user (event/remove_user)" do
+		before do
+			@admin = User.new(name: "Test Name", email: "test@example.com",
+				password: "test_password")
+			@admin.add
+			@other = User.new(name: "Test Other", email: "t_other@example.com",
+				password: "test_password")
+			@other.add
+			@event_id = Event.add_event("Test Event", @admin.id, DateTime.current.to_i + 10, [@admin.id, @other.id], "Testing Event", "A Test Facility")
+			@event = Event.find(@event_id)
+			@admin_token = User.new_token
+			@admin.reload
+			@other.reload
+			@admin.update_attribute(:remember_token, User.hash(@admin_token))
+		end
+
+		it "should do nothing if the admin removes himself" do
+			@request.cookies['current_user_token'] = @admin_token
+			delete 'remove_user', { format: 'json', event: @event_id, 
+				user_remove: @admin.email }
+			@admin.reload
+			@event.reload
+			JSON.parse(response.body)['err_code'].should eq ERR_INVALID_FIELD
+			@admin.event_list.should include(@event_id)
+			@event.get_user_status(@admin.id).should eq STATUS_ATTENDING
+		end
+
+		it "should do nothing if attempting to remove a user not in the event" do
+			new_user = User.new(name: "Test Other", email: "test99@example.com",
+				password: "test_password")
+			new_user.add
+			@request.cookies['current_user_token'] = @admin_token
+			delete 'remove_user', { format: 'json', event: @event_id, 
+				user_remove: new_user.email }
+			JSON.parse(response.body)['err_code'].should eq SUCCESS
+			@admin.reload
+			@event.reload
+			@other.reload
+			@event.get_user_status(@admin.id).should eq STATUS_ATTENDING
+			@event.get_user_status(@other.id).should eq STATUS_NO_RESPONSE
+		end
+
+		it "should properly remove a valid user" do
+			@request.cookies['current_user_token'] = @admin_token
+			delete 'remove_user', { format: 'json', event: @event_id, 
+				user_remove: @other.email }
+			JSON.parse(response.body)['err_code'].should eq SUCCESS
+			@admin.reload
+			@event.reload
+			@other.reload
+			@admin.event_list.should include(@event_id)
+			@event.get_user_status(@admin.id).should eq STATUS_ATTENDING
+
+			@event.get_user_status(@other.id).should eq nil
+			@other.event_list.should_not include(@event_id)
+		end
+	end
+
+	describe "when cancelling an event (event/cancel_event)" do
+		before do
+			@admin = User.new(name: "Test Name", email: "test@example.com",
+				password: "test_password")
+			@admin.add
+			@other = User.new(name: "Test Other", email: "t_other@example.com",
+				password: "test_password")
+			@other.add
+			@event_id = Event.add_event("Test Event", @admin.id, DateTime.current.to_i + 10, [@admin.id, @other.id], "Testing Event", "A Test Facility")
+			@event = Event.find(@event_id)
+			@admin_token = User.new_token
+			@other_token = User.new_token
+			@admin.reload
+			@other.reload
+			@admin.update_attribute(:remember_token, User.hash(@admin_token))
+			@other.update_attribute(:remember_token, User.hash(@other_token))
+		end
+
+		it "should do nothing if a nonadmin cancels it" do
+			@request.cookies['current_user_token'] = @other_token
+			delete 'cancel_event', { format: 'json', event: @event_id }
+			@admin.reload
+			@event.reload
+			JSON.parse(response.body)['err_code'].should eq ERR_INVALID_PERMISSIONS
+			@admin.event_list.should include(@event_id)
+			@event.get_user_status(@admin.id).should eq STATUS_ATTENDING
+			@other.event_list.should include(@event_id)
+			@event.get_user_status(@other.id).should eq STATUS_NO_RESPONSE
+		end
+
+		it "should properly cancel a valid event" do
+			@request.cookies['current_user_token'] = @admin_token
+			delete 'cancel_event', { format: 'json', event: @event_id }
+			JSON.parse(response.body)['err_code'].should eq SUCCESS
+			@admin.reload
+			@other.reload
+			@admin.event_list.should_not include(@event_id)
+			@other.event_list.should_not include(@event_id)
+			expect { Event.find(@event_id) }.to raise_error(ActiveRecord::RecordNotFound)
+		end
+	end
+
+	describe "when editing an event (event/edit_event)" do
+		before do
+			@admin = User.new(name: "Test Name", email: "test@example.com",
+				password: "test_password")
+			@admin.add
+			@admin_token = User.new_token
+			@admin.update_attribute(:remember_token, User.hash(@admin_token))
+			@request.cookies['current_user_token'] = @admin_token
+			@other = User.new(name: "Test Other", email: "t_other@example.com",
+				password: "test_password")
+			@other.add
+			@other_token = User.new_token
+			@other.update_attribute(:remember_token, User.hash(@other_token))
+			@event_id = Event.add_event("Test Event", @admin.id, DateTime.current.to_i + 10, [@admin.id, @other.id])
+			@admin.reload
+			@other.reload
+			@event = Event.find(@event_id)
+		end
+
+		it "should update the fields if they are all filled out and valid" do
+			time = DateTime.current.to_i + 10000
+			post 'edit_event', { format: 'json', event: @event_id, 
+				title: 'New Test Title', time: time, 
+				description: 'New testing description', 
+				location: 'A new testing facility' }
+			@event.reload
+			@event.name.should eq 'New Test Title'
+			@event.description.should eq 'New testing description'
+			@event.location.should eq 'A new testing facility'
+			@event.time.should eq time
+		end
+
+		it "should update the filled fields if some are ommitted" do
+			time = DateTime.current.to_i + 10000
+			post 'edit_event', { format: 'json', event: @event_id,
+				location: 'A new testing facility', time: time }
+			@event.reload
+			@event.name.should eq 'Test Event'
+			@event.description.should eq ''
+			@event.location.should eq 'A new testing facility'
+			@event.time.should eq time
+		end
+
+		it "should fail if not an admin" do
+			@request.cookies['current_user_token'] = @other_token
+			post 'edit_event', { format: 'json', event: @event_id, 
+				title: 'New Test Title', 
+				description: 'New testing description', 
+				location: 'A new testing facility' }
+			JSON.parse(response.body)['err_code'].should eq ERR_INVALID_PERMISSIONS
+			@event.reload
+			@event.name.should eq 'Test Event'
+			@event.description.should eq ''
+			@event.location.should eq ''
+		end
+
+		describe "with invalid inputs" do
+			describe " - name too long" do
+				before { post 'edit_event', { format: 'json', event: @event_id,
+					title: 'a' * 60 } }
+				specify { JSON.parse(response.body)['err_code'].should eq ERR_INVALID_NAME }
+			end
+			describe " - blank name" do
+				before { post 'edit_event', { format: 'json', event: @event_id,
+					title: '' } }
+				specify { JSON.parse(response.body)['err_code'].should eq ERR_INVALID_NAME }
+			end
+			describe " - blank time" do
+				before { post 'edit_event', { format: 'json', event: @event_id,
+					time: '' } }
+				specify { JSON.parse(response.body)['err_code'].should eq ERR_INVALID_TIME }
+			end
+			describe " - time in the past" do
+				before { post 'edit_event', { format: 'json', event: @event_id,
+					time: DateTime.current.to_i - 50 } }
+				specify { JSON.parse(response.body)['err_code'].should eq ERR_INVALID_TIME }
+			end
 		end
 	end
 end

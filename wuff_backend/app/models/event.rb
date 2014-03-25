@@ -69,6 +69,34 @@ class Event < ActiveRecord::Base
 		return @event.id
 	end
 
+	# Edits self, according to the new information given in event_info_hash. 
+	# Valid keys are :name, :time, :description, :location.
+	# Returns ERR_INVALID_NAME or ERR_INVALID_TIME if those fields
+	# are invalid, else returns SUCCESS.
+	def edit_event(event_info_hash) 
+		if event_info_hash.has_key?(:name)
+			new_name = event_info_hash[:name]
+			return ERR_INVALID_NAME if new_name.blank? || new_name.length > NAME_MAX_LENGTH
+			self.name = new_name
+			self.update_attribute(:name, new_name)
+		end
+		if event_info_hash.has_key?(:time)
+			new_time = event_info_hash[:time].to_i
+			return ERR_INVALID_TIME if new_time.blank? || Time.at(new_time).to_datetime.past?
+			self.time = new_time
+			self.update_attribute(:time, new_time)
+		end
+		if event_info_hash.has_key?(:description)
+			self.description = event_info_hash[:description]
+			self.update_attribute(:description, self.description)
+		end
+		if event_info_hash.has_key?(:location)
+			self.location = event_info_hash[:location]
+			self.update_attribute(:location, self.location)
+		end
+		return SUCCESS
+	end
+
 	# Checks if the user is listed as an admin for this event.
 	def is_admin?(user_id)
 		return admin == user_id
@@ -92,6 +120,23 @@ class Event < ActiveRecord::Base
 			user = User.find(users_id)
 			user.add_event(self.id)
 		end
+	end
+
+	# Cancels this event, removing it from all of it's associated
+	# users. Does not actually delete the event -- should subsequently
+	# call event.destroy to remove it from the database. 
+	def cancel_self
+		party_list.each_key { |user_id| User.find(user_id).delete_event(self.id) }
+
+	end
+
+	# Removes user_id from the event. Does nothing if 
+	# the user isn't currently in the event, or if
+	# the admin attempts to remove itself. 
+	def remove_user(user_id)
+		return if is_admin?(user_id)
+		party_list.delete(user_id)
+		self.update_attribute(:party_list, party_list)
 	end
 
 	# Returns the user's status for this event: STATUS_ATTENDING,

@@ -10,11 +10,7 @@ class EventsController < ApplicationController
 	# * On failure, returns JSON { :err_code }
 	def create_event
 
-		if !signed_in?
-			respond(ERR_INVALID_SESSION)
-			return
-		end
-
+		return if not signed_in_response
 		creator = current_user
 
 		if not params[:user_list].respond_to?('split')
@@ -48,24 +44,9 @@ class EventsController < ApplicationController
 	# for this call to succeed. 
 	# Duplicate users (users already in the event) will be ignored.
 	def invite_users
-		
-		if !signed_in?
-			respond(ERR_INVALID_SESSION)
-			return
-		end
-
-		event_id = params[:event].to_i
-		begin
-			event = Event.find(event_id)
-		rescue ActiveRecord::RecordNotFound
-			respond(ERR_INVALID_FIELD)
-			return
-		end
-		
-		if not event.is_admin?(current_user.id)
-			respond(ERR_INVALID_PERMISSIONS)
-			return
-		end
+		return if not signed_in_response
+		return if not get_event
+		return if not user_admin
 
 		user_list = params[:user_list].split(',').map do |email|
 			user = User.find_by(email: email)
@@ -79,9 +60,9 @@ class EventsController < ApplicationController
 		curr_party_list = event.party_list
 		user_list.delete_if { |user_id| curr_party_list.has_key?(user_id) }
 
-		event.add_user_list(user_list)
-		event.add_to_user_event_lists(user_list)
-		event.notify( EventNotification.new(NOTIF_NEW_EVENT, event), user_list)
+		@event.add_user_list(user_list)
+		@event.add_to_user_event_lists(user_list)
+		@event.notify( EventNotification.new(NOTIF_NEW_EVENT, @event), user_list)
 
 		respond(SUCCESS)
 	end
@@ -91,19 +72,8 @@ class EventsController < ApplicationController
   # Does nothing when attempting to change status within an 
   # event that the user is not a member of.
   def update_user_status
-		
-		if !signed_in?
-			respond(ERR_INVALID_SESSION)
-			return
-		end
-
-		event_id = params[:event].to_i
-		begin
-			event = Event.find(event_id)
-		rescue ActiveRecord::RecordNotFound
-			respond(ERR_INVALID_FIELD)
-			return
-		end
+		return if not signed_in_response
+		return if not get_event
 		
 		new_status = params[:status]
 		if not [STATUS_NO_RESPONSE, STATUS_NOT_ATTENDING,
@@ -112,31 +82,17 @@ class EventsController < ApplicationController
 			return
 		end
 
-		event.set_user_status(current_user.id, new_status)
+		@event.set_user_status(current_user.id, new_status)
 		respond(SUCCESS)
   end
 
   # POST /event/view
   # Returns relevant information about the given event. 
   def view
-
-  	if !signed_in?
-			respond(ERR_INVALID_SESSION)
-			return
-		end
-
-		event_id = params[:event].to_i
-		begin
-			event = Event.find(event_id)
-		rescue ActiveRecord::RecordNotFound
-			respond(ERR_INVALID_FIELD)
-			return
-		end
-
-		respond(SUCCESS, event.get_hash)
-		return
+		return if not signed_in_response
+		return if not get_event
+		respond(SUCCESS, @event.get_hash)
 	end
-
 
 	# POST /event/invite_users
 	# Invites users to the event: adds them to the event's party_list,
@@ -145,24 +101,9 @@ class EventsController < ApplicationController
 	# for this call to succeed. 
 	# Duplicate users (users already in the event) will be ignored.
 	def invite_users
-		
-		if !signed_in?
-			respond(ERR_INVALID_SESSION)
-			return
-		end
-
-		event_id = params[:event].to_i
-		begin
-			event = Event.find(event_id)
-		rescue ActiveRecord::RecordNotFound
-			respond(ERR_INVALID_FIELD)
-			return
-		end
-		
-		if not event.is_admin?(current_user.id)
-			respond(ERR_INVALID_PERMISSIONS)
-			return
-		end
+		return if not signed_in_response
+		return if not get_event
+		return if not user_admin
 
 		user_list = params[:user_list].split(',').map do |email|
 			user = User.find_by(email: email)
@@ -173,17 +114,109 @@ class EventsController < ApplicationController
 			user.id
 		end
 
-		curr_party_list = event.party_list
+		curr_party_list = @event.party_list
 		user_list.delete_if { |user_id| curr_party_list.has_key?(user_id) }
 
-		event.add_user_list(user_list)
-		event.add_to_user_event_lists(user_list)
-		event.notify( EventNotification.new(NOTIF_NEW_EVENT, event), user_list)
+		@event.add_user_list(user_list)
+		@event.add_to_user_event_lists(user_list)
+		@event.notify( EventNotification.new(NOTIF_NEW_EVENT, @event), user_list)
 
 		respond(SUCCESS)
 	end
 
+	# DELETE /event/cancel_event
+	# Deletes the given event. Removes it from all of the associated
+	# user's event_lists, and removes it from the database.
+	# Will fail if not called by the admin.
+	def cancel_event
+		return if not signed_in_response
+		return if not get_event
+		return if not user_admin
+
+		@event.cancel_self
+		@event.destroy
+		respond(SUCCESS)
+	end
+
+	# POST /event/edit_event
+	# Edits the given event to have new parameters as passed. Any 
+	# field not passed will remain unchanged. Must be admin.
+	def edit_event
+		return if not signed_in_response
+		return if not get_event
+		return if not user_admin
+
+		event_info_hash = {}
+		event_info_hash[:name] = params[:title] if params.has_key?(:title)
+		event_info_hash[:location] = params[:location] if params[:location]
+		event_info_hash[:description] = params[:description] if params[:description]
+		event_info_hash[:time] = params[:time].to_i if params[:time]
+		rval = @event.edit_event(event_info_hash)
+		respond(rval)
+	end
+
+	# DELETE /event/remove_user
+	# Removes the given user from the event only if the currently
+	# signed in user is the admin for the event. You cannot 
+	# remove the admin from the event.
+	def remove_user
+		return if not signed_in_response
+		return if not get_event
+		return if not user_admin
+
+		begin 
+			user_to_remove = User.find_by(email: params[:user_remove])
+		rescue ActiveRecord::RecordNotFound
+			respond(ERR_INVALID_FIELD)
+			return
+		end
+
+		if @event.is_admin?(user_to_remove.id)
+			respond(ERR_INVALID_FIELD)
+			return
+		end
+
+		@event.remove_user(user_to_remove.id)
+		user_to_remove.delete_event(@event.id)
+		respond(SUCCESS)
+	end
+
 	private
+
+	# Checks if there is a properly signed in user. If there is, returns
+	# true. If not, responds with ERR_INVALID_SESSION and returns false.
+	def signed_in_response
+		if !signed_in?
+			respond(ERR_INVALID_SESSION)
+			return false
+		end
+		true
+	end
+
+	# Sets @event to the event located in params[:event]. If none exists,
+	# responds with ERR_INVALID_FIELD and returns nil. Otherwise,
+	# returns the event object that was found. 
+	def get_event
+		begin
+			@event = Event.find(params[:event].to_i)
+		rescue ActiveRecord::RecordNotFound
+			respond(ERR_INVALID_FIELD)
+			return false
+		end
+		true
+	end
+
+	# Checks to see if the currently logged in user is the admin
+	# for this event. If not, responds with ERR_INVALID_PERMISSIONS
+	# and returns false. If it is, returns true. 
+	def user_admin
+		if not @event.is_admin?(current_user.id)
+			respond(ERR_INVALID_PERMISSIONS)
+			return false
+		end
+		true
+	end
+
 
 	# Responds. Always includes err_code set to ERROR (SUCCESS by default). 
 	# Additional response fields can be passed as a hash to ADDITIONAL.
