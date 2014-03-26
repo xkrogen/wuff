@@ -13,7 +13,7 @@ describe Group, "creation" do
 
 	describe "when everything is valid" do
 		before do
-			@group_id = Group.add_group('Example Group', [@admin_id, @other_id],
+			@group_id = Group.add_group('Example Group', [@user1_id, @user2_id],
 				'Awesome example group!')
 			@user1.reload
 			@user2.reload
@@ -28,7 +28,7 @@ describe Group, "creation" do
 
 	describe "when everything is valid and description is ommitted" do
 		before do
-			@group_id = Group.add_group('Example Group', [@admin_id, @other_id])
+			@group_id = Group.add_group('Example Group', [@user1_id, @user2_id])
 			@user1.reload
 			@user2.reload
 		end
@@ -82,7 +82,7 @@ describe Group, "misc" do
 	  	@group = Group.find(@group_id)
 			hash = @group.get_hash
 			hash[:group].should eq @group_id
-			hash[:name].should eq 'Example Group'
+			hash[:title].should eq 'Example Group'
 			hash[:description].should be_blank
 			hash[:users].should have(3).items
 			hash[:users][:user_count].should eq 2
@@ -97,11 +97,11 @@ describe Group, "misc" do
 
 		it "should match the hash data 2" do
 			@group_id = Group.add_group('Example Group', 
-	  		[@user1.id, @user2.id], "Description of an example group")
+	  		[@user1_id, @user2_id], "Description of an example group")
 	  	@group = Group.find(@group_id)
 			hash = @group.get_hash
 			hash[:group].should eq @group_id
-			hash[:name].should eq 'Example Group'
+			hash[:title].should eq 'Example Group'
 			hash[:description].should eq "Description of an example group"
 			hash[:users].should have(3).items
 			hash[:users][:user_count].should eq 2
