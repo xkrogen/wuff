@@ -34,7 +34,7 @@ static const CGSize  CSToastShadowOffset        = { 4.0, 4.0 };
 static const BOOL    CSToastDisplayShadow       = YES;
 
 // display duration and position
-static const NSString * CSToastDefaultPosition  = @"bottom";
+static const NSString * CSToastDefaultPosition  = @"center";
 static const NSTimeInterval CSToastDefaultDuration  = 3.0;
 
 // image view size
@@ -234,6 +234,7 @@ static const NSString * CSToastActivityViewKey  = @"CSToastActivityViewKey";
         return CGSizeMake(ceilf(boundingRect.size.width), ceilf(boundingRect.size.height));
     }
 
+    #pragma GCC diagnostic ignored "-Wdeprecated-declarations" //Let's ignore this deprecation
     return [string sizeWithFont:font constrainedToSize:constrainedSize lineBreakMode:lineBreakMode];
 }
 

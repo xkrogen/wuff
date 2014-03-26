@@ -127,7 +127,11 @@
     // nil out any data just-in-case
     _data = nil;
     
-    NSLog(@"ERROR: %@", error);
+    
+    if([[_delegate class] isSubclassOfClass:[UIViewController class]]) {
+        
+        [((UIViewController*)_delegate).view makeToast:[error localizedDescription]];
+    }
 }
 
 -(void)connectionDidFinishLoading:(NSURLConnection*)connection
