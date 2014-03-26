@@ -45,16 +45,53 @@
 }
 
 -(void) handleSignUpResponse:(NSDictionary *)data {
-    if([data[@"err_code"] isEqualToNumber:@1] ) {
-        //If Success
-        //IMPORTANT: CODE TO STORE token
+    ErrorCode err_code = (ErrorCode)[[data objectForKey:@"err_code"] integerValue];
+    
+    switch (err_code) {
+
+        case SUCCESS:
+        {
         MainViewController *mainVC = [[MainViewController alloc] initWithNibName:nil bundle:nil];
         [self presentViewController:mainVC animated:YES completion:NULL];
+        }
+            
+        case ERR_INVALID_NAME:
+            [self.view makeToast:@"Invalid Name"];
+            break;
+            
+        case ERR_INVALID_EMAIL:
+            [self.view makeToast:@"Invalid Email"];
+            break;
+            
+        case ERR_INVALID_PASSWORD:
+            [self.view makeToast:@"Password must be longer"];
+            break;
+            
+        case ERR_EMAIL_TAKEN:
+            [self.view makeToast:@"Email Already Taken"];
+            break;
+            
+        case ERR_INVALID_CREDENTIALS:
+            [self.view makeToast:@"Incorrect Email/Password"];
+            break;
+            
+        case ERR_INVALID_FIELD:
+            [self.view makeToast:@"Invalid Field."];
+            break;
+            
+        case ERR_UNSUCCESSFUL:
+            [self.view makeToast:@"Attempt unsuccessful. Please try again"];
+            break;
+            
+        case ERR_INVALID_TIME:
+            [self.view makeToast:@"Invalid Time"];
+            break;
+            
+        case ERR_INVALID_SESSION:
+            [self.view makeToast:@"Invalid Session. Try logging out and back in"];
+            break;
+        
     }
-    else {
-        [self.view makeToast:@"There was An Error"];
-    }
-    
     
 }
 
