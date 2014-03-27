@@ -64,6 +64,7 @@ describe Group, "creation" do
 		describe "contains invalid users" do
 			before { @group_id = Group.add_group('Ex Name', [@user1_id, @user2_id, 23402234]) }
 			specify { expect(@group_id).to eq(ERR_INVALID_FIELD) }
+		end
 	end
 end
 
@@ -78,7 +79,7 @@ describe Group, "misc" do
 		end
 
 		it "should match the hash data 1" do
-			@group_id = Group.add_group('Example Group', [@user1_id, @user2_id])
+			@group_id = Group.add_group('Example Group', [@user1.id, @user2.id])
 	  	@group = Group.find(@group_id)
 			hash = @group.get_hash
 			hash[:group].should eq @group_id
@@ -94,10 +95,9 @@ describe Group, "misc" do
 			user_emails.should include("examplefriend@example.com")
 		end
 
-
 		it "should match the hash data 2" do
 			@group_id = Group.add_group('Example Group', 
-	  		[@user1_id, @user2_id], "Description of an example group")
+	  		[@user1.id, @user2.id], "Description of an example group")
 	  	@group = Group.find(@group_id)
 			hash = @group.get_hash
 			hash[:group].should eq @group_id
@@ -113,6 +113,4 @@ describe Group, "misc" do
 			user_emails.should include("examplefriend@example.com")
 		end
 	end
-end
-
 end

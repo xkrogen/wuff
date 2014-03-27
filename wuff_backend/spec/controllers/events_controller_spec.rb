@@ -314,6 +314,16 @@ describe EventsController do
 			JSON.parse(response.body)['err_code'].should eq ERR_INVALID_SESSION
 		end
 
+		it "should fail if requested from a nonmember" do
+			user2 = User.new(name: "User Two", email: "user2@example.com", 
+				password: "test_password")
+			user2_token = User.new_token
+			user2.update_attribute(:remember_token, User.hash(user2_token))
+			@request.cookies['current_user_token'] = user2_token
+			post 'view', { format: 'json', event: @event_id }
+			JSON.parse(response.body)['err_code'].should eq ERR_INVALID_PERMISSIONS
+		end
+
 		it "should fail if the event ID isn't valid" do
 			@request.cookies['current_user_token'] = @admin_token
 			post 'view', { format: 'json', event: 234525731 }

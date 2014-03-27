@@ -91,6 +91,7 @@ class EventsController < ApplicationController
   def view
 		return if not signed_in_response
 		return if not get_event
+		return if not member_of_event
 		respond(SUCCESS, @event.get_hash)
 	end
 
@@ -217,6 +218,16 @@ class EventsController < ApplicationController
 		true
 	end
 
+	# Checks to see if the currently logged in user is the admin
+	# for this event. If not, responds with ERR_INVALID_PERMISSIONS
+	# and returns false. If it is, returns true.
+	def member_of_event
+		if @event.get_user_status(current_user.id) == nil
+			respond(ERR_INVALID_PERMISSIONS)
+			return false
+		end
+		true
+	end
 
 	# Responds. Always includes err_code set to ERROR (SUCCESS by default). 
 	# Additional response fields can be passed as a hash to ADDITIONAL.
