@@ -83,7 +83,7 @@ describe Group, "misc" do
 	  	@group = Group.find(@group_id)
 			hash = @group.get_hash
 			hash[:group].should eq @group_id
-			hash[:title].should eq 'Example Group'
+			hash[:name].should eq 'Example Group'
 			hash[:description].should be_blank
 			hash[:users].should have(3).items
 			hash[:users][:user_count].should eq 2
@@ -101,7 +101,7 @@ describe Group, "misc" do
 	  	@group = Group.find(@group_id)
 			hash = @group.get_hash
 			hash[:group].should eq @group_id
-			hash[:title].should eq 'Example Group'
+			hash[:name].should eq 'Example Group'
 			hash[:description].should eq "Description of an example group"
 			hash[:users].should have(3).items
 			hash[:users][:user_count].should eq 2

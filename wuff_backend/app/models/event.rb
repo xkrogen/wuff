@@ -48,6 +48,9 @@ class Event < ActiveRecord::Base
 			return ERR_INVALID_FIELD if not is_valid_user_id?(user_id)
 		end
 
+		description = "" if not description 
+		location = "" if not location
+
 		@event = Event.new(name: name, admin: admin_id, 
 			description: description, location: location, 
 			party_list: {}, time:time)

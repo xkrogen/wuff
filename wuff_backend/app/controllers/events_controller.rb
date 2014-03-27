@@ -57,7 +57,7 @@ class EventsController < ApplicationController
 			user.id
 		end
 
-		curr_party_list = event.party_list
+		curr_party_list = @event.party_list
 		user_list.delete_if { |user_id| curr_party_list.has_key?(user_id) }
 
 		@event.add_user_list(user_list)
@@ -93,36 +93,6 @@ class EventsController < ApplicationController
 		return if not get_event
 		return if not member_of_event
 		respond(SUCCESS, @event.get_hash)
-	end
-
-	# POST /event/invite_users
-	# Invites users to the event: adds them to the event's party_list,
-	# adds the event to their event_list, and notifies them.
-	# You must be signed in, and you must be the admin of the event
-	# for this call to succeed. 
-	# Duplicate users (users already in the event) will be ignored.
-	def invite_users
-		return if not signed_in_response
-		return if not get_event
-		return if not user_admin
-
-		user_list = params[:user_list].split(',').map do |email|
-			user = User.find_by(email: email)
-			if not user
-				respond(ERR_INVALID_FIELD)
-				return
-			end
-			user.id
-		end
-
-		curr_party_list = @event.party_list
-		user_list.delete_if { |user_id| curr_party_list.has_key?(user_id) }
-
-		@event.add_user_list(user_list)
-		@event.add_to_user_event_lists(user_list)
-		@event.notify( EventNotification.new(NOTIF_NEW_EVENT, @event), user_list)
-
-		respond(SUCCESS)
 	end
 
 	# DELETE /event/cancel_event
@@ -174,7 +144,7 @@ class EventsController < ApplicationController
 
 		if @event.is_admin?(user_to_remove.id)
 			respond(ERR_INVALID_FIELD)
-			return
+			return false
 		end
 
 		@event.remove_user(user_to_remove.id)
@@ -218,8 +188,8 @@ class EventsController < ApplicationController
 		true
 	end
 
-	# Checks to see if the currently logged in user is the admin
-	# for this event. If not, responds with ERR_INVALID_PERMISSIONS
+	# Checks to see if the currently logged in user is a member
+	# of this event. If not, responds with ERR_INVALID_PERMISSIONS
 	# and returns false. If it is, returns true.
 	def member_of_event
 		if @event.get_user_status(current_user.id) == nil

@@ -114,7 +114,7 @@ describe GroupsController do
 				password: "test_password")
 			@other.add
 			@group_id = Group.add_group("Test Group", [@user.id, @other.id])
-			@goup = Group.find(@group_id)
+			@group = Group.find(@group_id)
 			@user_token = User.new_token
 			@user.reload
 			@other.reload
@@ -199,7 +199,7 @@ describe GroupsController do
 		describe "when adding as a non-member" do
 			before do
 				new_user1_token = User.new_token
-				@new_user1.update_attribute(:remember_token, User.hash(new_user1_token)
+				@new_user1.update_attribute(:remember_token, User.hash(new_user1_token))
 				@request.cookies['current_user_token'] = new_user1_token
 				post 'add_users', { format: 'json', group: @group_id,
 					user_list: "friend1@example.com,friend2@example.com" }
@@ -439,7 +439,7 @@ describe GroupsController do
 			@other.add
 			@group_id = Group.add_group("Test Group", [@user.id, @other.id])
 			@user.reload
-			@group = Group.find(@Group_id)
+			@group = Group.find(@group_id)
 		end
 
 		it "should update the fields if they are all filled out and valid" do

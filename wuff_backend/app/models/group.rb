@@ -31,6 +31,8 @@ class Group < ActiveRecord::Base
 			return ERR_INVALID_FIELD if not is_valid_user_id?(user_id)
 		end
 
+		description = "" if not description
+
 		@group = Group.new(name: name, description: description, 
 			user_list: [])
 	
@@ -106,7 +108,7 @@ class Group < ActiveRecord::Base
 					email: curr_user.email }
 		end
 		user_list_out[:user_count] = user_count
-		{ group: self.id, title: name, 
+		{ group: self.id, name: name, 
 			users: user_list_out, description: description}
 	end
 
