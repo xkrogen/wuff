@@ -42,6 +42,9 @@
     NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:_emailInputView.textField.text, @"email", _passwordInputView.textField.text, @"password", _nameInputView.textField.text, @"name", nil];
     [_myRequester createRequestWithType:POST forExtension:@"/user/add_user" withDictionary:d];
     NSLog(@"sent request!");
+    
+    // close the keyboard
+    [self.view endEditing:YES];
 }
 
 -(void) handleSignUpResponse:(NSDictionary *)data {

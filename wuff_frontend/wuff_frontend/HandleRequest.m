@@ -122,6 +122,7 @@
 
 -(void)connection:(NSURLConnection*)connection didFailWithError:(NSError*)error
 {
+    NSLog(@"Error: %@", error);
     // nil out the connection so the user can try again
     _connection = nil;
     // nil out any data just-in-case
@@ -129,7 +130,6 @@
     
     
     if([[_delegate class] isSubclassOfClass:[UIViewController class]]) {
-        
         [((UIViewController*)_delegate).view makeToast:[error localizedDescription]];
     }
 }

@@ -42,6 +42,9 @@
     //Code to send POST Request
     _myRequester = [[HandleRequest alloc] initWithSelector:@"handleSignInResponse:" andDelegate:self];
     [_myRequester createRequestWithType:POST forExtension:@"/user/login_user" withDictionary:d];
+    
+    // close the keyboard
+    [self.view endEditing:YES];
     NSLog(@"sent request!");
 }
 
@@ -94,7 +97,6 @@
         case ERR_INVALID_SESSION:
             [self.view makeToast:@"Invalid Session. Try logging out and back in"];
             break;
-        
     }
 }
 

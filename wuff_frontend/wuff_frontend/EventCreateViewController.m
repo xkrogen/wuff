@@ -31,6 +31,8 @@
     [_myRequester createRequestWithType:POST forExtension:@"/event/create_event" withDictionary:d];
     NSLog(@"sent create event request!");
     
+    // close the keyboard
+    [self.view endEditing:YES];
 }
 
 -(IBAction)cancel
