@@ -10,6 +10,7 @@ WuffBackend::Application.routes.draw do
 	get '/user/has_notifications', to: 'users#has_notifications?'
 	get '/user/get_notifications', to: 'users#get_notifications'
 	delete '/user/clear_notifications', to: 'users#clear_notifications'
+	post '/user/get_all_users', to: 'users#get_all_users'
 
 	post '/event/update_user_status', to: 'events#update_user_status'
 	post '/event/invite_users', to: 'events#invite_users'

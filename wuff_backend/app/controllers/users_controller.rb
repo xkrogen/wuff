@@ -43,6 +43,20 @@ class UsersController < ApplicationController
   	end
   end
 
+  # GET /user/get_all_users
+  # Return a list of all users signed up for Wuff
+  # (Used for autocompletion purposes)
+  def get_all_users
+    user_count = 0
+    user_list = {}
+    User.all.each do |user|
+      user_count += 1
+      user_list[user_count] = user.get_hash
+    end
+    user_list[:count] = user_count
+    respond(SUCCESS, user_list)
+  end
+
   # DELETE /user/logout_user
   # Logout the current_user
   # * Changes current_user's remember_token in database

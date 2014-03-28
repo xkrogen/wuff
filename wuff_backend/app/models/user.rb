@@ -133,6 +133,11 @@ class User < ActiveRecord::Base
 		self.update_attribute(:notification_list, self.notification_list << notification.get_hash)
 	end
 
+	# Returns a hash containing this user's information: Name and Email.
+	def get_hash
+		return { name: self.name, email: self.email }
+	end
+
 	# Function that generates a unique remember_token, random string of base 64
 	def self.new_token
 		token = loop do
