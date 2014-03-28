@@ -34,8 +34,8 @@ static const CGSize  CSToastShadowOffset        = { 4.0, 4.0 };
 static const BOOL    CSToastDisplayShadow       = YES;
 
 // display duration and position
-static const NSString * CSToastDefaultPosition  = @"bottom";
-static const NSTimeInterval CSToastDefaultDuration  = 3.0;
+static const NSString * CSToastDefaultPosition  = @"nearly-bottom";
+static const NSTimeInterval CSToastDefaultDuration  = 2.0;
 
 // image view size
 static const CGFloat CSToastImageViewWidth      = 80.0;
@@ -214,6 +214,8 @@ static const NSString * CSToastActivityViewKey  = @"CSToastActivityViewKey";
             return CGPointMake(self.bounds.size.width/2, (toast.frame.size.height / 2) + CSToastVerticalPadding);
         } else if([point caseInsensitiveCompare:@"bottom"] == NSOrderedSame) {
             return CGPointMake(self.bounds.size.width/2, (self.bounds.size.height - (toast.frame.size.height / 2)) - CSToastVerticalPadding);
+        } else if([point caseInsensitiveCompare:@"nearly-bottom"] == NSOrderedSame) {
+            return CGPointMake(self.bounds.size.width/2, (self.bounds.size.height - (toast.frame.size.height / 2)) - CSToastVerticalPadding - 20.0f);
         } else if([point caseInsensitiveCompare:@"center"] == NSOrderedSame) {
             return CGPointMake(self.bounds.size.width / 2, self.bounds.size.height / 2);
         }
@@ -234,6 +236,7 @@ static const NSString * CSToastActivityViewKey  = @"CSToastActivityViewKey";
         return CGSizeMake(ceilf(boundingRect.size.width), ceilf(boundingRect.size.height));
     }
 
+    #pragma GCC diagnostic ignored "-Wdeprecated-declarations" //Let's ignore this deprecation
     return [string sizeWithFont:font constrainedToSize:constrainedSize lineBreakMode:lineBreakMode];
 }
 

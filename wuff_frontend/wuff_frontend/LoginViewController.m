@@ -42,17 +42,60 @@
     //Code to send POST Request
     _myRequester = [[HandleRequest alloc] initWithSelector:@"handleSignInResponse:" andDelegate:self];
     [_myRequester createRequestWithType:POST forExtension:@"/user/login_user" withDictionary:d];
+    
+    // close the keyboard
+    [self.view endEditing:YES];
     NSLog(@"sent request!");
 }
 
 -(void) handleSignInResponse:(NSDictionary *)data {
     ErrorCode err_code = (ErrorCode)[[data objectForKey:@"err_code"] integerValue];
+    
+    
     switch (err_code)
     {
         case SUCCESS:
+        {
             NSLog(@"Moving to main screen");
             MainViewController *main = [[MainViewController alloc] initWithNibName:nil bundle:nil];
             [self presentViewController:main animated:YES completion:NULL];
+            break;
+        }
+            
+        case ERR_INVALID_NAME:
+            [self.view makeToast:@"Invalid Name"];
+            break;
+            
+        case ERR_INVALID_EMAIL:
+            [self.view makeToast:@"Invalid Email"];
+            break;
+            
+        case ERR_INVALID_PASSWORD:
+            [self.view makeToast:@"Password must be longer"];
+            break;
+            
+        case ERR_EMAIL_TAKEN:
+            [self.view makeToast:@"Email Already Taken"];
+            break;
+            
+        case ERR_INVALID_CREDENTIALS:
+            [self.view makeToast:@"Incorrect Email/Password"];
+            break;
+            
+        case ERR_INVALID_FIELD:
+            [self.view makeToast:@"Invalid Field."];
+            break;
+            
+        case ERR_UNSUCCESSFUL:
+            [self.view makeToast:@"Attempt unsuccessful. Please try again"];
+            break;
+            
+        case ERR_INVALID_TIME:
+            [self.view makeToast:@"Invalid Time"];
+            break;
+            
+        case ERR_INVALID_SESSION:
+            [self.view makeToast:@"Invalid Session. Try logging out and back in"];
             break;
     }
 }
