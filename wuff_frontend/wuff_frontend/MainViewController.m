@@ -45,7 +45,7 @@
                                  @"3" : @{ @"name" : @"Jonathan L"} };
 
     NSMutableDictionary *dict = [[NSMutableDictionary alloc]init];
-    [dict setObject:@"name_0" forKey:@"name"];
+    [dict setObject:@"name_0" forKey:@"title"];
     [dict setObject:@"address_0" forKey:@"location"];
     [dict setObject:@"come Chill" forKey:@"description"];
     [dict setObject:@"2:15" forKey:@"time"];
@@ -53,7 +53,7 @@
     [self.eventList addObject:dict];
     
     NSMutableDictionary *dict1 = [[NSMutableDictionary alloc]init];
-    [dict1 setObject:@"name_1" forKey:@"name"];
+    [dict1 setObject:@"name_1" forKey:@"title"];
     [dict1 setObject:@"address_1" forKey:@"location"];
     [dict1 setObject:@"come Eat" forKey:@"description"];
     [dict1 setObject:@"2:20" forKey:@"time"];
@@ -61,7 +61,7 @@
     [self.eventList addObject:dict1];
     
     NSMutableDictionary *dict2 = [[NSMutableDictionary alloc]init];
-    [dict2 setObject:@"name_2" forKey:@"name"];
+    [dict2 setObject:@"name_2" forKey:@"title"];
     [dict2 setObject:@"address_2" forKey:@"location"];
     [dict2 setObject:@"come sleep and have the greatest time of you life tonight wooooo hooo" forKey:@"description"];
     [dict2 setObject:@"2:30" forKey:@"time"];
@@ -153,7 +153,7 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:SimpleIdentifier];
     }
     
-    cell.textLabel.text = [self.eventList[indexPath.row] objectForKey:@"name"];
+    cell.textLabel.text = [self.eventList[indexPath.row] objectForKey:@"title"];
     
     return cell;
     
@@ -162,7 +162,7 @@
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     EventViewController *eventView = [[EventViewController alloc]  initWithNibName:nil bundle:nil];
-    eventView.myTitle = [self.eventList[indexPath.row] objectForKey:@"name"];
+    eventView.myTitle = [self.eventList[indexPath.row] objectForKey:@"title"];
     
     NSDate *time = [NSDate dateWithTimeIntervalSince1970:[[self.eventList[indexPath.row] objectForKey:@"time"] integerValue]];
     NSDateFormatter *format = [[NSDateFormatter alloc] init];

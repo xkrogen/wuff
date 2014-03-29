@@ -56,7 +56,7 @@
 {
     _myRequester = [[HandleRequest alloc] initWithSelector:@"handleCreateEvent:" andDelegate:self];
     NSMutableDictionary *d = [NSMutableDictionary dictionary];
-    [d setObject:_nameInputView.textField.text forKey:@"name"];
+    [d setObject:_nameInputView.textField.text forKey:@"title"];
     [d setObject:_descriptionInputView.textField.text forKey:@"description"];
     [d setObject:_emailListInputView.textField.text forKey:@"user_list"];
     [d setObject:[[NSNumber numberWithDouble:[[_datePicker date]timeIntervalSince1970]] stringValue] forKey:@"time"];
