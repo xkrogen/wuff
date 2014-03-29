@@ -128,7 +128,6 @@
     // nil out any data just-in-case
     _data = nil;
     
-    
     if([[_delegate class] isSubclassOfClass:[UIViewController class]]) {
         [((UIViewController*)_delegate).view makeToast:[error localizedDescription]];
     }

@@ -34,41 +34,6 @@
      NSLog(@"sent request!");
     
     self.eventList = [[NSMutableArray alloc] init];
-    NSDictionary *attenders1 = @{@"1" : @{ @"name" : @"Darren T" },
-                                 @"2" : @{ @"name" : @"Erik K" },
-                                 @"3" : @{ @"name" : @"Yang X"} };
-    NSDictionary *attenders2 = @{@"1" : @{ @"name" : @"Matt G" },
-                                 @"2" : @{ @"name" : @"Sampson G" },
-                                 @"3" : @{ @"name" : @"Kevin Y"} };
-    NSDictionary *attenders3 = @{@"1" : @{ @"name" : @"Rick L" },
-                                 @"2" : @{ @"name" : @"Bob M" },
-                                 @"3" : @{ @"name" : @"Jonathan L"} };
-
-    NSMutableDictionary *dict = [[NSMutableDictionary alloc]init];
-    [dict setObject:@"name_0" forKey:@"title"];
-    [dict setObject:@"address_0" forKey:@"location"];
-    [dict setObject:@"come Chill" forKey:@"description"];
-    [dict setObject:@"2:15" forKey:@"time"];
-    [dict setObject:attenders1 forKey:@"users"];
-    [self.eventList addObject:dict];
-    
-    NSMutableDictionary *dict1 = [[NSMutableDictionary alloc]init];
-    [dict1 setObject:@"name_1" forKey:@"title"];
-    [dict1 setObject:@"address_1" forKey:@"location"];
-    [dict1 setObject:@"come Eat" forKey:@"description"];
-    [dict1 setObject:@"2:20" forKey:@"time"];
-    [dict1 setObject:attenders2 forKey:@"users"];
-    [self.eventList addObject:dict1];
-    
-    NSMutableDictionary *dict2 = [[NSMutableDictionary alloc]init];
-    [dict2 setObject:@"name_2" forKey:@"title"];
-    [dict2 setObject:@"address_2" forKey:@"location"];
-    [dict2 setObject:@"come sleep and have the greatest time of you life tonight wooooo hooo" forKey:@"description"];
-    [dict2 setObject:@"2:30" forKey:@"time"];
-    [dict2 setObject:attenders3 forKey:@"users"];
-    [self.eventList addObject:dict2];
-    
-    //self.eventList = @[@"Join MEH", @"SUPA FUN TIME", @"Lonely need friends and this is a super long ass event name so idk how it should go"];
 }
 
 
@@ -150,11 +115,35 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:SimpleIdentifier];
     
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:SimpleIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:SimpleIdentifier];
     }
     
-    cell.textLabel.text = [self.eventList[indexPath.row] objectForKey:@"title"];
+    NSDictionary *event = self.eventList[indexPath.row];
     
+    UIFont *cellTitleFont = [UIFont fontWithName:@"HelveticaNeue" size:16.0f];
+    UIFont *cellDetailFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:13.0f];
+    
+    // title
+    cell.textLabel.text = [NSString stringWithFormat:@"%@ at %@", [event objectForKey:@"title"], [event objectForKey:@"location"]];
+    cell.textLabel.font = cellTitleFont;
+    
+    // detail (user list)
+    NSDictionary *users = [self.eventList[indexPath.row] objectForKey:@"users"];
+    int user_count = [[users objectForKey:@"user_count"] intValue];
+    for (int i=1; i<=user_count; i++) {
+        NSDictionary *user = [users objectForKey:[NSString stringWithFormat:@"%d", i]];
+        if ([cell.detailTextLabel.text isEqualToString:@""] || cell.detailTextLabel.text == NULL)
+            cell.detailTextLabel.text = [user objectForKey:@"name"];
+        else
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"%@, %@", cell.detailTextLabel.text, [user objectForKey:@"name"]];
+    }
+    cell.detailTextLabel.font = cellDetailFont;
+    
+    /*  ||  PUT IN IMAGE ||
+    NSString *path = [[NSBundle mainBundle] pathForResource:[item objectForKey:@"imageKey"] ofType:@"png"];
+    UIImage *theImage = [UIImage imageWithContentsOfFile:path];
+    cell.imageView.image = theImage;
+    */
     return cell;
     
 }
@@ -180,7 +169,10 @@
     int user_count = [[users objectForKey:@"user_count"] intValue];
     for (int i=1; i<=user_count; i++) {
         NSDictionary *user = [users objectForKey:[NSString stringWithFormat:@"%d", i]];
-        eventView.attenders = [NSString stringWithFormat:@"%@ %@", [user objectForKey:@"name"], eventView.attenders];
+        if ([eventView.attenders isEqualToString:@""])
+            eventView.attenders = [user objectForKey:@"name"];
+        else
+            eventView.attenders = [NSString stringWithFormat:@"%@, %@", eventView.attenders, [user objectForKey:@"name"]];
     }
     
     [self presentViewController:eventView animated:YES completion:NULL];

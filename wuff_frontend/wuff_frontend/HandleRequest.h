@@ -35,6 +35,7 @@ typedef enum {
 @property (nonatomic, strong) id delegate;
 @property (nonatomic, strong) NSString *selectorName;
 
+
 +(NSString *)getBaseUrl;
 -(id) initWithSelector:(NSString *)selectorString andDelegate:(id)theDelegate;
 +(bool) isStringEmpty:(NSString *)string;
