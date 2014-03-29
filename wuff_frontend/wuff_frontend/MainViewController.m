@@ -120,12 +120,28 @@
     
     NSDictionary *event = self.eventList[indexPath.row];
     
-    UIFont *cellTitleFont = [UIFont fontWithName:@"HelveticaNeue" size:16.0f];
+    UIFont *cellTitleFont = [UIFont fontWithName:@"HelveticaNeue-Medium" size:16.0f];
+    UIFont *cellTitleSmallFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0f];
     UIFont *cellDetailFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:13.0f];
     
     // title
-    cell.textLabel.text = [NSString stringWithFormat:@"%@ at %@", [event objectForKey:@"title"], [event objectForKey:@"location"]];
-    cell.textLabel.font = cellTitleFont;
+    NSInteger titleLength = [[event objectForKey:@"title"] length];
+    NSInteger locationLength = [[event objectForKey:@"location"] length];
+    
+    NSMutableAttributedString *title = [[NSMutableAttributedString alloc] initWithString:@""];
+    
+    NSDictionary *attributes = [NSDictionary dictionaryWithObject:cellTitleFont forKey:NSFontAttributeName];
+    NSAttributedString *subString = [[NSAttributedString alloc] initWithString:[event objectForKey:@"title"] attributes:attributes];
+    [title appendAttributedString:subString];
+    
+    NSDictionary *attributesSmall = [NSDictionary dictionaryWithObject:cellTitleSmallFont forKey:NSFontAttributeName];
+    subString = [[NSAttributedString alloc] initWithString:@" at " attributes:attributesSmall];
+    [title appendAttributedString:subString];
+    
+    subString = [[NSAttributedString alloc] initWithString:[event objectForKey:@"location"] attributes:attributes];
+    [title appendAttributedString:subString];
+   
+    cell.textLabel.attributedText = title;
     
     // detail (user list)
     NSDictionary *users = [self.eventList[indexPath.row] objectForKey:@"users"];
