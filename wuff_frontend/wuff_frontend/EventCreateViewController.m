@@ -34,7 +34,15 @@
     self.autocompleteTextField.autoCompleteDataSource = self;
     self.autocompleteTextField.autoCompleteDelegate = self;
 
-    [self.autocompleteTextField setAutoCompleteTableBackgroundColor:[UIColor colorWithWhite:1 alpha:0.5]];
+    [self.autocompleteTextField setAutoCompleteTableBackgroundColor:[UIColor colorWithWhite:1 alpha:0.9]];
+    // no spell checking / auto correction since persons names
+    [self.autocompleteTextField setSpellCheckingType:UITextSpellCheckingTypeNo];
+    [self.autocompleteTextField setAutocorrectionType:UITextAutocorrectionTypeNo];
+    // auto capitalize words (names)
+    [self.autocompleteTextField setAutocapitalizationType:UITextAutocapitalizationTypeWords];
+    
+    [[_nameInputView textField] setAutocapitalizationType:UITextAutocapitalizationTypeSentences];
+    [[_locationInputView textField] setAutocapitalizationType:UITextAutocapitalizationTypeSentences];
 
     self.userList = [[NSMutableArray alloc] init];
     self.emailList = [[NSMutableSet alloc] init];
