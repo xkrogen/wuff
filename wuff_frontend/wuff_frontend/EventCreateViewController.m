@@ -30,9 +30,9 @@
     [super viewDidLoad];
     
     [self.autocompleteTextField setBorderStyle:UITextBorderStyleRoundedRect];
-    self.autocompleteTextField.delegate = self;
-    self.autocompleteTextField.autoCompleteDataSource = self;
-    self.autocompleteTextField.autoCompleteDelegate = self;
+    self.autocompleteTextField.delegate = (id)self;
+    self.autocompleteTextField.autoCompleteDataSource = (id)self;
+    self.autocompleteTextField.autoCompleteDelegate = (id)self;
 
     [self.autocompleteTextField setAutoCompleteTableBackgroundColor:[UIColor colorWithWhite:1 alpha:0.9]];
     // no spell checking / auto correction since persons names

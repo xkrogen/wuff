@@ -125,9 +125,6 @@
     UIFont *cellDetailFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:13.0f];
     
     // title
-    NSInteger titleLength = [[event objectForKey:@"title"] length];
-    NSInteger locationLength = [[event objectForKey:@"location"] length];
-    
     NSMutableAttributedString *title = [[NSMutableAttributedString alloc] initWithString:@""];
     
     NSDictionary *attributes = [NSDictionary dictionaryWithObject:cellTitleFont forKey:NSFontAttributeName];

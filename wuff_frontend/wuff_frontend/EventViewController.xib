@@ -28,7 +28,7 @@
                     </textAttributes>
                     <items>
                         <navigationItem title="Event" id="dmW-eO-56Z">
-                            <barButtonItem key="leftBarButtonItem" title="Back" style="plain" id="ztC-dv-Qfc">
+                            <barButtonItem key="leftBarButtonItem" title="Back" id="ztC-dv-Qfc">
                                 <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
                                     <action selector="backButton" destination="-1" id="4D7-mk-74c"/>
