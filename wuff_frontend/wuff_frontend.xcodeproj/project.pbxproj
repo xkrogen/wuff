@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		186A197418CD270000E4BEB5 /* UIView+Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = 186A197318CD270000E4BEB5 /* UIView+Toast.m */; };
+		2FA263EFF5754A148A72C75D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 044995168A7147F2923F3E70 /* libPods.a */; };
 		322B9B2F18D013C70084AAF9 /* EventViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 322B9B2D18D013C70084AAF9 /* EventViewController.m */; };
 		322B9B3018D013C70084AAF9 /* EventViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 322B9B2E18D013C70084AAF9 /* EventViewController.xib */; };
 		322B9B3E18D256C80084AAF9 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 322B9B3C18D256C80084AAF9 /* MainViewController.m */; };
@@ -25,6 +26,7 @@
 		6C13DDBE18C41EFD0032A56C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6C13DDBC18C41EFD0032A56C /* InfoPlist.strings */; };
 		6C13DDC018C41EFD0032A56C /* wuff_frontendTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C13DDBF18C41EFD0032A56C /* wuff_frontendTests.m */; };
 		6C13DDCB18C43FD20032A56C /* InputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C13DDCA18C43FD20032A56C /* InputView.m */; };
+		6C4AFBD618E52FAE001BCEBB /* UserAutoCompletionObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C4AFBD518E52FAE001BCEBB /* UserAutoCompletionObject.m */; };
 		6C6216BA18D037AA0006048A /* EventCreateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C6216B818D037AA0006048A /* EventCreateViewController.m */; };
 		6C6216BB18D037AA0006048A /* EventCreateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C6216B918D037AA0006048A /* EventCreateViewController.xib */; };
 		6C6216BF18D0390F0006048A /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C6216BD18D0390F0006048A /* LoginViewController.m */; };
@@ -45,8 +47,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		044995168A7147F2923F3E70 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		186A197218CD270000E4BEB5 /* UIView+Toast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Toast.h"; sourceTree = "<group>"; };
 		186A197318CD270000E4BEB5 /* UIView+Toast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Toast.m"; sourceTree = "<group>"; };
+		21C7EA91E60F44E4B5D21A16 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		322B9B2C18D013C70084AAF9 /* EventViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventViewController.h; sourceTree = "<group>"; };
 		322B9B2D18D013C70084AAF9 /* EventViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventViewController.m; sourceTree = "<group>"; };
 		322B9B2E18D013C70084AAF9 /* EventViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventViewController.xib; sourceTree = "<group>"; };
@@ -71,6 +75,8 @@
 		6C13DDBF18C41EFD0032A56C /* wuff_frontendTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = wuff_frontendTests.m; sourceTree = "<group>"; };
 		6C13DDC918C43FD20032A56C /* InputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputView.h; sourceTree = "<group>"; };
 		6C13DDCA18C43FD20032A56C /* InputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InputView.m; sourceTree = "<group>"; };
+		6C4AFBD418E52FAE001BCEBB /* UserAutoCompletionObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserAutoCompletionObject.h; sourceTree = "<group>"; };
+		6C4AFBD518E52FAE001BCEBB /* UserAutoCompletionObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserAutoCompletionObject.m; sourceTree = "<group>"; };
 		6C6216B718D037AA0006048A /* EventCreateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventCreateViewController.h; sourceTree = "<group>"; };
 		6C6216B818D037AA0006048A /* EventCreateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventCreateViewController.m; sourceTree = "<group>"; };
 		6C6216B918D037AA0006048A /* EventCreateViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventCreateViewController.xib; sourceTree = "<group>"; };
@@ -92,6 +98,7 @@
 				6C13DD9718C41EFD0032A56C /* CoreGraphics.framework in Frameworks */,
 				6C13DD9918C41EFD0032A56C /* UIKit.framework in Frameworks */,
 				6C13DD9518C41EFD0032A56C /* Foundation.framework in Frameworks */,
+				2FA263EFF5754A148A72C75D /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -115,6 +122,7 @@
 				6C13DDB918C41EFD0032A56C /* wuff_frontendTests */,
 				6C13DD9318C41EFD0032A56C /* Frameworks */,
 				6C13DD9218C41EFD0032A56C /* Products */,
+				21C7EA91E60F44E4B5D21A16 /* Pods.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -134,6 +142,7 @@
 				6C13DD9618C41EFD0032A56C /* CoreGraphics.framework */,
 				6C13DD9818C41EFD0032A56C /* UIKit.framework */,
 				6C13DDB318C41EFD0032A56C /* XCTest.framework */,
+				044995168A7147F2923F3E70 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -177,6 +186,8 @@
 				6C13DD9D18C41EFD0032A56C /* InfoPlist.strings */,
 				6C13DDA018C41EFD0032A56C /* main.m */,
 				6C13DDA218C41EFD0032A56C /* wuff_frontend-Prefix.pch */,
+				6C4AFBD418E52FAE001BCEBB /* UserAutoCompletionObject.h */,
+				6C4AFBD518E52FAE001BCEBB /* UserAutoCompletionObject.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -206,9 +217,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6C13DDC318C41EFD0032A56C /* Build configuration list for PBXNativeTarget "wuff_frontend" */;
 			buildPhases = (
+				C442CEC5630A49D28BF0D698 /* Check Pods Manifest.lock */,
 				6C13DD8D18C41EFD0032A56C /* Sources */,
 				6C13DD8E18C41EFD0032A56C /* Frameworks */,
 				6C13DD8F18C41EFD0032A56C /* Resources */,
+				CE3EF887964D467F864550EE /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -295,6 +308,39 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		C442CEC5630A49D28BF0D698 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		CE3EF887964D467F864550EE /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		6C13DD8D18C41EFD0032A56C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -310,6 +356,7 @@
 				6C13DDA518C41EFD0032A56C /* AppDelegate.m in Sources */,
 				6C13DDA118C41EFD0032A56C /* main.m in Sources */,
 				6C6216C418D0397A0006048A /* SignUpViewController.m in Sources */,
+				6C4AFBD618E52FAE001BCEBB /* UserAutoCompletionObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -425,6 +472,7 @@
 		};
 		6C13DDC418C41EFD0032A56C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 21C7EA91E60F44E4B5D21A16 /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -438,6 +486,7 @@
 		};
 		6C13DDC518C41EFD0032A56C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 21C7EA91E60F44E4B5D21A16 /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;

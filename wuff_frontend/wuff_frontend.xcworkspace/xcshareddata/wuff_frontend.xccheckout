@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>D1F7CF15-7C26-4E6D-8EDC-5D9638240099</string>
+	<key>IDESourceControlProjectName</key>
+	<string>wuff_frontend</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>812EC512-54BA-4877-B2EF-CE55323BA2A1</key>
+		<string>https://github.com/xkrogen/wuff.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>wuff_frontend/wuff_frontend.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>812EC512-54BA-4877-B2EF-CE55323BA2A1</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/xkrogen/wuff.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>812EC512-54BA-4877-B2EF-CE55323BA2A1</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>812EC512-54BA-4877-B2EF-CE55323BA2A1</string>
+			<key>IDESourceControlWCCName</key>
+			<string>wuff</string>
+		</dict>
+	</array>
+</dict>
+</plist>

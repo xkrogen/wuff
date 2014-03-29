@@ -11,6 +11,9 @@
 #import "UIView+Toast.h"
 #import "InputView.h"
 #import "MainViewController.h"
+#import "MLPAutoCompleteTextField.h"
+#import "UserAutoCompletionObject.h"
+
 @interface EventCreateViewController : UIViewController
 
 @property(nonatomic, strong) IBOutlet InputView *nameInputView;
@@ -18,8 +21,10 @@
 @property(nonatomic, strong) IBOutlet InputView *emailListInputView;
 @property(nonatomic, strong) IBOutlet InputView *locationInputView;
 @property(nonatomic, strong) IBOutlet InputView *timeInputView;
-@property(nonatomic,strong) IBOutlet UIDatePicker *datePicker;
+@property(nonatomic, strong) IBOutlet UIDatePicker *datePicker;
+@property(nonatomic, strong) IBOutlet MLPAutoCompleteTextField *autocompleteTextField;
 
+@property(nonatomic, strong) NSMutableArray *userList;
 
 @property(nonatomic, strong) HandleRequest *myRequester;
 

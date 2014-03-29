@@ -14,6 +14,43 @@
 
 @implementation EventCreateViewController
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+
+    }
+    return self;
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    [self.autocompleteTextField setBorderStyle:UITextBorderStyleRoundedRect];
+    self.autocompleteTextField.delegate = self;
+    self.autocompleteTextField.autoCompleteDataSource = self;
+    self.autocompleteTextField.autoCompleteDelegate = self;
+
+    [self.autocompleteTextField setAutoCompleteTableBackgroundColor:[UIColor colorWithWhite:1 alpha:0.5]];
+
+    self.userList = [[NSMutableArray alloc] init];
+    
+    NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys: nil];
+    _myRequester = [[HandleRequest alloc] initWithSelector:@"handleUserList:" andDelegate:self];
+    [_myRequester createRequestWithType:POST forExtension:@"/user/get_all_users" withDictionary:d];
+}
+
+-(void)handleUserList:(NSDictionary *)response
+{
+    NSInteger userCount = [[response objectForKey:@"count"] integerValue];
+    for (int i=1; i<=userCount; i++)
+    {
+        NSDictionary *user = [response objectForKey:[NSString stringWithFormat:@"%d", i]];
+        [_userList addObject:[[UserAutoCompletionObject alloc] initWithUserDictionary:user]];
+    }
+    NSLog(@"hello");
+}
 
 -(IBAction)createEvent
 {
@@ -92,5 +129,74 @@
             break;
     }
 }
+
+
+#pragma mark - MLPAutoCompleteTextField DataSource
+
+// asynchronous fetch
+- (void)autoCompleteTextField:(MLPAutoCompleteTextField *)textField
+ possibleCompletionsForString:(NSString *)string
+            completionHandler:(void (^)(NSArray *))handler
+{
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
+    dispatch_async(queue, ^{
+        // simulate latency
+        if(true){
+            CGFloat seconds = (arc4random_uniform(4)+arc4random_uniform(4)) / 5; //normal distribution
+            //NSLog(@"sleeping fetch of completions for %f", seconds);
+            sleep(seconds);
+        }
+        
+        /*
+        NSArray *completions;
+        //completions = @[@"Darren Tsung", @"Erik Krogan", @"Matthew Griffin", @"Yang Xiang", @"Sampson Gu"];
+        // a UserAutoCompletionObject is a dictionary that has an object for @"name" and @"email"
+        UserAutoCompletionObject *darrenObject = [[UserAutoCompletionObject alloc] initWithUserDictionary:@{@"name": @"Darren Tsung", @"email": @"darren.tsung@gmail.com"}];
+        UserAutoCompletionObject *testObject = [[UserAutoCompletionObject alloc] initWithUserDictionary:@{@"name": @"Tester McTest", @"email": @"test@gmail.com"}];
+        UserAutoCompletionObject *erikObject = [[UserAutoCompletionObject alloc] initWithUserDictionary:@{@"name": @"Erik Krogen", @"email": @"erikkrogen@gmail.com"}];
+        UserAutoCompletionObject *yangObject = [[UserAutoCompletionObject alloc] initWithUserDictionary:@{@"name": @"Yang Xiang", @"email": @"xiangyang57@gmail.com"}];
+        UserAutoCompletionObject *mattObject = [[UserAutoCompletionObject alloc] initWithUserDictionary:@{@"name": @"Matthew Griffin", @"email": @"mattgriffin94@yahoo.com"}];
+        UserAutoCompletionObject *sampsonObject = [[UserAutoCompletionObject alloc] initWithUserDictionary:@{@"name": @"Sampson Gu", @"email": @"sampsongu@berkeley.edu"}];
+        completions = @[darrenObject, testObject, erikObject, yangObject, mattObject, sampsonObject];
+        handler(completions);
+        */
+        
+        handler(self.userList);
+    });
+}
+
+#pragma mark - MLPAutoCompleteTextField Delegate
+
+- (void)autoCompleteTextField:(MLPAutoCompleteTextField *)textField
+  didSelectAutoCompleteString:(NSString *)selectedString
+       withAutoCompleteObject:(id<MLPAutoCompletionObject>)selectedObject
+            forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if(selectedObject){
+        NSLog(@"selected object from autocomplete menu %@ with string %@", selectedObject, [selectedObject autocompleteString]);
+        
+        // get the UserObject that we just selected's email
+        NSString *email = [(UserAutoCompletionObject *)selectedObject getEmail];
+        // append the email to emailList text
+        NSString *previousText = self.emailListInputView.textField.text;
+        NSString *addendum = @"";
+        if ([previousText isEqualToString:@""])
+            addendum = [NSString stringWithFormat:@"%@", email];
+        else
+            addendum = [NSString stringWithFormat:@"%@, %@", previousText, email];
+        // set the new text
+        [self.emailListInputView.textField setText:addendum];
+        
+        // remove the text in the autocompleteTextField
+        [self.autocompleteTextField setText:@""];
+        
+        // close the keyboard
+        [self.view endEditing:YES];
+    } else {
+        NSLog(@"selected string '%@' from autocomplete menu", selectedString);
+    }
+}
+
+
 
 @end
