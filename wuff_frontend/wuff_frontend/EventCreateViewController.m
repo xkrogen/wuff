@@ -10,6 +10,8 @@
 
 @interface EventCreateViewController ()
 
+@property (nonatomic, strong) NSMutableSet *emailList;
+
 @end
 
 @implementation EventCreateViewController
@@ -35,6 +37,7 @@
     [self.autocompleteTextField setAutoCompleteTableBackgroundColor:[UIColor colorWithWhite:1 alpha:0.5]];
 
     self.userList = [[NSMutableArray alloc] init];
+    self.emailList = [[NSMutableSet alloc] init];
     
     NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys: nil];
     _myRequester = [[HandleRequest alloc] initWithSelector:@"handleUserList:" andDelegate:self];
@@ -58,7 +61,11 @@
     NSMutableDictionary *d = [NSMutableDictionary dictionary];
     [d setObject:_nameInputView.textField.text forKey:@"title"];
     [d setObject:_descriptionInputView.textField.text forKey:@"description"];
-    [d setObject:_emailListInputView.textField.text forKey:@"user_list"];
+    
+    // add the current user logged in to the user_list
+    NSString *userlist = [NSString stringWithFormat:@"%@, %@", _emailListInputView.textField.text, [[NSUserDefaults standardUserDefaults] objectForKey:@"email"]];
+    [d setObject:userlist forKey:@"user_list"];
+    
     [d setObject:[[NSNumber numberWithDouble:[[_datePicker date]timeIntervalSince1970]] stringValue] forKey:@"time"];
     [d setObject:_locationInputView.textField.text forKey:@"location"];
     
@@ -177,15 +184,28 @@
         
         // get the UserObject that we just selected's email
         NSString *email = [(UserAutoCompletionObject *)selectedObject getEmail];
-        // append the email to emailList text
-        NSString *previousText = self.emailListInputView.textField.text;
-        NSString *addendum = @"";
-        if ([previousText isEqualToString:@""])
-            addendum = [NSString stringWithFormat:@"%@", email];
+        
+        if ([self.emailList containsObject:email])
+        {
+            [self.view makeToast:@"User already added!"];
+        }
+        else if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"email"] isEqualToString:email])
+        {
+            [self.view makeToast:@"No need to add yourself to the event!"];
+        }
         else
-            addendum = [NSString stringWithFormat:@"%@, %@", previousText, email];
-        // set the new text
-        [self.emailListInputView.textField setText:addendum];
+        {
+            // append the email to emailList text
+            NSString *previousText = self.emailListInputView.textField.text;
+            NSString *addendum = @"";
+            if ([previousText isEqualToString:@""])
+                addendum = [NSString stringWithFormat:@"%@", email];
+            else
+                addendum = [NSString stringWithFormat:@"%@, %@", previousText, email];
+            // set the new text
+            [self.emailListInputView.textField setText:addendum];
+            [self.emailList addObject:email];
+        }
         
         // remove the text in the autocompleteTextField
         [self.autocompleteTextField setText:@""];
