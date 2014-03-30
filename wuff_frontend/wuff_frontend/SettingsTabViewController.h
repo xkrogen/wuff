@@ -8,10 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "MSSlidingPanelController.h"
+#import "HandleRequest.h"
+#import "LoginViewController.h"
+#import "SettingsViewController.h"
 
 @interface SettingsTabViewController : UIViewController <MSSlidingPanelControllerDelegate, UITableViewDataSource, UITabBarDelegate>
 
 @property (nonatomic, strong) IBOutlet UITableView *table;
+@property(nonatomic, strong) HandleRequest *myRequester;
 @property (nonatomic, strong) NSMutableArray *menuList;
 
 

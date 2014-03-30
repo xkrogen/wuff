@@ -35,6 +35,8 @@
 		6C6216C018D0390F0006048A /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C6216BE18D0390F0006048A /* LoginViewController.xib */; };
 		6C6216C418D0397A0006048A /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C6216C218D0397A0006048A /* SignUpViewController.m */; };
 		6C6216C518D0397A0006048A /* SignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C6216C318D0397A0006048A /* SignUpViewController.xib */; };
+		6C8CB86B18E89C6D0077E9BB /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C8CB86918E89C6D0077E9BB /* SettingsViewController.m */; };
+		6C8CB86C18E89C6D0077E9BB /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C8CB86A18E89C6D0077E9BB /* SettingsViewController.xib */; };
 		6CAAB38118E7A67E008A686A /* settings_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CAAB38018E7A67E008A686A /* settings_icon.png */; };
 		6CF7E1B618CA538F00880712 /* HandleRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CF7E1B518CA538F00880712 /* HandleRequest.m */; };
 /* End PBXBuildFile section */
@@ -92,6 +94,9 @@
 		6C6216C118D0397A0006048A /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
 		6C6216C218D0397A0006048A /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
 		6C6216C318D0397A0006048A /* SignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SignUpViewController.xib; sourceTree = "<group>"; };
+		6C8CB86818E89C6D0077E9BB /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		6C8CB86918E89C6D0077E9BB /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		6C8CB86A18E89C6D0077E9BB /* SettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
 		6CAAB38018E7A67E008A686A /* settings_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings_icon.png; sourceTree = "<group>"; };
 		6CF7E1B418CA538F00880712 /* HandleRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HandleRequest.h; sourceTree = "<group>"; };
 		6CF7E1B518CA538F00880712 /* HandleRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HandleRequest.m; sourceTree = "<group>"; };
@@ -166,6 +171,9 @@
 				6C4AFBD718E78D66001BCEBB /* SettingsTabViewController.h */,
 				6C4AFBD818E78D67001BCEBB /* SettingsTabViewController.m */,
 				6C4AFBD918E78D67001BCEBB /* SettingsTabViewController.xib */,
+				6C8CB86818E89C6D0077E9BB /* SettingsViewController.h */,
+				6C8CB86918E89C6D0077E9BB /* SettingsViewController.m */,
+				6C8CB86A18E89C6D0077E9BB /* SettingsViewController.xib */,
 				322B9B2C18D013C70084AAF9 /* EventViewController.h */,
 				322B9B2D18D013C70084AAF9 /* EventViewController.m */,
 				322B9B2E18D013C70084AAF9 /* EventViewController.xib */,
@@ -308,6 +316,7 @@
 				6C6216C018D0390F0006048A /* LoginViewController.xib in Resources */,
 				322B9B3F18D256C80084AAF9 /* MainViewController.xib in Resources */,
 				6C6216C518D0397A0006048A /* SignUpViewController.xib in Resources */,
+				6C8CB86C18E89C6D0077E9BB /* SettingsViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -371,6 +380,7 @@
 				6C13DDA118C41EFD0032A56C /* main.m in Sources */,
 				6C6216C418D0397A0006048A /* SignUpViewController.m in Sources */,
 				6C4AFBD618E52FAE001BCEBB /* UserAutoCompletionObject.m in Sources */,
+				6C8CB86B18E89C6D0077E9BB /* SettingsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
