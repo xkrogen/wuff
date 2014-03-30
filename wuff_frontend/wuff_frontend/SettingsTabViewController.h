@@ -12,7 +12,7 @@
 @interface SettingsTabViewController : UIViewController <MSSlidingPanelControllerDelegate, UITableViewDataSource, UITabBarDelegate>
 
 @property (nonatomic, strong) IBOutlet UITableView *table;
-@property (nonatomic, strong) NSArray *menuList;
+@property (nonatomic, strong) NSMutableArray *menuList;
 
 
 @end

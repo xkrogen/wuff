@@ -132,8 +132,8 @@
     
     NSDictionary *event = self.eventList[indexPath.row];
     
-    UIFont *cellTitleFont = [UIFont fontWithName:@"HelveticaNeue-Medium" size:16.0f];
-    UIFont *cellTitleSmallFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0f];
+    UIFont *cellTitleFont = [UIFont fontWithName:@"HelveticaNeue-Medium" size:15.0f];
+    UIFont *cellTitleSmallFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:15.0f];
     UIFont *cellDetailFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:13.0f];
     
     // title
