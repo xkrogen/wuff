@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0500"
+   LastUpgradeVersion = "0510"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B5DE6692B7474541B7469BDD"
-               BuildableName = "libPods-MLPAutoCompleteTextField.a"
-               BlueprintName = "Pods-MLPAutoCompleteTextField"
+               BlueprintIdentifier = "39CF2DC6F322431E92A705B7"
+               BuildableName = "libPods-PKRevealController.a"
+               BlueprintName = "Pods-PKRevealController"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

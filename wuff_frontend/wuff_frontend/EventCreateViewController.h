@@ -11,6 +11,7 @@
 #import "UIView+Toast.h"
 #import "InputView.h"
 #import "MainViewController.h"
+#import "SettingsViewController.h"
 #import "MLPAutoCompleteTextField.h"
 #import "UserAutoCompletionObject.h"
 

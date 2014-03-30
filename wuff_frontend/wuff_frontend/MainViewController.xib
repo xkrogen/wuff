@@ -24,10 +24,18 @@
                     </textAttributes>
                     <items>
                         <navigationItem title="Wuff" id="Zii-HR-Xmc">
-                            <barButtonItem key="rightBarButtonItem" systemItem="add" id="YoF-ao-UQ0">
+                            <barButtonItem key="leftBarButtonItem" image="settings_icon.png" id="1Ew-9L-0So">
+                                <inset key="imageInsets" minX="0.0" minY="4" maxX="0.0" maxY="0.0"/>
                                 <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
-                                    <action selector="createEvent" destination="-1" id="qmK-Rc-9i0"/>
+                                    <action selector="openSettingsPanel" destination="-1" id="rZY-OD-lzd"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem key="rightBarButtonItem" systemItem="add" id="O48-p1-fRv">
+                                <inset key="imageInsets" minX="0.0" minY="4" maxX="0.0" maxY="0.0"/>
+                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <action selector="createEvent" destination="-1" id="6X1-XC-ehU"/>
                                 </connections>
                             </barButtonItem>
                         </navigationItem>
@@ -48,4 +56,7 @@
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>
     </objects>
+    <resources>
+        <image name="settings_icon.png" width="24" height="24"/>
+    </resources>
 </document>

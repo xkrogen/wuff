@@ -11,14 +11,20 @@
 #import "EventCreateViewController.h"
 #import "HandleRequest.h"
 #import "UIView+Toast.h"
+#import "SettingsViewController.h"
+#import "MSSlidingPanelController.h"
+#import "MSViewControllerSlidingPanel.h"
 
-@interface MainViewController : UIViewController <UITableViewDataSource, UITabBarDelegate>
+#pragma mark - Interface
+
+@interface MainViewController : UIViewController <MSSlidingPanelControllerDelegate, UITableViewDataSource, UITabBarDelegate>
 
 @property(nonatomic, strong) HandleRequest *myRequester;
 @property (nonatomic) NSMutableArray *eventList;
 @property (nonatomic, strong) IBOutlet UITableView *mainTable;
 
 -(IBAction)createEvent;
+-(IBAction)openSettingsPanel;
 
 -(void) handleMainResponse:(NSDictionary *)data;
 

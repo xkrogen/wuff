@@ -9,8 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "InputView.h"
 #import "HandleRequest.h"
-#import "MainViewController.h"
 #import "SignUpViewController.h"
+#import "MainViewController.h"
+#import "SettingsViewController.h"
+#import "MSSlidingPanelController.h"
 
 @interface LoginViewController : UIViewController
 

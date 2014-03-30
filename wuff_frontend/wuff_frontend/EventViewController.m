@@ -7,7 +7,7 @@
 //
 
 #import "EventViewController.h"
-#import "MainViewController.h"
+
 @interface EventViewController ()
 
 @end
@@ -57,7 +57,11 @@
 
 -(IBAction)backButton {
     MainViewController *main = [[MainViewController alloc] initWithNibName:nil bundle:nil];
-    [self presentViewController:main animated:YES completion:NULL];
+    SettingsViewController *settings = [[SettingsViewController alloc] initWithNibName:nil bundle:Nil];
+    
+    MSSlidingPanelController *newView = [[MSSlidingPanelController alloc] initWithCenterViewController:main andLeftPanelController:settings];
+    
+    [self presentViewController:newView animated:YES completion:NULL];
 }
 
 @end

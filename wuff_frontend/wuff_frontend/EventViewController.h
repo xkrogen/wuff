@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+#import "MainViewController.h"
+#import "SettingsViewController.h"
+#import "MSSlidingPanelController.h"
+
 @interface EventViewController : UIViewController {
     
     IBOutlet UILabel *eventTitle;

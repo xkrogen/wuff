@@ -54,8 +54,12 @@
 
         case SUCCESS:
         {
-        MainViewController *mainVC = [[MainViewController alloc] initWithNibName:nil bundle:nil];
-        [self presentViewController:mainVC animated:YES completion:NULL];
+            MainViewController *main = [[MainViewController alloc] initWithNibName:nil bundle:nil];
+            SettingsViewController *settings = [[SettingsViewController alloc] initWithNibName:nil bundle:Nil];
+            
+            MSSlidingPanelController *newView = [[MSSlidingPanelController alloc] initWithCenterViewController:main andLeftPanelController:settings];
+            
+            [self presentViewController:newView animated:YES completion:NULL];
         }
             
         case ERR_INVALID_NAME:

@@ -93,9 +93,21 @@
     [_mainTable reloadData];
 }
 
-- (IBAction)createEvent{
+-(IBAction)createEvent{
     EventCreateViewController *eventCreate = [[EventCreateViewController alloc]  initWithNibName:nil bundle:nil];
     [self presentViewController:eventCreate animated:YES completion:NULL];
+}
+
+-(IBAction)openSettingsPanel
+{
+    if ([[self slidingPanelController] sideDisplayed] == MSSPSideDisplayedLeft)
+    {
+        [[self slidingPanelController] closePanel];
+    }
+    else
+    {
+        [[self slidingPanelController] openLeftPanel];
+    }
 }
 
 

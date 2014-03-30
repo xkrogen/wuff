@@ -9,6 +9,16 @@
 			<key>orderHint</key>
 			<integer>2</integer>
 		</dict>
+		<key>Pods-MSSlidingPanelController.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>4</integer>
+		</dict>
+		<key>Pods-PKRevealController.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>3</integer>
+		</dict>
 		<key>Pods.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -17,12 +27,42 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>06D6D40CDDEB4243B1FE079B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>39CF2DC6F322431E92A705B7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>635E5ACDE45B429E8E5257F5</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>762759513DBD4A988F363DDF</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>9FEE45C5CB8744669118BBEC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>B140223B4015418F9FB376D9</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>B253EF640D2C4CB68728145B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B5DE6692B7474541B7469BDD</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -81,9 +81,13 @@
             [[NSUserDefaults standardUserDefaults] setObject:[data objectForKey:@"name"] forKey:@"name"];
             [[NSUserDefaults standardUserDefaults] setObject:[data objectForKey:@"email"] forKey:@"email"];
             
-            NSLog(@"Moving to main screen");
             MainViewController *main = [[MainViewController alloc] initWithNibName:nil bundle:nil];
-            [self presentViewController:main animated:YES completion:NULL];
+            SettingsViewController *settings = [[SettingsViewController alloc] initWithNibName:nil bundle:Nil];
+            
+            MSSlidingPanelController *newView = [[MSSlidingPanelController alloc] initWithCenterViewController:main andLeftPanelController:settings];
+            
+            [self presentViewController:newView animated:YES completion:NULL];
+            
             break;
         }
             

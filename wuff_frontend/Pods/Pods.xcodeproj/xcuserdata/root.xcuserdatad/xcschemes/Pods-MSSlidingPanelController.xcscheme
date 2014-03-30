@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B5DE6692B7474541B7469BDD"
-               BuildableName = "libPods-MLPAutoCompleteTextField.a"
-               BlueprintName = "Pods-MLPAutoCompleteTextField"
+               BlueprintIdentifier = "635E5ACDE45B429E8E5257F5"
+               BuildableName = "libPods-MSSlidingPanelController.a"
+               BlueprintName = "Pods-MSSlidingPanelController"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
