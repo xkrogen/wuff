@@ -39,7 +39,7 @@ class UsersController < ApplicationController
   		cookies.permanent[:current_user_token] = token
   		@user.update_attribute(:remember_token, User.hash(token))
   		current_user = @user
-      respond(rval[:err_code], { user_id: current_user.id })
+      respond(rval[:err_code], { user_id: current_user.id, email: current_user.email, name: current_user.name })
   	end
   end
 

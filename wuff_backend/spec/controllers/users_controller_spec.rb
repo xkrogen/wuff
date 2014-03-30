@@ -43,6 +43,9 @@ describe UsersController do
 				old_token = @user.remember_token
 				post 'login_user', { format: 'json', email: 'test@example.com', password: 'nopassword' }
 				JSON.parse(response.body)['err_code'].should eq SUCCESS
+				JSON.parse(response.body)['user_id'].should eq @user.id
+				JSON.parse(response.body)['name'].should eq @user.name
+				JSON.parse(response.body)['email'].should eq @user.email
 				@user.reload
 				@user.remember_token.should_not eq old_token
 			end
