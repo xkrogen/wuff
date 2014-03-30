@@ -11,7 +11,7 @@
 #import "EventCreateViewController.h"
 #import "HandleRequest.h"
 #import "UIView+Toast.h"
-#import "SettingsViewController.h"
+#import "SettingsTabViewController.h"
 #import "MSSlidingPanelController.h"
 #import "MSViewControllerSlidingPanel.h"
 

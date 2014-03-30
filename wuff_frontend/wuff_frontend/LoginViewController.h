@@ -11,7 +11,7 @@
 #import "HandleRequest.h"
 #import "SignUpViewController.h"
 #import "MainViewController.h"
-#import "SettingsViewController.h"
+#import "SettingsTabViewController.h"
 #import "MSSlidingPanelController.h"
 
 @interface LoginViewController : UIViewController

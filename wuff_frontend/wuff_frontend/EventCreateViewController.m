@@ -90,7 +90,7 @@
 -(IBAction)cancel
 {
     MainViewController *main = [[MainViewController alloc] initWithNibName:nil bundle:nil];
-    SettingsViewController *settings = [[SettingsViewController alloc] initWithNibName:nil bundle:Nil];
+    SettingsTabViewController *settings = [[SettingsTabViewController alloc] initWithNibName:nil bundle:Nil];
     
     MSSlidingPanelController *newView = [[MSSlidingPanelController alloc] initWithCenterViewController:main andLeftPanelController:settings];
     

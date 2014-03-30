@@ -16,6 +16,10 @@
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     
+    [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:49.0f/255.0f green:103.0f/255.0f blue:157.0f/255.0f alpha:1.0f]];
+    //[[UIView appearance] setTintColor:[UIColor whiteColor]];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+        
     LoginViewController *viewController = [[LoginViewController alloc] initWithNibName:nil bundle:nil];
     self.window.rootViewController = viewController;
     

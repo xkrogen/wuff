@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 #import "MainViewController.h"
-#import "SettingsViewController.h"
+#import "SettingsTabViewController.h"
 #import "MSSlidingPanelController.h"
 
 @interface EventViewController : UIViewController {
