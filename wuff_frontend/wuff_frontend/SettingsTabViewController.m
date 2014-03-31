@@ -105,6 +105,11 @@
         [_myRequester createRequestWithType:DELETE forExtension:@"/user/logout_user" withDictionary:d];
         NSLog(@"sent request!");
     }
+    else if ([identifier isEqualToString:@"+ Add New"])
+    {
+        GroupAddViewController *settings = [[GroupAddViewController alloc] initWithNibName:nil bundle:nil];
+        [self presentViewController:settings animated:YES completion:nil];
+    }
     
     //Change the selected background view of the cell.
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -118,7 +123,8 @@
         case SUCCESS:
         {
             LoginViewController *login = [[LoginViewController alloc] initWithNibName:nil bundle:nil];
-            [self presentViewController:login animated:YES completion:NULL];
+            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:login];
+            [self presentViewController:navController animated:YES completion:NULL];
             break;
         }
         case ERR_INVALID_NAME:

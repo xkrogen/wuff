@@ -27,6 +27,13 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+    // USE THIS CODE TO CREATE THE NAVIGATION CONTROLLER PROGRAMMATICALLY
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont boldSystemFontOfSize: 18.0f]}];
+    [self.navigationItem setTitle:@"Sign Up"];
+    
+    [self.navigationItem setHidesBackButton:YES];
+    // END CODE
 }
 
 - (void)didReceiveMemoryWarning
@@ -59,7 +66,7 @@
             
             MSSlidingPanelController *newView = [[MSSlidingPanelController alloc] initWithCenterViewController:main andLeftPanelController:settings];
             
-            [self presentViewController:newView animated:YES completion:NULL];
+            [self.navigationController pushViewController:newView animated:YES];
         }
             
         case ERR_INVALID_NAME:
@@ -103,8 +110,7 @@
 }
 
 -(IBAction)backButton {
-    LoginViewController *login = [[LoginViewController alloc] initWithNibName:nil bundle:nil];
-    [self presentViewController:login animated:YES completion:NULL];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

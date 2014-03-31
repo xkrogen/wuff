@@ -21,7 +21,7 @@
         // Custom initialization
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"cookieString"];
         
-        /* CODE FOR FINDING OUT THE FONT FAMILYS ON IOS
+        // CODE FOR FINDING OUT THE FONT FAMILYS ON IOS
         NSArray *familyNames = [[NSArray alloc] initWithArray:[UIFont familyNames]];
         NSArray *fontNames;
         NSInteger indFamily, indFont;
@@ -36,7 +36,7 @@
                 NSLog(@"    Font name: %@", [fontNames objectAtIndex:indFont]);
             }
         }
-        */
+        
 
         
 
@@ -49,6 +49,12 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     
+    // USE THIS CODE TO CREATE THE NAVIGATION CONTROLLER PROGRAMMATICALLY
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont boldSystemFontOfSize: 18.0f]}];
+    [self.navigationItem setTitle:@"Log In"];
+    
+    [self.navigationItem setHidesBackButton:YES];
+    // END CODE
 }
 
 - (void)didReceiveMemoryWarning
@@ -72,6 +78,8 @@
 }
 
 -(void) handleSignInResponse:(NSDictionary *)data {
+    [self.view hideToastActivity];
+    
     ErrorCode err_code = (ErrorCode)[[data objectForKey:@"err_code"] integerValue];
 
     switch (err_code)
@@ -86,9 +94,8 @@
             SettingsTabViewController *settings = [[SettingsTabViewController alloc] initWithNibName:nil bundle:Nil];
             
             MSSlidingPanelController *newView = [[MSSlidingPanelController alloc] initWithCenterViewController:main andLeftPanelController:settings];
-            
-            [self presentViewController:newView animated:YES completion:NULL];
-            
+            [self.navigationController presentViewController:newView animated:YES completion:nil];
+             
             break;
         }
             
@@ -132,7 +139,8 @@
 
 -(IBAction)signUp {
     SignUpViewController *signUp = [[SignUpViewController alloc] initWithNibName:nil bundle:nil];
-    [self presentViewController:signUp animated:YES completion:NULL];
+    
+    [self.navigationController pushViewController:signUp animated:YES];
 }
 
 

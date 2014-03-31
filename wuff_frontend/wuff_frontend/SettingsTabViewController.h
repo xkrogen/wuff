@@ -11,6 +11,7 @@
 #import "HandleRequest.h"
 #import "LoginViewController.h"
 #import "SettingsViewController.h"
+#import "GroupAddViewController.h"
 
 @interface SettingsTabViewController : UIViewController <MSSlidingPanelControllerDelegate, UITableViewDataSource, UITabBarDelegate>
 

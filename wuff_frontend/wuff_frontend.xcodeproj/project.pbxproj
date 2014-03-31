@@ -37,6 +37,8 @@
 		6C6216C518D0397A0006048A /* SignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C6216C318D0397A0006048A /* SignUpViewController.xib */; };
 		6C8CB86B18E89C6D0077E9BB /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C8CB86918E89C6D0077E9BB /* SettingsViewController.m */; };
 		6C8CB86C18E89C6D0077E9BB /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C8CB86A18E89C6D0077E9BB /* SettingsViewController.xib */; };
+		6C8CB87018EA185C0077E9BB /* GroupAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C8CB86E18EA185C0077E9BB /* GroupAddViewController.m */; };
+		6C8CB87118EA185C0077E9BB /* GroupAddViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C8CB86F18EA185C0077E9BB /* GroupAddViewController.xib */; };
 		6CAAB38118E7A67E008A686A /* settings_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CAAB38018E7A67E008A686A /* settings_icon.png */; };
 		6CF7E1B618CA538F00880712 /* HandleRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CF7E1B518CA538F00880712 /* HandleRequest.m */; };
 /* End PBXBuildFile section */
@@ -97,6 +99,9 @@
 		6C8CB86818E89C6D0077E9BB /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		6C8CB86918E89C6D0077E9BB /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		6C8CB86A18E89C6D0077E9BB /* SettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
+		6C8CB86D18EA185C0077E9BB /* GroupAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupAddViewController.h; sourceTree = "<group>"; };
+		6C8CB86E18EA185C0077E9BB /* GroupAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupAddViewController.m; sourceTree = "<group>"; };
+		6C8CB86F18EA185C0077E9BB /* GroupAddViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GroupAddViewController.xib; sourceTree = "<group>"; };
 		6CAAB38018E7A67E008A686A /* settings_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings_icon.png; sourceTree = "<group>"; };
 		6CF7E1B418CA538F00880712 /* HandleRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HandleRequest.h; sourceTree = "<group>"; };
 		6CF7E1B518CA538F00880712 /* HandleRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HandleRequest.m; sourceTree = "<group>"; };
@@ -171,6 +176,9 @@
 				6C4AFBD718E78D66001BCEBB /* SettingsTabViewController.h */,
 				6C4AFBD818E78D67001BCEBB /* SettingsTabViewController.m */,
 				6C4AFBD918E78D67001BCEBB /* SettingsTabViewController.xib */,
+				6C8CB86D18EA185C0077E9BB /* GroupAddViewController.h */,
+				6C8CB86E18EA185C0077E9BB /* GroupAddViewController.m */,
+				6C8CB86F18EA185C0077E9BB /* GroupAddViewController.xib */,
 				6C8CB86818E89C6D0077E9BB /* SettingsViewController.h */,
 				6C8CB86918E89C6D0077E9BB /* SettingsViewController.m */,
 				6C8CB86A18E89C6D0077E9BB /* SettingsViewController.xib */,
@@ -314,6 +322,7 @@
 				6CAAB38118E7A67E008A686A /* settings_icon.png in Resources */,
 				6C13DD9F18C41EFD0032A56C /* InfoPlist.strings in Resources */,
 				6C6216C018D0390F0006048A /* LoginViewController.xib in Resources */,
+				6C8CB87118EA185C0077E9BB /* GroupAddViewController.xib in Resources */,
 				322B9B3F18D256C80084AAF9 /* MainViewController.xib in Resources */,
 				6C6216C518D0397A0006048A /* SignUpViewController.xib in Resources */,
 				6C8CB86C18E89C6D0077E9BB /* SettingsViewController.xib in Resources */,
@@ -372,6 +381,7 @@
 				6C6216BA18D037AA0006048A /* EventCreateViewController.m in Sources */,
 				322B9B2F18D013C70084AAF9 /* EventViewController.m in Sources */,
 				6C4AFBDA18E78D67001BCEBB /* SettingsTabViewController.m in Sources */,
+				6C8CB87018EA185C0077E9BB /* GroupAddViewController.m in Sources */,
 				322B9B3E18D256C80084AAF9 /* MainViewController.m in Sources */,
 				6CF7E1B618CA538F00880712 /* HandleRequest.m in Sources */,
 				6C6216BF18D0390F0006048A /* LoginViewController.m in Sources */,

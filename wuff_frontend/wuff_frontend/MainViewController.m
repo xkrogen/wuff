@@ -34,6 +34,36 @@
      NSLog(@"sent request!");
     
     self.eventList = [[NSMutableArray alloc] init];
+    
+    // USE THIS CODE TO CREATE THE NAVIGATION CONTROLLER PROGRAMMATICALLY
+    UINavigationBar *navigationBar;
+    UINavigationItem *navigationBarItem;
+    
+    CGSize windowSize = [[UIScreen mainScreen] bounds].size;
+    navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, windowSize.width, 64)];
+    
+    [[self view] addSubview:navigationBar];
+    
+    [self.navigationItem setHidesBackButton:YES];
+    
+    [navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont boldSystemFontOfSize: 18.0f]}];
+    navigationBarItem = [[UINavigationItem alloc] initWithTitle:@"Wuff"];
+    
+    UIBarButtonItem *settingsTabButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"settings_icon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(openSettingsPanel)];
+    [settingsTabButton setTintColor:[UIColor whiteColor]];
+    [navigationBarItem setLeftBarButtonItem:settingsTabButton];
+    
+    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(createEvent)];
+    [addButton setTintColor:[UIColor whiteColor]];
+    [navigationBarItem setRightBarButtonItem:addButton];
+    
+    [navigationBar setBarTintColor:[UIColor colorWithRed:49.0f/255.0f green:103.0f/255.0f blue:157.0f/255.0f alpha:1.0f]];
+    [navigationBar pushNavigationItem:navigationBarItem animated:NO];
+    [navigationBar setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
+    
+    [[self view] addSubview:navigationBar];
+    // END CODE
+    
 }
 
 
@@ -95,7 +125,8 @@
 
 -(IBAction)createEvent{
     EventCreateViewController *eventCreate = [[EventCreateViewController alloc]  initWithNibName:nil bundle:nil];
-    [self presentViewController:eventCreate animated:YES completion:NULL];
+    [self presentViewController:eventCreate animated:YES completion:nil];
+    NSLog(@"WTF?");
 }
 
 -(IBAction)openSettingsPanel

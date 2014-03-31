@@ -50,6 +50,31 @@
     NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys: nil];
     _myRequester = [[HandleRequest alloc] initWithSelector:@"handleUserList:" andDelegate:self];
     [_myRequester createRequestWithType:POST forExtension:@"/user/get_all_users" withDictionary:d];
+    
+    // USE THIS CODE TO CREATE THE NAVIGATION CONTROLLER PROGRAMMATICALLY
+    UINavigationBar *navigationBar;
+    UINavigationItem *navigationBarItem;
+    
+    CGSize windowSize = [[UIScreen mainScreen] bounds].size;
+    navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, windowSize.width, 64)];
+    
+    [[self view] addSubview:navigationBar];
+    
+    [self.navigationItem setHidesBackButton:YES];
+    
+    [navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont boldSystemFontOfSize: 18.0f]}];
+    navigationBarItem = [[UINavigationItem alloc] initWithTitle:@"Wuff"];
+    
+    UIBarButtonItem *settingsTabButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel)];
+    [settingsTabButton setTintColor:[UIColor whiteColor]];
+    [navigationBarItem setLeftBarButtonItem:settingsTabButton];
+    
+    [navigationBar setBarTintColor:[UIColor colorWithRed:49.0f/255.0f green:103.0f/255.0f blue:157.0f/255.0f alpha:1.0f]];
+    [navigationBar pushNavigationItem:navigationBarItem animated:NO];
+    [navigationBar setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
+    
+    [[self view] addSubview:navigationBar];
+    // END CODE
 }
 
 -(void)handleUserList:(NSDictionary *)response
@@ -60,7 +85,6 @@
         NSDictionary *user = [response objectForKey:[NSString stringWithFormat:@"%d", i]];
         [_userList addObject:[[UserAutoCompletionObject alloc] initWithUserDictionary:user]];
     }
-    NSLog(@"hello");
 }
 
 -(IBAction)createEvent
@@ -94,7 +118,7 @@
     
     MSSlidingPanelController *newView = [[MSSlidingPanelController alloc] initWithCenterViewController:main andLeftPanelController:settings];
     
-    [self presentViewController:newView animated:YES completion:NULL];
+    [self presentViewController:newView animated:YES completion:nil];
 }
 
 
@@ -107,7 +131,11 @@
         {
             NSLog(@"Moving to main screen");
             MainViewController *main = [[MainViewController alloc] initWithNibName:nil bundle:nil];
-            [self presentViewController:main animated:YES completion:NULL];
+            SettingsTabViewController *settings = [[SettingsTabViewController alloc] initWithNibName:nil bundle:Nil];
+            
+            MSSlidingPanelController *newView = [[MSSlidingPanelController alloc] initWithCenterViewController:main andLeftPanelController:settings];
+            
+            [self.navigationController presentViewController:newView animated:YES completion:nil];
             break;
         }
             

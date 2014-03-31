@@ -18,6 +18,7 @@
 
 @property(nonatomic, strong) IBOutlet InputView *emailInputView;
 @property(nonatomic, strong) IBOutlet InputView *passwordInputView;
+@property(nonatomic, strong) UINavigationItem *title;
 
 @property(nonatomic, strong) HandleRequest *myRequester;
 
