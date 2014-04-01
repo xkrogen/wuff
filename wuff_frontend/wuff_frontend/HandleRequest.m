@@ -110,8 +110,16 @@
     {
         NSDictionary *fields = [HTTPResponse allHeaderFields];
         NSString *cookieString = [fields valueForKey:@"Set-Cookie"]; // your cookie
-        NSLog(@"storing cookie in NSUserDefaults");
-        [[NSUserDefaults standardUserDefaults] setObject:cookieString forKey:@"cookieString"];
+        
+        NSError *err = nil;
+        NSRegularExpression *pat = [[NSRegularExpression alloc] initWithPattern:@"current_user_token=.+" options:NSRegularExpressionCaseInsensitive error:&err];
+        NSTextCheckingResult *result = [pat firstMatchInString:cookieString options:0 range:NSMakeRange(0, [cookieString length])];
+        NSLog(@"Result: %@", result);
+        if (result)
+        {
+            NSLog(@"storing cookie: %@ in NSUserDefaults", cookieString);
+            [[NSUserDefaults standardUserDefaults] setObject:cookieString forKey:@"cookieString"];
+        }
     }
 }
 

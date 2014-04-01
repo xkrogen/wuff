@@ -29,7 +29,7 @@
     //Code to send POST Request
      _myRequester = [[HandleRequest alloc] initWithSelector:@"handleMainResponse:" andDelegate:self];
     
-     NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys: @"all events", @"email", nil];
+     NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys: nil];
      [_myRequester createRequestWithType:GET forExtension:@"/user/get_events" withDictionary:d];
      NSLog(@"sent request!");
     
@@ -126,7 +126,6 @@
 -(IBAction)createEvent{
     EventCreateViewController *eventCreate = [[EventCreateViewController alloc]  initWithNibName:nil bundle:nil];
     [self presentViewController:eventCreate animated:YES completion:nil];
-    NSLog(@"WTF?");
 }
 
 -(IBAction)openSettingsPanel
