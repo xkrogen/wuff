@@ -62,7 +62,7 @@
                             <accessibility key="accessibilityConfiguration" label="Signup_NameField"/>
                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
-                            <textInputTraits key="textInputTraits" autocorrectionType="no"/>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no"/>
                             <connections>
                                 <outlet property="delegate" destination="uS4-h6-6Wh" id="V7z-Gw-nfK"/>
                             </connections>
@@ -84,7 +84,7 @@
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KIk-1w-Pi0">
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="********" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KIk-1w-Pi0">
                             <rect key="frame" x="111" y="5" width="189" height="35"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <accessibility key="accessibilityConfiguration" label="Signup_PasswordField"/>
