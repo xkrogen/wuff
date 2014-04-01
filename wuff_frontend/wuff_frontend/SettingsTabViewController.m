@@ -76,7 +76,7 @@
     {
         cell.detailTextLabel.attributedText = nil;
         cell.textLabel.attributedText = [[NSAttributedString alloc]
-            initWithString:@"NEED LOGIN_USER CHANGES"
+            initWithString:[[NSUserDefaults standardUserDefaults] objectForKey:@"name"]
             attributes:@{NSForegroundColorAttributeName:textColor, NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Light" size:16.0f]}];
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     }
