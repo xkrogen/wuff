@@ -131,6 +131,7 @@
 
 -(IBAction)openSettingsPanel
 {
+    [[self slidingPanelController] setLeftPanelMaximumWidth:260.0f];
     if ([[self slidingPanelController] sideDisplayed] == MSSPSideDisplayedLeft)
     {
         [[self slidingPanelController] closePanel];
@@ -217,7 +218,7 @@
     
     eventView.location = [self.eventList[indexPath.row] objectForKey:@"location"];
     //eventView.description = [self.eventList[indexPath.row] objectForKey:@"description"];
-    eventView.description = @"Nothing here!";
+    eventView.description = [self.eventList[indexPath.row] objectForKey:@"description"];
     
     // parse attendees
     eventView.attenders = @"";

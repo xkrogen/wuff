@@ -8,37 +8,31 @@
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>2</integer>
 		</dict>
 		<key>Pods-MSSlidingPanelController.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>3</integer>
 		</dict>
 		<key>Pods.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>1</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>72ECD350597142BF91571E1A</key>
+		<key>C0687EC782B44D138D8EFA1F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>D7917FC237C34C29A4D79EF6</key>
+		<key>F2833FEB387242E8ACF3C087</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>EB8610303C454D91ABA090BD</key>
+		<key>FAD1F7D8697B4B878D44BA4F</key>
 		<dict>
 			<key>primary</key>
 			<true/>

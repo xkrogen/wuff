@@ -135,7 +135,7 @@
             
             MSSlidingPanelController *newView = [[MSSlidingPanelController alloc] initWithCenterViewController:main andLeftPanelController:settings];
             
-            [self.navigationController presentViewController:newView animated:YES completion:nil];
+            [self presentViewController:newView animated:YES completion:nil];
             break;
         }
             
