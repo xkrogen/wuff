@@ -20,6 +20,8 @@
 @property(nonatomic, strong) IBOutlet InputView *passwordInputView;
 @property(nonatomic, strong) UINavigationItem *title;
 
+@property (nonatomic,retain) IBOutlet FBLoginView *fbLoginButton;
+
 @property(nonatomic, strong) HandleRequest *myRequester;
 
 -(void) handleSignInResponse:(NSDictionary *)data;

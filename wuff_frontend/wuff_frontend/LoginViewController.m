@@ -54,6 +54,8 @@
     [self.navigationItem setTitle:@"Log In"];
     
     [self.navigationItem setHidesBackButton:YES];
+    _fbLoginButton.readPermissions = @[@"basic_info"];
+    //We only want to read Basic Info
     // END CODE
 }
 

@@ -7,6 +7,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LoginViewController">
             <connections>
                 <outlet property="emailInputView" destination="h2u-97-ir0" id="VZe-gm-nn9"/>
+                <outlet property="fbLoginButton" destination="gKI-Q8-zZi" id="nAx-KJ-sPG"/>
                 <outlet property="passwordInputView" destination="QVa-VD-5OM" id="yy3-vw-C6K"/>
                 <outlet property="view" destination="3rA-EY-DJx" id="XNJ-s1-Itm"/>
             </connections>
