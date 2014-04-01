@@ -104,8 +104,7 @@ class Group < ActiveRecord::Base
 		user_list.each do |uid|
 			user_count += 1
 			curr_user = User.find(uid)
-			user_list_out[user_count] = { name: curr_user.name,
-					email: curr_user.email }
+			user_list_out[user_count] = curr_user.get_hash
 		end
 		user_list_out[:user_count] = user_count
 		{ group: self.id, name: name, 
