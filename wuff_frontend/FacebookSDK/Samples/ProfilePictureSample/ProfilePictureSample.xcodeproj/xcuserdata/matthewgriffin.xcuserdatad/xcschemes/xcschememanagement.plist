@@ -4,20 +4,15 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>wuff_frontend.xcscheme</key>
+		<key>ProfilePictureSample.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>1</integer>
+			<integer>5</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>6C13DD9018C41EFD0032A56C</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>6C13DDB118C41EFD0032A56C</key>
+		<key>B98686B7151D0B3700616412</key>
 		<dict>
 			<key>primary</key>
 			<true/>
