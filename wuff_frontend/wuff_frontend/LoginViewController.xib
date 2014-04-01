@@ -93,7 +93,7 @@
                     </connections>
                 </button>
                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gKI-Q8-zZi" customClass="FBLoginView">
-                    <rect key="frame" x="80" y="211" width="160" height="48"/>
+                    <rect key="frame" x="20" y="211" width="280" height="48"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                 </view>

@@ -4,15 +4,15 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>RPSSample.xcscheme</key>
+		<key>GraphApiSample.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>9</integer>
+			<integer>5</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>84070D151540AA2B00E39703</key>
+		<key>E251173C152BB6FE00CB342A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
