@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		186A197418CD270000E4BEB5 /* UIView+Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = 186A197318CD270000E4BEB5 /* UIView+Toast.m */; };
+		187D8D5818EA4F7400E5EA1B /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 187D8C3318EA4F7300E5EA1B /* FacebookSDK.framework */; };
+		187D8D5918EA4F7400E5EA1B /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 187D8C3418EA4F7300E5EA1B /* LICENSE */; };
+		187D8D5A18EA4F7400E5EA1B /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 187D8C3518EA4F7300E5EA1B /* README.txt */; };
 		2FA263EFF5754A148A72C75D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 044995168A7147F2923F3E70 /* libPods.a */; };
 		322B9B2F18D013C70084AAF9 /* EventViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 322B9B2D18D013C70084AAF9 /* EventViewController.m */; };
 		322B9B3018D013C70084AAF9 /* EventViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 322B9B2E18D013C70084AAF9 /* EventViewController.xib */; };
@@ -57,6 +60,9 @@
 		044995168A7147F2923F3E70 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		186A197218CD270000E4BEB5 /* UIView+Toast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Toast.h"; sourceTree = "<group>"; };
 		186A197318CD270000E4BEB5 /* UIView+Toast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Toast.m"; sourceTree = "<group>"; };
+		187D8C3318EA4F7300E5EA1B /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
+		187D8C3418EA4F7300E5EA1B /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		187D8C3518EA4F7300E5EA1B /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		21C7EA91E60F44E4B5D21A16 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		322B9B2C18D013C70084AAF9 /* EventViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventViewController.h; sourceTree = "<group>"; };
 		322B9B2D18D013C70084AAF9 /* EventViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventViewController.m; sourceTree = "<group>"; };
@@ -113,6 +119,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6C13DD9718C41EFD0032A56C /* CoreGraphics.framework in Frameworks */,
+				187D8D5818EA4F7400E5EA1B /* FacebookSDK.framework in Frameworks */,
 				6C13DD9918C41EFD0032A56C /* UIKit.framework in Frameworks */,
 				6C13DD9518C41EFD0032A56C /* Foundation.framework in Frameworks */,
 				2FA263EFF5754A148A72C75D /* libPods.a in Frameworks */,
@@ -132,6 +139,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		187D8C3218EA4F7300E5EA1B /* FacebookSDK */ = {
+			isa = PBXGroup;
+			children = (
+				187D8C3318EA4F7300E5EA1B /* FacebookSDK.framework */,
+				187D8C3418EA4F7300E5EA1B /* LICENSE */,
+				187D8C3518EA4F7300E5EA1B /* README.txt */,
+			);
+			path = FacebookSDK;
+			sourceTree = "<group>";
+		};
 		6C13DD8818C41EFD0032A56C = {
 			isa = PBXGroup;
 			children = (
@@ -155,6 +172,7 @@
 		6C13DD9318C41EFD0032A56C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				187D8C3218EA4F7300E5EA1B /* FacebookSDK */,
 				6C13DD9418C41EFD0032A56C /* Foundation.framework */,
 				6C13DD9618C41EFD0032A56C /* CoreGraphics.framework */,
 				6C13DD9818C41EFD0032A56C /* UIKit.framework */,
@@ -298,6 +316,7 @@
 			knownRegions = (
 				en,
 				Base,
+				he,
 			);
 			mainGroup = 6C13DD8818C41EFD0032A56C;
 			productRefGroup = 6C13DD9218C41EFD0032A56C /* Products */;
@@ -318,9 +337,11 @@
 				6C13DDAD18C41EFD0032A56C /* Images.xcassets in Resources */,
 				6C6216BB18D037AA0006048A /* EventCreateViewController.xib in Resources */,
 				322B9B3018D013C70084AAF9 /* EventViewController.xib in Resources */,
+				187D8D5A18EA4F7400E5EA1B /* README.txt in Resources */,
 				6C4AFBDB18E78D67001BCEBB /* SettingsTabViewController.xib in Resources */,
 				6CAAB38118E7A67E008A686A /* settings_icon.png in Resources */,
 				6C13DD9F18C41EFD0032A56C /* InfoPlist.strings in Resources */,
+				187D8D5918EA4F7400E5EA1B /* LICENSE in Resources */,
 				6C6216C018D0390F0006048A /* LoginViewController.xib in Resources */,
 				6C8CB87118EA185C0077E9BB /* GroupAddViewController.xib in Resources */,
 				322B9B3F18D256C80084AAF9 /* MainViewController.xib in Resources */,
@@ -508,6 +529,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"FacebookSDK/**",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "wuff_frontend/wuff_frontend-Prefix.pch";
 				INFOPLIST_FILE = "wuff_frontend/wuff_frontend-Info.plist";
@@ -522,6 +547,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"FacebookSDK/**",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "wuff_frontend/wuff_frontend-Prefix.pch";
 				INFOPLIST_FILE = "wuff_frontend/wuff_frontend-Info.plist";

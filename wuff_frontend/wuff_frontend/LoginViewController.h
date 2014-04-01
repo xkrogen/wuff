@@ -14,11 +14,13 @@
 #import "SettingsTabViewController.h"
 #import "MSSlidingPanelController.h"
 
-@interface LoginViewController : UIViewController
+@interface LoginViewController : UIViewController <FBLoginViewDelegate>
 
 @property(nonatomic, strong) IBOutlet InputView *emailInputView;
 @property(nonatomic, strong) IBOutlet InputView *passwordInputView;
 @property(nonatomic, strong) UINavigationItem *title;
+
+@property (nonatomic,retain) IBOutlet FBLoginView *fbLoginButton;
 
 @property(nonatomic, strong) HandleRequest *myRequester;
 
