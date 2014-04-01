@@ -14,7 +14,7 @@
 #import "SettingsTabViewController.h"
 #import "MSSlidingPanelController.h"
 
-@interface LoginViewController : UIViewController
+@interface LoginViewController : UIViewController <FBLoginViewDelegate>
 
 @property(nonatomic, strong) IBOutlet InputView *emailInputView;
 @property(nonatomic, strong) IBOutlet InputView *passwordInputView;

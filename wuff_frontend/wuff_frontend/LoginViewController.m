@@ -54,7 +54,8 @@
     [self.navigationItem setTitle:@"Log In"];
     
     [self.navigationItem setHidesBackButton:YES];
-    _fbLoginButton.readPermissions = @[@"basic_info"];
+    _fbLoginButton.readPermissions = @[@"basic_info",@"email"];
+    _fbLoginButton.delegate = self;
     //We only want to read Basic Info
     // END CODE
 }
@@ -143,6 +144,12 @@
     SignUpViewController *signUp = [[SignUpViewController alloc] initWithNibName:nil bundle:nil];
     
     [self.navigationController pushViewController:signUp animated:YES];
+}
+
+-(void)loginViewFetchedUserInfo:(FBLoginView *)loginView user:(id<FBGraphUser>)user {
+    
+    
+    
 }
 
 
