@@ -21,6 +21,7 @@
         // Custom initialization
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"cookieString"];
         
+        /*
         // CODE FOR FINDING OUT THE FONT FAMILYS ON IOS
         NSArray *familyNames = [[NSArray alloc] initWithArray:[UIFont familyNames]];
         NSArray *fontNames;
@@ -36,9 +37,7 @@
                 NSLog(@"    Font name: %@", [fontNames objectAtIndex:indFont]);
             }
         }
-        
-
-        
+         */
 
     }
     return self;

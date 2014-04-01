@@ -131,6 +131,7 @@
 
 -(IBAction)openSettingsPanel
 {
+    [[self slidingPanelController] setLeftPanelMaximumWidth:260.0f];
     if ([[self slidingPanelController] sideDisplayed] == MSSPSideDisplayedLeft)
     {
         [[self slidingPanelController] closePanel];
