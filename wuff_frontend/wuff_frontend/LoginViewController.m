@@ -148,6 +148,24 @@
 
 -(void)loginViewFetchedUserInfo:(FBLoginView *)loginView user:(id<FBGraphUser>)user {
     
+    NSString *token = [[FBSession activeSession] accessTokenData].accessToken;
+    NSString *userID = user.id;
+    
+    NSLog(@"token: %@\nUserID: %@",token,userID);
+    
+    
+    NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:userID, @"face_book_id", token, @"facebook_token", nil];
+    
+    //Code to send POST Request
+    _myRequester = [[HandleRequest alloc] initWithSelector:@"handleSignInResponse:" andDelegate:self];
+    [_myRequester createRequestWithType:POST forExtension:@"/user/auth_facebook" withDictionary:d];
+    
+    // close the keyboard
+    [self.view endEditing:YES];
+    NSLog(@"sent request!");
+    
+    [self.view makeToastActivity];
+    
     
     
 }
