@@ -183,6 +183,36 @@ class UsersController < ApplicationController
     respond(SUCCESS, return_list)
   end
 
+  # GET /user/get_friends
+  # Returns all of the relevant information to display user_id’s friends. 
+  # Nested JSON for each friend. 
+  #
+  # If invalid friend IDs are found, automatically removes them from
+  # the user's friend list. 
+  def get_friends
+    if not signed_in?
+      session_fail_response
+      return
+    end
+    return_list = {}
+    friend_count = 0
+    user = current_user
+    friend_list_size_old = user.friend_list.size
+    user.friend_list.delete_if do |friend_id|
+      begin
+        friend = User.find(friend_id)
+      rescue ActiveRecord::RecordNotFound
+        next true
+      end
+      friend_count += 1
+      return_list[friend_count] = friend.get_hash
+      false
+    end
+    user.update_attribute(:friend_list, user.friend_list) if friend_list_size_old != user.friend_list.size
+    return_list[:friend_count] = friend_count
+    respond(SUCCESS, return_list)
+  end
+
   # GET /user/has_notifications
   # Check if the user.notification_list is empty
   # Upon success, format JSON { err_code: code, notif: val }
