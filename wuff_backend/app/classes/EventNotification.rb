@@ -1,4 +1,6 @@
+
 require 'Notification'
+
 class EventNotification < Notification
 
 	# Event notification types

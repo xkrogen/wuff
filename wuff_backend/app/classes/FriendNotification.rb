@@ -1,3 +1,4 @@
+
 require 'Notification'
 
 class FriendNotification < Notification
