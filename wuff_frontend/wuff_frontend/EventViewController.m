@@ -64,6 +64,7 @@
     
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(backButton)];
     [backButton setTintColor:[UIColor whiteColor]];
+    [backButton setAccessibilityLabel:@"Back Button"];
     [navigationBarItem setLeftBarButtonItem:backButton];
     
     [navigationBar setBarTintColor:[UIColor colorWithRed:49.0f/255.0f green:103.0f/255.0f blue:157.0f/255.0f alpha:1.0f]];

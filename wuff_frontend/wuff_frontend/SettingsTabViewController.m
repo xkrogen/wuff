@@ -115,6 +115,14 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
+-(void) logoutFrontend
+{
+    // clear defaults
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"cookieString"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"name"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"email"];
+}
+
 -(void) handleLogout:(NSDictionary *)response
 {
     ErrorCode err_code = (ErrorCode)[[response objectForKey:@"err_code"] integerValue];
@@ -122,6 +130,8 @@
     {
         case SUCCESS:
         {
+            [self logoutFrontend];
+            
             LoginViewController *login = [[LoginViewController alloc] initWithNibName:nil bundle:nil];
             UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:login];
             [self presentViewController:navController animated:YES completion:NULL];
