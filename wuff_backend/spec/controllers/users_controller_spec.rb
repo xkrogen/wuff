@@ -61,7 +61,7 @@ describe UsersController do
 		describe "login with a device token" do
 			it "should have user[device_token] not nil" do
 				@user.device_tokens.empty?.should eq true
-				post 'login_user', { format: 'json', email: 'test@example.com', password: 'yespassword', device_token: '0000' }
+				post 'login_user', { format: 'json', email: 'test@example.com', password: 'nopassword', device_token: '0000' }
 				@user.reload
 				@user.device_tokens.empty?.should eq false
 			end
