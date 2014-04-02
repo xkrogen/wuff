@@ -66,7 +66,9 @@ class User < ActiveRecord::Base
 		if !self.friend_list.include?(friend.id)
 			self.friend_list = (self.friend_list << friend.id)
 			self.update_attribute(:friend_list, self.friend_list)
-			friend.post_notification(FriendNotification.new(self))
+			notif = FriendNotification.new(self)
+			friend.post_notification(notif)
+			notif.send_push(friend)
 		end
 		SUCCESS
 	end

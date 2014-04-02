@@ -170,6 +170,7 @@ class Event < ActiveRecord::Base
 				rescue ActiveRecord::RecordNotFound
 					next
 				end
+				notification.send_push(user)
 				user.post_notification(notification)
 			end
 		else
@@ -180,6 +181,7 @@ class Event < ActiveRecord::Base
 				rescue ActiveRecord::RecordNotFound
 					next
 				end
+				notification.send_push(user)
 				user.post_notification(notification)
 			end
 		end
