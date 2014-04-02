@@ -1,4 +1,5 @@
-class EventNotification
+require 'Notification'
+class EventNotification < Notification
 
 	# Event notification types
 	NOTIF_NEW_EVENT = 1
