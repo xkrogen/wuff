@@ -42,6 +42,8 @@
 		6C8CB86C18E89C6D0077E9BB /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C8CB86A18E89C6D0077E9BB /* SettingsViewController.xib */; };
 		6C8CB87018EA185C0077E9BB /* GroupAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C8CB86E18EA185C0077E9BB /* GroupAddViewController.m */; };
 		6C8CB87118EA185C0077E9BB /* GroupAddViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C8CB86F18EA185C0077E9BB /* GroupAddViewController.xib */; };
+		6C8CB87818EC6E880077E9BB /* AddFriendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C8CB87618EC6E880077E9BB /* AddFriendViewController.m */; };
+		6C8CB87918EC6E880077E9BB /* AddFriendViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C8CB87718EC6E880077E9BB /* AddFriendViewController.xib */; };
 		6CAAB38118E7A67E008A686A /* settings_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CAAB38018E7A67E008A686A /* settings_icon.png */; };
 		6CF7E1B618CA538F00880712 /* HandleRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CF7E1B518CA538F00880712 /* HandleRequest.m */; };
 /* End PBXBuildFile section */
@@ -108,6 +110,9 @@
 		6C8CB86D18EA185C0077E9BB /* GroupAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupAddViewController.h; sourceTree = "<group>"; };
 		6C8CB86E18EA185C0077E9BB /* GroupAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupAddViewController.m; sourceTree = "<group>"; };
 		6C8CB86F18EA185C0077E9BB /* GroupAddViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GroupAddViewController.xib; sourceTree = "<group>"; };
+		6C8CB87518EC6E880077E9BB /* AddFriendViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddFriendViewController.h; sourceTree = "<group>"; };
+		6C8CB87618EC6E880077E9BB /* AddFriendViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddFriendViewController.m; sourceTree = "<group>"; };
+		6C8CB87718EC6E880077E9BB /* AddFriendViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddFriendViewController.xib; sourceTree = "<group>"; };
 		6CAAB38018E7A67E008A686A /* settings_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings_icon.png; sourceTree = "<group>"; };
 		6CF7E1B418CA538F00880712 /* HandleRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HandleRequest.h; sourceTree = "<group>"; };
 		6CF7E1B518CA538F00880712 /* HandleRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HandleRequest.m; sourceTree = "<group>"; };
@@ -200,6 +205,9 @@
 				6C8CB86818E89C6D0077E9BB /* SettingsViewController.h */,
 				6C8CB86918E89C6D0077E9BB /* SettingsViewController.m */,
 				6C8CB86A18E89C6D0077E9BB /* SettingsViewController.xib */,
+				6C8CB87518EC6E880077E9BB /* AddFriendViewController.h */,
+				6C8CB87618EC6E880077E9BB /* AddFriendViewController.m */,
+				6C8CB87718EC6E880077E9BB /* AddFriendViewController.xib */,
 				322B9B2C18D013C70084AAF9 /* EventViewController.h */,
 				322B9B2D18D013C70084AAF9 /* EventViewController.m */,
 				322B9B2E18D013C70084AAF9 /* EventViewController.xib */,
@@ -340,6 +348,7 @@
 				187D8D5A18EA4F7400E5EA1B /* README.txt in Resources */,
 				6C4AFBDB18E78D67001BCEBB /* SettingsTabViewController.xib in Resources */,
 				6CAAB38118E7A67E008A686A /* settings_icon.png in Resources */,
+				6C8CB87918EC6E880077E9BB /* AddFriendViewController.xib in Resources */,
 				6C13DD9F18C41EFD0032A56C /* InfoPlist.strings in Resources */,
 				187D8D5918EA4F7400E5EA1B /* LICENSE in Resources */,
 				6C6216C018D0390F0006048A /* LoginViewController.xib in Resources */,
@@ -402,6 +411,7 @@
 				6C6216BA18D037AA0006048A /* EventCreateViewController.m in Sources */,
 				322B9B2F18D013C70084AAF9 /* EventViewController.m in Sources */,
 				6C4AFBDA18E78D67001BCEBB /* SettingsTabViewController.m in Sources */,
+				6C8CB87818EC6E880077E9BB /* AddFriendViewController.m in Sources */,
 				6C8CB87018EA185C0077E9BB /* GroupAddViewController.m in Sources */,
 				322B9B3E18D256C80084AAF9 /* MainViewController.m in Sources */,
 				6CF7E1B618CA538F00880712 /* HandleRequest.m in Sources */,

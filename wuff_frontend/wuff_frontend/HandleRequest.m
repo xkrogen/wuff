@@ -109,16 +109,23 @@
     if ([cookie_stored isEqualToString:@""] || cookie_stored == NULL)
     {
         NSDictionary *fields = [HTTPResponse allHeaderFields];
+        for(id key in fields)
+            NSLog(@"key=%@ value=%@", key, [fields objectForKey:key]);
+        
         NSString *cookieString = [fields valueForKey:@"Set-Cookie"]; // your cookie
         
         NSError *err = nil;
-        NSRegularExpression *pat = [[NSRegularExpression alloc] initWithPattern:@"current_user_token=.+" options:NSRegularExpressionCaseInsensitive error:&err];
-        NSTextCheckingResult *result = [pat firstMatchInString:cookieString options:0 range:NSMakeRange(0, [cookieString length])];
-        NSLog(@"Result: %@", result);
-        if (result)
+        
+        if (cookieString)
         {
-            NSLog(@"storing cookie: %@ in NSUserDefaults", cookieString);
-            [[NSUserDefaults standardUserDefaults] setObject:cookieString forKey:@"cookieString"];
+            NSRegularExpression *pat = [[NSRegularExpression alloc] initWithPattern:@"current_user_token=.+" options:NSRegularExpressionCaseInsensitive error:&err];
+            NSTextCheckingResult *result = [pat firstMatchInString:cookieString options:0 range:NSMakeRange(0, [cookieString length])];
+            NSLog(@"Result: %@", result);
+            if (result)
+            {
+                NSLog(@"storing cookie: %@ in NSUserDefaults", cookieString);
+                [[NSUserDefaults standardUserDefaults] setObject:cookieString forKey:@"cookieString"];
+            }
         }
     }
 }
