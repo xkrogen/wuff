@@ -73,7 +73,7 @@ describe UsersController do
 	describe "auth_facebook" do
 		before do
 			# token may need to be refreshed with FB Graph API Explorer
-			@token = 'CAACEdEose0cBACoLDX6fqqK2Fu7JfP0NZBNGZAzI1zrRniYvZCmbwP6NvTvqKPZC8zXOtf7uWLuF6GJAQ5qXZAnuVpMSjOlWnfkQEM9z4hYOFd0ZBIAHtyEgrFtmQO2aeR7gIF7YlKAXGzJ552hR3ZCd8fZCGqBLFox1iT8aX5ADjxFMIdxF3SIFX7hxxY3xCkUZD'
+			@token = 'CAACEdEose0cBAG5oKRs8yzdc69lMc3olPnpzQERVb6PxXCJ3uiEptE1OaS7s9Aq09iHZBLsNZAVNZCr7QFZCBmk8KqOKZCanDqamKqhiTqEcHhRe4pXfEZBboUfWZBInyoGKkkNbW88HiPxeikzo1PziZANSARXiZBkMfYzqxFZCyzVqaUEecktaAJjkX7ZABZCZB2J4ZD'
 		end
 
 		describe "authenticate w/o token" do
