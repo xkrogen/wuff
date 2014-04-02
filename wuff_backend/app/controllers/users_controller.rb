@@ -39,10 +39,10 @@ class UsersController < ApplicationController
   	else
   		@user = rval[:user]
   		token = User.new_token
-      @user.add_device_token(params['device_token']) if params.has_key?('device_token')
   		cookies.permanent[:current_user_token] = token
   		@user.update_attribute(:remember_token, User.hash(token))
   		current_user = @user
+      current_user.add_device_token(params['device_token']) if params.has_key?('device_token')
       respond(rval[:err_code], { user_id: current_user.id, email: current_user.email, name: current_user.name })
   	end
   end

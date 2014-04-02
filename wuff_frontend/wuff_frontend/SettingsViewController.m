@@ -39,10 +39,11 @@
     [self.navigationItem setHidesBackButton:YES];
     
     [navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont boldSystemFontOfSize: 18.0f]}];
-    navigationBarItem = [[UINavigationItem alloc] initWithTitle:@"Event"];
+    navigationBarItem = [[UINavigationItem alloc] initWithTitle:@"Settings"];
     
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(back)];
     [backButton setTintColor:[UIColor whiteColor]];
+    [backButton setAccessibilityLabel:@"Settings Back Button"];
     [navigationBarItem setLeftBarButtonItem:backButton];
     
     [navigationBar setBarTintColor:[UIColor colorWithRed:49.0f/255.0f green:103.0f/255.0f blue:157.0f/255.0f alpha:1.0f]];

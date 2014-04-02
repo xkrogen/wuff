@@ -1,6 +1,8 @@
+include RestGraph::RailsUtil
+
 class UsersController < ApplicationController
 
-   # Session ID does not match this user.remember_token
+  # Session ID does not match this user.remember_token
   ERR_INVALID_SESSION = -11
 
 	# POST /user/add_user
@@ -16,10 +18,11 @@ class UsersController < ApplicationController
       respond(rval)
   	else
   		token = User.new_token
+      @user.add_device_token(params['device_token']) if params.has_key?('device_token')
   		cookies.permanent[:current_user_token] = token
   		@user.update_attribute(:remember_token, User.hash(token))
-  		self.current_user = @user
-      respond(rval, { user_id: current_user.id })
+  		current_user = @user
+      respond(rval, { user_id: current_user.id,  email: current_user.email, name: current_user.name })
   	end
   end
 
@@ -36,53 +39,99 @@ class UsersController < ApplicationController
   	else
   		@user = rval[:user]
   		token = User.new_token
+<<<<<<< HEAD
+      @user.add_device_token(params['device_token']) if params.has_key?('device_token')
+=======
+>>>>>>> 0d35c4ddc3c6bb0e82a0f6562e8110a7e39ad21e
   		cookies.permanent[:current_user_token] = token
   		@user.update_attribute(:remember_token, User.hash(token))
-  		self.current_user = @user
-      respond(rval[:err_code], { user_id: current_user.id })
+  		current_user = @user
+      current_user.add_device_token(params['device_token']) if params.has_key?('device_token')
+      respond(rval[:err_code], { user_id: current_user.id, email: current_user.email, name: current_user.name })
   	end
   end
 
-  # POST /user/logout_user
+  # POST /user/auth_facebook
+  def auth_facebook
+    @user = User.find_by(fb_id: params[:facebook_id])
+    if @user == nil
+      begin
+        rest_graph_setup
+        rg = RestGraph.new(:access_token => params[:facebook_token])
+        medata = rg.get('me')
+        @user = User.find_by(email: medata['email'])
+        if @user == nil
+          @user = User.new(name: medata['name'], email:  medata['email'], password: SecureRandom.urlsafe_base64)
+          @user.add
+        end
+      rescue => exception
+        respond(ERR_BAD_CREDENTIALS)
+        return
+      end
+    end
+    token = User.new_token
+    cookies.permanent[:current_user_token] = token
+    @user.update_attribute(:remember_token, User.hash(token))
+    @user.update_attribute(:fb_id, params[:facebook_id])
+    current_user = @user
+    respond(SUCCESS, { user_id: current_user.id, email: current_user.email, name: current_user.name })
+  end
+
+
+  # GET /user/get_all_users
+  # Return a list of all users signed up for Wuff
+  # (Used for autocompletion purposes)
+  def get_all_users
+    user_count = 0
+    user_list = {}
+    User.all.each do |user|
+      user_count += 1
+      user_list[user_count] = user.get_hash
+    end
+    user_list[:count] = user_count
+    respond(SUCCESS, user_list)
+  end
+
+  # DELETE /user/logout_user
   # Logout the current_user
   # * Changes current_user's remember_token in database
   # * Deletes cookies[current_user_token] and set current_user = nil
   def logout_user
-  	token = User.new_token
-  	current_user.update_attribute(:remember_token, User.hash(token))
-  	cookies.delete(:current_user_token)
-  	self.current_user = nil
+    if !current_user.nil?
+  	 token = User.new_token
+  	 current_user.update_attribute(:remember_token, User.hash(token))
+  	 cookies.delete(:current_user_token)
+     current_user.remove_device_token(params['device_token']) if params.has_key?('device_token')
+  	 current_user = nil
+    end
+    respond(SUCCESS)
   end
 
   # POST /user/add_friend
   # Calls current_user.concat_friend
   def add_friend
-    if signed_in?
-      rval = self.current_user.concat_friend(params[:friend_email])
-      respond(rval)
-    else
+    if not signed_in?
       session_fail_response
+      return
     end
+    rval = current_user.concat_friend(params[:friend_email])
+    respond(rval)
   end
 
   # DELETE /user/delete_friend
   # Calls current_user.remove_friend
   def delete_friend
-    if signed_in?
-      rval = self.current_user.remove_friend(params[:friend_email])
-      respond(rval)
-    else
+    if not signed_in?
       session_fail_response
+      return
     end
+    rval = current_user.remove_friend(params[:friend_email])
+    respond(rval)
   end
 
   # GET /user/get_events
   # Returns all of the relevant information to display user_id’s events 
-  # on their main screen. Nested JSON for each event. user_list is a 
-  # comma separated list of user IDs with no spaces, 
-  # i.e.“user_id1,user_id2,user_id3”. list_of_states is the same format 
-  # in the same order, with the user’s status (STATUS_NO_RESPONSE, 
-  # STATUS_ATTENDING, STATUS_NOT_ATTENDING) instead of user IDs. 
+  # on their main screen. Nested JSON for each event.  
   #
   # If invalid event IDs are found, automatically removes them from
   # the user's event list. 
@@ -110,8 +159,67 @@ class UsersController < ApplicationController
     respond(SUCCESS, return_list)
   end
 
-<<<<<<< HEAD
-=======
+
+  # GET /user/get_groups
+  # Returns all of the relevant information to display user_id’s groups. 
+  # Nested JSON for each group. 
+  #
+  # If invalid group IDs are found, automatically removes them from
+  # the user's group list. 
+  def get_groups
+    if not signed_in?
+      session_fail_response
+      return
+    end
+    return_list = {}
+    group_count = 0
+    user = current_user
+    group_list_size_old = user.group_list.size
+    user.group_list.delete_if do |group_id|
+      begin
+        group = Group.find(group_id)
+      rescue ActiveRecord::RecordNotFound
+        next true
+      end
+      group_count += 1
+      return_list[group_count] = group.get_hash
+      false
+    end
+    user.update_attribute(:group_list, user.group_list) if group_list_size_old != user.group_list.size
+    return_list[:group_count] = group_count
+    respond(SUCCESS, return_list)
+  end
+
+  # GET /user/get_friends
+  # Returns all of the relevant information to display user_id’s friends. 
+  # Nested JSON for each friend. 
+  #
+  # If invalid friend IDs are found, automatically removes them from
+  # the user's friend list. 
+  def get_friends
+    if not signed_in?
+      session_fail_response
+      return
+    end
+    return_list = {}
+    friend_count = 0
+    user = current_user
+    friend_list_size_old = user.friend_list.size
+    user.friend_list.delete_if do |friend_id|
+      begin
+        friend = User.find(friend_id)
+      rescue ActiveRecord::RecordNotFound
+        next true
+      end
+      friend_count += 1
+      return_list[friend_count] = friend.get_hash
+      false
+    end
+    user.update_attribute(:friend_list, user.friend_list) if friend_list_size_old != user.friend_list.size
+    return_list[:friend_count] = friend_count
+    respond(SUCCESS, return_list)
+  end
+
   # GET /user/has_notifications
   # Check if the user.notification_list is empty
   # Upon success, format JSON { err_code: code, notif: val }
@@ -120,7 +228,7 @@ class UsersController < ApplicationController
       session_fail_response
       return
     end
-    val = !self.current_user.notification_list.empty?
+    val = current_user.notification_list.size >= 1
     respond(SUCCESS, { notif: val })
   end
 
@@ -152,7 +260,6 @@ class UsersController < ApplicationController
     respond(SUCCESS)
   end
 
->>>>>>> sampson
   private
 
   # Responds. Always includes err_code set to ERROR (SUCCESS by default).

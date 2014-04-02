@@ -33,7 +33,7 @@
     self.table.backgroundColor = bg_color;
     [self.table setSeparatorColor:sep_color];
     
-    self.menuList = [[NSMutableArray alloc] initWithArray:@[@"Self", @"Groups", @"+ Add New", @"Friends", @"+ Add New Friend", @"Settings", @"Logout"]];
+    self.menuList = [[NSMutableArray alloc] initWithArray:@[@"Self", @"Friends", @"Groups", @"+ Add New", @"", @"", @"Settings", @"Logout"]];
 }
 
 - (void)didReceiveMemoryWarning
@@ -110,9 +110,14 @@
         GroupAddViewController *settings = [[GroupAddViewController alloc] initWithNibName:nil bundle:nil];
         [self presentViewController:settings animated:YES completion:nil];
     }
-    else if ([identifier isEqualToString:@"+ Add New Friend"])
+    else if ([identifier isEqualToString:@"Friends"])
     {
         AddFriendViewController *settings = [[AddFriendViewController alloc] initWithNibName:nil bundle:nil];
+        [self presentViewController:settings animated:YES completion:nil];
+    }
+    else if ([identifier isEqualToString:@"Friends"])
+    {
+        FriendViewController *settings = [[FriendViewController alloc] initWithNibName:nil bundle:nil];
         [self presentViewController:settings animated:YES completion:nil];
     }
     //Change the selected background view of the cell.
