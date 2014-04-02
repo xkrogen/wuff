@@ -12,6 +12,7 @@
 #import "LoginViewController.h"
 #import "SettingsViewController.h"
 #import "GroupAddViewController.h"
+#import "AddFriendViewController.h"
 
 @interface SettingsTabViewController : UIViewController <MSSlidingPanelControllerDelegate, UITableViewDataSource, UITabBarDelegate>
 
