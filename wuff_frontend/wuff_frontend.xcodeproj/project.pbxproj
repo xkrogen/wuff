@@ -12,6 +12,8 @@
 		187D8D5918EA4F7400E5EA1B /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 187D8C3418EA4F7300E5EA1B /* LICENSE */; };
 		187D8D5A18EA4F7400E5EA1B /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 187D8C3518EA4F7300E5EA1B /* README.txt */; };
 		2FA263EFF5754A148A72C75D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 044995168A7147F2923F3E70 /* libPods.a */; };
+		3224245E18EC949F003E7E7F /* AddFriendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3224245C18EC949F003E7E7F /* AddFriendViewController.m */; };
+		3224245F18EC949F003E7E7F /* AddFriendViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3224245D18EC949F003E7E7F /* AddFriendViewController.xib */; };
 		322B9B2F18D013C70084AAF9 /* EventViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 322B9B2D18D013C70084AAF9 /* EventViewController.m */; };
 		322B9B3018D013C70084AAF9 /* EventViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 322B9B2E18D013C70084AAF9 /* EventViewController.xib */; };
 		322B9B3E18D256C80084AAF9 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 322B9B3C18D256C80084AAF9 /* MainViewController.m */; };
@@ -64,6 +66,9 @@
 		187D8C3418EA4F7300E5EA1B /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		187D8C3518EA4F7300E5EA1B /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		21C7EA91E60F44E4B5D21A16 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		3224245B18EC949F003E7E7F /* AddFriendViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddFriendViewController.h; sourceTree = "<group>"; };
+		3224245C18EC949F003E7E7F /* AddFriendViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddFriendViewController.m; sourceTree = "<group>"; };
+		3224245D18EC949F003E7E7F /* AddFriendViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddFriendViewController.xib; sourceTree = "<group>"; };
 		322B9B2C18D013C70084AAF9 /* EventViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventViewController.h; sourceTree = "<group>"; };
 		322B9B2D18D013C70084AAF9 /* EventViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventViewController.m; sourceTree = "<group>"; };
 		322B9B2E18D013C70084AAF9 /* EventViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventViewController.xib; sourceTree = "<group>"; };
@@ -201,6 +206,9 @@
 				6C8CB86918E89C6D0077E9BB /* SettingsViewController.m */,
 				6C8CB86A18E89C6D0077E9BB /* SettingsViewController.xib */,
 				322B9B2C18D013C70084AAF9 /* EventViewController.h */,
+				3224245B18EC949F003E7E7F /* AddFriendViewController.h */,
+				3224245C18EC949F003E7E7F /* AddFriendViewController.m */,
+				3224245D18EC949F003E7E7F /* AddFriendViewController.xib */,
 				322B9B2D18D013C70084AAF9 /* EventViewController.m */,
 				322B9B2E18D013C70084AAF9 /* EventViewController.xib */,
 				6C6216B718D037AA0006048A /* EventCreateViewController.h */,
@@ -340,6 +348,7 @@
 				187D8D5A18EA4F7400E5EA1B /* README.txt in Resources */,
 				6C4AFBDB18E78D67001BCEBB /* SettingsTabViewController.xib in Resources */,
 				6CAAB38118E7A67E008A686A /* settings_icon.png in Resources */,
+				3224245F18EC949F003E7E7F /* AddFriendViewController.xib in Resources */,
 				6C13DD9F18C41EFD0032A56C /* InfoPlist.strings in Resources */,
 				187D8D5918EA4F7400E5EA1B /* LICENSE in Resources */,
 				6C6216C018D0390F0006048A /* LoginViewController.xib in Resources */,
@@ -402,6 +411,7 @@
 				6C6216BA18D037AA0006048A /* EventCreateViewController.m in Sources */,
 				322B9B2F18D013C70084AAF9 /* EventViewController.m in Sources */,
 				6C4AFBDA18E78D67001BCEBB /* SettingsTabViewController.m in Sources */,
+				3224245E18EC949F003E7E7F /* AddFriendViewController.m in Sources */,
 				6C8CB87018EA185C0077E9BB /* GroupAddViewController.m in Sources */,
 				322B9B3E18D256C80084AAF9 /* MainViewController.m in Sources */,
 				6CF7E1B618CA538F00880712 /* HandleRequest.m in Sources */,
