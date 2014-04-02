@@ -11,6 +11,7 @@ class Notification
 		device_tokens.each do |token|
 			notification_list <<= APNS::Notification.new(token, 
 				:alert => get_push_message, :badge => 1, :sound => 'default')
+		end
 		APNS.send_notifications(notification_list)
 	end
 
