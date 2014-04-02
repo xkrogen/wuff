@@ -84,6 +84,7 @@ describe UsersController do
 		end
 
 		# This test is super sketch, need to get token via FB Graph API Explorer before running test
+		# Token lasts ~ 1 hr. NEED TO REFRESH (Find better way to test later)
 		describe "autenticate w/ proper token, email not in db" do
 			it "should create new user with fb_id in database" do
 				User.find_by(email: 'wufftest@gmail.com').should eq nil
