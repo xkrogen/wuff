@@ -167,6 +167,7 @@ describe User, "#login" do
 			other.login[:err_code].should eq(ERR_BAD_CREDENTIALS)
 		end
 	end
+
 end
 
 describe User, "#add_friend, #delete_friend" do
