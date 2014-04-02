@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140325071920) do
+ActiveRecord::Schema.define(version: 20140401041020) do
 
   create_table "events", force: true do |t|
     t.string   "name"
@@ -43,9 +43,11 @@ ActiveRecord::Schema.define(version: 20140325071920) do
     t.text     "notification_list"
     t.text     "friend_list"
     t.text     "group_list"
+    t.string   "fb_id"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
+  add_index "users", ["fb_id"], name: "index_users_on_fb_id"
   add_index "users", ["remember_token"], name: "index_users_on_remember_token"
 
 end

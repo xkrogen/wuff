@@ -51,10 +51,12 @@
     
     UIBarButtonItem *settingsTabButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"settings_icon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(openSettingsPanel)];
     [settingsTabButton setTintColor:[UIColor whiteColor]];
+    [settingsTabButton setAccessibilityLabel:@"Settings Tab Button"];
     [navigationBarItem setLeftBarButtonItem:settingsTabButton];
     
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(createEvent)];
     [addButton setTintColor:[UIColor whiteColor]];
+    [addButton setAccessibilityLabel:@"Add Button"];
     [navigationBarItem setRightBarButtonItem:addButton];
     
     [navigationBar setBarTintColor:[UIColor colorWithRed:49.0f/255.0f green:103.0f/255.0f blue:157.0f/255.0f alpha:1.0f]];

@@ -65,9 +65,10 @@
     [navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont boldSystemFontOfSize: 18.0f]}];
     navigationBarItem = [[UINavigationItem alloc] initWithTitle:@"Wuff"];
     
-    UIBarButtonItem *settingsTabButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel)];
-    [settingsTabButton setTintColor:[UIColor whiteColor]];
-    [navigationBarItem setLeftBarButtonItem:settingsTabButton];
+    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel)];
+    [cancelButton setTintColor:[UIColor whiteColor]];
+    [cancelButton setAccessibilityLabel:@"Cancel Button"];
+    [navigationBarItem setLeftBarButtonItem:cancelButton];
     
     [navigationBar setBarTintColor:[UIColor colorWithRed:49.0f/255.0f green:103.0f/255.0f blue:157.0f/255.0f alpha:1.0f]];
     [navigationBar pushNavigationItem:navigationBarItem animated:NO];

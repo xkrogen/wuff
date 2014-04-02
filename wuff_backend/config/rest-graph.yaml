@@ -1,0 +1,11 @@
+# Facebook Graph API access
+development:
+    app_id: '483469725088597'
+    secret: '5710f90232192d0533cca6680166cf41'
+    callback_host: 'localhost:5000'
+
+production:
+    app_id: '483469725088597'
+    secret: '5710f90232192d0533cca6680166cf41'
+    canvas: 'yourcanvasname'
+    callback_host: 'wuff.herokuapp.com'
