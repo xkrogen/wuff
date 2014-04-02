@@ -16,13 +16,13 @@ class RestTestCase(unittest.TestCase):
     """
 
     # Lookup the name of the server to test
-    serverToTest = "localhost:5000"
-    if "TEST_SERVER" in os.environ:
-        serverToTest = os.environ["TEST_SERVER"]
+    serverToTest = "wuff.herokuapp.com"
+    #if "TEST_SERVER" in os.environ:
+    #    serverToTest = os.environ["TEST_SERVER"]
         # Drop the http:// prefix
-        splits = serverToTest.split("://")
-        if len(splits) == 2:
-            serverToTest = splits[1]
+    #    splits = serverToTest.split("://")
+    #    if len(splits) == 2:
+    #        serverToTest = splits[1]
 
     def makeRequest(self, url, method="GET", data={ }):
         """
@@ -88,7 +88,7 @@ class RestTestCase(unittest.TestCase):
         
     def setUp(self):
         self.conn = httplib.HTTPConnection(RestTestCase.serverToTest, timeout=1)
-        self.makeRequest("/TESTAPI/resetFixture", method="POST")
+        #self.makeRequest("/TESTAPI/resetFixture", method="POST")
         
     def tearDown(self):
         self.conn.close ()
