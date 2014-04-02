@@ -70,6 +70,33 @@ describe UsersController do
 		end
 	end
 
+	describe "auth_facebook" do
+		before do
+			# token may need to be refreshed with FB Graph API Explorer
+			@token = 'CAACEdEose0cBACoLDX6fqqK2Fu7JfP0NZBNGZAzI1zrRniYvZCmbwP6NvTvqKPZC8zXOtf7uWLuF6GJAQ5qXZAnuVpMSjOlWnfkQEM9z4hYOFd0ZBIAHtyEgrFtmQO2aeR7gIF7YlKAXGzJ552hR3ZCd8fZCGqBLFox1iT8aX5ADjxFMIdxF3SIFX7hxxY3xCkUZD'
+		end
+
+		describe "authenticate w/o token" do
+			it "should return ERR_BAD_CREDENTIALS" do
+				post 'auth_facebook', { format: 'json', facebook_id: 'xxxxxxxxxx', facebook_token: '' }
+				JSON.parse(response.body)['err_code'].should eq ERR_BAD_CREDENTIALS
+			end
+		end
+
+		# This test is super sketch, need to get token via FB Graph API Explorer before running test
+		describe "autenticate w/ proper token, email not in db" do
+			it "should create new user with fb_id in database" do
+				User.find_by(email: 'wufftest@gmail.com').should eq nil
+				post 'auth_facebook', { format: 'json', facebook_id: '0', facebook_token: @token }
+				JSON.parse(response.body)['err_code'].should eq SUCCESS
+
+				User.find_by(email: 'wufftest@gmail.com').should_not eq nil
+				User.find_by(fb_id: '0').should_not eq nil
+
+			end
+		end
+	end
+
 	describe "add_friend, delete_friend" do
 		before do
 			@user = User.new(name: 'Test Name', email: 'test@example.com', password: 'nopassword')

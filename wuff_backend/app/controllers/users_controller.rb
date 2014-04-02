@@ -1,6 +1,8 @@
+include RestGraph::RailsUtil
+
 class UsersController < ApplicationController
 
-   # Session ID does not match this user.remember_token
+  # Session ID does not match this user.remember_token
   ERR_INVALID_SESSION = -11
 
 	# POST /user/add_user
@@ -19,7 +21,7 @@ class UsersController < ApplicationController
   		cookies.permanent[:current_user_token] = token
   		@user.update_attribute(:remember_token, User.hash(token))
   		current_user = @user
-      respond(rval, { user_id: current_user.id })
+      respond(rval, { user_id: current_user.id,  email: current_user.email, name: current_user.name })
   	end
   end
 
@@ -43,6 +45,33 @@ class UsersController < ApplicationController
   	end
   end
 
+  # POST /user/auth_facebook
+  def auth_facebook
+    @user = User.find_by(fb_id: params[:facebook_id])
+    if @user == nil
+      begin
+        rest_graph_setup
+        rg = RestGraph.new(:access_token => params[:facebook_token])
+        medata = rg.get('me')
+        @user = User.find_by(email: medata['email'])
+        if @user == nil
+          @user = User.new(name: medata['name'], email:  medata['email'], password: SecureRandom.urlsafe_base64)
+          @user.add
+        end
+      rescue => exception
+        respond(ERR_BAD_CREDENTIALS)
+        return
+      end
+    end
+    token = User.new_token
+    cookies.permanent[:current_user_token] = token
+    @user.update_attribute(:remember_token, User.hash(token))
+    @user.update_attribute(:fb_id, params[:facebook_id])
+    current_user = @user
+    respond(SUCCESS, { user_id: current_user.id, email: current_user.email, name: current_user.name })
+  end
+
+
   # GET /user/get_all_users
   # Return a list of all users signed up for Wuff
   # (Used for autocompletion purposes)
@@ -62,10 +91,12 @@ class UsersController < ApplicationController
   # * Changes current_user's remember_token in database
   # * Deletes cookies[current_user_token] and set current_user = nil
   def logout_user
-  	token = User.new_token
-  	current_user.update_attribute(:remember_token, User.hash(token))
-  	cookies.delete(:current_user_token)
-  	current_user = nil
+    if !current_user.nil?
+  	 token = User.new_token
+  	 current_user.update_attribute(:remember_token, User.hash(token))
+  	 cookies.delete(:current_user_token)
+  	 current_user = nil
+    end
     respond(SUCCESS)
   end
 
