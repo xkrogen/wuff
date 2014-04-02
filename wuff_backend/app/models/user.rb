@@ -19,6 +19,8 @@ class User < ActiveRecord::Base
 	serialize :notification_list, Array
 	# Serialize group list (array) for easy storage.
 	serialize :group_list, Array
+	# Serialize the list of device_tokens (array) for easy storage
+	serialize :device_tokens, Array
 
   # The maximum length of any user credential field
   MAX_CREDENTIAL_LENGTH = 128
@@ -82,12 +84,23 @@ class User < ActiveRecord::Base
 	# Adds event_id into the user's list of events. Returns 
 	# ERR_UNSUCCESSFUL if the event is invalid, SUCCESS otherwise. 
 	def add_event(event_id)
-		
-		# ADD ERROR CHECKING HERE FOR INVALID EVENT -> TEST
-
+		return ERR_UNSUCCESSFUL if not Event.exists?(event_id)
 		self.event_list |= [event_id]
 		self.update_attribute(:event_list, self.event_list)
-		
+		SUCCESS
+	end
+
+	# Adds the device_token into the user's list of devices. 
+	def add_device_token(device_token)
+		self.device_tokens |= [device_token]
+		self.update_attribute(:device_tokens, self.device_tokens)
+	end
+
+	# Removes the device_token from the user's list of devices.
+	# Does nothing if that device_token isn't in the list.
+	def remove_device_token(device_token)
+		self.device_tokens.delete(device_token)
+		self.update_attribute(:device_tokens, self.device_tokens)
 	end
 
 	# Removes event_id from the user's list of events.

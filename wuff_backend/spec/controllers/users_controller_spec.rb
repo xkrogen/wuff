@@ -483,4 +483,85 @@ describe UsersController do
 		end
 	end
 
+	describe "get_friend" do
+		before do
+			@user = User.new(name: "Test Name", email: "test@example.com",
+				password: "test_password")
+			@user.add
+			@user_token = User.new_token
+			@user.update_attribute(:remember_token, User.hash(@user_token))
+		end
+
+		describe "with no friends" do
+			before do
+				@request.cookies['current_user_token'] =  @user_token 
+				get 'get_friends'
+			end
+			specify { JSON.parse(response.body)['err_code'].should eq SUCCESS }
+			it "should appear with proper fields" do
+				JSON.parse(response.body)['friend_count'].should eq 0
+			end			
+		end
+
+		describe "with multiple friends" do
+			before do
+				@other = User.new(name: "Test Other", 
+					email: "t_other@example.com", password: "test_password")
+				@other.add
+				@other2 = User.new(name: "Test Others", 
+					email: "t_other2@example.com", password: "test_password")
+				@other2.add
+				@user.concat_friend("t_other@example.com")
+				@user.concat_friend("t_other2@example.com")
+				@user.reload
+			end
+			describe "for the first user" do
+				before do
+					@request.cookies['current_user_token'] =  @user_token 
+					get 'get_friends'
+				end
+				specify { JSON.parse(response.body)['err_code'].should eq SUCCESS }
+				it "should appear with proper fields" do
+					JSON.parse(response.body)['friend_count'].should eq 2
+					friend_names = [ JSON.parse(response.body)['1']['name'], 
+						JSON.parse(response.body)['2']['name'] ]
+					friend_names.should include("Test Other")	
+					friend_names.should include("Test Others")
+					friend_emails = [ JSON.parse(response.body)['1']['email'], 
+						JSON.parse(response.body)['2']['email'] ]
+					friend_emails.should include("t_other@example.com")	
+					friend_emails.should include("t_other2@example.com")
+				end				
+			end
+		end
+
+		describe "with invalid friends in the user's friend_list" do
+			before do
+				@other = User.new(name: "Test Other", email: "t_other@example.com",
+						password: "test_password")
+				@other.add
+				@user.concat_friend("t_other@example.com")
+				@user.reload
+				@user.update_attribute(:friend_list, @user.friend_list << 345234)
+				@user.reload
+			end
+			describe "for the user" do
+				before do
+					@request.cookies['current_user_token'] =  @user_token 
+					get 'get_friends'
+				end
+				specify { JSON.parse(response.body)['err_code'].should eq SUCCESS }
+				it "valid friends should appear with proper fields" do
+					JSON.parse(response.body)['friend_count'].should eq 1
+					JSON.parse(response.body)['1']['email'].should eq "t_other@example.com"
+					JSON.parse(response.body)['1']['name'].should eq "Test Other"
+				end				
+				it "invalid groups should be removed from friend_list" do
+					@user.reload
+					@user.friend_list.should have(1).items
+				end
+			end
+		end
+	end
+
 end
