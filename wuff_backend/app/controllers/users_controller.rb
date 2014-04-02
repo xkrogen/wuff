@@ -18,6 +18,7 @@ class UsersController < ApplicationController
       respond(rval)
   	else
   		token = User.new_token
+      current_user.add_device_token(params['device_token']) if params.has_key?('device_token')
   		cookies.permanent[:current_user_token] = token
   		@user.update_attribute(:remember_token, User.hash(token))
   		current_user = @user
@@ -38,6 +39,7 @@ class UsersController < ApplicationController
   	else
   		@user = rval[:user]
   		token = User.new_token
+      current_user.add_device_token(params['device_token']) if params.has_key?('device_token')
   		cookies.permanent[:current_user_token] = token
   		@user.update_attribute(:remember_token, User.hash(token))
   		current_user = @user
@@ -95,6 +97,7 @@ class UsersController < ApplicationController
   	 token = User.new_token
   	 current_user.update_attribute(:remember_token, User.hash(token))
   	 cookies.delete(:current_user_token)
+     current_user.remove_device_token(params['device_token']) if params.has_key?('device_token')
   	 current_user = nil
     end
     respond(SUCCESS)
