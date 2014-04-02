@@ -115,6 +115,11 @@
         AddFriendViewController *settings = [[AddFriendViewController alloc] initWithNibName:nil bundle:nil];
         [self presentViewController:settings animated:YES completion:nil];
     }
+    else if ([identifier isEqualToString:@"Friends"])
+    {
+        FriendViewController *settings = [[FriendViewController alloc] initWithNibName:nil bundle:nil];
+        [self presentViewController:settings animated:YES completion:nil];
+    }
     //Change the selected background view of the cell.
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
