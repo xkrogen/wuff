@@ -66,7 +66,7 @@
 }
 
 -(IBAction)login {
-    NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:_emailInputView.textField.text, @"email", _passwordInputView.textField.text, @"password", nil];
+    NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:_emailInputView.textField.text, @"email", _passwordInputView.textField.text, @"password",[[NSUserDefaults standardUserDefaults] objectForKey:@"deviceToken"],@"device_token", nil];
     
     //Code to send POST Request
     _myRequester = [[HandleRequest alloc] initWithSelector:@"handleSignInResponse:" andDelegate:self];

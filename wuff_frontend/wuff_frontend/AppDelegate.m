@@ -26,6 +26,12 @@
     self.window.rootViewController = navController;
     
     [self.window makeKeyAndVisible];
+    
+    NSLog(@"Bundle ID: %@",[[NSBundle mainBundle] bundleIdentifier]);
+    
+    [application registerForRemoteNotificationTypes:
+     (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+    
     return YES;
 }
 							
@@ -67,6 +73,19 @@
     // You can add your app-specific url handling code here if needed
     
     return wasHandled;
+}
+
+- (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
+{
+    NSString *tokenString = [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
+    tokenString = [tokenString stringByReplacingOccurrencesOfString:@" " withString:@""];
+    [[NSUserDefaults standardUserDefaults] setObject:tokenString forKey:@"deviceToken"];
+	NSLog(@"My token is: %@", tokenString);
+}
+
+- (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
+{
+	NSLog(@"Failed to get token, error: %@", error);
 }
 
 
