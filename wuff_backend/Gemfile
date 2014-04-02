@@ -15,6 +15,9 @@ group :development, :test do
   gem 'simplecov', '0.8.2'
 end
 
+# Use APNS - Apple Push Notification Service gem
+gem 'apns'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
 
