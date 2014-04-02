@@ -1,4 +1,4 @@
-class FriendNotification
+class FriendNotification < Notification
 
 	# Friend notification type
 	NOTIF_FRIEND_ADD = 4
