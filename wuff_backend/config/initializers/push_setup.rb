@@ -6,5 +6,5 @@ APNS.host = 'gateway.sandbox.push.apple.com'
 # APNS.host = 'gateway.push.apple.com' 
 # This is the production server.
 
-# APNS.pem  = '/path/to/pem/file'
+APNS.pem  = Rails.root.join('push', 'wuffkey.pem')
 # Path to the .pem file containing private key for our server

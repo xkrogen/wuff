@@ -14,4 +14,8 @@ class FriendNotification
 			friend_email: @friend.email }
 	end
 
+	def get_push_message
+		return "#{@friend.name} just added you as a friend!"
+	end
+
 end

@@ -8,8 +8,10 @@ class Notification
 def send_push(user)
 	device_tokens = user.device_tokens
 	notification_list = []
-	device_tokens.each {}
-#	APNS.send_notification
+	device_tokens.each do |token|
+		notification_list <<= APNS::Notification.new(token, 
+			:alert => get_push_message, :badge => 1, :sound => 'default')
+	APNS.send_notifications(notification_list)
 end
 
 # Dummy method. Notifications should never be initialized or 

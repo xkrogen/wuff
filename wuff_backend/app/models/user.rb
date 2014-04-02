@@ -19,6 +19,8 @@ class User < ActiveRecord::Base
 	serialize :notification_list, Array
 	# Serialize group list (array) for easy storage.
 	serialize :group_list, Array
+	# Serialize the list of device_tokens (array) for easy storage
+	serialize :device_tokens, Array
 
   # The maximum length of any user credential field
   MAX_CREDENTIAL_LENGTH = 128
