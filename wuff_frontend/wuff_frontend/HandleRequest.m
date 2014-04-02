@@ -47,6 +47,9 @@
     if (error)
     {
         NSLog(@"ERROR: %@, %@", error, [error localizedDescription]);
+        if([[_delegate class] isSubclassOfClass:[UIViewController class]]) {
+            [((UIViewController*)_delegate).view makeToast:[error localizedDescription]];
+        }
     }
     else
     {
@@ -156,6 +159,9 @@
     if (error)
     {
         NSLog(@"ERROR: %@, %@", error, [error localizedDescription]);
+        if([[_delegate class] isSubclassOfClass:[UIViewController class]]) {
+            [((UIViewController*)_delegate).view makeToast:[error localizedDescription]];
+        }
         unsigned char byteBuffer[[_data length]];
         [_data getBytes:byteBuffer];
         NSLog(@"Output: %s", (char *)byteBuffer);
