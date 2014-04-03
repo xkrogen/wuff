@@ -43,7 +43,7 @@
     
      NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys: nil];
      [_myRequester createRequestWithType:GET forExtension:@"/user/get_events" withDictionary:d];
-     NSLog(@"sent request!");
+     //NSLog(@"sent request!");
     
     self.eventList = [[NSMutableArray alloc] init];
     

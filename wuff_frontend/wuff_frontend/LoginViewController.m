@@ -74,7 +74,7 @@
     
     // close the keyboard
     [self.view endEditing:YES];
-    NSLog(@"sent request!");
+    //NSLog(@"sent request!");
     
     [self.view makeToastActivity];
 }
@@ -161,7 +161,7 @@
     
     // close the keyboard
     [self.view endEditing:YES];
-    NSLog(@"sent request!");
+    //NSLog(@"sent request!");
     
     [self.view makeToastActivity];
     

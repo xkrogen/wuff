@@ -91,7 +91,7 @@
         NSLog(@"key=%@ value=%@", key, [d objectForKey:key]);
     
     [_myRequester createRequestWithType:POST forExtension:@"/user/add_friend" withDictionary:d];
-    NSLog(@"sent add friend request!");
+    //NSLog(@"sent add friend request!");
     
     // close the keyboard
     [self.view endEditing:YES];

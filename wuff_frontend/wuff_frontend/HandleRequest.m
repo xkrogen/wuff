@@ -87,7 +87,7 @@
         // if we do have a current user token
         if (!([cookie_stored isEqualToString:@""] || cookie_stored == NULL))
         {
-            NSLog(@"adding cookie to request");
+            //NSLog(@"adding cookie to request");
             [request addValue:[[NSUserDefaults standardUserDefaults] objectForKey:@"cookieString"] forHTTPHeaderField:@"Cookie"];
         }
         
@@ -124,7 +124,7 @@
             //NSLog(@"Result: %@", result);
             if (result)
             {
-                NSLog(@"storing cookie: %@ in NSUserDefaults", cookieString);
+                //NSLog(@"storing cookie: %@ in NSUserDefaults", cookieString);
                 [[NSUserDefaults standardUserDefaults] setObject:cookieString forKey:@"cookieString"];
             }
         }
@@ -166,7 +166,7 @@
     }
     else
     {
-        //NSLog(@"JSONRESPONSE: %@", jsonResponse);
+        NSLog(@"JSONRESPONSE: %@", jsonResponse);
         SEL sel = NSSelectorFromString(_selectorName);
         [_delegate performSelector:sel withObject:jsonResponse]; // Deal with the data
     }
