@@ -58,6 +58,15 @@ describe UsersController do
 			end
 		end
 
+		describe "login with a device token" do
+			it "should have user[device_token] not nil" do
+				@user.device_tokens.empty?.should eq true
+				post 'login_user', { format: 'json', email: 'test@example.com', password: 'nopassword', device_token: '0000' }
+				@user.reload
+				@user.device_tokens.empty?.should eq false
+			end
+		end
+
 		describe "logout user" do
 			it "should reset remember_token = nil" do
 				@user_token = User.new_token
