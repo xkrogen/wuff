@@ -14,6 +14,7 @@
 #import "SettingsTabViewController.h"
 #import "MSSlidingPanelController.h"
 #import "MSViewControllerSlidingPanel.h"
+#import "AppDelegate.h"
 
 #pragma mark - Interface
 
@@ -25,6 +26,8 @@
 
 -(IBAction)createEvent;
 -(IBAction)openSettingsPanel;
+
+-(void)refresh;
 
 -(void) handleMainResponse:(NSDictionary *)data;
 

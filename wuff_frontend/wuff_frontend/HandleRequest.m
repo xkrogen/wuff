@@ -103,7 +103,7 @@
 
 -(void)connection:(NSURLConnection*)connection didReceiveResponse:(NSURLResponse*)response
 {
-    NSLog(@"received response!");
+    //NSLog(@"received response!");
     _data = [[NSMutableData alloc] init];
     NSHTTPURLResponse *HTTPResponse = (NSHTTPURLResponse *)response;
     
@@ -112,8 +112,6 @@
     if ([cookie_stored isEqualToString:@""] || cookie_stored == NULL)
     {
         NSDictionary *fields = [HTTPResponse allHeaderFields];
-        for(id key in fields)
-            NSLog(@"key=%@ value=%@", key, [fields objectForKey:key]);
         
         NSString *cookieString = [fields valueForKey:@"Set-Cookie"]; // your cookie
         
@@ -123,7 +121,7 @@
         {
             NSRegularExpression *pat = [[NSRegularExpression alloc] initWithPattern:@"current_user_token=.+" options:NSRegularExpressionCaseInsensitive error:&err];
             NSTextCheckingResult *result = [pat firstMatchInString:cookieString options:0 range:NSMakeRange(0, [cookieString length])];
-            NSLog(@"Result: %@", result);
+            //NSLog(@"Result: %@", result);
             if (result)
             {
                 NSLog(@"storing cookie: %@ in NSUserDefaults", cookieString);
@@ -168,7 +166,7 @@
     }
     else
     {
-        NSLog(@"JSONRESPONSE: %@", jsonResponse);
+        //NSLog(@"JSONRESPONSE: %@", jsonResponse);
         SEL sel = NSSelectorFromString(_selectorName);
         [_delegate performSelector:sel withObject:jsonResponse]; // Deal with the data
     }
