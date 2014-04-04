@@ -23,15 +23,27 @@
     return self;
 }
 
+
+
+-(void)refresh
+{
+    _myRequester = [[HandleRequest alloc] initWithSelector:@"handleMainResponse:" andDelegate:self];
+    NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys: nil];
+    [_myRequester createRequestWithType:GET forExtension:@"/user/get_events" withDictionary:d];
+}
+
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     //Code to send POST Request
      _myRequester = [[HandleRequest alloc] initWithSelector:@"handleMainResponse:" andDelegate:self];
     
      NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys: nil];
      [_myRequester createRequestWithType:GET forExtension:@"/user/get_events" withDictionary:d];
-     NSLog(@"sent request!");
+     //NSLog(@"sent request!");
     
     self.eventList = [[NSMutableArray alloc] init];
     
@@ -66,22 +78,45 @@
     [[self view] addSubview:navigationBar];
     // END CODE
     
+    // ADD OBSERVER TO SEEK OUT NOTIFICATIONS
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(didReceiveRemoteNotification:)
+     name:UIApplicationDidReceiveRemoteNotification
+     object:nil];
 }
 
+-(void)didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    if (self.isViewLoaded && self.view.window) {
+        // handle the notification
+        [self refresh];
+    }
+}
+
+-(void)viewDidUnload {
+    [super viewDidUnload];
+    [[NSNotificationCenter defaultCenter]
+     removeObserver:self
+     name:UIApplicationDidReceiveRemoteNotification
+     object:nil];
+}
 
 -(void) handleMainResponse:(NSDictionary *)data {
-    NSLog(@"Handle response here!");
-    //self.eventList = [[NSMutableArray alloc] init];
-    
     ErrorCode err_code = (ErrorCode)[[data objectForKey:@"err_code"] integerValue];;
     switch (err_code)
     {
         case SUCCESS:
         {
+            // make sure no duplicates
+            [self.eventList removeAllObjects];
+            
+            // remove notifications
+            [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+            [[UIApplication sharedApplication] cancelAllLocalNotifications];
+            
             int eventCount = (int)[[data objectForKey:@"event_count"] integerValue];
             for(int i=1; i<=eventCount; i++) {
                 NSDictionary *event = [data objectForKey:[NSString stringWithFormat:@"%d", i]];
-                NSLog(@"Event: %@", event);
                 [self.eventList addObject:event];
             }
             break;

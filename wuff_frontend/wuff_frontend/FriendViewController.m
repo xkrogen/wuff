@@ -75,7 +75,7 @@
             int friendCount = (int)[[data objectForKey:@"friend_count"] integerValue];
             for(int i=1; i<=friendCount; i++) {
                 NSDictionary *friend = [data objectForKey:[NSString stringWithFormat:@"%d", i]];
-                NSLog(@"Friend: %@", friend);
+                //NSLog(@"Friend: %@", friend);
                 [self.friendList addObject:friend];
             }
             break;
@@ -148,7 +148,6 @@
     NSDictionary *friend = self.friendList[indexPath.row];
     
     UIFont *cellTitleFont = [UIFont fontWithName:@"HelveticaNeue-Medium" size:15.0f];
-    UIFont *cellTitleSmallFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:15.0f];
     UIFont *cellDetailFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:13.0f];
     
     // title

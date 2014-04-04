@@ -48,7 +48,7 @@
     _myRequester = [[HandleRequest alloc] initWithSelector:@"handleSignUpResponse:" andDelegate:self];
     NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:_emailInputView.textField.text, @"email", _passwordInputView.textField.text, @"password", _nameInputView.textField.text, @"name", nil];
     [_myRequester createRequestWithType:POST forExtension:@"/user/add_user" withDictionary:d];
-    NSLog(@"sent request!");
+    //NSLog(@"sent request!");
     
     // close the keyboard
     [self.view endEditing:YES];

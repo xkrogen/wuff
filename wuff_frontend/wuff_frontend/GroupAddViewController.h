@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MainViewController.h"
+#import "SettingsTabViewController.h"
 
 @interface GroupAddViewController : UIViewController
 

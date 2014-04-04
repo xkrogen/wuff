@@ -103,7 +103,7 @@
         
         NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys: nil];
         [_myRequester createRequestWithType:DELETE forExtension:@"/user/logout_user" withDictionary:d];
-        NSLog(@"sent request!");
+        //NSLog(@"sent request!");
     }
     else if ([identifier isEqualToString:@"+ Add New"])
     {
