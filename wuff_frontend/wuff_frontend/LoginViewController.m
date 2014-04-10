@@ -48,6 +48,13 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     
+    // 505 is the minimum you can use for a content-size that doesn't move around but still streches (used for the login page)
+    [self.scrollView setContentSize:CGSizeMake(320, 505)];
+    [self.scrollView addSubview:self.contentView];
+    [self.scrollView setShowsHorizontalScrollIndicator:NO];
+    [self.scrollView setShowsVerticalScrollIndicator:NO];
+    
+    
     // USE THIS CODE TO CREATE THE NAVIGATION CONTROLLER PROGRAMMATICALLY
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont boldSystemFontOfSize: 18.0f]}];
     [self.navigationItem setTitle:@"Log In"];

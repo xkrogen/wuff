@@ -19,6 +19,9 @@
 @property(nonatomic, strong) IBOutlet InputView *emailInputView;
 @property(nonatomic, strong) IBOutlet InputView *passwordInputView;
 
+@property(nonatomic, strong) IBOutlet UIScrollView *scrollView;
+@property(nonatomic, strong) IBOutlet UIView *contentView;
+
 @property (nonatomic,retain) IBOutlet FBLoginView *fbLoginButton;
 
 @property(nonatomic, strong) HandleRequest *myRequester;
