@@ -6,6 +6,7 @@ class Notification
 	# Sends itself as a push notification to all of the user's
 	# associated device_tokens. 
 	def send_push(user)
+		return if Rails.env.test?
 		device_tokens = user.device_tokens
 		notification_list = []
 		device_tokens.each do |token|
