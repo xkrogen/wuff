@@ -13,7 +13,6 @@
 		187D8D5A18EA4F7400E5EA1B /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 187D8C3518EA4F7300E5EA1B /* README.txt */; };
 		2FA263EFF5754A148A72C75D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 044995168A7147F2923F3E70 /* libPods.a */; };
 		3224245E18EC949F003E7E7F /* AddFriendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3224245C18EC949F003E7E7F /* AddFriendViewController.m */; };
-		3224245F18EC949F003E7E7F /* AddFriendViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3224245D18EC949F003E7E7F /* AddFriendViewController.xib */; };
 		3224246318EC9EA0003E7E7F /* FriendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3224246118EC9EA0003E7E7F /* FriendViewController.m */; };
 		3224246418EC9EA0003E7E7F /* FriendViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3224246218EC9EA0003E7E7F /* FriendViewController.xib */; };
 		322B9B2F18D013C70084AAF9 /* EventViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 322B9B2D18D013C70084AAF9 /* EventViewController.m */; };
@@ -42,11 +41,11 @@
 		6C6216C018D0390F0006048A /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C6216BE18D0390F0006048A /* LoginViewController.xib */; };
 		6C6216C418D0397A0006048A /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C6216C218D0397A0006048A /* SignUpViewController.m */; };
 		6C6216C518D0397A0006048A /* SignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C6216C318D0397A0006048A /* SignUpViewController.xib */; };
+		6C71D54D18FDA0B4004334EA /* MainViewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C71D54C18FDA0B4004334EA /* MainViewTableViewCell.m */; };
 		6C8CB86B18E89C6D0077E9BB /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C8CB86918E89C6D0077E9BB /* SettingsViewController.m */; };
 		6C8CB86C18E89C6D0077E9BB /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C8CB86A18E89C6D0077E9BB /* SettingsViewController.xib */; };
 		6C8CB87018EA185C0077E9BB /* GroupAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C8CB86E18EA185C0077E9BB /* GroupAddViewController.m */; };
 		6C8CB87118EA185C0077E9BB /* GroupAddViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C8CB86F18EA185C0077E9BB /* GroupAddViewController.xib */; };
-		6C8CB87818EC6E880077E9BB /* AddFriendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C8CB87618EC6E880077E9BB /* AddFriendViewController.m */; };
 		6C8CB87918EC6E880077E9BB /* AddFriendViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C8CB87718EC6E880077E9BB /* AddFriendViewController.xib */; };
 		6CAAB38118E7A67E008A686A /* settings_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CAAB38018E7A67E008A686A /* settings_icon.png */; };
 		6CF7E1B618CA538F00880712 /* HandleRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CF7E1B518CA538F00880712 /* HandleRequest.m */; };
@@ -114,6 +113,8 @@
 		6C6216C118D0397A0006048A /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
 		6C6216C218D0397A0006048A /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
 		6C6216C318D0397A0006048A /* SignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SignUpViewController.xib; sourceTree = "<group>"; };
+		6C71D54B18FDA0B4004334EA /* MainViewTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewTableViewCell.h; sourceTree = "<group>"; };
+		6C71D54C18FDA0B4004334EA /* MainViewTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewTableViewCell.m; sourceTree = "<group>"; };
 		6C8CB86818E89C6D0077E9BB /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		6C8CB86918E89C6D0077E9BB /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		6C8CB86A18E89C6D0077E9BB /* SettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
@@ -205,6 +206,8 @@
 				322B9B3B18D256C80084AAF9 /* MainViewController.h */,
 				322B9B3C18D256C80084AAF9 /* MainViewController.m */,
 				322B9B3D18D256C80084AAF9 /* MainViewController.xib */,
+				6C71D54B18FDA0B4004334EA /* MainViewTableViewCell.h */,
+				6C71D54C18FDA0B4004334EA /* MainViewTableViewCell.m */,
 				6CAAB38018E7A67E008A686A /* settings_icon.png */,
 				6C4AFBD718E78D66001BCEBB /* SettingsTabViewController.h */,
 				6C4AFBD818E78D67001BCEBB /* SettingsTabViewController.m */,
@@ -435,6 +438,7 @@
 				3224246318EC9EA0003E7E7F /* FriendViewController.m in Sources */,
 				6C6216BF18D0390F0006048A /* LoginViewController.m in Sources */,
 				6C13DDCB18C43FD20032A56C /* InputView.m in Sources */,
+				6C71D54D18FDA0B4004334EA /* MainViewTableViewCell.m in Sources */,
 				6C13DDA518C41EFD0032A56C /* AppDelegate.m in Sources */,
 				6C13DDA118C41EFD0032A56C /* main.m in Sources */,
 				6C6216C418D0397A0006048A /* SignUpViewController.m in Sources */,

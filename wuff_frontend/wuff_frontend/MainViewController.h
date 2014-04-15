@@ -15,6 +15,7 @@
 #import "MSSlidingPanelController.h"
 #import "MSViewControllerSlidingPanel.h"
 #import "AppDelegate.h"
+#import "MainViewTableViewCell.h"
 
 #pragma mark - Interface
 

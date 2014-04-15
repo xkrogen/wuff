@@ -23,7 +23,63 @@
     return self;
 }
 
-
++ (NSString *)stringForDisplayFromDate:(NSDate *)date
+{
+    if (!date) {
+        return nil;
+    }
+    
+    NSDate *currentDate = [NSDate date];
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *components = [calendar components:(kCFCalendarUnitYear
+                                                         |kCFCalendarUnitMonth
+                                                         |kCFCalendarUnitWeek
+                                                         |kCFCalendarUnitDay
+                                                         |kCFCalendarUnitHour
+                                                         |kCFCalendarUnitMinute)
+                                               fromDate:currentDate
+                                                 toDate:date
+                                                options:0];
+    if (components.year == 0) {
+        // same year
+        if (components.month == 0) {
+            // same month
+            if (components.week == 0) {
+                // same week
+                if (components.day == 0) {
+                    // same day
+                    if (components.hour == 0) {
+                        // same hour
+                        if (components.minute < 10) {
+                            // in 10 mins
+                            return @"now";
+                        } else {
+                            // 10 mins age
+                            return [NSString stringWithFormat:@"%dm", (int)(components.minute/10)*10];
+                        }
+                    } else {
+                        // different hour
+                        return [NSString stringWithFormat:@"%dh", components.hour];
+                    }
+                } else {
+                    // different day
+                    return [NSString stringWithFormat:@"%dd", components.day];
+                }
+            } else {
+                // different week
+                return [NSString stringWithFormat:@"%dW", components.week];
+            }
+        } else {
+            // different month
+            return [NSString stringWithFormat:@"%dM", components.month];
+        }
+    } else {
+        // different year
+        return [NSString stringWithFormat:@"%dY", components.year];
+    }
+    
+    return @"-∞";
+}
 
 -(void)refresh
 {
@@ -192,13 +248,19 @@
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *SimpleIdentifier = @"SimpleIdentifier";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:SimpleIdentifier];
+    MainViewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:SimpleIdentifier];
     
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:SimpleIdentifier];
+        cell = [[MainViewTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:SimpleIdentifier];
     }
     
     NSDictionary *event = self.eventList[indexPath.row];
+    
+    // test
+    NSDate *time = [NSDate dateWithTimeIntervalSince1970:[[event objectForKey:@"time"] integerValue]];
+    NSString *timeString = [MainViewController stringForDisplayFromDate:time];
+    
+    cell.descriptionLabel.text = timeString;
     
     UIFont *cellTitleFont = [UIFont fontWithName:@"HelveticaNeue-Medium" size:15.0f];
     UIFont *cellTitleSmallFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:15.0f];
@@ -217,10 +279,18 @@
     
     subString = [[NSAttributedString alloc] initWithString:[event objectForKey:@"location"] attributes:attributes];
     [title appendAttributedString:subString];
+    
+    if ([title length] > 35)
+    {
+        title = [[NSMutableAttributedString alloc] initWithAttributedString:[title attributedSubstringFromRange:NSMakeRange(0, 35)]];
+        subString = [[NSAttributedString alloc] initWithString:@".." attributes:attributes];
+        [title appendAttributedString:subString];
+    }
    
     cell.textLabel.attributedText = title;
     
     // detail (user list)
+    cell.detailTextLabel.text = @"";
     NSDictionary *users = [self.eventList[indexPath.row] objectForKey:@"users"];
     int user_count = [[users objectForKey:@"user_count"] intValue];
     for (int i=1; i<=user_count; i++) {
@@ -229,6 +299,15 @@
             cell.detailTextLabel.text = [user objectForKey:@"name"];
         else
             cell.detailTextLabel.text = [NSString stringWithFormat:@"%@, %@", cell.detailTextLabel.text, [user objectForKey:@"name"]];
+        
+        // +X functionality
+        if ([cell.detailTextLabel.text length] > 20)
+        {
+            if (i != user_count) {
+                cell.detailTextLabel.text = [NSString stringWithFormat:@"%@..+%d", cell.detailTextLabel.text, user_count-i];
+                break;
+            }
+        }
     }
     cell.detailTextLabel.font = cellDetailFont;
     
