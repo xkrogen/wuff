@@ -18,7 +18,7 @@
         self.descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(250, 11.5, 55, 20)];
         [self.descriptionLabel setTextAlignment:NSTextAlignmentRight];
         self.descriptionLabel.textColor = [UIColor grayColor];
-        self.descriptionLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14.0f];
+        self.descriptionLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:13.0f];
         
         [self addSubview:self.descriptionLabel];
     }

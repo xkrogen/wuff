@@ -208,16 +208,17 @@ static const NSString * CSToastActivityViewKey  = @"CSToastActivityViewKey";
 #pragma mark - Helpers
 
 - (CGPoint)centerPointForPosition:(id)point withToast:(UIView *)toast {
+    float offset = -64.0f;
     if([point isKindOfClass:[NSString class]]) {
         // convert string literals @"top", @"bottom", @"center", or any point wrapped in an NSValue object into a CGPoint
         if([point caseInsensitiveCompare:@"top"] == NSOrderedSame) {
-            return CGPointMake(self.bounds.size.width/2, (toast.frame.size.height / 2) + CSToastVerticalPadding);
+            return CGPointMake(self.bounds.size.width/2, (toast.frame.size.height / 2) + CSToastVerticalPadding + offset);
         } else if([point caseInsensitiveCompare:@"bottom"] == NSOrderedSame) {
-            return CGPointMake(self.bounds.size.width/2, (self.bounds.size.height - (toast.frame.size.height / 2)) - CSToastVerticalPadding);
+            return CGPointMake(self.bounds.size.width/2, (self.bounds.size.height - (toast.frame.size.height / 2)) - CSToastVerticalPadding + offset);
         } else if([point caseInsensitiveCompare:@"nearly-bottom"] == NSOrderedSame) {
-            return CGPointMake(self.bounds.size.width/2, (self.bounds.size.height - (toast.frame.size.height / 2)) - CSToastVerticalPadding - 20.0f);
+            return CGPointMake(self.bounds.size.width/2, (self.bounds.size.height - (toast.frame.size.height / 2)) - CSToastVerticalPadding - 20.0f + offset);
         } else if([point caseInsensitiveCompare:@"center"] == NSOrderedSame) {
-            return CGPointMake(self.bounds.size.width / 2, self.bounds.size.height / 2);
+            return CGPointMake(self.bounds.size.width / 2, self.bounds.size.height / 2 + offset);
         }
     } else if ([point isKindOfClass:[NSValue class]]) {
         return [point CGPointValue];
