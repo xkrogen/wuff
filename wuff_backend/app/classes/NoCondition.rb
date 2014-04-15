@@ -13,7 +13,12 @@ class NoCondition < Condition
 
 	# Returns a hash representing this Condition.
 	def get_hash
-		{ cond_type: COND_NONE }
+		{ cond_type: COND_NONE, cond_met: COND_NOT_MET }
+	end
+
+	# Overload Condition#type since it will always be the same type.
+	def type
+		COND_NONE
 	end
 
 end

@@ -11,6 +11,8 @@ class Condition
 	def self.create_from_hash(hash)
 		return nil if not (hash.has_key?(:cond_type) && hash.has_key?(:cond_met))
 		case hash[:cond_type]
+		when COND_NONE
+			return NoCondition.new
 		when COND_NUM_ATTENDING
 			return nil if not (hash.has_key?(:num_users))
 			return NumberCondition.new(hash[:num_users])
@@ -29,6 +31,11 @@ class Condition
 		# Dummy method. Shouldn't try to get the hash of a Condition.
 		def get_hash
 			{}
+		end
+
+		# Return the type of Condition.
+		def type
+			@cond_type
 		end
 
 		# Mark this condition as met.

@@ -3,6 +3,7 @@ require 'spec_helper'
 require 'Condition'
 require 'UserCondition'
 require 'NumberCondition'
+require 'NoCondition'
 
 describe UserCondition do
 	before do
@@ -46,8 +47,27 @@ describe NumberCondition do
 			cond_hash[:cond_met].should eq COND_NOT_MET
 			cond_hash[:num_users].should eq 4
 			cond_copy = Condition.create_from_hash(cond_hash)
-			cond_copy.instance_variable_get(:@cond_met).should eq COND_NOT_MET
+			cond_copy.instance_variable_get(:@num_users).should eq 4
+			cond_copy.type.should eq COND_NUM_ATTENDING
 			cond_copy.met?.should be_false
 		end
+	end
+end
+
+describe NoCondition do
+	before { @no_cond = NoCondition.new } 
+	specify { @no_cond.met?.should be_false }
+	describe "when converting to/from a hash" do 
+		it "should match the object" do
+			cond_hash = @no_cond.get_hash
+			cond_hash[:cond_type].should eq COND_NONE
+			cond_hash[:cond_met].should eq COND_NOT_MET
+			cond_copy = Condition.create_from_hash(cond_hash)
+			cond_copy.type.should eq COND_NONE
+			cond_copy.met?.should be_false
+		end
+	end
+	it "shouldn't allow being set as met" do
+		expect { @no_cond.met }.to raise_exception
 	end
 end
