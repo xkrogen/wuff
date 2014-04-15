@@ -2,6 +2,7 @@
 require 'spec_helper'
 require 'EventNotification'
 require 'FriendNotification'
+require 'ConditionNotification' 
 
 describe EventNotification do
 	

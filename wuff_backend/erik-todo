@@ -1,1 +1,5 @@
 TODO LIST:
+
+ - Add unit test for ConditionalNotification?
+ - Add tests for Condition and subclasses
+ - Integrate conditions into Event model/controller

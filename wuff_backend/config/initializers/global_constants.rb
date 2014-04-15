@@ -32,5 +32,19 @@ NOTIF_NEW_EVENT = 1
 NOTIF_DELETE_EVENT = 2
 NOTIF_EDIT_EVENT = 3
 NOTIF_FRIEND_ADD = 4
+NOTIF_COND_MET = 5
 
+# Condition types
+# No condition set. 
+COND_NONE = 0
+# At least a certain number of other people will be attending the event
+COND_NUM_ATTENDING = 1
+# Any one of the users specified are attending the event.
+COND_USER_ATTENDING_ANY = 2
+# All of the users specified will be attending the event.
+COND_USER_ATTENDING_ALL = 3
 
+# The condition has been met. 
+COND_MET = 0 
+# The condition has not been met.
+COND_NOT_MET = 1
