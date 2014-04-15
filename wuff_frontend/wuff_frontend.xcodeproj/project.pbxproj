@@ -42,6 +42,8 @@
 		6C6216C418D0397A0006048A /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C6216C218D0397A0006048A /* SignUpViewController.m */; };
 		6C6216C518D0397A0006048A /* SignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C6216C318D0397A0006048A /* SignUpViewController.xib */; };
 		6C71D54D18FDA0B4004334EA /* MainViewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C71D54C18FDA0B4004334EA /* MainViewTableViewCell.m */; };
+		6C71D54F18FDE02C004334EA /* groups_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C71D54E18FDE02C004334EA /* groups_icon.png */; };
+		6C71D55218FDE113004334EA /* SettingsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C71D55118FDE113004334EA /* SettingsTableViewCell.m */; };
 		6C8CB86B18E89C6D0077E9BB /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C8CB86918E89C6D0077E9BB /* SettingsViewController.m */; };
 		6C8CB86C18E89C6D0077E9BB /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C8CB86A18E89C6D0077E9BB /* SettingsViewController.xib */; };
 		6C8CB87018EA185C0077E9BB /* GroupAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C8CB86E18EA185C0077E9BB /* GroupAddViewController.m */; };
@@ -115,6 +117,9 @@
 		6C6216C318D0397A0006048A /* SignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SignUpViewController.xib; sourceTree = "<group>"; };
 		6C71D54B18FDA0B4004334EA /* MainViewTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewTableViewCell.h; sourceTree = "<group>"; };
 		6C71D54C18FDA0B4004334EA /* MainViewTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewTableViewCell.m; sourceTree = "<group>"; };
+		6C71D54E18FDE02C004334EA /* groups_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = groups_icon.png; sourceTree = "<group>"; };
+		6C71D55018FDE113004334EA /* SettingsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsTableViewCell.h; sourceTree = "<group>"; };
+		6C71D55118FDE113004334EA /* SettingsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsTableViewCell.m; sourceTree = "<group>"; };
 		6C8CB86818E89C6D0077E9BB /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		6C8CB86918E89C6D0077E9BB /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		6C8CB86A18E89C6D0077E9BB /* SettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
@@ -207,10 +212,13 @@
 				322B9B3D18D256C80084AAF9 /* MainViewController.xib */,
 				6C71D54B18FDA0B4004334EA /* MainViewTableViewCell.h */,
 				6C71D54C18FDA0B4004334EA /* MainViewTableViewCell.m */,
+				6C71D54E18FDE02C004334EA /* groups_icon.png */,
 				6CAAB38018E7A67E008A686A /* settings_icon.png */,
 				6C4AFBD718E78D66001BCEBB /* SettingsTabViewController.h */,
 				6C4AFBD818E78D67001BCEBB /* SettingsTabViewController.m */,
 				6C4AFBD918E78D67001BCEBB /* SettingsTabViewController.xib */,
+				6C71D55018FDE113004334EA /* SettingsTableViewCell.h */,
+				6C71D55118FDE113004334EA /* SettingsTableViewCell.m */,
 				6C8CB86D18EA185C0077E9BB /* GroupAddViewController.h */,
 				6C8CB86E18EA185C0077E9BB /* GroupAddViewController.m */,
 				6C8CB86F18EA185C0077E9BB /* GroupAddViewController.xib */,
@@ -370,6 +378,7 @@
 				6C13DD9F18C41EFD0032A56C /* InfoPlist.strings in Resources */,
 				187D8D5918EA4F7400E5EA1B /* LICENSE in Resources */,
 				6C6216C018D0390F0006048A /* LoginViewController.xib in Resources */,
+				6C71D54F18FDE02C004334EA /* groups_icon.png in Resources */,
 				6C8CB87118EA185C0077E9BB /* GroupAddViewController.xib in Resources */,
 				322B9B3F18D256C80084AAF9 /* MainViewController.xib in Resources */,
 				3224246418EC9EA0003E7E7F /* FriendViewController.xib in Resources */,
@@ -440,6 +449,7 @@
 				6C71D54D18FDA0B4004334EA /* MainViewTableViewCell.m in Sources */,
 				6C13DDA518C41EFD0032A56C /* AppDelegate.m in Sources */,
 				6C13DDA118C41EFD0032A56C /* main.m in Sources */,
+				6C71D55218FDE113004334EA /* SettingsTableViewCell.m in Sources */,
 				6C6216C418D0397A0006048A /* SignUpViewController.m in Sources */,
 				6C4AFBD618E52FAE001BCEBB /* UserAutoCompletionObject.m in Sources */,
 				6C8CB86B18E89C6D0077E9BB /* SettingsViewController.m in Sources */,

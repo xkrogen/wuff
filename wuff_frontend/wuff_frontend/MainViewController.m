@@ -305,7 +305,7 @@
         if ([cell.detailTextLabel.text length] > 20)
         {
             if (i != user_count) {
-                cell.detailTextLabel.text = [NSString stringWithFormat:@"%@..+%d", cell.detailTextLabel.text, user_count-i];
+                cell.detailTextLabel.text = [NSString stringWithFormat:@"%@.. +%d", cell.detailTextLabel.text, user_count-i];
                 break;
             }
         }

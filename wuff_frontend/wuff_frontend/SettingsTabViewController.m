@@ -33,7 +33,7 @@
     self.table.backgroundColor = bg_color;
     [self.table setSeparatorColor:sep_color];
     
-    self.menuList = [[NSMutableArray alloc] initWithArray:@[@"Self", @"Friends", @"Groups", @"+ Add New", @"", @"", @"Settings", @"Logout"]];
+    self.menuList = [[NSMutableArray alloc] initWithArray:@[@"Self", @"Friends", @"Groups", @"+ Add Group", @"", @"", @"Settings", @"Logout"]];
 }
 
 - (void)didReceiveMemoryWarning
@@ -52,10 +52,10 @@
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *SimpleIdentifier = @"SimpleIdentifier";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:SimpleIdentifier];
+    SettingsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:SimpleIdentifier];
     
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:SimpleIdentifier];
+        cell = [[SettingsTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:SimpleIdentifier];
     }
     
     UIColor *textColor = [UIColor colorWithRed:220.0f/255.0f green:220.0f/255.0f blue:220.0f/255.0f alpha:1.0f];
@@ -66,6 +66,7 @@
     if ([_menuList[indexPath.row] isEqualToString:@"Groups"])
     {
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+        cell.imggy.image = [UIImage imageNamed:@"groups_icon.png"];
     }
     else if ([_menuList[indexPath.row] isEqualToString:@""])
     {
@@ -120,6 +121,7 @@
         FriendViewController *settings = [[FriendViewController alloc] initWithNibName:nil bundle:nil];
         [self presentViewController:settings animated:YES completion:nil];
     }
+
     //Change the selected background view of the cell.
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

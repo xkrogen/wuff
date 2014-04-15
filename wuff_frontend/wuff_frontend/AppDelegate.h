@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "LoginViewController.h"
 #import "EventCreateViewController.h"
+#import "MainViewController.h"
 
 NSString * const UIApplicationDidReceiveRemoteNotification;
 
