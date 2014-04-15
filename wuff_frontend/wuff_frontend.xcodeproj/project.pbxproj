@@ -121,7 +121,6 @@
 		6C8CB86D18EA185C0077E9BB /* GroupAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupAddViewController.h; sourceTree = "<group>"; };
 		6C8CB86E18EA185C0077E9BB /* GroupAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupAddViewController.m; sourceTree = "<group>"; };
 		6C8CB86F18EA185C0077E9BB /* GroupAddViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GroupAddViewController.xib; sourceTree = "<group>"; };
-		6C8CB87518EC6E880077E9BB /* AddFriendViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddFriendViewController.h; sourceTree = "<group>"; };
 		6C8CB87618EC6E880077E9BB /* AddFriendViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddFriendViewController.m; sourceTree = "<group>"; };
 		6C8CB87718EC6E880077E9BB /* AddFriendViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddFriendViewController.xib; sourceTree = "<group>"; };
 		6CAAB38018E7A67E008A686A /* settings_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings_icon.png; sourceTree = "<group>"; };
@@ -218,16 +217,16 @@
 				6C8CB86818E89C6D0077E9BB /* SettingsViewController.h */,
 				6C8CB86918E89C6D0077E9BB /* SettingsViewController.m */,
 				6C8CB86A18E89C6D0077E9BB /* SettingsViewController.xib */,
-				6C8CB87518EC6E880077E9BB /* AddFriendViewController.h */,
 				6C8CB87618EC6E880077E9BB /* AddFriendViewController.m */,
 				6C8CB87718EC6E880077E9BB /* AddFriendViewController.xib */,
-				322B9B2C18D013C70084AAF9 /* EventViewController.h */,
 				3224245B18EC949F003E7E7F /* AddFriendViewController.h */,
 				3224246018EC9EA0003E7E7F /* FriendViewController.h */,
 				3224246118EC9EA0003E7E7F /* FriendViewController.m */,
 				3224246218EC9EA0003E7E7F /* FriendViewController.xib */,
+				3224245B18EC949F003E7E7F /* AddFriendViewController.h */,
 				3224245C18EC949F003E7E7F /* AddFriendViewController.m */,
 				3224245D18EC949F003E7E7F /* AddFriendViewController.xib */,
+				322B9B2C18D013C70084AAF9 /* EventViewController.h */,
 				322B9B2D18D013C70084AAF9 /* EventViewController.m */,
 				322B9B2E18D013C70084AAF9 /* EventViewController.xib */,
 				6C6216B718D037AA0006048A /* EventCreateViewController.h */,

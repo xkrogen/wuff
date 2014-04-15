@@ -15,7 +15,7 @@
 #import "MLPAutoCompleteTextField.h"
 #import "UserAutoCompletionObject.h"
 
-@interface EventCreateViewController : UIViewController
+@interface EventCreateViewController : UIViewController <UIScrollViewDelegate>
 
 @property(nonatomic, strong) IBOutlet InputView *nameInputView;
 @property(nonatomic, strong) IBOutlet InputView *descriptionInputView;
@@ -24,6 +24,9 @@
 @property(nonatomic, strong) IBOutlet InputView *timeInputView;
 @property(nonatomic, strong) IBOutlet UIDatePicker *datePicker;
 @property(nonatomic, strong) IBOutlet MLPAutoCompleteTextField *autocompleteTextField;
+
+@property(nonatomic, strong) IBOutlet UIScrollView *scrollView;
+@property(nonatomic, strong) IBOutlet UIView *contentView;
 
 @property(nonatomic, strong) NSMutableArray *userList;
 

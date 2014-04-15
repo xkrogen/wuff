@@ -22,7 +22,7 @@ NSString * const UIApplicationDidReceiveRemoteNotification = @"UIApplicationDidR
     //[[UIView appearance] setTintColor:[UIColor whiteColor]];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
         
-    LoginViewController *viewController = [[LoginViewController alloc] initWithNibName:nil bundle:nil];
+    UIViewController *viewController = [[EventCreateViewController alloc] initWithNibName:nil bundle:nil];
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:viewController];
     
     self.window.rootViewController = navController;

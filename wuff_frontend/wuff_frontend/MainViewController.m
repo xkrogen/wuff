@@ -217,8 +217,9 @@
 }
 
 -(IBAction)createEvent{
-    EventCreateViewController *eventCreate = [[EventCreateViewController alloc]  initWithNibName:nil bundle:nil];
-    [self presentViewController:eventCreate animated:YES completion:nil];
+    UIViewController *eventCreate = [[EventCreateViewController alloc] initWithNibName:nil bundle:nil];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:eventCreate];
+    [self presentViewController:navController animated:YES completion:nil];
 }
 
 -(IBAction)openSettingsPanel

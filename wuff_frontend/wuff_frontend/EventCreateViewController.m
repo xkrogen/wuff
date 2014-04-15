@@ -29,6 +29,15 @@
 {
     [super viewDidLoad];
     
+    // 505 is the minimum you can use for a content-size that doesn't move around but still streches (used for the login page)
+    [self.scrollView setContentSize:CGSizeMake(320, 505)];
+    [self.scrollView addSubview:self.contentView];
+    [self.scrollView setDelegate:self];
+    [self.scrollView setShowsHorizontalScrollIndicator:NO];
+    [self.scrollView setShowsVerticalScrollIndicator:NO];
+    
+    [self.datePicker setMinuteInterval:15];
+    
     [self.autocompleteTextField setBorderStyle:UITextBorderStyleRoundedRect];
     self.autocompleteTextField.delegate = (id)self;
     self.autocompleteTextField.autoCompleteDataSource = (id)self;
@@ -58,23 +67,16 @@
     CGSize windowSize = [[UIScreen mainScreen] bounds].size;
     navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, windowSize.width, 64)];
     
-    [[self view] addSubview:navigationBar];
-    
     [self.navigationItem setHidesBackButton:YES];
     
-    [navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont boldSystemFontOfSize: 18.0f]}];
-    navigationBarItem = [[UINavigationItem alloc] initWithTitle:@"Wuff"];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont boldSystemFontOfSize: 18.0f]}];
+    [self.navigationItem setTitle:@"Wuff"];
     
     UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel)];
     [cancelButton setTintColor:[UIColor whiteColor]];
     [cancelButton setAccessibilityLabel:@"Cancel Button"];
-    [navigationBarItem setLeftBarButtonItem:cancelButton];
+    [self.navigationItem setLeftBarButtonItem:cancelButton];
     
-    [navigationBar setBarTintColor:[UIColor colorWithRed:49.0f/255.0f green:103.0f/255.0f blue:157.0f/255.0f alpha:1.0f]];
-    [navigationBar pushNavigationItem:navigationBarItem animated:NO];
-    [navigationBar setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
-    
-    [[self view] addSubview:navigationBar];
     // END CODE
 }
 
