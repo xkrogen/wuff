@@ -58,15 +58,6 @@ describe UsersController do
 			end
 		end
 
-		describe "login with a device token" do
-			it "should have user[device_token] not nil" do
-				@user.device_tokens.empty?.should eq true
-				post 'login_user', { format: 'json', email: 'test@example.com', password: 'nopassword', device_token: '0000' }
-				@user.reload
-				@user.device_tokens.empty?.should eq false
-			end
-		end
-
 		describe "logout user" do
 			it "should reset remember_token = nil" do
 				@user_token = User.new_token
@@ -82,7 +73,7 @@ describe UsersController do
 	describe "auth_facebook" do
 		before do
 			# token may need to be refreshed with FB Graph API Explorer
-			@token = 'CAACEdEose0cBAG5oKRs8yzdc69lMc3olPnpzQERVb6PxXCJ3uiEptE1OaS7s9Aq09iHZBLsNZAVNZCr7QFZCBmk8KqOKZCanDqamKqhiTqEcHhRe4pXfEZBboUfWZBInyoGKkkNbW88HiPxeikzo1PziZANSARXiZBkMfYzqxFZCyzVqaUEecktaAJjkX7ZABZCZB2J4ZD'
+			@token = 'CAACEdEose0cBAPhaOpQCVB9vC4bOH4utYqgXzclY7S3yC8FrIr3NlmlocThWpMpzTVAuSbZCF5q22cT1XzPmEELEQ6x3nyo6ftq3trZCN2Y7ZC3eO4n4HZCbOQCextyAM53VqCivd9vGnruZCTZCD9AYgwBgXG9fRr0sSHxv68b6Wndc7RYFVmc7mf3DsWCcw7ScAZCOUX1swZDZD'
 		end
 
 		describe "authenticate w/o token" do
@@ -93,7 +84,6 @@ describe UsersController do
 		end
 
 		# This test is super sketch, need to get token via FB Graph API Explorer before running test
-		# Token lasts ~ 1 hr. NEED TO REFRESH (Find better way to test later)
 		describe "autenticate w/ proper token, email not in db" do
 			it "should create new user with fb_id in database" do
 				User.find_by(email: 'wufftest@gmail.com').should eq nil
@@ -102,6 +92,32 @@ describe UsersController do
 
 				User.find_by(email: 'wufftest@gmail.com').should_not eq nil
 				User.find_by(fb_id: '0').should_not eq nil
+
+			end
+		end
+	end
+
+	describe "get_profile_pic" do
+		before do
+			@user = User.new(name: 'Test Name', email: 'test@example.com', password: 'nopassword')
+			@user.add
+		end
+
+		describe "try to get profile_pic without facebook_id associated with user" do
+			it "should return ERR_UNSUCCESSFUL" do
+				get 'get_profile_pic', { format: 'json', email: 'test@example.com' }
+				JSON.parse(response.body)['err_code'].should eq ERR_UNSUCCESSFUL
+			end
+		end
+
+		describe "try to get profile_pic given a facebook uid" do
+			it "should return url to profile_pic" do
+			@user.update_attribute(:fb_id, '517267866');
+			@user.reload
+			get 'get_profile_pic', { format: 'json', email: 'test@example.com' }
+			JSON.parse(response.body)['err_code'].should eq SUCCESS
+			JSON.parse(response.body)['pic_url'].should_not eq nil
+
 
 			end
 		end
@@ -167,8 +183,6 @@ describe UsersController do
 				@user.post_notification(FriendNotification.new(@other))
 				get 'has_notifications?'
 				JSON.parse(response.body)['notif'].should eq true
-
-				
 			end
 		end
 
@@ -362,213 +376,6 @@ describe UsersController do
 				it "invalid events should be removed from event_list" do
 					@other.reload
 					@other.event_list.should have(2).items
-				end
-			end
-		end
-	end
-
-	describe "get_groups" do
-		before do
-			@user = User.new(name: "Test Name", email: "test@example.com",
-				password: "test_password")
-			@user.add
-			@user_token = User.new_token
-			@user.update_attribute(:remember_token, User.hash(@user_token))
-			@other = User.new(name: "Test Other", email: "t_other@example.com",
-					password: "test_password")
-			@other.add
-			@other_token = User.new_token
-			@other.update_attribute(:remember_token, User.hash(@other_token))
-		end
-
-		describe "with a single group" do
-			before do
-				@group_id = Group.add_group("Test Group", [@user.id, @other.id] )
-				@user.reload
-				@other.reload
-			end
-			describe "for the members of the group" do
-				before do
-					@request.cookies['current_user_token'] =  @user_token 
-					get 'get_groups'
-				end
-				specify { JSON.parse(response.body)['err_code'].should eq SUCCESS }
-				it "should appear with proper fields" do
-					JSON.parse(response.body)['group_count'].should eq 1
-					JSON.parse(response.body)['1']['group'].should eq @group_id
-					JSON.parse(response.body)['1']['name'].should eq "Test Group"
-					users = JSON.parse(response.body)['1']['users']
-					user_count = users['user_count']
-					user_count.should eq 2
-					# Possible refactoring here
-					user_names = []
-					user_email = []
-					for i in 1..user_count
-						user_names <<= users[i.to_s]['name']
-						user_email <<= users[i.to_s]['email']
-					end
-					user_names.should include("Test Name")
-					user_names.should include("Test Other")
-					user_email.should include("t_other@example.com")
-					user_email.should include("test@example.com")
-				end				
-			end
-		end
-
-		describe "with multiple groups" do
-			before do
-				@group1_id = Group.add_group("Test Group #1", [@user.id, @other.id] )
-				@group2_id = Group.add_group("Test Group #2", [@other.id, @user.id] )
-				@group3_id = Group.add_group("Test Group #3", [@other.id] )
-				@user.reload
-				@other.reload
-			end
-			describe "for the first user" do
-				before do
-					@request.cookies['current_user_token'] =  @user_token 
-					get 'get_groups'
-				end
-				specify { JSON.parse(response.body)['err_code'].should eq SUCCESS }
-				it "should appear with proper fields" do
-					JSON.parse(response.body)['group_count'].should eq 2
-					group_ids = [ JSON.parse(response.body)['1']['group'],
-						JSON.parse(response.body)['2']['group'] ]
-					group_ids.should include(@group1_id)
-					group_ids.should include(@group2_id)
-					group_names = [ JSON.parse(response.body)['1']['name'], 
-						JSON.parse(response.body)['2']['name'] ]
-					group_names.should include("Test Group #1")	
-					group_names.should include("Test Group #2")
-				end				
-			end
-			describe "for the other user" do
-				before do
-					@request.cookies['current_user_token'] =  @other_token 
-					get 'get_groups'
-				end
-				specify { JSON.parse(response.body)['err_code'].should eq SUCCESS }
-				it "should appear with proper fields" do
-					JSON.parse(response.body)['group_count'].should eq 3
-					group_ids = [ JSON.parse(response.body)['1']['group'],
-						JSON.parse(response.body)['2']['group'], 
-						JSON.parse(response.body)['3']['group'] ]
-					group_ids.should include(@group1_id)
-					group_ids.should include(@group2_id)
-					group_ids.should include(@group3_id)
-					group_names = [ JSON.parse(response.body)['1']['name'], 
-						JSON.parse(response.body)['2']['name'],
-						JSON.parse(response.body)['3']['name']  ]
-					group_names.should include("Test Group #1")	
-					group_names.should include("Test Group #2")
-					group_names.should include("Test Group #3")
-				end								
-			end
-		end
-
-		describe "with invalid groups in the user's group_list" do
-			before do
-				@group1_id = Group.add_group("Test Group #1", [@user.id, @other.id] )
-				@group2_id = Group.add_group("Test Group #2", [@other.id] )
-				@user.reload
-				@user.update_attribute(:group_list, @user.group_list << 23452345)
-				@user.reload
-				@other.reload
-			end
-			describe "for the first user" do
-				before do
-					@request.cookies['current_user_token'] =  @user_token 
-					get 'get_groups'
-				end
-				specify { JSON.parse(response.body)['err_code'].should eq SUCCESS }
-				it "valid groups should appear with proper fields" do
-					JSON.parse(response.body)['group_count'].should eq 1
-					JSON.parse(response.body)['1']['group'].should eq @group1_id
-					JSON.parse(response.body)['1']['name'].should eq "Test Group #1"
-				end				
-				it "invalid groups should be removed from group_list" do
-					@user.reload
-					@user.group_list.should have(1).items
-				end
-			end
-		end
-	end
-
-	describe "get_friend" do
-		before do
-			@user = User.new(name: "Test Name", email: "test@example.com",
-				password: "test_password")
-			@user.add
-			@user_token = User.new_token
-			@user.update_attribute(:remember_token, User.hash(@user_token))
-		end
-
-		describe "with no friends" do
-			before do
-				@request.cookies['current_user_token'] =  @user_token 
-				get 'get_friends'
-			end
-			specify { JSON.parse(response.body)['err_code'].should eq SUCCESS }
-			it "should appear with proper fields" do
-				JSON.parse(response.body)['friend_count'].should eq 0
-			end			
-		end
-
-		describe "with multiple friends" do
-			before do
-				@other = User.new(name: "Test Other", 
-					email: "t_other@example.com", password: "test_password")
-				@other.add
-				@other2 = User.new(name: "Test Others", 
-					email: "t_other2@example.com", password: "test_password")
-				@other2.add
-				@user.concat_friend("t_other@example.com")
-				@user.concat_friend("t_other2@example.com")
-				@user.reload
-			end
-			describe "for the first user" do
-				before do
-					@request.cookies['current_user_token'] =  @user_token 
-					get 'get_friends'
-				end
-				specify { JSON.parse(response.body)['err_code'].should eq SUCCESS }
-				it "should appear with proper fields" do
-					JSON.parse(response.body)['friend_count'].should eq 2
-					friend_names = [ JSON.parse(response.body)['1']['name'], 
-						JSON.parse(response.body)['2']['name'] ]
-					friend_names.should include("Test Other")	
-					friend_names.should include("Test Others")
-					friend_emails = [ JSON.parse(response.body)['1']['email'], 
-						JSON.parse(response.body)['2']['email'] ]
-					friend_emails.should include("t_other@example.com")	
-					friend_emails.should include("t_other2@example.com")
-				end				
-			end
-		end
-
-		describe "with invalid friends in the user's friend_list" do
-			before do
-				@other = User.new(name: "Test Other", email: "t_other@example.com",
-						password: "test_password")
-				@other.add
-				@user.concat_friend("t_other@example.com")
-				@user.reload
-				@user.update_attribute(:friend_list, @user.friend_list << 345234)
-				@user.reload
-			end
-			describe "for the user" do
-				before do
-					@request.cookies['current_user_token'] =  @user_token 
-					get 'get_friends'
-				end
-				specify { JSON.parse(response.body)['err_code'].should eq SUCCESS }
-				it "valid friends should appear with proper fields" do
-					JSON.parse(response.body)['friend_count'].should eq 1
-					JSON.parse(response.body)['1']['email'].should eq "t_other@example.com"
-					JSON.parse(response.body)['1']['name'].should eq "Test Other"
-				end				
-				it "invalid groups should be removed from friend_list" do
-					@user.reload
-					@user.friend_list.should have(1).items
 				end
 			end
 		end
