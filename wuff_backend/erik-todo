@@ -1,5 +1,7 @@
 TODO LIST:
 
  - Add unit test for ConditionalNotification?
- - Add tests for Condition and subclasses
  - Integrate conditions into Event model/controller
+    - Ability to add conditions into a person on event
+    - Add method to check if any user's conditions are met
+      (write some tests and leave as dummy method for now)

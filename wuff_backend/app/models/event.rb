@@ -151,8 +151,13 @@ class Event < ActiveRecord::Base
 	end
 
 	# Sets the user's status for this event. Does nothing if user_id
-	# is not a member of this event.
+	# is not a member of this event. Triggers a rechecking of all
+	# user conditions to check if any new conditions are met as a result
+	# of this status change. 
 	def set_user_status(user_id, new_status)
+
+		# CODE HERE TO CHECK FOR ANY SATISFIED (OR DISSATISFIED?) CONDITIONS
+
 		party_list[user_id][:status] = new_status if party_list.has_key?(user_id)
 		self.update_attribute(:party_list, party_list)
 	end
