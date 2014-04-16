@@ -17,12 +17,12 @@ group :development, :test do
 	gem 'sqlite3'
 	# Use Rspec for unit testing
 	gem 'rspec-rails'
-  # Use capybara for integration testing
-  gem 'capybara'
   # Use simplecov for determining test coverage
   gem 'simplecov', '0.8.2'
-
 end
+
+# Use APNS - Apple Push Notification Service gem
+gem 'apns'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'

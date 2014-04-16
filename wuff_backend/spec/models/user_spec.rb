@@ -167,6 +167,7 @@ describe User, "#login" do
 			other.login[:err_code].should eq(ERR_BAD_CREDENTIALS)
 		end
 	end
+
 end
 
 describe User, "#add_friend, #delete_friend" do
@@ -225,9 +226,9 @@ describe User, "#add_event, #delete_event, #post_notification" do
 
 	describe "when adding/removing a valid event" do
 		before do
-			@event1 = Event.new(name: "Test Event", admin: @user1.id, 
-				party_list: { @user1.id => { status: STATUS_ATTENDING } }, 
-				time: DateTime.current.to_i + 10)
+			@event1_id = Event.add_event("Test Event", @user1.id, 
+				DateTime.current.to_i + 10, [@user1.id])
+			@event1 = Event.find(@event1_id)
 			@user1.add_event(@event1.id)
 			@user2.add_event(@event1.id)
 			@notif = EventNotification.new(NOTIF_NEW_EVENT, @event1)

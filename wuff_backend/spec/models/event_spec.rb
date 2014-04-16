@@ -27,6 +27,16 @@ describe Event, "creation" do
 			specify { @other.event_list.should include(@event_id) }
 		end
 
+		describe "fields within the event" do
+			before { @event = Event.find(@event_id) }
+			it "should have all valid fields" do
+				@event.party_list[@admin.id][:status].should eq STATUS_ATTENDING
+				@event.party_list[@other.id][:status].should eq STATUS_NO_RESPONSE
+				@event.party_list[@admin.id][:condition][:cond_type].should eq COND_NONE
+				@event.party_list[@other.id][:condition][:cond_type].should eq COND_NONE
+			end
+		end
+
 		describe "the notification_list of the users involved" do
 			specify { @admin.notification_list.size.should eq 0 }
 			specify { @other.notification_list.size.should eq 1 }

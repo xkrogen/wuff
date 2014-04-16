@@ -8,6 +8,8 @@ WuffBackend::Application.routes.draw do
   post '/user/add_friend', to: 'users#add_friend'
   delete '/user/delete_friend', to: 'users#delete_friend'
 	get '/user/get_events', to: 'users#get_events'
+	get '/user/get_groups', to: 'users#get_groups'	
+	get '/user/get_friends', to: 'users#get_friends'		
 	get '/user/has_notifications', to: 'users#has_notifications?'
 	get '/user/get_notifications', to: 'users#get_notifications'
 	delete '/user/clear_notifications', to: 'users#clear_notifications'
