@@ -73,6 +73,26 @@ class UsersController < ApplicationController
     respond(SUCCESS, { user_id: current_user.id, email: current_user.email, name: current_user.name })
   end
 
+  # GET /user/get_profile_pic
+  # Supports retrival of profile picture via Facebook Graph
+  # ERR_UNSUCCESFUL if email not valid, or corresponding user does not have facebook credentials
+  # returns url to picture
+  def get_profile_pic
+    @user = User.find_by(email: params[:email])
+    if @user == nil || @user.fb_id == nil
+      respond(ERR_UNSUCCESSFUL)
+      return
+    end
+    begin
+      rest_graph_setup
+      rg = RestGraph.new()
+      medata = rg.get("#{@user.fb_id}/?fields=picture&type=square")
+      respond(SUCCESS, { pic_url: medata['picture']['data']['url'] })
+    rescue => exception
+      respond(ERR_UNSUCCESFUL)
+      return
+    end
+  end
 
   # GET /user/get_all_users
   # Return a list of all users signed up for Wuff
