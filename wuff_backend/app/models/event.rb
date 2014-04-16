@@ -111,7 +111,8 @@ class Event < ActiveRecord::Base
 	def add_user_list(user_list, skip_attribute_update = false)
 		user_hash = {}
 		user_list.each do |user_id|
-				user_hash[user_id] = { status: STATUS_NO_RESPONSE }
+				user_hash[user_id] = { status: STATUS_NO_RESPONSE, 
+					condition: NoCondition.new.get_hash }
 		end
 		self.party_list.merge!(user_hash) { |key, old, new| old }
 		self.update_attribute(:party_list, self.party_list) if !skip_attribute_update
@@ -130,7 +131,6 @@ class Event < ActiveRecord::Base
 	# call event.destroy to remove it from the database. 
 	def cancel_self
 		party_list.each_key { |user_id| User.find(user_id).delete_event(self.id) }
-
 	end
 
 	# Removes user_id from the event. Does nothing if 
