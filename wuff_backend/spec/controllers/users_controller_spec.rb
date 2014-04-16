@@ -73,7 +73,7 @@ describe UsersController do
 	describe "auth_facebook" do
 		before do
 			# token may need to be refreshed with FB Graph API Explorer
-			@token = 'CAACEdEose0cBAPhaOpQCVB9vC4bOH4utYqgXzclY7S3yC8FrIr3NlmlocThWpMpzTVAuSbZCF5q22cT1XzPmEELEQ6x3nyo6ftq3trZCN2Y7ZC3eO4n4HZCbOQCextyAM53VqCivd9vGnruZCTZCD9AYgwBgXG9fRr0sSHxv68b6Wndc7RYFVmc7mf3DsWCcw7ScAZCOUX1swZDZD'
+			@token = 'CAAG3tpE5O1UBAKl31Y80KmStU0azLLZBIgZAjJZCwvAH6EaXNDtXk9hcQVQYbioMNrb3YVsoqmTGENOO4F7zyLwYAr5ZAlJkm47TEWpETS7QZCVR5UpH9DS6eNMESHhhZAmW789KnuqDqz39ZCITQRKkpgfnLPXmSHEuQPqSDbNZCZBpSLzA9O1bxTjS9i2HuvJ9iACygNsGmiNxCeqimZBtyd'
 		end
 
 		describe "authenticate w/o token" do
@@ -83,16 +83,13 @@ describe UsersController do
 			end
 		end
 
-		# This test is super sketch, need to get token via FB Graph API Explorer before running test
 		describe "autenticate w/ proper token, email not in db" do
 			it "should create new user with fb_id in database" do
 				User.find_by(email: 'wufftest@gmail.com').should eq nil
-				post 'auth_facebook', { format: 'json', facebook_id: '0', facebook_token: @token }
+				post 'auth_facebook', { format: 'json', facebook_id: '100008122715374', facebook_token: @token }
 				JSON.parse(response.body)['err_code'].should eq SUCCESS
 
-				User.find_by(email: 'wufftest@gmail.com').should_not eq nil
-				User.find_by(fb_id: '0').should_not eq nil
-
+				User.find_by(fb_id: '100008122715374').should_not eq nil
 			end
 		end
 	end
