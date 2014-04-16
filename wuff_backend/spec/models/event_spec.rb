@@ -1,4 +1,8 @@
 require 'spec_helper'
+require 'Condition'
+require 'NoCondition'
+require 'NumberCondition'
+require 'UserCondition' 
 
 NAME_MAX_LENGTH = 40
 
@@ -274,7 +278,7 @@ describe Event, "conditional acceptances" do
 		it "should appear in the party_list but not change status" do
 			@event.party_list[@other1.id][:condition][:cond_type].should eq COND_NUM_ATTENDING
 			@event.party_list[@other1.id][:condition][:num_users].should eq 3
-			@event.party_list[@other1.id][:condition][:cond_met].should be_false
+			@event.party_list[@other1.id][:condition][:cond_met].should eq COND_NOT_MET
 			@event.get_user_status(@other1.id).should eq STATUS_NO_RESPONSE
 		end
 	end
@@ -459,7 +463,7 @@ describe Event, "conditional acceptances" do
 				cond1 = UserCondition.new(COND_USER_ATTENDING_ANY, [ @other2.id ])
 				cond2 = UserCondition.new(COND_USER_ATTENDING_ANY, [ @other3.id ])
 				cond3 = UserCondition.new(COND_USER_ATTENDING_ALL, [ @other4.id ])
-				cond4 = UserCondition.new(COND_NUM_ATTENDING, 5)
+				cond4 = NumberCondition.new(5)
 				@event.add_condition(@other1.id, cond1)
 				@event.add_condition(@other2.id, cond2)
 				@event.add_condition(@other3.id, cond3)
