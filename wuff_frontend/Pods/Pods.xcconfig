@@ -1,5 +1,5 @@
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers" "${PODS_ROOT}/Headers/MLPAutoCompleteTextField" "${PODS_ROOT}/Headers/MSSlidingPanelController"
-OTHER_CFLAGS = $(inherited) "-isystem${PODS_ROOT}/Headers" "-isystem${PODS_ROOT}/Headers/MLPAutoCompleteTextField" "-isystem${PODS_ROOT}/Headers/MSSlidingPanelController"
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers" "${PODS_ROOT}/Headers/MCSwipeTableViewCell" "${PODS_ROOT}/Headers/MLPAutoCompleteTextField" "${PODS_ROOT}/Headers/MSSlidingPanelController"
+OTHER_CFLAGS = $(inherited) -isystem "${PODS_ROOT}/Headers" -isystem "${PODS_ROOT}/Headers/MCSwipeTableViewCell" -isystem "${PODS_ROOT}/Headers/MLPAutoCompleteTextField" -isystem "${PODS_ROOT}/Headers/MSSlidingPanelController"
 OTHER_LDFLAGS = -ObjC -framework UIKit
 PODS_ROOT = ${SRCROOT}/Pods

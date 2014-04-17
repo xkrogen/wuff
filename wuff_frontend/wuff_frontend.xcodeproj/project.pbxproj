@@ -44,6 +44,17 @@
 		6C71D54D18FDA0B4004334EA /* MainViewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C71D54C18FDA0B4004334EA /* MainViewTableViewCell.m */; };
 		6C71D54F18FDE02C004334EA /* groups_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C71D54E18FDE02C004334EA /* groups_icon.png */; };
 		6C71D55218FDE113004334EA /* SettingsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C71D55118FDE113004334EA /* SettingsTableViewCell.m */; };
+		6C71D55B19004C8C004334EA /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C71D55319004C8C004334EA /* check.png */; };
+		6C71D55C19004C8C004334EA /* check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C71D55419004C8C004334EA /* check@2x.png */; };
+		6C71D55D19004C8C004334EA /* clock.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C71D55519004C8C004334EA /* clock.png */; };
+		6C71D55E19004C8C004334EA /* clock@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C71D55619004C8C004334EA /* clock@2x.png */; };
+		6C71D55F19004C8C004334EA /* cross.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C71D55719004C8C004334EA /* cross.png */; };
+		6C71D56019004C8C004334EA /* cross@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C71D55819004C8C004334EA /* cross@2x.png */; };
+		6C71D56119004C8C004334EA /* list.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C71D55919004C8C004334EA /* list.png */; };
+		6C71D56219004C8C004334EA /* list@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C71D55A19004C8C004334EA /* list@2x.png */; };
+		6C71D56A19005550004334EA /* RectUIVew.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C71D56919005550004334EA /* RectUIVew.m */; };
+		6C71D56D190059B6004334EA /* profilepic.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C71D56B190059B6004334EA /* profilepic.png */; };
+		6C71D56E190059B6004334EA /* profilepic@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C71D56C190059B6004334EA /* profilepic@2x.png */; };
 		6C8CB86B18E89C6D0077E9BB /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C8CB86918E89C6D0077E9BB /* SettingsViewController.m */; };
 		6C8CB86C18E89C6D0077E9BB /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C8CB86A18E89C6D0077E9BB /* SettingsViewController.xib */; };
 		6C8CB87018EA185C0077E9BB /* GroupAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C8CB86E18EA185C0077E9BB /* GroupAddViewController.m */; };
@@ -120,6 +131,18 @@
 		6C71D54E18FDE02C004334EA /* groups_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = groups_icon.png; sourceTree = "<group>"; };
 		6C71D55018FDE113004334EA /* SettingsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsTableViewCell.h; sourceTree = "<group>"; };
 		6C71D55118FDE113004334EA /* SettingsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsTableViewCell.m; sourceTree = "<group>"; };
+		6C71D55319004C8C004334EA /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = check.png; path = Images/check.png; sourceTree = "<group>"; };
+		6C71D55419004C8C004334EA /* check@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "check@2x.png"; path = "Images/check@2x.png"; sourceTree = "<group>"; };
+		6C71D55519004C8C004334EA /* clock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = clock.png; path = Images/clock.png; sourceTree = "<group>"; };
+		6C71D55619004C8C004334EA /* clock@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "clock@2x.png"; path = "Images/clock@2x.png"; sourceTree = "<group>"; };
+		6C71D55719004C8C004334EA /* cross.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = cross.png; path = Images/cross.png; sourceTree = "<group>"; };
+		6C71D55819004C8C004334EA /* cross@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "cross@2x.png"; path = "Images/cross@2x.png"; sourceTree = "<group>"; };
+		6C71D55919004C8C004334EA /* list.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = list.png; path = Images/list.png; sourceTree = "<group>"; };
+		6C71D55A19004C8C004334EA /* list@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "list@2x.png"; path = "Images/list@2x.png"; sourceTree = "<group>"; };
+		6C71D56819005550004334EA /* RectUIVew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RectUIVew.h; sourceTree = "<group>"; };
+		6C71D56919005550004334EA /* RectUIVew.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RectUIVew.m; sourceTree = "<group>"; };
+		6C71D56B190059B6004334EA /* profilepic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = profilepic.png; path = Images/profilepic.png; sourceTree = "<group>"; };
+		6C71D56C190059B6004334EA /* profilepic@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "profilepic@2x.png"; path = "Images/profilepic@2x.png"; sourceTree = "<group>"; };
 		6C8CB86818E89C6D0077E9BB /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		6C8CB86918E89C6D0077E9BB /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		6C8CB86A18E89C6D0077E9BB /* SettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
@@ -210,8 +233,11 @@
 				322B9B3B18D256C80084AAF9 /* MainViewController.h */,
 				322B9B3C18D256C80084AAF9 /* MainViewController.m */,
 				322B9B3D18D256C80084AAF9 /* MainViewController.xib */,
+				6C71D56319004C90004334EA /* Images */,
 				6C71D54B18FDA0B4004334EA /* MainViewTableViewCell.h */,
 				6C71D54C18FDA0B4004334EA /* MainViewTableViewCell.m */,
+				6C71D56819005550004334EA /* RectUIVew.h */,
+				6C71D56919005550004334EA /* RectUIVew.m */,
 				6C71D54E18FDE02C004334EA /* groups_icon.png */,
 				6CAAB38018E7A67E008A686A /* settings_icon.png */,
 				6C4AFBD718E78D66001BCEBB /* SettingsTabViewController.h */,
@@ -287,6 +313,23 @@
 				6C13DDBC18C41EFD0032A56C /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		6C71D56319004C90004334EA /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				6C71D56B190059B6004334EA /* profilepic.png */,
+				6C71D56C190059B6004334EA /* profilepic@2x.png */,
+				6C71D55319004C8C004334EA /* check.png */,
+				6C71D55419004C8C004334EA /* check@2x.png */,
+				6C71D55519004C8C004334EA /* clock.png */,
+				6C71D55619004C8C004334EA /* clock@2x.png */,
+				6C71D55719004C8C004334EA /* cross.png */,
+				6C71D55819004C8C004334EA /* cross@2x.png */,
+				6C71D55919004C8C004334EA /* list.png */,
+				6C71D55A19004C8C004334EA /* list@2x.png */,
+			);
+			name = Images;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -368,22 +411,32 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6C71D55F19004C8C004334EA /* cross.png in Resources */,
 				6C13DDAD18C41EFD0032A56C /* Images.xcassets in Resources */,
 				6C6216BB18D037AA0006048A /* EventCreateViewController.xib in Resources */,
 				322B9B3018D013C70084AAF9 /* EventViewController.xib in Resources */,
+				6C71D56D190059B6004334EA /* profilepic.png in Resources */,
+				6C71D56219004C8C004334EA /* list@2x.png in Resources */,
 				187D8D5A18EA4F7400E5EA1B /* README.txt in Resources */,
 				6C4AFBDB18E78D67001BCEBB /* SettingsTabViewController.xib in Resources */,
+				6C71D55E19004C8C004334EA /* clock@2x.png in Resources */,
 				6CAAB38118E7A67E008A686A /* settings_icon.png in Resources */,
+				6C71D56119004C8C004334EA /* list.png in Resources */,
 				6C8CB87918EC6E880077E9BB /* AddFriendViewController.xib in Resources */,
 				6C13DD9F18C41EFD0032A56C /* InfoPlist.strings in Resources */,
 				187D8D5918EA4F7400E5EA1B /* LICENSE in Resources */,
+				6C71D56019004C8C004334EA /* cross@2x.png in Resources */,
+				6C71D55B19004C8C004334EA /* check.png in Resources */,
+				6C71D55D19004C8C004334EA /* clock.png in Resources */,
 				6C6216C018D0390F0006048A /* LoginViewController.xib in Resources */,
+				6C71D55C19004C8C004334EA /* check@2x.png in Resources */,
 				6C71D54F18FDE02C004334EA /* groups_icon.png in Resources */,
 				6C8CB87118EA185C0077E9BB /* GroupAddViewController.xib in Resources */,
 				322B9B3F18D256C80084AAF9 /* MainViewController.xib in Resources */,
 				3224246418EC9EA0003E7E7F /* FriendViewController.xib in Resources */,
 				6C6216C518D0397A0006048A /* SignUpViewController.xib in Resources */,
 				6C8CB86C18E89C6D0077E9BB /* SettingsViewController.xib in Resources */,
+				6C71D56E190059B6004334EA /* profilepic@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -436,6 +489,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				186A197418CD270000E4BEB5 /* UIView+Toast.m in Sources */,
+				6C71D56A19005550004334EA /* RectUIVew.m in Sources */,
 				6C6216BA18D037AA0006048A /* EventCreateViewController.m in Sources */,
 				322B9B2F18D013C70084AAF9 /* EventViewController.m in Sources */,
 				6C4AFBDA18E78D67001BCEBB /* SettingsTabViewController.m in Sources */,

@@ -21,9 +21,15 @@ NSString * const UIApplicationDidReceiveRemoteNotification = @"UIApplicationDidR
     [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:49.0f/255.0f green:103.0f/255.0f blue:157.0f/255.0f alpha:1.0f]];
     //[[UIView appearance] setTintColor:[UIColor whiteColor]];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-        
+    
+    // ENTRY POINT
     UIViewController *viewController = [[LoginViewController alloc] initWithNibName:nil bundle:nil];
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:viewController];
+    
+    MainViewController *main = [[MainViewController alloc] initWithNibName:nil bundle:nil];
+    SettingsTabViewController *settings = [[SettingsTabViewController alloc] initWithNibName:nil bundle:Nil];
+    
+    MSSlidingPanelController *newView = [[MSSlidingPanelController alloc] initWithCenterViewController:main andLeftPanelController:settings];
     
     self.window.rootViewController = navController;
     
