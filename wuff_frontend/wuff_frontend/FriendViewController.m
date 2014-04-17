@@ -49,9 +49,17 @@
     [navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont boldSystemFontOfSize: 18.0f]}];
     navigationBarItem = [[UINavigationItem alloc] initWithTitle:@"Wuff"];
     
-    UIBarButtonItem *settingsTabButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(back)];
+
+    UIBarButtonItem *settingsTabButton = [[UIBarButtonItem alloc] initWithTitle:@"Back"
+    style:UIBarButtonItemStylePlain target:self action:@selector(back)];
+    
     [settingsTabButton setTintColor:[UIColor whiteColor]];
     [navigationBarItem setLeftBarButtonItem:settingsTabButton];
+    
+    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addFriend)];
+    [addButton setTintColor:[UIColor whiteColor]];
+    [addButton setAccessibilityLabel:@"Add Button"];
+    [navigationBarItem setRightBarButtonItem:addButton];
     
     [navigationBar setBarTintColor:[UIColor colorWithRed:49.0f/255.0f green:103.0f/255.0f blue:157.0f/255.0f alpha:1.0f]];
     [navigationBar pushNavigationItem:navigationBarItem animated:NO];
@@ -187,5 +195,10 @@
     [self presentViewController:newView animated:YES completion:nil];
 }
 
+-(IBAction)addFriend{
+    AddFriendViewController *addFd = [[AddFriendViewController alloc] initWithNibName:nil bundle:nil];
+    [self presentViewController:addFd animated:YES completion:nil];
+
+}
 
 @end

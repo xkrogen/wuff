@@ -99,10 +99,10 @@
 
 -(IBAction)back
 {
-    MainViewController *main = [[MainViewController alloc] initWithNibName:nil bundle:nil];
+    FriendViewController *friend = [[FriendViewController alloc] initWithNibName:nil bundle:nil];
     SettingsTabViewController *settings = [[SettingsTabViewController alloc] initWithNibName:nil bundle:Nil];
     
-    MSSlidingPanelController *newView = [[MSSlidingPanelController alloc] initWithCenterViewController:main andLeftPanelController:settings];
+    MSSlidingPanelController *newView = [[MSSlidingPanelController alloc] initWithCenterViewController:friend andLeftPanelController:settings];
     
     [self presentViewController:newView animated:YES completion:nil];
 }

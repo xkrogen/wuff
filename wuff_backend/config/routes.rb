@@ -1,12 +1,13 @@
 WuffBackend::Application.routes.draw do
   resources :users
 
-  post '/user/add_user', to: 'users#add_user'
-  post '/user/login_user', to: 'users#login_user'
-  delete '/user/logout_user', to: 'users#logout_user'
-  post '/user/auth_facebook', to: 'users#auth_facebook'
-  post '/user/add_friend', to: 'users#add_friend'
-  delete '/user/delete_friend', to: 'users#delete_friend'
+	post '/user/add_user', to: 'users#add_user'
+	post '/user/login_user', to: 'users#login_user'
+	delete '/user/logout_user', to: 'users#logout_user'
+	post '/user/auth_facebook', to: 'users#auth_facebook'
+	get '/user/get_profile_pic', to: 'users#get_profile_pic'
+	post '/user/add_friend', to: 'users#add_friend'
+	delete '/user/delete_friend', to: 'users#delete_friend'
 	get '/user/get_events', to: 'users#get_events'
 	get '/user/get_groups', to: 'users#get_groups'	
 	get '/user/get_friends', to: 'users#get_friends'		
