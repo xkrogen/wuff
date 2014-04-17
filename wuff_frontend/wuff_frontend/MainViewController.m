@@ -203,6 +203,12 @@
                 NSDictionary *event = [data objectForKey:[NSString stringWithFormat:@"%d", i]];
                 [self.eventList addObject:event];
             }
+            
+            //Sort Newest Events to be at top of page
+            NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"time"  ascending:NO];
+            self.eventList= [[self.eventList sortedArrayUsingDescriptors:[NSArray arrayWithObjects:descriptor,nil]] copy];
+            
+            
             break;
         }
         case ERR_INVALID_NAME:
