@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B253EF640D2C4CB68728145B"
+               BlueprintIdentifier = "4892191404AB4ED0A364DDB6"
                BuildableName = "libPods-MLPAutoCompleteTextField.a"
                BlueprintName = "Pods-MLPAutoCompleteTextField"
                ReferencedContainer = "container:Pods.xcodeproj">

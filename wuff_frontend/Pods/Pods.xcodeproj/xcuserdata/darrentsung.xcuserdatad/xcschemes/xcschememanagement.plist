@@ -4,95 +4,45 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Pods-MCSwipeTableViewCell.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-MLPAutoCompleteTextField.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>2</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>Pods-MSSlidingPanelController.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>4</integer>
-		</dict>
-		<key>Pods-PKRevealController.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>3</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>Pods.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>1</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>06D6D40CDDEB4243B1FE079B</key>
+		<key>0E54928CDDF544ECBA5EBB9E</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>39CF2DC6F322431E92A705B7</key>
+		<key>3FB83CE284214A9290524E82</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>635E5ACDE45B429E8E5257F5</key>
+		<key>4892191404AB4ED0A364DDB6</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>72ECD350597142BF91571E1A</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>762759513DBD4A988F363DDF</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>9FEE45C5CB8744669118BBEC</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>B140223B4015418F9FB376D9</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>B253EF640D2C4CB68728145B</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>B5DE6692B7474541B7469BDD</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>C0687EC782B44D138D8EFA1F</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>D7917FC237C34C29A4D79EF6</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>EB8610303C454D91ABA090BD</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>F2833FEB387242E8ACF3C087</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>FAD1F7D8697B4B878D44BA4F</key>
+		<key>561CE74E7B9E418E9EDE02B2</key>
 		<dict>
 			<key>primary</key>
 			<true/>

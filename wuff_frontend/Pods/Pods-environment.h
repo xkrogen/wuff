@@ -6,6 +6,12 @@
 // project.
 
 
+// MCSwipeTableViewCell
+#define COCOAPODS_POD_AVAILABLE_MCSwipeTableViewCell
+#define COCOAPODS_VERSION_MAJOR_MCSwipeTableViewCell 2
+#define COCOAPODS_VERSION_MINOR_MCSwipeTableViewCell 1
+#define COCOAPODS_VERSION_PATCH_MCSwipeTableViewCell 0
+
 // MLPAutoCompleteTextField
 #define COCOAPODS_POD_AVAILABLE_MLPAutoCompleteTextField
 #define COCOAPODS_VERSION_MAJOR_MLPAutoCompleteTextField 1

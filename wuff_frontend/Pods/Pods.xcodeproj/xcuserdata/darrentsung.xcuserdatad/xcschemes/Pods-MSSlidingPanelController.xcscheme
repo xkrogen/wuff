@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "635E5ACDE45B429E8E5257F5"
+               BlueprintIdentifier = "0E54928CDDF544ECBA5EBB9E"
                BuildableName = "libPods-MSSlidingPanelController.a"
                BlueprintName = "Pods-MSSlidingPanelController"
                ReferencedContainer = "container:Pods.xcodeproj">
