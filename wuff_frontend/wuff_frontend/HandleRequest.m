@@ -109,7 +109,7 @@
     
     NSString *cookie_stored = [[NSUserDefaults standardUserDefaults] objectForKey:@"cookieString"];
     // if we don't have a current user token
-    if ([cookie_stored isEqualToString:@""] || cookie_stored == NULL)
+    if ([cookie_stored isEqualToString:@""] || !cookie_stored )
     {
         NSDictionary *fields = [HTTPResponse allHeaderFields];
         
