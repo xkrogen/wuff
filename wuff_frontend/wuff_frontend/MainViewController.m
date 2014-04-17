@@ -8,6 +8,12 @@
 
 #import "MainViewController.h"
 
+typedef enum {
+    ATTENDING,
+    NO_ANSWER,
+    DECLINED
+} AttendState;
+
 @interface MainViewController ()
 
 @end
@@ -294,6 +300,8 @@
     
     MainViewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:SimpleIdentifier];
     
+    AttendState userAttendState;
+    UIColor *appColor = [UIColor colorWithRed:81.0f/255.0f green:127.0f/255.0f blue:172.0f/255.0f alpha:1.0f];
     if (cell == nil) {
         cell = [[MainViewTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:SimpleIdentifier];
         
@@ -318,25 +326,28 @@
                 // if this user is attending
                 if ([[user objectForKey:@"status"] integerValue] == 1)
                 {
-                    cell.statusBar.color = [UIColor colorWithRed:85.0 / 255.0 green:213.0 / 255.0 blue:80.0 / 255.0 alpha:1.0];
+                    userAttendState = ATTENDING;
+                    cell.statusBar.color = appColor;
+                    [cell setEnabled];
                 }
                 else if([[user objectForKey:@"status"] integerValue] == -1)
                 {
-                    cell.statusBar.color = [UIColor colorWithRed:232.0 / 255.0 green:61.0 / 255.0 blue:14.0 / 255.0 alpha:1.0];
+                    userAttendState = DECLINED;
+                    cell.statusBar.color = [UIColor lightGrayColor];
+                    [cell setTransparentDisabled];
                 }
                 else
                 {
+                    userAttendState = NO_ANSWER;
                     cell.statusBar.color = [UIColor lightGrayColor];
                 }
             }
         }
         cell.contentView.backgroundColor = [UIColor whiteColor];
-        
     }
     
     // Configuring the views and colors.
     UIView *checkView = [self viewWithImageName:@"check"];
-    UIColor *greenColor = [UIColor colorWithRed:85.0 / 255.0 green:213.0 / 255.0 blue:80.0 / 255.0 alpha:1.0];
     
     UIView *crossView = [self viewWithImageName:@"cross"];
     UIColor *redColor = [UIColor colorWithRed:232.0 / 255.0 green:61.0 / 255.0 blue:14.0 / 255.0 alpha:1.0];
@@ -351,9 +362,10 @@
     [cell setDefaultColor:[UIColor lightGrayColor]];
     
     // Adding gestures per state basis.
-    [cell setSwipeGestureWithView:checkView color:greenColor mode:MCSwipeTableViewCellModeSwitch state:MCSwipeTableViewCellState1 completionBlock:^(MCSwipeTableViewCell *cell, MCSwipeTableViewCellState state, MCSwipeTableViewCellMode mode) {
+    [cell setSwipeGestureWithView:checkView color:appColor mode:MCSwipeTableViewCellModeSwitch state:MCSwipeTableViewCellState1 completionBlock:^(MCSwipeTableViewCell *cell, MCSwipeTableViewCellState state, MCSwipeTableViewCellMode mode) {
         NSLog(@"Did swipe \"Checkmark\" cell");
-        ((MainViewTableViewCell *)cell).statusBar.color = [UIColor colorWithRed:85.0 / 255.0 green:213.0 / 255.0 blue:80.0 / 255.0 alpha:1.0];
+        ((MainViewTableViewCell *)cell).statusBar.color = appColor;
+        [(MainViewTableViewCell *)cell setEnabled];
         [((MainViewTableViewCell *)cell).statusBar setNeedsDisplay];
         _myRequester = [[HandleRequest alloc] initWithSelector:@"handleGoingToEvent:" andDelegate:self];
         NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:[event objectForKey:@"event"], @"event", @1, @"status",nil];
@@ -362,7 +374,8 @@
     
     [cell setSwipeGestureWithView:crossView color:redColor mode:MCSwipeTableViewCellModeSwitch state:MCSwipeTableViewCellState3 completionBlock:^(MCSwipeTableViewCell *cell, MCSwipeTableViewCellState state, MCSwipeTableViewCellMode mode) {
         NSLog(@"Did swipe \"Cross\" cell");
-        ((MainViewTableViewCell *)cell).statusBar.color = [UIColor colorWithRed:232.0 / 255.0 green:61.0 / 255.0 blue:14.0 / 255.0 alpha:1.0];
+        ((MainViewTableViewCell *)cell).statusBar.color = [UIColor lightGrayColor];
+        [(MainViewTableViewCell *)cell setTransparentDisabled];
         [((MainViewTableViewCell *)cell).statusBar setNeedsDisplay];
         _myRequester = [[HandleRequest alloc] initWithSelector:@"handleNotGoingToEvent:" andDelegate:self];
         NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:[event objectForKey:@"event"], @"event", @-1, @"status",nil];
@@ -416,16 +429,32 @@
     int user_count = [[users objectForKey:@"user_count"] intValue];
     for (int i=1; i<=user_count; i++) {
         NSDictionary *user = [users objectForKey:[NSString stringWithFormat:@"%d", i]];
-        if ([cell.detailTextLabel.text isEqualToString:@""] || cell.detailTextLabel.text == NULL)
-            cell.detailTextLabel.text = [user objectForKey:@"name"];
-        else
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"%@, %@", cell.detailTextLabel.text, [user objectForKey:@"name"]];
+        NSString *name = [user objectForKey:@"name"];
         
         // +X functionality
-        if ([cell.detailTextLabel.text length] > 18)
+        // fix for ", " existing only
+        if ([cell.detailTextLabel.text length] > 34)
         {
             if (i != user_count) {
                 cell.detailTextLabel.text = [NSString stringWithFormat:@"%@.. +%d", cell.detailTextLabel.text, user_count-i];
+                break;
+            }
+        }
+        
+        if ([cell.detailTextLabel.text isEqualToString:@""] || cell.detailTextLabel.text == NULL)
+            cell.detailTextLabel.text = name;
+        else
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"%@, %@", cell.detailTextLabel.text, name];
+        
+        // +X functionality
+        if ([cell.detailTextLabel.text length] > 30)
+        {
+            cell.detailTextLabel.text = [[NSString alloc] initWithString:[cell.detailTextLabel.text substringWithRange:NSMakeRange(0, 30)]];
+            if (i != user_count) {
+                cell.detailTextLabel.text = [NSString stringWithFormat:@"%@.. +%d", cell.detailTextLabel.text, user_count-i];
+                break;
+            } else {
+                cell.detailTextLabel.text = [NSString stringWithFormat:@"%@..", cell.detailTextLabel.text];
                 break;
             }
         }

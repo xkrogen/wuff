@@ -29,6 +29,22 @@
     return self;
 }
 
+-(void) setTransparentDisabled
+{
+    self.descriptionLabel.textColor = [UIColor lightGrayColor];
+    self.textLabel.textColor = [UIColor grayColor];
+    self.detailTextLabel.textColor = [UIColor grayColor];
+    [self.imageView setAlpha:0.4f];
+}
+
+-(void) setEnabled
+{
+    self.descriptionLabel.textColor = [UIColor grayColor];
+    self.textLabel.textColor = [UIColor blackColor];
+    self.detailTextLabel.textColor = [UIColor blackColor];
+    [self.imageView setAlpha:1.0f];
+}
+
 - (void)awakeFromNib
 {
     // Initialization code

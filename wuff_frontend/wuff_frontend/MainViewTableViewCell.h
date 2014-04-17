@@ -15,4 +15,7 @@
 @property (nonatomic, strong) UILabel *descriptionLabel;
 @property (nonatomic, strong) RectUIVew *statusBar;
 
+-(void) setTransparentDisabled;
+-(void) setEnabled;
+
 @end
