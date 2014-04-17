@@ -7,9 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MCSwipeTableViewCell.h"
+#import "RectUIVew.h"
 
-@interface MainViewTableViewCell : UITableViewCell
+@interface MainViewTableViewCell : MCSwipeTableViewCell
 
 @property (nonatomic, strong) UILabel *descriptionLabel;
+@property (nonatomic, strong) RectUIVew *statusBar;
 
 @end

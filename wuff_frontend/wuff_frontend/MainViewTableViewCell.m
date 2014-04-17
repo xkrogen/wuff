@@ -15,16 +15,19 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // configure control(s)
-        self.descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(250, 11.5, 55, 20)];
+        self.descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(250, 17.5, 55, 20)];
         [self.descriptionLabel setTextAlignment:NSTextAlignmentRight];
         self.descriptionLabel.textColor = [UIColor grayColor];
         self.descriptionLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:13.0f];
         
         [self addSubview:self.descriptionLabel];
+        
+        //self.statusBar = [[RectUIVew alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height)];
+        self.statusBar = [[RectUIVew alloc] initWithFrame:CGRectMake(0, -1, 7, 71)];
+        [self addSubview:self.statusBar];
     }
     return self;
 }
-
 
 - (void)awakeFromNib
 {
