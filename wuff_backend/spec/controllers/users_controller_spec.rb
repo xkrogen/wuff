@@ -97,7 +97,6 @@ describe UsersController do
 				User.find_by(email: 'wufftest@gmail.com').should eq nil
 				post 'auth_facebook', { format: 'json', facebook_id: '100008122715374', facebook_token: @token }
 				JSON.parse(response.body)['err_code'].should eq SUCCESS
-
 				User.find_by(fb_id: '100008122715374').should_not eq nil
 			end
 		end
@@ -111,20 +110,28 @@ describe UsersController do
 
 		describe "try to get profile_pic without facebook_id associated with user" do
 			it "should return ERR_UNSUCCESSFUL" do
-				get 'get_profile_pic', { format: 'json', email: 'test@example.com' }
+				post 'get_profile_pic', { format: 'json', email: 'test@example.com' }
 				JSON.parse(response.body)['err_code'].should eq ERR_UNSUCCESSFUL
 			end
 		end
 
-		describe "try to get profile_pic given a facebook uid" do
+		describe "try to get profile_pic given email" do
 			it "should return url to profile_pic" do
-			@user.update_attribute(:fb_id, '517267866');
-			@user.reload
-			get 'get_profile_pic', { format: 'json', email: 'test@example.com' }
-			JSON.parse(response.body)['err_code'].should eq SUCCESS
-			JSON.parse(response.body)['pic_url'].should_not eq nil
+				@user.update_attribute(:fb_id, '517267866');
+				@user.reload
+				post 'get_profile_pic', { format: 'json', email: 'test@example.com' }
+				JSON.parse(response.body)['err_code'].should eq SUCCESS
+				JSON.parse(response.body)['pic_url'].should_not eq nil
+			end
+		end
 
-
+		describe "try to get profile_pic given id" do
+			it "should return url to profile_pic" do
+				@user.update_attribute(:fb_id, '517267866');
+				@user.reload
+				post 'get_profile_pic', { format: 'json', user_id: @user.id }
+				JSON.parse(response.body)['err_code'].should eq SUCCESS
+				JSON.parse(response.body)['pic_url'].should_not eq nil
 			end
 		end
 	end
@@ -158,7 +165,7 @@ describe UsersController do
 		end
 
 		describe "delete_friend deletes user correlated with friend_email if user exists, else nothing happens" do
-			it "successfully calls User#remobe_friend, which is unit tested" do
+			it "successfully calls User#remove_friend, which is unit tested" do
 				delete 'delete_friend', { format: 'json', friend_email: 't_other@example,com' }
 				JSON.parse(response.body)['err_code'].should eq SUCCESS
 			end

@@ -246,6 +246,42 @@ class Event < ActiveRecord::Base
 
 	private
 
+	# solves horn formula
+	# input clauses = [ { operands: [uid] || count, value: uid } ]
+	# returns hash of each value assigned to a satisfying boolean value
+	def compute_horn_formula(clauses)
+		lookup = Hash.new
+		clauses.each { |clause| lookup[clause[:value]] = false }
+		falses = 0
+		begin
+			changed = false
+			lookup.each { |key, value| falses += 1 if !value}
+
+			clauses.each do |clause|
+				if lookup[clause[:value]]
+					next
+				elsif clause[:operands] == nil
+					lookup[clause[:value]] = true
+					changed = true
+				else
+					lhs = true
+
+					if clause[:operands].kind_of?(Array)
+						clause[:operands].each { |operand| lhs = lhs && lookup[operand] }
+					else
+						lhs = (falses < clause[:operands])
+					end
+					
+					if lhs != lookup[clause[:value]]
+						lookup[clause[:value]] = lhs
+						changed = true
+					end
+				end
+			end
+		end while !changed
+		return lookup
+	end
+
 	# Method to change a user's status to STATUS_ATTENDING in this event
 	# due to an acceptance resulting from condition. Changes their status, sets
 	# the condition as met, and notifies the user of the change. For internal 
