@@ -355,6 +355,20 @@ typedef enum {
     {
         [cell loadImageWithCreator:[event objectForKey:@"creator"]];
         cell.imageView.image = [UIImage imageNamed:@"profilepic.png"];
+        UIImage *image = cell.imageView.image;
+        CGSize targetSize = CGSizeMake(42,42);
+        UIGraphicsBeginImageContext(targetSize);
+        
+        CGRect thumbnailRect = CGRectMake(0, 0, 0, 0);
+        thumbnailRect.origin = CGPointMake(0.0,0.0);
+        thumbnailRect.size.width  = targetSize.width;
+        thumbnailRect.size.height = targetSize.height;
+        
+        [image drawInRect:thumbnailRect];
+        
+        cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
+        
+        UIGraphicsEndImageContext();
     }
     else
     {

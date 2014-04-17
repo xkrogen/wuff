@@ -25,6 +25,9 @@
         //self.statusBar = [[RectUIVew alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height)];
         self.statusBar = [[RectUIVew alloc] initWithFrame:CGRectMake(0, -1, 7, 71)];
         [self addSubview:self.statusBar];
+        
+        [self.imageView setFrame:CGRectMake(0, 0, 100, 100)];
+        [self.imageView setContentMode:UIViewContentModeScaleToFill];
     }
     return self;
 }
@@ -52,7 +55,7 @@
 }
 
 -(void)handleGetProfilePic:(NSDictionary*)data {
-    NSString *imageUrl = [data objectForKey:@"picture_url"];
+    NSString *imageUrl = [data objectForKey:@"pic_url"];
     
     if(!imageUrl) {
         
@@ -60,8 +63,23 @@
     else
     {
         [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:imageUrl]] queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-        self.imageView.image = [UIImage imageWithData:data];
-        [self setNeedsLayout];
+            UIImage *image = [UIImage imageWithData:data];
+            CGSize targetSize = CGSizeMake(42,42);
+            UIGraphicsBeginImageContext(targetSize);
+            
+            CGRect thumbnailRect = CGRectMake(0, 0, 0, 0);
+            thumbnailRect.origin = CGPointMake(0.0,0.0);
+            thumbnailRect.size.width  = targetSize.width;
+            thumbnailRect.size.height = targetSize.height;
+            
+            [image drawInRect:thumbnailRect];
+            
+            self.profpic = UIGraphicsGetImageFromCurrentImageContext();
+            
+            UIGraphicsEndImageContext();
+            
+            self.imageView.image = self.profpic;
+            [self setNeedsLayout];
         }];
     }
 }
