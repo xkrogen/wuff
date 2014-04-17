@@ -97,7 +97,6 @@ describe UsersController do
 				User.find_by(email: 'wufftest@gmail.com').should eq nil
 				post 'auth_facebook', { format: 'json', facebook_id: '100008122715374', facebook_token: @token }
 				JSON.parse(response.body)['err_code'].should eq SUCCESS
-
 				User.find_by(fb_id: '100008122715374').should_not eq nil
 			end
 		end
@@ -123,8 +122,6 @@ describe UsersController do
 			get 'get_profile_pic', { format: 'json', email: 'test@example.com' }
 			JSON.parse(response.body)['err_code'].should eq SUCCESS
 			JSON.parse(response.body)['pic_url'].should_not eq nil
-
-
 			end
 		end
 	end
