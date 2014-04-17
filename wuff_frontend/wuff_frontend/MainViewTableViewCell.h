@@ -14,8 +14,10 @@
 
 @property (nonatomic, strong) UILabel *descriptionLabel;
 @property (nonatomic, strong) RectUIVew *statusBar;
+@property (nonatomic, strong) UIImage *profpic;
 
 -(void) setTransparentDisabled;
 -(void) setEnabled;
+-(void)loadImageWithCreator:(NSNumber*)creatorID;
 
 @end

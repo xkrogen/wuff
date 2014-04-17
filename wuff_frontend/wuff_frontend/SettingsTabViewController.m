@@ -127,6 +127,9 @@
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"cookieString"];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"name"];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"email"];
+    
+    //clear facebook session
+    [FBSession.activeSession closeAndClearTokenInformation];
 }
 
 -(void) handleLogout:(NSDictionary *)response
@@ -140,8 +143,10 @@
             
             LoginViewController *login = [[LoginViewController alloc] initWithNibName:nil bundle:nil];
             UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:login];
-            [self presentViewController:navController animated:YES completion:NULL];
+            [self presentViewController:navController animated:YES completion:nil];
+            
             break;
+            
         }
         case ERR_INVALID_NAME:
             [self.view makeToast:@"Invalid Name"];

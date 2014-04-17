@@ -209,6 +209,12 @@ typedef enum {
                 NSDictionary *event = [data objectForKey:[NSString stringWithFormat:@"%d", i]];
                 [self.eventList addObject:event];
             }
+            
+            //Sort Newest Events to be at top of page
+            NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"time"  ascending:NO];
+            self.eventList= [[self.eventList sortedArrayUsingDescriptors:[NSArray arrayWithObjects:descriptor,nil]] copy];
+            
+            
             break;
         }
         case ERR_INVALID_NAME:
@@ -296,7 +302,7 @@ typedef enum {
     
     NSDictionary *event = self.eventList[indexPath.row];
     
-    NSString *SimpleIdentifier = @"SimpleIdentifier";
+    NSString *SimpleIdentifier = [NSString stringWithFormat:@"%d", indexPath.row];
     
     MainViewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:SimpleIdentifier];
     
@@ -313,10 +319,9 @@ typedef enum {
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         
         cell.firstTrigger = 0.2;
-        cell.secondTrigger = 0.5;
+        cell.secondTrigger = 0.7;
         
         // Setting the background color of the cell.
-        cell.imageView.image = [UIImage imageNamed:@"profilepic"];
         NSDictionary *users = [event objectForKey:@"users"];
         int user_count = [[users objectForKey:@"user_count"] intValue];
         for (int i=1; i<=user_count; i++) {
@@ -344,6 +349,16 @@ typedef enum {
             }
         }
         cell.contentView.backgroundColor = [UIColor whiteColor];
+    }
+    
+    if (!cell.profpic)
+    {
+        [cell loadImageWithCreator:[event objectForKey:@"creator"]];
+        cell.imageView.image = [UIImage imageNamed:@"profilepic.png"];
+    }
+    else
+    {
+        cell.imageView.image = cell.profpic;
     }
     
     // Configuring the views and colors.

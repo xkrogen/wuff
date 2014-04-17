@@ -45,6 +45,27 @@
     [self.imageView setAlpha:1.0f];
 }
 
+-(void)loadImageWithCreator:(NSNumber*)creatorID {
+    HandleRequest *r = [[HandleRequest alloc]initWithSelector:@"handleGetProfilePic:" andDelegate:self];
+    NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:creatorID, @"user_id", nil];
+    [r createRequestWithType:POST forExtension:@"/user/get_profile_pic" withDictionary:d];
+}
+
+-(void)handleGetProfilePic:(NSDictionary*)data {
+    NSString *imageUrl = [data objectForKey:@"picture_url"];
+    
+    if(!imageUrl) {
+        
+    }
+    else
+    {
+        [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:imageUrl]] queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+        self.imageView.image = [UIImage imageWithData:data];
+        [self setNeedsLayout];
+        }];
+    }
+}
+
 - (void)awakeFromNib
 {
     // Initialization code
