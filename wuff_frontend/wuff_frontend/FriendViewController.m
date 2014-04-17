@@ -34,7 +34,7 @@
     NSLog(@"sent request!");
     
     self.friendList = [[NSMutableArray alloc] init];
-    
+
     // USE THIS CODE TO CREATE THE NAVIGATION CONTROLLER PROGRAMMATICALLY
     UINavigationBar *navigationBar;
     UINavigationItem *navigationBarItem;
@@ -183,6 +183,83 @@
 /*
  *MyFriend view, which will have detailed options
  */
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Return YES if you want the specified item to be editable.
+    return YES;
+}
+
+// Override to support editing the table view.
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        _myRequester = [[HandleRequest alloc] initWithSelector:@"deleteFriendResponse:" andDelegate:self];
+        NSDictionary *friend = self.friendList[indexPath.row];
+
+        NSMutableDictionary *d = [NSMutableDictionary dictionary];
+        [d setObject:[friend objectForKey:@"email"] forKey:@"friend_email"];
+        [_myRequester createRequestWithType:DELETE forExtension:@"/user/delete_friend" withDictionary:d];
+
+        NSLog(@"sent request!");
+        NSLog([d objectForKey:@"friend_email"]);
+    }
+}
+
+-(void) deleteFriendResponse:(NSDictionary *)data {
+    NSLog(@"Delete Friend response here!");
+    //self.eventList = [[NSMutableArray alloc] init];
+    
+    ErrorCode err_code = (ErrorCode)[[data objectForKey:@"err_code"] integerValue];;
+    switch (err_code)
+    {
+        case SUCCESS:
+        {
+            //NSLog(@"Successfully deleted Friend");
+            //break;
+            //[self logoutFrontend];
+            
+            LoginViewController *login = [[LoginViewController alloc] initWithNibName:nil bundle:nil];
+            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:login];
+            [self presentViewController:navController animated:YES completion:NULL];
+            break;
+        }
+        case ERR_INVALID_NAME:
+            [self.view makeToast:@"Invalid Name"];
+            break;
+            
+        case ERR_INVALID_EMAIL:
+            [self.view makeToast:@"Invalid Email"];
+            break;
+            
+        case ERR_INVALID_PASSWORD:
+            [self.view makeToast:@"Password must be longer"];
+            break;
+            
+        case ERR_EMAIL_TAKEN:
+            [self.view makeToast:@"Email Already Taken"];
+            break;
+            
+        case ERR_INVALID_CREDENTIALS:
+            [self.view makeToast:@"Incorrect Email/Password"];
+            break;
+            
+        case ERR_INVALID_FIELD:
+            [self.view makeToast:@"Invalid Field."];
+            break;
+            
+        case ERR_UNSUCCESSFUL:
+            [self.view makeToast:@"Attempt unsuccessful. Please try again"];
+            break;
+            
+        case ERR_INVALID_TIME:
+            [self.view makeToast:@"Invalid Time"];
+            break;
+            
+        case ERR_INVALID_SESSION:
+            [self.view makeToast:@"Invalid Session. Try logging out and back in"];
+            break;
+    }
+    [_mainTable reloadData];
 }
 
 -(IBAction)back
