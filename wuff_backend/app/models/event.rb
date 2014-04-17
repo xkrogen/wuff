@@ -1,5 +1,6 @@
 require 'EventNotification'
 require 'FriendNotification'
+require 'NoCondition'
 
 class Event < ActiveRecord::Base
 
@@ -126,6 +127,40 @@ class Event < ActiveRecord::Base
 		end
 	end
 
+	# Checks if there are currently any conditions which have been met.
+	# If there are, and the user is currently not attending, their status
+	# is changed to attending and they are notified of the change.
+	def check_conditions
+
+		# Helper method to carry out the change of status, notification,
+		# and marking condition as completed. Just does nothing if the user is 
+		# already attending (so you can call it any time a condition is satisfied
+		# regardless of whether or not the user is already attending)
+
+		# complete_condition( user_id, condition )
+
+	end
+
+	# Add a conditional acceptance for the given user.
+	# Does nothing if the user is not a member of this event.
+	# After adding the condition, checks if any conditions have been met
+	# and takes appropriate action. 
+	def add_condition(user_id, condition)
+		return if not party_list.has_key?(user_id)
+		party_list[user_id][:condition] = condition.get_hash
+		update_attribute(:party_list, party_list)
+		check_conditions
+	end
+
+	# Removes the current conditional acceptance from this user.
+	# Does nothing if the user is not a member of the event or 
+	# if the user doesn't currently have any conditions.
+	def remove_condition(user_id)
+		return if not party_list.has_key?(user_id)
+		party_list[user_id][:condition] = NoCondition.new.get_hash
+		update_attribute(:party_list, party_list)
+	end
+
 	# Cancels this event, removing it from all of it's associated
 	# users. Does not actually delete the event -- should subsequently
 	# call event.destroy to remove it from the database. 
@@ -151,10 +186,14 @@ class Event < ActiveRecord::Base
 	end
 
 	# Sets the user's status for this event. Does nothing if user_id
-	# is not a member of this event.
+	# is not a member of this event. Triggers a rechecking of all
+	# user conditions to check if any new conditions are met as a result
+	# of this status change. 
 	def set_user_status(user_id, new_status)
 		party_list[user_id][:status] = new_status if party_list.has_key?(user_id)
 		self.update_attribute(:party_list, party_list)
+
+		check_conditions
 	end
 
 	# Notifies the users within user_list using NOTIFICATION. 
@@ -206,6 +245,59 @@ class Event < ActiveRecord::Base
 	end
 
 	private
+
+	# solves horn formula
+	# input clauses = [ { operands: [uid] || count, value: uid } ]
+	# returns hash of each value assigned to a satisfying boolean value
+	def compute_horn_formula(clauses)
+		lookup = Hash.new
+		clauses.each { |clause| lookup[clause[:value]] = false }
+		falses = 0
+		begin
+			changed = false
+			lookup.each { |key, value| falses += 1 if !value}
+
+			clauses.each do |clause|
+				if lookup[clause[:value]]
+					next
+				elsif clause[:operands] == nil
+					lookup[clause[:value]] = true
+					changed = true
+				else
+					lhs = true
+
+					if clause[:operands].kind_of?(Array)
+						clause[:operands].each { |operand| lhs = lhs && lookup[operand] }
+					else
+						lhs = (falses < clause[:operands])
+					end
+					
+					if lhs != lookup[clause[:value]]
+						lookup[clause[:value]] = lhs
+						changed = true
+					end
+				end
+			end
+		end while !changed
+		return lookup
+	end
+
+	# Method to change a user's status to STATUS_ATTENDING in this event
+	# due to an acceptance resulting from condition. Changes their status, sets
+	# the condition as met, and notifies the user of the change. For internal 
+	# use by check_conditions to act on users whose conditions are met.
+	# Does nothing if the user's status was already STATUS_ATTENDING or
+	# if the user is not present in the party_list
+	def complete_condition(user_id, condition)
+		return if not party_list.has_key?(user_id)
+		return if get_user_status(user_id) == STATUS_ATTENDING
+		set_user_status(user_id, STATUS_ATTENDING)
+		condition.met
+		notif = ConditionNotification.new(NOTIF_COND_MET, self, condition)
+		notify(notif, [ user_id ])
+		party_list[user_id][:condition][:cond_met] = COND_MET
+		update_attribute(:party_list, party_list)
+	end
 
 	# Takes in a string, USER_ID, and checks if it is a valid 
 	# user id

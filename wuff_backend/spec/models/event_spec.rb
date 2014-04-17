@@ -1,4 +1,8 @@
 require 'spec_helper'
+require 'Condition'
+require 'NoCondition'
+require 'NumberCondition'
+require 'UserCondition' 
 
 NAME_MAX_LENGTH = 40
 
@@ -192,7 +196,7 @@ describe Event, "misc" do
 		end
 	end
 
-	describe "get_hash" do
+	describe "#get_hash" do
 		before do
 	  	@admin = User.create(name: 'Example User', 
 	  		email: 'exampleuser@example.com')
@@ -247,6 +251,260 @@ describe Event, "misc" do
 			user_emails.should include("examplefriend@example.com")
 			user_status.should include(STATUS_NO_RESPONSE)
 			user_status.should include(STATUS_ATTENDING)
+		end
+	end
+end
+
+describe Event, "conditional acceptances" do
+	before do
+		@admin = User.new(name: "Test Name", email: "test@example.com",
+			password: "test_password")
+		@admin.add
+		@other1 = User.new(name: "Test Other", email: "t_other@example.com",
+			password: "test_password")
+		@other1.add
+		@other2 = User.new(name: "Test Second", email: "t_other2@example.com",
+			password: "test_password")
+		@other2.add
+		@event_id = Event.add_event("Test Event", @admin.id, 
+			DateTime.current.to_i + 10, [@admin.id, @other1.id])
+		@event = Event.find(@event_id)
+	end
+	describe "when adding a conditional acceptance" do
+		before do
+			cond = NumberCondition.new(3)
+			@event.add_condition(@other1.id, cond)
+		end
+		it "should appear in the party_list but not change status" do
+			@event.party_list[@other1.id][:condition][:cond_type].should eq COND_NUM_ATTENDING
+			@event.party_list[@other1.id][:condition][:num_users].should eq 3
+			@event.party_list[@other1.id][:condition][:cond_met].should eq COND_NOT_MET
+			@event.get_user_status(@other1.id).should eq STATUS_NO_RESPONSE
+		end
+	end
+
+	describe "when removing a conditional acceptance" do
+		before do
+			cond = NumberCondition.new(3)
+			@event.add_condition(@other1.id, cond)
+			@event.remove_condition(@other1.id)
+		end
+		it "should have no condition" do
+			@event.party_list[@other1.id][:condition][:cond_type].should eq COND_NONE
+		end
+		it "should no longer do anything when the condition is met" do
+			@event.add_user_list([@other2.id])
+			@event.add_to_user_event_lists([@other2.id])
+			@event.get_user_status(@other1.id).should eq STATUS_NO_RESPONSE
+		end
+	end
+
+	describe "when a conditional acceptance is met" do
+		describe "ensure that it is detected" do
+			before do 
+				@other3 = User.new(name: "Test Third", email: "t_other3@example.com",
+					password: "test_password")
+				@other3.add
+				@other4 = User.new(name: "Test Fourth", email: "t_other4@example.com",
+					password: "test_password")
+				@other4.add
+				@other5 = User.new(name: "Test Fifth", email: "t_other5@example.com",
+					password: "test_password")
+				@other5.add
+				@event.add_user_list([@other2.id, @other3.id, @other4.id])
+				@event.add_to_user_event_lists([@other2.id, @other3.id, @other4.id])
+			end
+			# Starting state of event: @admin is attending. @other1-4 are
+			# invited but haven't responded. @other5 isn't invited.
+
+			it "should detect when enough other users are attending" do
+				cond = NumberCondition.new(5)
+				@event.add_condition(@other4.id, cond)
+				@event.set_user_status(@other1.id, STATUS_ATTENDING)
+				@event.set_user_status(@other2.id, STATUS_ATTENDING)
+				@event.get_user_status(@other4.id).should eq STATUS_NO_RESPONSE
+				@event.set_user_status(@other3.id, STATUS_ATTENDING)
+				@event.get_user_status(@other4.id).should eq STATUS_ATTENDING
+				@event.party_list[@other4.id][:condition][:cond_met].should eq COND_MET
+			end
+			it "should detect when enough other users have number-of-users conditions all with the same number" do
+				cond1 = NumberCondition.new(5)
+				cond2 = NumberCondition.new(5)
+				cond3 = NumberCondition.new(5)
+				cond4 = NumberCondition.new(5)
+				@event.add_condition(@other1.id, cond1)
+				@event.add_condition(@other2.id, cond2)
+				@event.add_condition(@other3.id, cond3)
+				@event.get_user_status(@other1.id).should eq STATUS_NO_RESPONSE
+				@event.get_user_status(@other2.id).should eq STATUS_NO_RESPONSE
+				@event.get_user_status(@other3.id).should eq STATUS_NO_RESPONSE
+				@event.get_user_status(@other4.id).should eq STATUS_NO_RESPONSE
+				@event.add_condition(@other4.id, cond4)
+				@event.get_user_status(@other1.id).should eq STATUS_ATTENDING
+				@event.get_user_status(@other2.id).should eq STATUS_ATTENDING
+				@event.get_user_status(@other3.id).should eq STATUS_ATTENDING
+				@event.get_user_status(@other4.id).should eq STATUS_ATTENDING
+				@event.party_list[@other4.id][:condition][:cond_met].should eq COND_MET
+			end
+			it "should detect when enough other users have number-of-users conditions all with different numbers" do
+				cond1 = NumberCondition.new(4)
+				cond2 = NumberCondition.new(6)
+				cond3 = NumberCondition.new(3)
+				cond4 = NumberCondition.new(4)
+				@event.add_condition(@other1.id, cond1)
+				@event.add_condition(@other2.id, cond2)
+				@event.add_condition(@other3.id, cond3)
+				@event.get_user_status(@other1.id).should eq STATUS_NO_RESPONSE
+				@event.get_user_status(@other2.id).should eq STATUS_NO_RESPONSE
+				@event.get_user_status(@other3.id).should eq STATUS_NO_RESPONSE
+				@event.get_user_status(@other4.id).should eq STATUS_NO_RESPONSE
+				@event.add_condition(@other4.id, cond4)
+				@event.get_user_status(@other1.id).should eq STATUS_ATTENDING
+				@event.get_user_status(@other2.id).should eq STATUS_NO_RESPONSE
+				@event.get_user_status(@other3.id).should eq STATUS_ATTENDING
+				@event.get_user_status(@other4.id).should eq STATUS_ATTENDING
+				@event.party_list[@other4.id][:condition][:cond_met].should eq COND_MET
+				@event.party_list[@other2.id][:condition][:cond_met].should eq COND_NOT_MET
+			end
+			it "should detect when any of the users join for an any-user-type condition" do
+				cond = UserCondition.new(COND_USER_ATTENDING_ANY, [ @other4.id, @other2.id ])
+				@event.add_condition(@other3.id, cond)
+				@event.get_user_status(@other3.id).should eq STATUS_NO_RESPONSE
+				@event.set_user_status(@other2.id, STATUS_ATTENDING)
+				@event.get_user_status(@other3.id).should eq STATUS_ATTENDING
+				@event.party_list[@other3.id][:condition][:cond_met].should eq COND_MET
+			end
+			it "should detect when all of the users join for an all-user-type condition" do
+				cond = UserCondition.new(COND_USER_ATTENDING_ALL, [ @other4.id, @other2.id ])
+				@event.add_condition(@other3.id, cond)
+				@event.get_user_status(@other3.id).should eq STATUS_NO_RESPONSE
+				@event.set_user_status(@other2.id, STATUS_ATTENDING)
+				@event.get_user_status(@other3.id).should eq STATUS_NO_RESPONSE
+				@event.party_list[@other3.id][:condition][:cond_met].should eq COND_NOT_MET
+				@event.set_user_status(@other4.id, STATUS_ATTENDING)
+				@event.get_user_status(@other3.id).should eq STATUS_ATTENDING
+				@event.party_list[@other3.id][:condition][:cond_met].should eq COND_MET
+			end
+			it "should detect a two-person cycle of any-user-type conditions" do
+				cond1 = UserCondition.new(COND_USER_ATTENDING_ANY, [ @other4.id, @other2.id ])
+				cond2 = UserCondition.new(COND_USER_ATTENDING_ANY, [ @other3.id ])
+				@event.add_condition(@other3.id, cond1)
+				@event.get_user_status(@other3.id).should eq STATUS_NO_RESPONSE
+				@event.get_user_status(@other4.id).should eq STATUS_NO_RESPONSE				
+				@event.add_condition(@other4.id, cond2)
+				@event.get_user_status(@other4.id).should eq STATUS_ATTENDING
+				@event.get_user_status(@other3.id).should eq STATUS_ATTENDING
+				@event.party_list[@other4.id][:condition][:cond_met].should eq COND_MET
+				@event.party_list[@other3.id][:condition][:cond_met].should eq COND_MET
+			end
+			it "should detect a cyclic mix of any- and all-user-type conditions when satisfied by a final condition" do
+				cond1 = UserCondition.new(COND_USER_ATTENDING_ALL, [ @other4.id, @other2.id ])
+				cond2 = UserCondition.new(COND_USER_ATTENDING_ANY, [ @other3.id ])
+				cond3 = UserCondition.new(COND_USER_ATTENDING_ALL, [ @other4.id, @other3.id, @other1.id ])
+				cond4 = UserCondition.new(COND_USER_ATTENDING_ANY, [ @other2.id, @other3.id, @other4.id ])
+				@event.add_condition(@other3.id, cond1)
+				@event.get_user_status(@other3.id).should eq STATUS_NO_RESPONSE
+				@event.get_user_status(@other4.id).should eq STATUS_NO_RESPONSE				
+				@event.add_condition(@other4.id, cond2)
+				@event.get_user_status(@other4.id).should eq STATUS_NO_RESPONSE
+				@event.get_user_status(@other3.id).should eq STATUS_NO_RESPONSE
+				@event.add_condition(@other2.id, cond3)
+				@event.get_user_status(@other4.id).should eq STATUS_NO_RESPONSE
+				@event.get_user_status(@other3.id).should eq STATUS_NO_RESPONSE
+				@event.get_user_status(@other2.id).should eq STATUS_NO_RESPONSE
+				@event.add_condition(@other1.id, cond4)
+				@event.get_user_status(@other1.id).should eq STATUS_ATTENDING
+				@event.get_user_status(@other2.id).should eq STATUS_ATTENDING
+				@event.get_user_status(@other3.id).should eq STATUS_ATTENDING
+				@event.get_user_status(@other4.id).should eq STATUS_ATTENDING
+				@event.party_list[@other4.id][:condition][:cond_met].should eq COND_MET
+				@event.party_list[@other3.id][:condition][:cond_met].should eq COND_MET
+			end
+			it "should detect a cyclic mix of any- and all-user-type conditions when satisfied by a user joining" do
+				cond1 = UserCondition.new(COND_USER_ATTENDING_ALL, [ @other4.id, @other2.id ])
+				cond2 = UserCondition.new(COND_USER_ATTENDING_ANY, [ @other3.id ])
+				cond3 = UserCondition.new(COND_USER_ATTENDING_ALL, [ @other4.id, @other3.id, @other1.id ])
+				@event.add_condition(@other3.id, cond1)
+				@event.get_user_status(@other3.id).should eq STATUS_NO_RESPONSE
+				@event.add_condition(@other4.id, cond2)
+				@event.get_user_status(@other4.id).should eq STATUS_NO_RESPONSE
+				@event.add_condition(@other2.id, cond3)
+				@event.get_user_status(@other4.id).should eq STATUS_NO_RESPONSE
+				@event.set_user_status(@other1.id, STATUS_ATTENDING)
+				@event.get_user_status(@other1.id).should eq STATUS_ATTENDING
+				@event.get_user_status(@other2.id).should eq STATUS_ATTENDING
+				@event.get_user_status(@other3.id).should eq STATUS_ATTENDING
+				@event.get_user_status(@other4.id).should eq STATUS_ATTENDING
+				@event.party_list[@other4.id][:condition][:cond_met].should eq COND_MET
+				@event.party_list[@other3.id][:condition][:cond_met].should eq COND_MET
+			end
+			it "should detect a longer cycle of any-user-type conditions" do
+				cond1 = UserCondition.new(COND_USER_ATTENDING_ANY, [ @other2.id ])
+				cond2 = UserCondition.new(COND_USER_ATTENDING_ANY, [ @other3.id ])
+				cond3 = UserCondition.new(COND_USER_ATTENDING_ALL, [ @other4.id ])
+				cond4 = UserCondition.new(COND_USER_ATTENDING_ALL, [ @other1.id ])
+				@event.add_condition(@other1.id, cond1)
+				@event.add_condition(@other2.id, cond2)
+				@event.add_condition(@other3.id, cond3)
+				@event.get_user_status(@other1.id).should eq STATUS_NO_RESPONSE				
+				@event.get_user_status(@other2.id).should eq STATUS_NO_RESPONSE
+				@event.get_user_status(@other3.id).should eq STATUS_NO_RESPONSE
+				@event.get_user_status(@other4.id).should eq STATUS_NO_RESPONSE
+				@event.add_condition(@other4.id, cond4)
+				@event.get_user_status(@other1.id).should eq STATUS_ATTENDING
+				@event.get_user_status(@other2.id).should eq STATUS_ATTENDING
+				@event.get_user_status(@other3.id).should eq STATUS_ATTENDING
+				@event.get_user_status(@other4.id).should eq STATUS_ATTENDING
+				@event.party_list[@other4.id][:condition][:cond_met].should eq COND_MET
+				@event.party_list[@other3.id][:condition][:cond_met].should eq COND_MET
+			end
+			it "should detect a cyclic mix of number-of-users and any-user-type conditions" do
+
+				cond1 = UserCondition.new(COND_USER_ATTENDING_ANY, [ @other2.id ])
+				cond2 = UserCondition.new(COND_USER_ATTENDING_ANY, [ @other3.id ])
+				cond3 = UserCondition.new(COND_USER_ATTENDING_ALL, [ @other4.id ])
+				cond4 = NumberCondition.new(5)
+				@event.add_condition(@other1.id, cond1)
+				@event.add_condition(@other2.id, cond2)
+				@event.add_condition(@other3.id, cond3)
+				@event.get_user_status(@other1.id).should eq STATUS_NO_RESPONSE				
+				@event.get_user_status(@other2.id).should eq STATUS_NO_RESPONSE
+				@event.get_user_status(@other3.id).should eq STATUS_NO_RESPONSE
+				@event.get_user_status(@other4.id).should eq STATUS_NO_RESPONSE
+				@event.add_condition(@other4.id, cond4)
+				@event.get_user_status(@other1.id).should eq STATUS_ATTENDING
+				@event.get_user_status(@other2.id).should eq STATUS_ATTENDING
+				@event.get_user_status(@other3.id).should eq STATUS_ATTENDING
+				@event.get_user_status(@other4.id).should eq STATUS_ATTENDING
+				@event.party_list[@other4.id][:condition][:cond_met].should eq COND_MET
+				@event.party_list[@other3.id][:condition][:cond_met].should eq COND_MET
+			end
+		end
+
+		describe "proper actions should result" do
+			before do
+				@cond = NumberCondition.new(3)
+				@event.add_condition(@other1.id, @cond)
+				@event.add_user_list([@other2.id])
+				@event.add_to_user_event_lists([@other2.id])
+				@event.set_user_status(@other2.id, STATUS_ATTENDING)
+			end
+
+			it "should notify the user" do
+				@other2.notification_list.first[:notif_type].should eq NOTIF_COND_MET
+				@other2.notification_list.first[:event].should eq @event_id
+				@other2.notification_list.first[:condition][:cond_met].should eq COND_MET
+				@other2.notification_list.first[:condition][:cond_type].should eq COND_NUM_ATTENDING
+				@other2.notification_list.first[:condition][:num_users].should eq 3
+			end
+
+			it "should change that user's status to STATUS_ATTENDING" do
+				@event.get_user_status(@other2.id).should eq STATUS_ATTENDING
+			end
+
+			it "should change the status of the condition to COND_MET" do
+				@cond.met?.should be_true
+			end
 		end
 	end
 end

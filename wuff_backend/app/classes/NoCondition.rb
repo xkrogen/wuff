@@ -1,4 +1,5 @@
 # Class for storing empty conditionals.
+require 'Condition'
 
 class NoCondition < Condition
 

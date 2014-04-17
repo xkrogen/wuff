@@ -79,6 +79,7 @@ class UsersController < ApplicationController
   # returns url to picture
   def get_profile_pic
     @user = User.find_by(email: params[:email])
+    @user = User.find_by(id: params[:user_id]) if @user == nil
     if @user == nil || @user.fb_id == nil
       respond(ERR_UNSUCCESSFUL)
       return
