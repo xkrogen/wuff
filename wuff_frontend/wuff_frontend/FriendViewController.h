@@ -13,6 +13,7 @@
 #import "SettingsTabViewController.h"
 #import "MSSlidingPanelController.h"
 #import "MSViewControllerSlidingPanel.h"
+#import "AddFriendViewController.h"
 
 @interface FriendViewController : UIViewController <MSSlidingPanelControllerDelegate, UITableViewDataSource, UITabBarDelegate>
 

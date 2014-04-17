@@ -113,11 +113,6 @@
     }
     else if ([identifier isEqualToString:@"Friends"])
     {
-        AddFriendViewController *settings = [[AddFriendViewController alloc] initWithNibName:nil bundle:nil];
-        [self presentViewController:settings animated:YES completion:nil];
-    }
-    else if ([identifier isEqualToString:@"Friends"])
-    {
         FriendViewController *settings = [[FriendViewController alloc] initWithNibName:nil bundle:nil];
         [self presentViewController:settings animated:YES completion:nil];
     }
