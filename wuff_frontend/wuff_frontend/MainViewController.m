@@ -314,7 +314,7 @@
         cell.secondTrigger = 0.5;
         
         // Setting the background color of the cell.
-        cell.imageView.image = [UIImage imageNamed:@"profilepic"];
+        [cell loadImageWithCreator:[event objectForKey:@"creator"]];
         NSDictionary *users = [event objectForKey:@"users"];
         int user_count = [[users objectForKey:@"user_count"] intValue];
         for (int i=1; i<=user_count; i++) {

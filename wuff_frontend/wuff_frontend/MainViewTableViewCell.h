@@ -15,4 +15,6 @@
 @property (nonatomic, strong) UILabel *descriptionLabel;
 @property (nonatomic, strong) RectUIVew *statusBar;
 
+-(void)loadImageWithCreator:(NSNumber*)creatorID;
+
 @end
