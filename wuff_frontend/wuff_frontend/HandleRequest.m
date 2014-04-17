@@ -83,7 +83,6 @@
                 [request setHTTPMethod:@"POST"];
                 break;
         }
-        NSLog(@"method: %@", request.HTTPMethod);
         NSString *cookie_stored = [[NSUserDefaults standardUserDefaults] objectForKey:@"cookieString"];
         // if we do have a current user token
         if (!([cookie_stored isEqualToString:@""] || cookie_stored == NULL))
@@ -95,7 +94,6 @@
         // if there is no connection going on, start a new connection
         if (!_connection)
         {
-            NSLog(@"wt: %@", request.URL);
             _connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES];
         }
     }

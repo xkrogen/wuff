@@ -82,12 +82,15 @@
 }
 
 -(IBAction)backButton {
+    [self dismissViewControllerAnimated:YES completion:nil];
+    /*
     MainViewController *main = [[MainViewController alloc] initWithNibName:nil bundle:nil];
     SettingsTabViewController *settings = [[SettingsTabViewController alloc] initWithNibName:nil bundle:Nil];
     
     MSSlidingPanelController *newView = [[MSSlidingPanelController alloc] initWithCenterViewController:main andLeftPanelController:settings];
     
     [self presentViewController:newView animated:YES completion:NULL];
+     */
 }
 
 @end
