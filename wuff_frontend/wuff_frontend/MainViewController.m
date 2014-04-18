@@ -521,7 +521,7 @@ typedef enum {
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
     [format setDateFormat:@"MMM dd, yyyy | hh:mm a"];
     eventView.time = [format stringFromDate:time];
-
+    
     
     eventView.location = [self.eventList[indexPath.row] objectForKey:@"location"];
     //eventView.description = [self.eventList[indexPath.row] objectForKey:@"description"];
@@ -538,7 +538,8 @@ typedef enum {
         else
             eventView.attenders = [NSString stringWithFormat:@"%@, %@", eventView.attenders, [user objectForKey:@"name"]];
     }
-    
+    eventView.eventId = [self.eventList[indexPath.row] objectForKey:@"event"];
+    eventView.owner = true;
     [self presentViewController:eventView animated:YES completion:NULL];
 }
 

@@ -25,6 +25,8 @@
 @property(nonatomic, strong) IBOutlet UIDatePicker *datePicker;
 @property(nonatomic, strong) IBOutlet MLPAutoCompleteTextField *autocompleteTextField;
 
+@property (nonatomic,retain)IBOutlet UIButton *myButton;
+
 @property(nonatomic, strong) IBOutlet UIScrollView *scrollView;
 @property(nonatomic, strong) IBOutlet UIView *contentView;
 
@@ -32,10 +34,13 @@
 
 @property(nonatomic, strong) HandleRequest *myRequester;
 
-
--(IBAction)createEvent;
-
--(IBAction)cancel;
+@property(nonatomic) bool editMode;
+@property(nonatomic, strong) NSString *myTitle;
+@property(nonatomic, strong) NSString *location;
+@property(nonatomic, strong) NSString *time;
+@property(nonatomic, strong) NSString *attenders;
+@property(nonatomic, strong) NSString *description;
+@property(nonatomic, strong) NSString *eventId;
 
 
 @end
