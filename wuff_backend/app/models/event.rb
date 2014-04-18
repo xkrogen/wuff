@@ -112,8 +112,8 @@ class Event < ActiveRecord::Base
 	def add_user_list(user_list, skip_attribute_update = false)
 		user_hash = {}
 		user_list.each do |user_id|
-				user_hash[user_id] = { status: STATUS_NO_RESPONSE, 
-					condition: NoCondition.new.get_hash }
+			user_hash[user_id] = { status: STATUS_NO_RESPONSE, 
+				condition: NoCondition.new.get_hash }
 		end
 		self.party_list.merge!(user_hash) { |key, old, new| old }
 		self.update_attribute(:party_list, self.party_list) if !skip_attribute_update
@@ -138,6 +138,35 @@ class Event < ActiveRecord::Base
 		# regardless of whether or not the user is already attending)
 
 		# complete_condition( user_id, condition )
+
+		clauses = Array.new
+		party_list.each do |uid, hash|
+			cond = hash[:condition]
+			if cond[:cond_type] != COND_NONE && cond[:cond_met] == COND_MET
+				next
+			end
+			if cond[:cond_type] == COND_NUM_ATTENDING
+				clauses.push({ operands: cond[:num_users], value: uid })
+			elsif cond[:cond_type] == COND_USER_ATTENDING_ANY
+				oper = []
+				cond[:user_list].each { |key, value| oper.push(value[:uid]) }
+				clauses.push({ operands: oper, value: uid })
+			elsif cond[:cond_type] == COND_USER_ATTENDING_ALL
+				cond[:user_list].each do |count, table|
+					clauses.push({ operands: [table[:uid]], value: uid })
+				end
+			else
+				clauses.push({ operands: nil, value: uid}) if hash[:status] != STATUS_ATTENDING
+			end
+		end
+		result = compute_horn_formula(clauses)
+
+		result.each do |uid, value|
+			#if party_list[uid][:condition][:cond_met] == COND_NOT_MET && party_list[uid][:condition][:cond_type] != COND_NONE
+
+			#end
+
+		end
 
 	end
 

@@ -25,6 +25,7 @@
 @property(nonatomic, strong) HandleRequest *myRequester;
 @property (nonatomic) NSMutableArray *eventList;
 @property (nonatomic, strong) IBOutlet UITableView *mainTable;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
 
 -(IBAction)createEvent;
 -(IBAction)openSettingsPanel;

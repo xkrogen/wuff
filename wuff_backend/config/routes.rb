@@ -7,7 +7,7 @@ WuffBackend::Application.routes.draw do
 	post '/user/auth_facebook', to: 'users#auth_facebook'
 	post '/user/get_profile_pic', to: 'users#get_profile_pic'
 	post '/user/add_friend', to: 'users#add_friend'
-	delete '/user/delete_friend', to: 'users#delete_friend'
+	post '/user/delete_friend', to: 'users#delete_friend'
 	get '/user/get_events', to: 'users#get_events'
 	get '/user/get_groups', to: 'users#get_groups'	
 	get '/user/get_friends', to: 'users#get_friends'		
