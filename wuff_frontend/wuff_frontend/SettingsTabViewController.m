@@ -106,9 +106,9 @@
         [_myRequester createRequestWithType:DELETE forExtension:@"/user/logout_user" withDictionary:d];
         //NSLog(@"sent request!");
     }
-    else if ([identifier isEqualToString:@"+ Add New"])
+    else if ([identifier isEqualToString:@"+ Add Group"])
     {
-        GroupAddViewController *settings = [[GroupAddViewController alloc] initWithNibName:nil bundle:nil];
+        GroupCreateViewController *settings = [[GroupCreateViewController alloc] initWithNibName:nil bundle:nil];
         [self presentViewController:settings animated:YES completion:nil];
     }
     else if ([identifier isEqualToString:@"Friends"])
