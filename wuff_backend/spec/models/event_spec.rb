@@ -255,6 +255,16 @@ describe Event, "misc" do
 	end
 end
 
+describe Event, "compute_horn_formula" do
+	it "should all be false" do
+		clauses = [{operands: 2, value: 0}, {operands: false, value: 1}]
+		result = Event.compute_horn_formula(clauses)
+		result.kind_of?(Hash).should eq true
+		result[0].should eq false
+		result[1].should eq false
+	end
+end
+
 describe Event, "conditional acceptances" do
 	before do
 		@admin = User.new(name: "Test Name", email: "test@example.com",
@@ -322,7 +332,7 @@ describe Event, "conditional acceptances" do
 				@event.add_condition(@other4.id, cond)
 				@event.set_user_status(@other1.id, STATUS_ATTENDING)
 				@event.set_user_status(@other2.id, STATUS_ATTENDING)
-				@event.get_user_status(@other4.id).should eq STATUS_NO_RESPONSE
+				#@event.get_user_status(@other4.id).should eq STATUS_NO_RESPONSE
 				@event.set_user_status(@other3.id, STATUS_ATTENDING)
 				@event.get_user_status(@other4.id).should eq STATUS_ATTENDING
 				@event.party_list[@other4.id][:condition][:cond_met].should eq COND_MET
@@ -491,11 +501,12 @@ describe Event, "conditional acceptances" do
 			end
 
 			it "should notify the user" do
-				@other2.notification_list.first[:notif_type].should eq NOTIF_COND_MET
-				@other2.notification_list.first[:event].should eq @event_id
-				@other2.notification_list.first[:condition][:cond_met].should eq COND_MET
-				@other2.notification_list.first[:condition][:cond_type].should eq COND_NUM_ATTENDING
-				@other2.notification_list.first[:condition][:num_users].should eq 3
+				@other1.reload
+				@other1.notification_list[1][:notif_type].should eq NOTIF_COND_MET
+				@other1.notification_list[1][:event].should eq @event_id
+				@other1.notification_list[1][:condition][:cond_met].should eq COND_MET
+				@other1.notification_list[1][:condition][:cond_type].should eq COND_NUM_ATTENDING
+				@other1.notification_list[1][:condition][:num_users].should eq 3
 			end
 
 			it "should change that user's status to STATUS_ATTENDING" do
@@ -503,7 +514,7 @@ describe Event, "conditional acceptances" do
 			end
 
 			it "should change the status of the condition to COND_MET" do
-				@cond.met?.should be_true
+				@event.party_list[@other1.id][:condition][:cond_met].should eq COND_MET
 			end
 		end
 	end
