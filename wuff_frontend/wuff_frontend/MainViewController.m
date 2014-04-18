@@ -25,6 +25,9 @@ typedef enum {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        self.refreshControl = [[UIRefreshControl alloc] init];
+        [self.refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
+        [self.mainTable addSubview:self.refreshControl];
     }
     return self;
 }
@@ -94,6 +97,12 @@ typedef enum {
     [_myRequester createRequestWithType:GET forExtension:@"/user/get_events" withDictionary:d];
 }
 
+- (void)refresh:(UIRefreshControl *)refreshControl {
+    _myRequester = [[HandleRequest alloc] initWithSelector:@"handleMainResponse:" andDelegate:self];
+    NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys: nil];
+    [_myRequester createRequestWithType:GET forExtension:@"/user/get_events" withDictionary:d];
+    [self.refreshControl endRefreshing];
+}
 
 
 - (void)viewDidLoad
