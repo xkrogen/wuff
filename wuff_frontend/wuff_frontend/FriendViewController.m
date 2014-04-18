@@ -155,6 +155,22 @@
     }
     [cell.statusBar removeFromSuperview];
     NSDictionary *friend = self.friendList[indexPath.row];
+    
+    UIFont *cellTitleFont = [UIFont fontWithName:@"HelveticaNeue-Medium" size:15.0f];
+    UIFont *cellDetailFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:13.0f];
+    
+    // title
+    NSMutableAttributedString *title = [[NSMutableAttributedString alloc] initWithString:@""];
+    
+    NSDictionary *attributes = [NSDictionary dictionaryWithObject:cellTitleFont forKey:NSFontAttributeName];
+    NSAttributedString *subString = [[NSAttributedString alloc] initWithString:[friend objectForKey:@"name"] attributes:attributes];
+    [title appendAttributedString:subString];
+    
+    cell.textLabel.attributedText = title;
+    
+    cell.detailTextLabel.font = cellDetailFont;
+    
+    
     if (!cell.profpic)
     {
         [cell loadImageWithCreatorEmail:[friend objectForKey:@"email"]];
@@ -172,33 +188,24 @@
         
         cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
         [cell setNeedsLayout];
+        [cell setNeedsDisplay];
         
         UIGraphicsEndImageContext();
     }
     else
     {
         cell.imageView.image = cell.profpic;
+        [cell setNeedsLayout];
+        [cell setNeedsDisplay];
     }
-    
-    UIFont *cellTitleFont = [UIFont fontWithName:@"HelveticaNeue-Medium" size:15.0f];
-    UIFont *cellDetailFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:13.0f];
-    
-    // title
-    NSMutableAttributedString *title = [[NSMutableAttributedString alloc] initWithString:@""];
-    
-    NSDictionary *attributes = [NSDictionary dictionaryWithObject:cellTitleFont forKey:NSFontAttributeName];
-    NSAttributedString *subString = [[NSAttributedString alloc] initWithString:[friend objectForKey:@"name"] attributes:attributes];
-    [title appendAttributedString:subString];
-    
-    cell.textLabel.attributedText = title;
-    
-    cell.detailTextLabel.font = cellDetailFont;
+    [cell setEnabled];
     
     /*  ||  PUT IN IMAGE ||
      NSString *path = [[NSBundle mainBundle] pathForResource:[item objectForKey:@"imageKey"] ofType:@"png"];
      UIImage *theImage = [UIImage imageWithContentsOfFile:path];
      cell.imageView.image = theImage;
      */
+    [_mainTable setSeparatorInset:UIEdgeInsetsZero];
     return cell;
     
 }
