@@ -153,7 +153,7 @@
     if (cell == nil) {
         cell = [[MainViewTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:SimpleIdentifier];
     }
-    
+    [cell.statusBar removeFromSuperview];
     NSDictionary *friend = self.friendList[indexPath.row];
     if (!cell.profpic)
     {
@@ -171,6 +171,7 @@
         [image drawInRect:thumbnailRect];
         
         cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
+        [cell setNeedsLayout];
         
         UIGraphicsEndImageContext();
     }
