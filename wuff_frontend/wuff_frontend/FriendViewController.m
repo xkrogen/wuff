@@ -7,6 +7,7 @@
 //
 
 #import "FriendViewController.h"
+#import "MainViewTableViewCell.h"
 
 @interface FriendViewController ()
 
@@ -147,13 +148,36 @@
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *SimpleIdentifier = @"SimpleIdentifier";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:SimpleIdentifier];
+    MainViewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:SimpleIdentifier];
     
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:SimpleIdentifier];
+        cell = [[MainViewTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:SimpleIdentifier];
     }
     
     NSDictionary *friend = self.friendList[indexPath.row];
+    if (!cell.profpic)
+    {
+        [cell loadImageWithCreatorEmail:[friend objectForKey:@"email"]];
+        cell.imageView.image = [UIImage imageNamed:@"profilepic.png"];
+        UIImage *image = cell.imageView.image;
+        CGSize targetSize = CGSizeMake(42,42);
+        UIGraphicsBeginImageContext(targetSize);
+        
+        CGRect thumbnailRect = CGRectMake(0, 0, 0, 0);
+        thumbnailRect.origin = CGPointMake(0.0,0.0);
+        thumbnailRect.size.width  = targetSize.width;
+        thumbnailRect.size.height = targetSize.height;
+        
+        [image drawInRect:thumbnailRect];
+        
+        cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
+        
+        UIGraphicsEndImageContext();
+    }
+    else
+    {
+        cell.imageView.image = cell.profpic;
+    }
     
     UIFont *cellTitleFont = [UIFont fontWithName:@"HelveticaNeue-Medium" size:15.0f];
     UIFont *cellDetailFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:13.0f];
@@ -201,7 +225,7 @@
         [_myRequester createRequestWithType:DELETE forExtension:@"/user/delete_friend" withDictionary:d];
 
         NSLog(@"sent request!");
-        NSLog([d objectForKey:@"friend_email"]);
+        //NSLog([d objectForKey:@"friend_email"]);
     }
 }
 

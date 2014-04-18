@@ -54,6 +54,12 @@
     [r createRequestWithType:POST forExtension:@"/user/get_profile_pic" withDictionary:d];
 }
 
+-(void)loadImageWithCreatorEmail:(NSString*)email {
+    HandleRequest *r = [[HandleRequest alloc]initWithSelector:@"handleGetProfilePic:" andDelegate:self];
+    NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:email, @"email", nil];
+    [r createRequestWithType:POST forExtension:@"/user/get_profile_pic" withDictionary:d];
+}
+
 -(void)handleGetProfilePic:(NSDictionary*)data {
     NSString *imageUrl = [data objectForKey:@"pic_url"];
     
