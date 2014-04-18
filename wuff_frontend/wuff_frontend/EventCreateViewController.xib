@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -12,6 +12,7 @@
                 <outlet property="descriptionInputView" destination="FfL-yr-81A" id="WkA-Ca-gjE"/>
                 <outlet property="emailListInputView" destination="XDK-n5-44F" id="Jde-ze-OKV"/>
                 <outlet property="locationInputView" destination="A4q-2S-MBb" id="Fkz-oi-BHs"/>
+                <outlet property="myButton" destination="YNz-GS-jlF" id="0YP-Ja-4Nr"/>
                 <outlet property="nameInputView" destination="jsm-zc-GtV" id="0Qt-Xh-8p2"/>
                 <outlet property="scrollView" destination="xgb-wo-JMh" id="VaZ-yA-l3d"/>
                 <outlet property="view" destination="xgb-wo-JMh" id="j01-8J-i98"/>

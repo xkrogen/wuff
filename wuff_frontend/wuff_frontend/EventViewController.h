@@ -28,6 +28,10 @@
 @property(nonatomic, strong) NSString *time;
 @property(nonatomic, strong) NSString *attenders;
 @property(nonatomic, strong) NSString *description;
+@property(nonatomic, strong) NSString *eventId;
+
+
+@property(nonatomic) bool owner;
 
 -(IBAction)backButton;
 

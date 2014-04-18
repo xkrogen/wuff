@@ -78,6 +78,28 @@
     [self.navigationItem setLeftBarButtonItem:cancelButton];
     
     // END CODE
+    
+    if (self.editMode) {
+        _locationInputView.textField.text = self.location;
+        
+        _nameInputView.textField.text = self.myTitle;
+        
+        //TODO set date as well
+        //[_datePicker date]timeIntervalSince1970] stringValue] = self.time;
+        
+        _emailListInputView.textField.text = self.attenders;
+        
+        _descriptionInputView.textField.text = self.description;
+        
+        [_myButton setTitle:@"Edit" forState:UIControlStateNormal];
+        
+        UIBarButtonItem *deleteButton = [[UIBarButtonItem alloc] initWithTitle:@"Delete" style:UIBarButtonItemStylePlain target:self action:@selector(delete)];
+        [deleteButton setTintColor:[UIColor whiteColor]];
+        [deleteButton setAccessibilityLabel:@"Delete Button"];
+        [self.navigationItem setRightBarButtonItem:deleteButton];
+        
+        [self.navigationItem setTitle:@"Edit Event"];
+    }
 }
 
 -(void)handleUserList:(NSDictionary *)response
@@ -92,8 +114,11 @@
 
 -(IBAction)createEvent
 {
+    
     _myRequester = [[HandleRequest alloc] initWithSelector:@"handleCreateEvent:" andDelegate:self];
     NSMutableDictionary *d = [NSMutableDictionary dictionary];
+    
+    
     [d setObject:_nameInputView.textField.text forKey:@"title"];
     [d setObject:_descriptionInputView.textField.text forKey:@"description"];
     
@@ -107,7 +132,13 @@
     for(id key in d)
         NSLog(@"key=%@ value=%@", key, [d objectForKey:key]);
     
-    [_myRequester createRequestWithType:POST forExtension:@"/event/create_event" withDictionary:d];
+    if (self.editMode) {
+        [d setObject:[NSNumber numberWithInt:[self.eventId intValue]] forKey:@"event"];
+        [_myRequester createRequestWithType:POST forExtension:@"/event/edit_event" withDictionary:d];
+        
+    } else {
+        [_myRequester createRequestWithType:POST forExtension:@"/event/create_event" withDictionary:d];
+    }
     //NSLog(@"sent create event request!");
     
     // close the keyboard
@@ -127,6 +158,15 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+-(IBAction)delete
+{
+    _myRequester = [[HandleRequest alloc] initWithSelector:@"handleCreateEvent:" andDelegate:self];
+    NSMutableDictionary *d = [NSMutableDictionary dictionary];
+    [d setObject:[NSNumber numberWithInt:[self.eventId intValue]] forKey:@"event"];
+    
+    [_myRequester createRequestWithType:POST forExtension:@"/event/cancel_event" withDictionary:d];
+    //[self dismissViewControllerAnimated:YES completion:nil];
+}
 
 -(void)handleCreateEvent:(NSDictionary *)response
 {
