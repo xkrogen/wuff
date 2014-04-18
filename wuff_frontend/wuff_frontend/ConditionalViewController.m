@@ -49,21 +49,16 @@
     
     [[self view] addSubview:navigationBar];
     
-    [self.navigationItem setHidesBackButton:YES];
+    [self.navigationItem setHidesBackButton:NO];
     
     [navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont boldSystemFontOfSize: 18.0f]}];
     navigationBarItem = [[UINavigationItem alloc] initWithTitle:@"Wuff"];
     
-    UIBarButtonItem *settingsTabButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"settings_icon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(openSettingsPanel)];
+    UIBarButtonItem *settingsTabButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancel)];
     [settingsTabButton setTintColor:[UIColor whiteColor]];
     [settingsTabButton setAccessibilityLabel:@"Settings Tab Button"];
     [navigationBarItem setLeftBarButtonItem:settingsTabButton];
-    
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(createEvent)];
-    [addButton setTintColor:[UIColor whiteColor]];
-    [addButton setAccessibilityLabel:@"Add Button"];
-    [navigationBarItem setRightBarButtonItem:addButton];
-    
+
     [navigationBar setBarTintColor:[UIColor colorWithRed:49.0f/255.0f green:103.0f/255.0f blue:157.0f/255.0f alpha:1.0f]];
     [navigationBar pushNavigationItem:navigationBarItem animated:NO];
     [navigationBar setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
