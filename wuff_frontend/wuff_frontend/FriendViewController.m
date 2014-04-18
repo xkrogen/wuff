@@ -7,6 +7,7 @@
 //
 
 #import "FriendViewController.h"
+#import "MainViewTableViewCell.h"
 
 @interface FriendViewController ()
 
@@ -147,12 +148,12 @@
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *SimpleIdentifier = @"SimpleIdentifier";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:SimpleIdentifier];
+    MainViewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:SimpleIdentifier];
     
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:SimpleIdentifier];
+        cell = [[MainViewTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:SimpleIdentifier];
     }
-    
+    [cell.statusBar removeFromSuperview];
     NSDictionary *friend = self.friendList[indexPath.row];
     
     UIFont *cellTitleFont = [UIFont fontWithName:@"HelveticaNeue-Medium" size:15.0f];
@@ -169,11 +170,42 @@
     
     cell.detailTextLabel.font = cellDetailFont;
     
+    
+    if (!cell.profpic)
+    {
+        [cell loadImageWithCreatorEmail:[friend objectForKey:@"email"]];
+        cell.imageView.image = [UIImage imageNamed:@"profilepic.png"];
+        UIImage *image = cell.imageView.image;
+        CGSize targetSize = CGSizeMake(42,42);
+        UIGraphicsBeginImageContext(targetSize);
+        
+        CGRect thumbnailRect = CGRectMake(0, 0, 0, 0);
+        thumbnailRect.origin = CGPointMake(0.0,0.0);
+        thumbnailRect.size.width  = targetSize.width;
+        thumbnailRect.size.height = targetSize.height;
+        
+        [image drawInRect:thumbnailRect];
+        
+        cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
+        [cell setNeedsLayout];
+        [cell setNeedsDisplay];
+        
+        UIGraphicsEndImageContext();
+    }
+    else
+    {
+        cell.imageView.image = cell.profpic;
+        [cell setNeedsLayout];
+        [cell setNeedsDisplay];
+    }
+    [cell setEnabled];
+    
     /*  ||  PUT IN IMAGE ||
      NSString *path = [[NSBundle mainBundle] pathForResource:[item objectForKey:@"imageKey"] ofType:@"png"];
      UIImage *theImage = [UIImage imageWithContentsOfFile:path];
      cell.imageView.image = theImage;
      */
+    [_mainTable setSeparatorInset:UIEdgeInsetsZero];
     return cell;
     
 }
@@ -201,7 +233,7 @@
         [_myRequester createRequestWithType:DELETE forExtension:@"/user/delete_friend" withDictionary:d];
 
         NSLog(@"sent request!");
-        NSLog([d objectForKey:@"friend_email"]);
+        //NSLog([d objectForKey:@"friend_email"]);
     }
 }
 

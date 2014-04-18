@@ -19,5 +19,6 @@
 -(void) setTransparentDisabled;
 -(void) setEnabled;
 -(void)loadImageWithCreator:(NSNumber*)creatorID;
+-(void)loadImageWithCreatorEmail:(NSString*)email;
 
 @end

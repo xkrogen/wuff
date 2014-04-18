@@ -11,10 +11,10 @@
 #import "HandleRequest.h"
 #import "LoginViewController.h"
 #import "SettingsViewController.h"
-#import "GroupAddViewController.h"
 #import "AddFriendViewController.h"
 #import "FriendViewController.h"
 #import "SettingsTableViewCell.h"
+#import "GroupCreateViewController.h"
 
 @interface SettingsTabViewController : UIViewController <MSSlidingPanelControllerDelegate, UITableViewDataSource, UITabBarDelegate>
 

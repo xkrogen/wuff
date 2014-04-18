@@ -14,7 +14,7 @@
 #import "MSSlidingPanelController.h"
 #import "MSViewControllerSlidingPanel.h"
 #import "AddFriendViewController.h"
-#import "LoginViewController.h";
+#import "LoginViewController.h"
 
 @interface FriendViewController : UIViewController <MSSlidingPanelControllerDelegate, UITableViewDataSource, UITabBarDelegate>
 
