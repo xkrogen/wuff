@@ -22,5 +22,7 @@
 @property(nonatomic, strong) HandleRequest *myRequester;
 @property (nonatomic, strong) NSMutableArray *menuList;
 
+-(void)loadGroups;
+
 
 @end

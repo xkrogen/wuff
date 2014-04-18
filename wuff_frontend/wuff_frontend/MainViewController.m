@@ -7,6 +7,7 @@
 //
 
 #import "MainViewController.h"
+#import "SettingsTabViewController.h"
 
 typedef enum {
     ATTENDING,
@@ -108,6 +109,9 @@ typedef enum {
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    if (self.settingsTabController)
+        [self.settingsTabController loadGroups];
     
     //Code to send POST Request
      _myRequester = [[HandleRequest alloc] initWithSelector:@"handleMainResponse:" andDelegate:self];

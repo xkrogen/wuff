@@ -101,7 +101,7 @@
             
             MainViewController *main = [[MainViewController alloc] initWithNibName:nil bundle:nil];
             SettingsTabViewController *settings = [[SettingsTabViewController alloc] initWithNibName:nil bundle:Nil];
-            
+            main.settingsTabController = settings;
             MSSlidingPanelController *newView = [[MSSlidingPanelController alloc] initWithCenterViewController:main andLeftPanelController:settings];
             [self.navigationController presentViewController:newView animated:YES completion:nil];
              

@@ -19,13 +19,23 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        self.menuList = [[NSMutableArray alloc] initWithArray:@[@"Self", @"Friends", @"Groups", @"+ Add Group", @"", @"", @"Settings", @"Logout"]];
     }
     return self;
+}
+
+-(void)loadGroups
+{
+    _myRequester = [[HandleRequest alloc] initWithSelector:@"handleGroupResponse:" andDelegate:self];
+    
+    NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys: nil];
+    [_myRequester createRequestWithType:GET forExtension:@"/user/get_groups" withDictionary:d];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     // Do any additional setup after loading the view from its nib.
     UIColor *bg_color = [UIColor colorWithRed:47.0f/255.0f green:47.0f/255.0f blue:47.0f/255.0f alpha:1.0f];
     UIColor *sep_color = [UIColor colorWithRed:80.0f/255.0f green:80.0f/255.0f blue:80.0f/255.0f alpha:1.0f];
@@ -33,8 +43,32 @@
     self.table.backgroundColor = bg_color;
     [self.table setSeparatorColor:sep_color];
     
-    self.menuList = [[NSMutableArray alloc] initWithArray:@[@"Self", @"Friends", @"Groups", @"+ Add Group", @"", @"", @"Settings", @"Logout"]];
+    
 }
+
+-(void) handleGroupResponse:(NSDictionary *)data
+{
+    ErrorCode err_code = (ErrorCode)[[data objectForKey:@"err_code"] integerValue];
+    switch (err_code)
+    {
+        case SUCCESS:
+        {
+            int group_count = [[data objectForKey:@"group_count"] integerValue];
+            
+            for(int i=1; i<=group_count; i++)
+            {
+                NSDictionary *group = [data objectForKey:[NSString stringWithFormat:@"%d", i]];
+                NSString *groupName = [group objectForKey:@"name"];
+                [self.menuList insertObject:groupName atIndex:3];
+            }
+            break;
+        }
+        case ERR_INVALID_SESSION:
+            [self.view makeToast:@"Invalid Session. Try logging out and back in"];
+            break;
+    }
+}
+                             
 
 - (void)didReceiveMemoryWarning
 {
