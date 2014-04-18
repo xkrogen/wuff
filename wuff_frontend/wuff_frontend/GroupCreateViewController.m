@@ -58,22 +58,27 @@
     _myRequester = [[HandleRequest alloc] initWithSelector:@"handleUserList:" andDelegate:self];
     [_myRequester createRequestWithType:POST forExtension:@"/user/get_all_users" withDictionary:d];
     
-    // USE THIS CODE TO CREATE THE NAVIGATION CONTROLLER PROGRAMMATICALLY
     UINavigationBar *navigationBar;
-    //UINavigationItem *navigationBarItem;
+    UINavigationItem *navigationBarItem;
     
     CGSize windowSize = [[UIScreen mainScreen] bounds].size;
     navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, windowSize.width, 64)];
     
-    [self.navigationItem setHidesBackButton:YES];
+    [[self view] addSubview:navigationBar];
     
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont boldSystemFontOfSize: 18.0f]}];
-    [self.navigationItem setTitle:@"Wuff"];
+    [self.navigationItem setHidesBackButton:NO];
     
-    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel)];
-    [cancelButton setTintColor:[UIColor whiteColor]];
-    [cancelButton setAccessibilityLabel:@"Cancel Button"];
-    [self.navigationItem setLeftBarButtonItem:cancelButton];
+    [navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont boldSystemFontOfSize: 18.0f]}];
+    navigationBarItem = [[UINavigationItem alloc] initWithTitle:@"Wuff"];
+    
+    UIBarButtonItem *settingsTabButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancel)];
+    [settingsTabButton setTintColor:[UIColor whiteColor]];
+    [settingsTabButton setAccessibilityLabel:@"Settings Tab Button"];
+    [navigationBarItem setLeftBarButtonItem:settingsTabButton];
+    
+    [navigationBar setBarTintColor:[UIColor colorWithRed:49.0f/255.0f green:103.0f/255.0f blue:157.0f/255.0f alpha:1.0f]];
+    [navigationBar pushNavigationItem:navigationBarItem animated:NO];
+    [navigationBar setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
     
     // END CODE
 }
