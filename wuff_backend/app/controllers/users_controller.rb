@@ -135,7 +135,7 @@ class UsersController < ApplicationController
     respond(rval)
   end
 
-  # DELETE /user/delete_friend
+  # POST /user/delete_friend
   # Calls current_user.remove_friend
   def delete_friend
     if not signed_in?
