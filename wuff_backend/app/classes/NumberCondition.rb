@@ -13,6 +13,11 @@ class NumberCondition < Condition
 			cond_met: @cond_met, num_users: @num_users }
 	end
 
+	# Returns number of users threshold for condition
+	def get_num
+		return @num_users
+	end
+
 	# Overload Condition#type since it will always be the same type.
 	def type
 		COND_NUM_ATTENDING
