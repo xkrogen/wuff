@@ -25,6 +25,9 @@ typedef enum {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        self.refreshControl = [[UIRefreshControl alloc] init];
+        [self.refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
+        [self.mainTable addSubview:self.refreshControl];
     }
     return self;
 }
@@ -94,6 +97,12 @@ typedef enum {
     [_myRequester createRequestWithType:GET forExtension:@"/user/get_events" withDictionary:d];
 }
 
+- (void)refresh:(UIRefreshControl *)refreshControl {
+    _myRequester = [[HandleRequest alloc] initWithSelector:@"handleMainResponse:" andDelegate:self];
+    NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys: nil];
+    [_myRequester createRequestWithType:GET forExtension:@"/user/get_events" withDictionary:d];
+    [self.refreshControl endRefreshing];
+}
 
 
 - (void)viewDidLoad
@@ -512,7 +521,7 @@ typedef enum {
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
     [format setDateFormat:@"MMM dd, yyyy | hh:mm a"];
     eventView.time = [format stringFromDate:time];
-
+    
     
     eventView.location = [self.eventList[indexPath.row] objectForKey:@"location"];
     //eventView.description = [self.eventList[indexPath.row] objectForKey:@"description"];
@@ -529,7 +538,8 @@ typedef enum {
         else
             eventView.attenders = [NSString stringWithFormat:@"%@, %@", eventView.attenders, [user objectForKey:@"name"]];
     }
-    
+    eventView.eventId = [self.eventList[indexPath.row] objectForKey:@"event"];
+    eventView.owner = true;
     [self presentViewController:eventView animated:YES completion:NULL];
 }
 

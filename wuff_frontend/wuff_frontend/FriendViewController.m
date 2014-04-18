@@ -57,9 +57,11 @@
     [settingsTabButton setTintColor:[UIColor whiteColor]];
     [navigationBarItem setLeftBarButtonItem:settingsTabButton];
     
+    [settingsTabButton setAccessibilityLabel:@"Friend Add Back"];
+    
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addFriend)];
     [addButton setTintColor:[UIColor whiteColor]];
-    [addButton setAccessibilityLabel:@"Add Button"];
+    [addButton setAccessibilityLabel:@"Friend Add Button"];
     [navigationBarItem setRightBarButtonItem:addButton];
     
     [navigationBar setBarTintColor:[UIColor colorWithRed:49.0f/255.0f green:103.0f/255.0f blue:157.0f/255.0f alpha:1.0f]];
@@ -81,6 +83,7 @@
     {
         case SUCCESS:
         {
+            [self.friendList removeAllObjects];
             int friendCount = (int)[[data objectForKey:@"friend_count"] integerValue];
             for(int i=1; i<=friendCount; i++) {
                 NSDictionary *friend = [data objectForKey:[NSString stringWithFormat:@"%d", i]];
@@ -230,7 +233,7 @@
 
         NSMutableDictionary *d = [NSMutableDictionary dictionary];
         [d setObject:[friend objectForKey:@"email"] forKey:@"friend_email"];
-        [_myRequester createRequestWithType:DELETE forExtension:@"/user/delete_friend" withDictionary:d];
+        [_myRequester createRequestWithType:POST forExtension:@"/user/delete_friend" withDictionary:d];
 
         NSLog(@"sent request!");
         //NSLog([d objectForKey:@"friend_email"]);
@@ -246,13 +249,11 @@
     {
         case SUCCESS:
         {
-            //NSLog(@"Successfully deleted Friend");
-            //break;
-            //[self logoutFrontend];
+            _myRequester = [[HandleRequest alloc] initWithSelector:@"handleFriendResponse:" andDelegate:self];
             
-            LoginViewController *login = [[LoginViewController alloc] initWithNibName:nil bundle:nil];
-            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:login];
-            [self presentViewController:navController animated:YES completion:NULL];
+            NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys: nil];
+            [_myRequester createRequestWithType:GET forExtension:@"/user/get_friends" withDictionary:d];
+            
             break;
         }
         case ERR_INVALID_NAME:

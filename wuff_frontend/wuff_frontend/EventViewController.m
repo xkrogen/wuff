@@ -67,6 +67,14 @@
     [backButton setAccessibilityLabel:@"Back Button"];
     [navigationBarItem setLeftBarButtonItem:backButton];
     
+    if (self.owner) {
+        UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:self action:@selector(editButton)];
+        [editButton setTintColor:[UIColor whiteColor]];
+        [editButton setAccessibilityLabel:@"Edit Button"];
+        [navigationBarItem setRightBarButtonItem:editButton];
+        
+    }
+    
     [navigationBar setBarTintColor:[UIColor colorWithRed:49.0f/255.0f green:103.0f/255.0f blue:157.0f/255.0f alpha:1.0f]];
     [navigationBar pushNavigationItem:navigationBarItem animated:NO];
     [navigationBar setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
@@ -84,13 +92,28 @@
 -(IBAction)backButton {
     [self dismissViewControllerAnimated:YES completion:nil];
     /*
-    MainViewController *main = [[MainViewController alloc] initWithNibName:nil bundle:nil];
-    SettingsTabViewController *settings = [[SettingsTabViewController alloc] initWithNibName:nil bundle:Nil];
-    
-    MSSlidingPanelController *newView = [[MSSlidingPanelController alloc] initWithCenterViewController:main andLeftPanelController:settings];
-    
-    [self presentViewController:newView animated:YES completion:NULL];
+     MainViewController *main = [[MainViewController alloc] initWithNibName:nil bundle:nil];
+     SettingsTabViewController *settings = [[SettingsTabViewController alloc] initWithNibName:nil bundle:Nil];
+     
+     MSSlidingPanelController *newView = [[MSSlidingPanelController alloc] initWithCenterViewController:main andLeftPanelController:settings];
+     
+     [self presentViewController:newView animated:YES completion:NULL];
      */
+}
+-(IBAction)editButton {
+    EventCreateViewController *eventView = [[EventCreateViewController alloc]  initWithNibName:nil bundle:nil];
+    
+    eventView.editMode = true;
+    eventView.location = self.location;
+    eventView.description = self.description;
+    eventView.attenders = self.attenders;
+    eventView.time = self.time;
+    eventView.myTitle = self.myTitle;
+    eventView.eventId = self.eventId;
+    
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:eventView];
+    [self presentViewController:navController animated:YES completion:nil];
+    
 }
 
 @end
