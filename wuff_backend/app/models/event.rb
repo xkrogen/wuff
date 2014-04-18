@@ -162,7 +162,9 @@ class Event < ActiveRecord::Base
 		result = compute_horn_formula(clauses)
 
 		result.each do |uid, value|
-			if party_list[uid][:condition][:cond_met] == COND_NOT_MET && party_list[uid][:condition][:cond_type] != COND_NONE
+			#if party_list[uid][:condition][:cond_met] == COND_NOT_MET && party_list[uid][:condition][:cond_type] != COND_NONE
+
+			#end
 
 		end
 
