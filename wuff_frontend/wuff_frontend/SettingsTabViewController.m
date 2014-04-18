@@ -78,6 +78,13 @@
 
 
 // TABLE VIEW STUFF
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([indexPath row] == 0)
+        return 55;
+    else
+        return 44;
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [self.menuList count];
@@ -86,21 +93,22 @@
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *SimpleIdentifier = @"SimpleIdentifier";
     
-    SettingsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:SimpleIdentifier];
+    MainViewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:SimpleIdentifier];
     
     if (cell == nil) {
-        cell = [[SettingsTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:SimpleIdentifier];
+        cell = [[MainViewTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:SimpleIdentifier];
+        [cell.statusBar removeFromSuperview];
     }
     
     UIColor *textColor = [UIColor colorWithRed:220.0f/255.0f green:220.0f/255.0f blue:220.0f/255.0f alpha:1.0f];
-    cell.detailTextLabel.attributedText = [[NSAttributedString alloc] initWithString:_menuList[indexPath.row] attributes:@{NSForegroundColorAttributeName:textColor, NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Light" size:16.0f]}];
+    cell.textLabel.attributedText = [[NSAttributedString alloc] initWithString:_menuList[indexPath.row] attributes:@{NSForegroundColorAttributeName:textColor, NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Light" size:16.0f]}];
     [cell.detailTextLabel setTextAlignment:NSTextAlignmentRight];
     cell.backgroundColor = [UIColor colorWithRed:47.0f/255.0f green:47.0f/255.0f blue:47.0f/255.0f alpha:1.0f];
     
     if ([_menuList[indexPath.row] isEqualToString:@"Groups"])
     {
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-        cell.imggy.image = [UIImage imageNamed:@"groups_icon.png"];
+        cell.imageView.image = [UIImage imageNamed:@"groups_icon.png"];
     }
     else if ([_menuList[indexPath.row] isEqualToString:@""])
     {
@@ -109,6 +117,29 @@
     }
     else if ([_menuList[indexPath.row] isEqualToString:@"Self"])
     {
+        if (!cell.profpic)
+        {
+            [cell loadImageWithCreator:[[NSUserDefaults standardUserDefaults] objectForKey:@"user_id"]];
+            cell.imageView.image = [UIImage imageNamed:@"profilepic.png"];
+            UIImage *image = cell.imageView.image;
+            CGSize targetSize = CGSizeMake(42,42);
+            UIGraphicsBeginImageContext(targetSize);
+            
+            CGRect thumbnailRect = CGRectMake(0, 0, 0, 0);
+            thumbnailRect.origin = CGPointMake(0.0,0.0);
+            thumbnailRect.size.width  = targetSize.width;
+            thumbnailRect.size.height = targetSize.height;
+            
+            [image drawInRect:thumbnailRect];
+            
+            cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
+            
+            UIGraphicsEndImageContext();
+        }
+        else
+        {
+            cell.imageView.image = cell.profpic;
+        }
         cell.detailTextLabel.attributedText = nil;
         cell.textLabel.attributedText = [[NSAttributedString alloc]
             initWithString:[[NSUserDefaults standardUserDefaults] objectForKey:@"name"]

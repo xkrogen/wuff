@@ -63,6 +63,7 @@
 		6C8CB86C18E89C6D0077E9BB /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C8CB86A18E89C6D0077E9BB /* SettingsViewController.xib */; };
 		6C8CB87918EC6E880077E9BB /* AddFriendViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C8CB87718EC6E880077E9BB /* AddFriendViewController.xib */; };
 		6CAAB38118E7A67E008A686A /* settings_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CAAB38018E7A67E008A686A /* settings_icon.png */; };
+		6CEE81301901A57600F8CA53 /* groups_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CEE812F1901A57600F8CA53 /* groups_icon@2x.png */; };
 		6CF7E1B618CA538F00880712 /* HandleRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CF7E1B518CA538F00880712 /* HandleRequest.m */; };
 /* End PBXBuildFile section */
 
@@ -157,6 +158,7 @@
 		6C8CB87618EC6E880077E9BB /* AddFriendViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddFriendViewController.m; sourceTree = "<group>"; };
 		6C8CB87718EC6E880077E9BB /* AddFriendViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddFriendViewController.xib; sourceTree = "<group>"; };
 		6CAAB38018E7A67E008A686A /* settings_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings_icon.png; sourceTree = "<group>"; };
+		6CEE812F1901A57600F8CA53 /* groups_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "groups_icon@2x.png"; sourceTree = "<group>"; };
 		6CF7E1B418CA538F00880712 /* HandleRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HandleRequest.h; sourceTree = "<group>"; };
 		6CF7E1B518CA538F00880712 /* HandleRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HandleRequest.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -244,6 +246,7 @@
 				6C71D56819005550004334EA /* RectUIVew.h */,
 				6C71D56919005550004334EA /* RectUIVew.m */,
 				6C71D54E18FDE02C004334EA /* groups_icon.png */,
+				6CEE812F1901A57600F8CA53 /* groups_icon@2x.png */,
 				6CAAB38018E7A67E008A686A /* settings_icon.png */,
 				6C4AFBD718E78D66001BCEBB /* SettingsTabViewController.h */,
 				6C4AFBD818E78D67001BCEBB /* SettingsTabViewController.m */,
@@ -434,6 +437,7 @@
 				6C13DD9F18C41EFD0032A56C /* InfoPlist.strings in Resources */,
 				18A7C1461900D3D4003D135D /* GroupCreateViewController.xib in Resources */,
 				187D8D5918EA4F7400E5EA1B /* LICENSE in Resources */,
+				6CEE81301901A57600F8CA53 /* groups_icon@2x.png in Resources */,
 				18A7C14B1900EB2F003D135D /* ConditionalViewController.xib in Resources */,
 				6C71D56019004C8C004334EA /* cross@2x.png in Resources */,
 				6C71D55B19004C8C004334EA /* check.png in Resources */,

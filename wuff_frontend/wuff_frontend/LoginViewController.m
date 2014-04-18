@@ -98,6 +98,7 @@
             NSLog(@"Storing user logged-in to Standard User Defaults!");
             [[NSUserDefaults standardUserDefaults] setObject:[data objectForKey:@"name"] forKey:@"name"];
             [[NSUserDefaults standardUserDefaults] setObject:[data objectForKey:@"email"] forKey:@"email"];
+            [[NSUserDefaults standardUserDefaults] setObject:[data objectForKey:@"user_id"] forKey:@"user_id"];
             
             MainViewController *main = [[MainViewController alloc] initWithNibName:nil bundle:nil];
             SettingsTabViewController *settings = [[SettingsTabViewController alloc] initWithNibName:nil bundle:Nil];

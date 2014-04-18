@@ -15,6 +15,7 @@
 #import "FriendViewController.h"
 #import "SettingsTableViewCell.h"
 #import "GroupCreateViewController.h"
+#import "MainViewTableViewCell.h"
 
 @interface SettingsTabViewController : UIViewController <MSSlidingPanelControllerDelegate, UITableViewDataSource, UITabBarDelegate>
 
