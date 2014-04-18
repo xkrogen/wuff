@@ -57,9 +57,11 @@
     [settingsTabButton setTintColor:[UIColor whiteColor]];
     [navigationBarItem setLeftBarButtonItem:settingsTabButton];
     
+    [settingsTabButton setAccessibilityLabel:@"Friend Add Back"];
+    
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addFriend)];
     [addButton setTintColor:[UIColor whiteColor]];
-    [addButton setAccessibilityLabel:@"Add Button"];
+    [addButton setAccessibilityLabel:@"Friend Add Button"];
     [navigationBarItem setRightBarButtonItem:addButton];
     
     [navigationBar setBarTintColor:[UIColor colorWithRed:49.0f/255.0f green:103.0f/255.0f blue:157.0f/255.0f alpha:1.0f]];
