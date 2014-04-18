@@ -165,8 +165,8 @@ describe UsersController do
 		end
 
 		describe "delete_friend deletes user correlated with friend_email if user exists, else nothing happens" do
-			it "successfully calls User#remove_friend, which is unit tested" do
-				delete 'delete_friend', { format: 'json', friend_email: 't_other@example,com' }
+			it "successfully calls User#remobe_friend, which is unit tested" do
+				post 'delete_friend', { format: 'json', friend_email: 't_other@example,com' }
 				JSON.parse(response.body)['err_code'].should eq SUCCESS
 			end
 		end
