@@ -28,30 +28,30 @@ class Condition
 		end
 	end
 
-		# Dummy method. Shouldn't try to get the hash of a Condition.
-		def get_hash
-			{}
-		end
-
-		# Return the type of Condition.
-		def type
-			@cond_type
-		end
-
-		# Mark this condition as met.
-		def met
-			@cond_met = COND_MET
-		end
-
-		# Mark this condition as not met. 
-		def unmet
-			@cond_met = COND_NOT_MET
-		end
-
-		# Returns true if this condition is met. False otherwise. 
-		def met?
-			@cond_met == COND_MET
-		end
+	# Dummy method. Shouldn't try to get the hash of a Condition.
+	def get_hash
+		{}
 	end
+
+	# Return the type of Condition.
+	def type
+		@cond_type
+	end
+
+	# Mark this condition as met.
+	def met
+		@cond_met = COND_MET
+	end
+
+	# Mark this condition as not met. 
+	def unmet
+		@cond_met = COND_NOT_MET
+	end
+
+	# Returns true if this condition is met. False otherwise. 
+	def met?
+		@cond_met == COND_MET
+	end
+end
 
 

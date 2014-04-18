@@ -8,6 +8,12 @@
 
 #import "MainViewController.h"
 
+typedef enum {
+    ATTENDING,
+    NO_ANSWER,
+    DECLINED
+} AttendState;
+
 @interface MainViewController ()
 
 @end
@@ -59,7 +65,7 @@
                         }
                     } else {
                         // different hour
-                        return [NSString stringWithFormat:@"%dh", components.hour];
+                        return [NSString stringWithFormat:@"%ldh", (long)components.hour];
                     }
                 } else {
                     // different day
@@ -67,15 +73,15 @@
                 }
             } else {
                 // different week
-                return [NSString stringWithFormat:@"%dW", components.week];
+                return [NSString stringWithFormat:@"%ldW", (long)components.week];
             }
         } else {
             // different month
-            return [NSString stringWithFormat:@"%dM", components.month];
+            return [NSString stringWithFormat:@"%ldM", (long)components.month];
         }
     } else {
         // different year
-        return [NSString stringWithFormat:@"%dY", components.year];
+        return [NSString stringWithFormat:@"%ldY", (long)components.year];
     }
     
     return @"-∞";
@@ -157,8 +163,36 @@
      object:nil];
 }
 
+-(void) handleGoingToEvent:(NSDictionary *)data {
+    ErrorCode err_code = (ErrorCode)[[data objectForKey:@"err_code"] integerValue];
+    switch (err_code)
+    {
+        case SUCCESS:
+        {
+            break;
+        }
+        default:
+            [self.view makeToast:@"Error in accepting event"];
+            break;
+    }
+}
+
+-(void) handleNotGoingToEvent:(NSDictionary *)data {
+    ErrorCode err_code = (ErrorCode)[[data objectForKey:@"err_code"] integerValue];
+    switch (err_code)
+    {
+        case SUCCESS:
+        {
+            break;
+        }
+        default:
+            [self.view makeToast:@"Error in declining event"];
+            break;
+    }
+}
+
 -(void) handleMainResponse:(NSDictionary *)data {
-    ErrorCode err_code = (ErrorCode)[[data objectForKey:@"err_code"] integerValue];;
+    ErrorCode err_code = (ErrorCode)[[data objectForKey:@"err_code"] integerValue];
     switch (err_code)
     {
         case SUCCESS:
@@ -175,6 +209,12 @@
                 NSDictionary *event = [data objectForKey:[NSString stringWithFormat:@"%d", i]];
                 [self.eventList addObject:event];
             }
+            
+            //Sort Newest Events to be at top of page
+            NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"time"  ascending:NO];
+            self.eventList= [[self.eventList sortedArrayUsingDescriptors:[NSArray arrayWithObjects:descriptor,nil]] copy];
+            
+            
             break;
         }
         case ERR_INVALID_NAME:
@@ -246,16 +286,138 @@
     return [self.eventList count];
 }
 
+- (UIView *)viewWithImageName:(NSString *)imageName {
+    UIImage *image = [UIImage imageNamed:imageName];
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+    imageView.contentMode = UIViewContentModeCenter;
+    return imageView;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 70;
+}
+
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *SimpleIdentifier = @"SimpleIdentifier";
+    
+    NSDictionary *event = self.eventList[indexPath.row];
+    
+    NSString *SimpleIdentifier = [NSString stringWithFormat:@"%d", indexPath.row];
     
     MainViewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:SimpleIdentifier];
     
+    AttendState userAttendState;
+    UIColor *appColor = [UIColor colorWithRed:81.0f/255.0f green:127.0f/255.0f blue:172.0f/255.0f alpha:1.0f];
     if (cell == nil) {
         cell = [[MainViewTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:SimpleIdentifier];
+        
+        // Remove inset of iOS 7 separators.
+        if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+            cell.separatorInset = UIEdgeInsetsZero;
+        }
+        
+        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+        
+        cell.firstTrigger = 0.2;
+        cell.secondTrigger = 0.7;
+        
+        // Setting the background color of the cell.
+        NSDictionary *users = [event objectForKey:@"users"];
+        int user_count = [[users objectForKey:@"user_count"] intValue];
+        for (int i=1; i<=user_count; i++) {
+            NSDictionary *user = [users objectForKey:[NSString stringWithFormat:@"%d", i]];
+            if ([[user objectForKey:@"name"] isEqualToString:[[NSUserDefaults standardUserDefaults] objectForKey:@"name"]])
+            {
+                // if this user is attending
+                if ([[user objectForKey:@"status"] integerValue] == 1)
+                {
+                    userAttendState = ATTENDING;
+                    cell.statusBar.color = appColor;
+                    [cell setEnabled];
+                }
+                else if([[user objectForKey:@"status"] integerValue] == -1)
+                {
+                    userAttendState = DECLINED;
+                    cell.statusBar.color = [UIColor lightGrayColor];
+                    [cell setTransparentDisabled];
+                }
+                else
+                {
+                    userAttendState = NO_ANSWER;
+                    cell.statusBar.color = [UIColor lightGrayColor];
+                }
+            }
+        }
+        cell.contentView.backgroundColor = [UIColor whiteColor];
     }
     
-    NSDictionary *event = self.eventList[indexPath.row];
+    if (!cell.profpic)
+    {
+        [cell loadImageWithCreator:[event objectForKey:@"creator"]];
+        cell.imageView.image = [UIImage imageNamed:@"profilepic.png"];
+        UIImage *image = cell.imageView.image;
+        CGSize targetSize = CGSizeMake(42,42);
+        UIGraphicsBeginImageContext(targetSize);
+        
+        CGRect thumbnailRect = CGRectMake(0, 0, 0, 0);
+        thumbnailRect.origin = CGPointMake(0.0,0.0);
+        thumbnailRect.size.width  = targetSize.width;
+        thumbnailRect.size.height = targetSize.height;
+        
+        [image drawInRect:thumbnailRect];
+        
+        cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
+        
+        UIGraphicsEndImageContext();
+    }
+    else
+    {
+        cell.imageView.image = cell.profpic;
+    }
+    
+    // Configuring the views and colors.
+    UIView *checkView = [self viewWithImageName:@"check"];
+    
+    UIView *crossView = [self viewWithImageName:@"cross"];
+    UIColor *redColor = [UIColor colorWithRed:232.0 / 255.0 green:61.0 / 255.0 blue:14.0 / 255.0 alpha:1.0];
+    
+    UIView *clockView = [self viewWithImageName:@"clock"];
+    UIColor *yellowColor = [UIColor colorWithRed:254.0 / 255.0 green:217.0 / 255.0 blue:56.0 / 255.0 alpha:1.0];
+    
+    UIView *listView = [self viewWithImageName:@"list"];
+    UIColor *brownColor = [UIColor colorWithRed:206.0 / 255.0 green:149.0 / 255.0 blue:98.0 / 255.0 alpha:1.0];
+    
+    // Setting the default inactive state color to the tableView background color.
+    [cell setDefaultColor:[UIColor lightGrayColor]];
+    
+    // Adding gestures per state basis.
+    [cell setSwipeGestureWithView:checkView color:appColor mode:MCSwipeTableViewCellModeSwitch state:MCSwipeTableViewCellState1 completionBlock:^(MCSwipeTableViewCell *cell, MCSwipeTableViewCellState state, MCSwipeTableViewCellMode mode) {
+        NSLog(@"Did swipe \"Checkmark\" cell");
+        ((MainViewTableViewCell *)cell).statusBar.color = appColor;
+        [(MainViewTableViewCell *)cell setEnabled];
+        [((MainViewTableViewCell *)cell).statusBar setNeedsDisplay];
+        _myRequester = [[HandleRequest alloc] initWithSelector:@"handleGoingToEvent:" andDelegate:self];
+        NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:[event objectForKey:@"event"], @"event", @1, @"status",nil];
+        [_myRequester createRequestWithType:POST forExtension:@"/event/update_user_status" withDictionary:d];
+    }];
+    
+    [cell setSwipeGestureWithView:crossView color:redColor mode:MCSwipeTableViewCellModeSwitch state:MCSwipeTableViewCellState3 completionBlock:^(MCSwipeTableViewCell *cell, MCSwipeTableViewCellState state, MCSwipeTableViewCellMode mode) {
+        NSLog(@"Did swipe \"Cross\" cell");
+        ((MainViewTableViewCell *)cell).statusBar.color = [UIColor lightGrayColor];
+        [(MainViewTableViewCell *)cell setTransparentDisabled];
+        [((MainViewTableViewCell *)cell).statusBar setNeedsDisplay];
+        _myRequester = [[HandleRequest alloc] initWithSelector:@"handleNotGoingToEvent:" andDelegate:self];
+        NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:[event objectForKey:@"event"], @"event", @-1, @"status",nil];
+        [_myRequester createRequestWithType:POST forExtension:@"/event/update_user_status" withDictionary:d];
+    }];
+    
+    [cell setSwipeGestureWithView:clockView color:yellowColor mode:MCSwipeTableViewCellModeSwitch state:MCSwipeTableViewCellState2 completionBlock:^(MCSwipeTableViewCell *cell, MCSwipeTableViewCellState state, MCSwipeTableViewCellMode mode) {
+        NSLog(@"Did swipe \"Clock\" cell");
+    }];
+    
+    [cell setSwipeGestureWithView:listView color:brownColor mode:MCSwipeTableViewCellModeSwitch state:MCSwipeTableViewCellState4 completionBlock:^(MCSwipeTableViewCell *cell, MCSwipeTableViewCellState state, MCSwipeTableViewCellMode mode) {
+        NSLog(@"Did swipe \"List\" cell");
+    }];
     
     // test
     NSDate *time = [NSDate dateWithTimeIntervalSince1970:[[event objectForKey:@"time"] integerValue]];
@@ -281,9 +443,9 @@
     subString = [[NSAttributedString alloc] initWithString:[event objectForKey:@"location"] attributes:attributes];
     [title appendAttributedString:subString];
     
-    if ([title length] > 35)
+    if ([title length] > 27)
     {
-        title = [[NSMutableAttributedString alloc] initWithAttributedString:[title attributedSubstringFromRange:NSMakeRange(0, 35)]];
+        title = [[NSMutableAttributedString alloc] initWithAttributedString:[title attributedSubstringFromRange:NSMakeRange(0, 27)]];
         subString = [[NSAttributedString alloc] initWithString:@".." attributes:attributes];
         [title appendAttributedString:subString];
     }
@@ -296,16 +458,32 @@
     int user_count = [[users objectForKey:@"user_count"] intValue];
     for (int i=1; i<=user_count; i++) {
         NSDictionary *user = [users objectForKey:[NSString stringWithFormat:@"%d", i]];
-        if ([cell.detailTextLabel.text isEqualToString:@""] || cell.detailTextLabel.text == NULL)
-            cell.detailTextLabel.text = [user objectForKey:@"name"];
-        else
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"%@, %@", cell.detailTextLabel.text, [user objectForKey:@"name"]];
+        NSString *name = [user objectForKey:@"name"];
         
         // +X functionality
-        if ([cell.detailTextLabel.text length] > 20)
+        // fix for ", " existing only
+        if ([cell.detailTextLabel.text length] > 34)
         {
             if (i != user_count) {
                 cell.detailTextLabel.text = [NSString stringWithFormat:@"%@.. +%d", cell.detailTextLabel.text, user_count-i];
+                break;
+            }
+        }
+        
+        if ([cell.detailTextLabel.text isEqualToString:@""] || cell.detailTextLabel.text == NULL)
+            cell.detailTextLabel.text = name;
+        else
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"%@, %@", cell.detailTextLabel.text, name];
+        
+        // +X functionality
+        if ([cell.detailTextLabel.text length] > 30)
+        {
+            cell.detailTextLabel.text = [[NSString alloc] initWithString:[cell.detailTextLabel.text substringWithRange:NSMakeRange(0, 30)]];
+            if (i != user_count) {
+                cell.detailTextLabel.text = [NSString stringWithFormat:@"%@.. +%d", cell.detailTextLabel.text, user_count-i];
+                break;
+            } else {
+                cell.detailTextLabel.text = [NSString stringWithFormat:@"%@..", cell.detailTextLabel.text];
                 break;
             }
         }

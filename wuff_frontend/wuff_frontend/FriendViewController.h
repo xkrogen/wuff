@@ -13,11 +13,14 @@
 #import "SettingsTabViewController.h"
 #import "MSSlidingPanelController.h"
 #import "MSViewControllerSlidingPanel.h"
+#import "AddFriendViewController.h"
+#import "LoginViewController.h"
 
 @interface FriendViewController : UIViewController <MSSlidingPanelControllerDelegate, UITableViewDataSource, UITabBarDelegate>
 
 @property(nonatomic, strong) HandleRequest *myRequester;
 @property (nonatomic) NSMutableArray *friendList;
+
 @property (nonatomic, strong) IBOutlet UITableView *mainTable;
 
 -(void) handleFriendResponse:(NSDictionary *)data;

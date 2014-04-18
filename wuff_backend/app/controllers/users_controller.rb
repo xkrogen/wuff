@@ -73,12 +73,13 @@ class UsersController < ApplicationController
     respond(SUCCESS, { user_id: current_user.id, email: current_user.email, name: current_user.name })
   end
 
-  # GET /user/get_profile_pic
+  # POST /user/get_profile_pic
   # Supports retrival of profile picture via Facebook Graph
   # ERR_UNSUCCESFUL if email not valid, or corresponding user does not have facebook credentials
   # returns url to picture
   def get_profile_pic
     @user = User.find_by(email: params[:email])
+    @user = User.find_by(id: params[:user_id]) if @user == nil
     if @user == nil || @user.fb_id == nil
       respond(ERR_UNSUCCESSFUL)
       return

@@ -160,11 +160,20 @@
     NSLog(@"token: %@\nUserID: %@",token,userID);
     
     
-    NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:userID, @"face_book_id", token, @"facebook_token", nil];
+    NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:userID, @"facebook_id", token, @"facebook_token", nil];
     
     //Code to send POST Request
     _myRequester = [[HandleRequest alloc] initWithSelector:@"handleSignInResponse:" andDelegate:self];
     [_myRequester createRequestWithType:POST forExtension:@"/user/auth_facebook" withDictionary:d];
+    
+    /*
+    HandleRequest *changeProfilePic = [[HandleRequest alloc] initWithSelector:nil andDelegate:nil];
+    NSDictionary *p = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=small", [user username]], @"pic_url", nil];
+    [changeProfilePic createRequestWithType:POST
+                               forExtension:@"/user/set_profile_pic" withDictionary:p];
+    
+    */
+    
     
     // close the keyboard
     [self.view endEditing:YES];

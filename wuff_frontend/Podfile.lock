@@ -1,13 +1,16 @@
 PODS:
+  - MCSwipeTableViewCell (2.1.0)
   - MLPAutoCompleteTextField (1.5)
   - MSSlidingPanelController (1.3.1)
 
 DEPENDENCIES:
+  - MCSwipeTableViewCell
   - MLPAutoCompleteTextField (~> 1.5)
   - MSSlidingPanelController
 
 SPEC CHECKSUMS:
+  MCSwipeTableViewCell: 4a26851568843d15340eeca00210c219aa9f76d5
   MLPAutoCompleteTextField: 8baf7b9a78cbc6022a50f985c1c56784248821fe
   MSSlidingPanelController: c2000dfaa064212ce531526e731007d5b6edda0b
 
-COCOAPODS: 0.29.0
+COCOAPODS: 0.32.1

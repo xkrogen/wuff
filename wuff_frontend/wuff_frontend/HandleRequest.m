@@ -39,6 +39,7 @@
     return false;
 }
 
+
 -(bool)createRequestWithType:(HTTPRequestType)requestType forExtension:(NSString *)extensionURL withDictionary:(NSDictionary *)json_dict
 {
     NSError *error = nil;
@@ -83,7 +84,6 @@
                 [request setHTTPMethod:@"POST"];
                 break;
         }
-        NSLog(@"method: %@", request.HTTPMethod);
         NSString *cookie_stored = [[NSUserDefaults standardUserDefaults] objectForKey:@"cookieString"];
         // if we do have a current user token
         if (!([cookie_stored isEqualToString:@""] || cookie_stored == NULL))
@@ -95,7 +95,7 @@
         // if there is no connection going on, start a new connection
         if (!_connection)
         {
-            NSLog(@"wt: %@", request.URL);
+            NSLog(@"URL: %@", URL_str);
             _connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES];
         }
     }
@@ -111,7 +111,7 @@
     
     NSString *cookie_stored = [[NSUserDefaults standardUserDefaults] objectForKey:@"cookieString"];
     // if we don't have a current user token
-    if ([cookie_stored isEqualToString:@""] || cookie_stored == NULL)
+    if ([cookie_stored isEqualToString:@""] || !cookie_stored )
     {
         NSDictionary *fields = [HTTPResponse allHeaderFields];
         

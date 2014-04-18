@@ -14,6 +14,7 @@
 #import "SettingsTabViewController.h"
 #import "MLPAutoCompleteTextField.h"
 #import "UserAutoCompletionObject.h"
+#import "AddFriendViewController.h"
 
 @interface AddFriendViewController : UIViewController
     @property(nonatomic, strong) IBOutlet UITextField *emailInputView;
