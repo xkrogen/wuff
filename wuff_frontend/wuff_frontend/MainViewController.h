@@ -17,6 +17,7 @@
 #import "AppDelegate.h"
 #import "MainViewTableViewCell.h"
 #import "ConditionalViewController.h"
+@class SettingsTabViewController;
 
 #pragma mark - Interface
 
@@ -26,6 +27,7 @@
 @property (nonatomic) NSMutableArray *eventList;
 @property (nonatomic, strong) IBOutlet UITableView *mainTable;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
+@property (nonatomic, strong) SettingsTabViewController *settingsTabController;
 
 -(IBAction)createEvent;
 -(IBAction)openSettingsPanel;

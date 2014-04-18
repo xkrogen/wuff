@@ -15,12 +15,15 @@
 #import "FriendViewController.h"
 #import "SettingsTableViewCell.h"
 #import "GroupCreateViewController.h"
+#import "MainViewTableViewCell.h"
 
 @interface SettingsTabViewController : UIViewController <MSSlidingPanelControllerDelegate, UITableViewDataSource, UITabBarDelegate>
 
 @property (nonatomic, strong) IBOutlet UITableView *table;
 @property(nonatomic, strong) HandleRequest *myRequester;
 @property (nonatomic, strong) NSMutableArray *menuList;
+
+-(void)loadGroups;
 
 
 @end

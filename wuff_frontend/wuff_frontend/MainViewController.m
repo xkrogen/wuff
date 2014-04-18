@@ -7,6 +7,7 @@
 //
 
 #import "MainViewController.h"
+#import "SettingsTabViewController.h"
 
 typedef enum {
     ATTENDING,
@@ -108,6 +109,9 @@ typedef enum {
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    if (self.settingsTabController)
+        [self.settingsTabController loadGroups];
     
     //Code to send POST Request
      _myRequester = [[HandleRequest alloc] initWithSelector:@"handleMainResponse:" andDelegate:self];
@@ -405,6 +409,7 @@ typedef enum {
         ((MainViewTableViewCell *)cell).statusBar.color = appColor;
         [(MainViewTableViewCell *)cell setEnabled];
         [((MainViewTableViewCell *)cell).statusBar setNeedsDisplay];
+        
         _myRequester = [[HandleRequest alloc] initWithSelector:@"handleGoingToEvent:" andDelegate:self];
         NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:[event objectForKey:@"event"], @"event", @1, @"status",nil];
         [_myRequester createRequestWithType:POST forExtension:@"/event/update_user_status" withDictionary:d];
@@ -415,6 +420,7 @@ typedef enum {
         ((MainViewTableViewCell *)cell).statusBar.color = [UIColor lightGrayColor];
         [(MainViewTableViewCell *)cell setTransparentDisabled];
         [((MainViewTableViewCell *)cell).statusBar setNeedsDisplay];
+        
         _myRequester = [[HandleRequest alloc] initWithSelector:@"handleNotGoingToEvent:" andDelegate:self];
         NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:[event objectForKey:@"event"], @"event", @-1, @"status",nil];
         [_myRequester createRequestWithType:POST forExtension:@"/event/update_user_status" withDictionary:d];
