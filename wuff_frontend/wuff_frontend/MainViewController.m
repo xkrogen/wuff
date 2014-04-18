@@ -412,7 +412,11 @@ typedef enum {
     }];
     
     [cell setSwipeGestureWithView:clockView color:yellowColor mode:MCSwipeTableViewCellModeSwitch state:MCSwipeTableViewCellState2 completionBlock:^(MCSwipeTableViewCell *cell, MCSwipeTableViewCellState state, MCSwipeTableViewCellMode mode) {
-        NSLog(@"Did swipe \"Clock\" cell");
+        //Conditional Acceptancew
+        ConditionalViewController *vc = [[ConditionalViewController alloc]initWithNibName:nil bundle:nil];
+        vc.event = [event objectForKey:@"event"];
+        [self presentViewController:vc animated:YES completion:nil];
+        
     }];
     
     [cell setSwipeGestureWithView:listView color:brownColor mode:MCSwipeTableViewCellModeSwitch state:MCSwipeTableViewCellState4 completionBlock:^(MCSwipeTableViewCell *cell, MCSwipeTableViewCellState state, MCSwipeTableViewCellMode mode) {
