@@ -16,6 +16,7 @@
 #import "MSViewControllerSlidingPanel.h"
 #import "AppDelegate.h"
 #import "MainViewTableViewCell.h"
+#import "ConditionalViewController.h"
 
 #pragma mark - Interface
 

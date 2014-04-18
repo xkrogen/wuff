@@ -13,6 +13,8 @@
 		187D8D5A18EA4F7400E5EA1B /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 187D8C3518EA4F7300E5EA1B /* README.txt */; };
 		18A7C1441900D3C2003D135D /* GroupCreateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A7C1431900D3C2003D135D /* GroupCreateViewController.m */; };
 		18A7C1461900D3D4003D135D /* GroupCreateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18A7C1451900D3D4003D135D /* GroupCreateViewController.xib */; };
+		18A7C14A1900EB2F003D135D /* ConditionalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A7C1481900EB2F003D135D /* ConditionalViewController.m */; };
+		18A7C14B1900EB2F003D135D /* ConditionalViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18A7C1491900EB2F003D135D /* ConditionalViewController.xib */; };
 		2FA263EFF5754A148A72C75D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 044995168A7147F2923F3E70 /* libPods.a */; };
 		3224245E18EC949F003E7E7F /* AddFriendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3224245C18EC949F003E7E7F /* AddFriendViewController.m */; };
 		3224246318EC9EA0003E7E7F /* FriendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3224246118EC9EA0003E7E7F /* FriendViewController.m */; };
@@ -84,6 +86,9 @@
 		18A7C1421900D3B4003D135D /* GroupCreateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupCreateViewController.h; sourceTree = "<group>"; };
 		18A7C1431900D3C2003D135D /* GroupCreateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupCreateViewController.m; sourceTree = "<group>"; };
 		18A7C1451900D3D4003D135D /* GroupCreateViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GroupCreateViewController.xib; sourceTree = "<group>"; };
+		18A7C1471900EB2F003D135D /* ConditionalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConditionalViewController.h; sourceTree = "<group>"; };
+		18A7C1481900EB2F003D135D /* ConditionalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConditionalViewController.m; sourceTree = "<group>"; };
+		18A7C1491900EB2F003D135D /* ConditionalViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConditionalViewController.xib; sourceTree = "<group>"; };
 		21C7EA91E60F44E4B5D21A16 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		3224245B18EC949F003E7E7F /* AddFriendViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddFriendViewController.h; sourceTree = "<group>"; };
 		3224245C18EC949F003E7E7F /* AddFriendViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddFriendViewController.m; sourceTree = "<group>"; };
@@ -272,6 +277,9 @@
 				6C6216BC18D0390F0006048A /* LoginViewController.h */,
 				6C6216BD18D0390F0006048A /* LoginViewController.m */,
 				6C6216BE18D0390F0006048A /* LoginViewController.xib */,
+				18A7C1471900EB2F003D135D /* ConditionalViewController.h */,
+				18A7C1481900EB2F003D135D /* ConditionalViewController.m */,
+				18A7C1491900EB2F003D135D /* ConditionalViewController.xib */,
 				6C13DDAC18C41EFD0032A56C /* Images.xcassets */,
 				6C13DD9B18C41EFD0032A56C /* Supporting Files */,
 			);
@@ -426,6 +434,7 @@
 				6C13DD9F18C41EFD0032A56C /* InfoPlist.strings in Resources */,
 				18A7C1461900D3D4003D135D /* GroupCreateViewController.xib in Resources */,
 				187D8D5918EA4F7400E5EA1B /* LICENSE in Resources */,
+				18A7C14B1900EB2F003D135D /* ConditionalViewController.xib in Resources */,
 				6C71D56019004C8C004334EA /* cross@2x.png in Resources */,
 				6C71D55B19004C8C004334EA /* check.png in Resources */,
 				6C71D55D19004C8C004334EA /* clock.png in Resources */,
@@ -493,6 +502,7 @@
 				6C6216BA18D037AA0006048A /* EventCreateViewController.m in Sources */,
 				322B9B2F18D013C70084AAF9 /* EventViewController.m in Sources */,
 				6C4AFBDA18E78D67001BCEBB /* SettingsTabViewController.m in Sources */,
+				18A7C14A1900EB2F003D135D /* ConditionalViewController.m in Sources */,
 				3224245E18EC949F003E7E7F /* AddFriendViewController.m in Sources */,
 				322B9B3E18D256C80084AAF9 /* MainViewController.m in Sources */,
 				6CF7E1B618CA538F00880712 /* HandleRequest.m in Sources */,
