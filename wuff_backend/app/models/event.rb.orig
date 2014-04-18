@@ -1,5 +1,6 @@
 require 'EventNotification'
 require 'FriendNotification'
+require 'NoCondition'
 
 class Event < ActiveRecord::Base
 
@@ -17,6 +18,8 @@ class Event < ActiveRecord::Base
 	def is_valid?
 		return ERR_INVALID_NAME if name.blank? || name.length > NAME_MAX_LENGTH
 		return ERR_INVALID_TIME if time.blank? || Time.at(time).to_datetime.past?
+
+		# NOTE: For future iteration, allow time a few minutes in the past to allow for possible time lags
 
 		return ERR_INVALID_FIELD if (admin.blank? || party_list.blank? || !party_list.is_a?(Hash))
 
@@ -37,7 +40,6 @@ class Event < ActiveRecord::Base
 	# Returns:
 	#  * Error code ( < 0 ) upon failure
 	#  * ID of new Event ( > 0 ) upon success
-<<<<<<< HEAD
 	def self.add_event(name, admin_id, time, user_list, description = "", location = "")
 
 		return ERR_INVALID_FIELD if not user_list.respond_to?('each')
@@ -47,26 +49,9 @@ class Event < ActiveRecord::Base
 			return ERR_INVALID_FIELD if not is_valid_user_id?(user_id)
 		end
 
-=======
-	def self.add_event(name, admin_id, time, list_of_users, description = "", location = "")
+		description = "" if not description 
+		location = "" if not location
 
-		user_list = {}
-
-		return ERR_INVALID_FIELD if not list_of_users.respond_to?('each')
-		return ERR_INVALID_FIELD if not list_of_users.include?(admin_id)
-		
-		list_of_users.each do |user_id|
-			if !is_valid_user_id?(user_id)
-				return ERR_INVALID_FIELD
-			else
-				user_list[user_id] = { status: STATUS_NO_RESPONSE }
-				user_list_has_admin = true if user_id == admin_id
-			end
-		end
-
-		user_list[admin_id][:status] = STATUS_ATTENDING 
-
->>>>>>> sampson
 		@event = Event.new(name: name, admin: admin_id, 
 			description: description, location: location, 
 			party_list: {}, time:time)
@@ -88,6 +73,34 @@ class Event < ActiveRecord::Base
 		return @event.id
 	end
 
+	# Edits self, according to the new information given in event_info_hash. 
+	# Valid keys are :name, :time, :description, :location.
+	# Returns ERR_INVALID_NAME or ERR_INVALID_TIME if those fields
+	# are invalid, else returns SUCCESS.
+	def edit_event(event_info_hash) 
+		if event_info_hash.has_key?(:name)
+			new_name = event_info_hash[:name]
+			return ERR_INVALID_NAME if new_name.blank? || new_name.length > NAME_MAX_LENGTH
+			self.name = new_name
+			self.update_attribute(:name, new_name)
+		end
+		if event_info_hash.has_key?(:time)
+			new_time = event_info_hash[:time].to_i
+			return ERR_INVALID_TIME if new_time.blank? || Time.at(new_time).to_datetime.past?
+			self.time = new_time
+			self.update_attribute(:time, new_time)
+		end
+		if event_info_hash.has_key?(:description)
+			self.description = event_info_hash[:description]
+			self.update_attribute(:description, self.description)
+		end
+		if event_info_hash.has_key?(:location)
+			self.location = event_info_hash[:location]
+			self.update_attribute(:location, self.location)
+		end
+		return SUCCESS
+	end
+
 	# Checks if the user is listed as an admin for this event.
 	def is_admin?(user_id)
 		return admin == user_id
@@ -99,7 +112,8 @@ class Event < ActiveRecord::Base
 	def add_user_list(user_list, skip_attribute_update = false)
 		user_hash = {}
 		user_list.each do |user_id|
-				user_hash[user_id] = { status: STATUS_NO_RESPONSE }
+				user_hash[user_id] = { status: STATUS_NO_RESPONSE, 
+					condition: NoCondition.new.get_hash }
 		end
 		self.party_list.merge!(user_hash) { |key, old, new| old }
 		self.update_attribute(:party_list, self.party_list) if !skip_attribute_update
@@ -113,6 +127,56 @@ class Event < ActiveRecord::Base
 		end
 	end
 
+	# Checks if there are currently any conditions which have been met.
+	# If there are, and the user is currently not attending, their status
+	# is changed to attending and they are notified of the change.
+	def check_conditions
+
+		# Helper method to carry out the change of status, notification,
+		# and marking condition as completed. Just does nothing if the user is 
+		# already attending (so you can call it any time a condition is satisfied
+		# regardless of whether or not the user is already attending)
+
+		# complete_condition( user_id, condition )
+
+	end
+
+	# Add a conditional acceptance for the given user.
+	# Does nothing if the user is not a member of this event.
+	# After adding the condition, checks if any conditions have been met
+	# and takes appropriate action. 
+	def add_condition(user_id, condition)
+		return if not party_list.has_key?(user_id)
+		party_list[user_id][:condition] = condition.get_hash
+		update_attribute(:party_list, party_list)
+		check_conditions
+	end
+
+	# Removes the current conditional acceptance from this user.
+	# Does nothing if the user is not a member of the event or 
+	# if the user doesn't currently have any conditions.
+	def remove_condition(user_id)
+		return if not party_list.has_key?(user_id)
+		party_list[user_id][:condition] = NoCondition.new.get_hash
+		update_attribute(:party_list, party_list)
+	end
+
+	# Cancels this event, removing it from all of it's associated
+	# users. Does not actually delete the event -- should subsequently
+	# call event.destroy to remove it from the database. 
+	def cancel_self
+		party_list.each_key { |user_id| User.find(user_id).delete_event(self.id) }
+	end
+
+	# Removes user_id from the event. Does nothing if 
+	# the user isn't currently in the event, or if
+	# the admin attempts to remove itself. 
+	def remove_user(user_id)
+		return if is_admin?(user_id)
+		party_list.delete(user_id)
+		self.update_attribute(:party_list, party_list)
+	end
+
 	# Returns the user's status for this event: STATUS_ATTENDING,
 	# STATUS_NOT_ATTENDING, STATUS_NO_RESPONSE. Returns nil
 	# if the user is not a part of this event.
@@ -122,10 +186,14 @@ class Event < ActiveRecord::Base
 	end
 
 	# Sets the user's status for this event. Does nothing if user_id
-	# is not a member of this event.
+	# is not a member of this event. Triggers a rechecking of all
+	# user conditions to check if any new conditions are met as a result
+	# of this status change. 
 	def set_user_status(user_id, new_status)
 		party_list[user_id][:status] = new_status if party_list.has_key?(user_id)
 		self.update_attribute(:party_list, party_list)
+
+		check_conditions
 	end
 
 	# Notifies the users within user_list using NOTIFICATION. 
@@ -141,6 +209,7 @@ class Event < ActiveRecord::Base
 				rescue ActiveRecord::RecordNotFound
 					next
 				end
+				notification.send_push(user)
 				user.post_notification(notification)
 			end
 		else
@@ -151,16 +220,17 @@ class Event < ActiveRecord::Base
 				rescue ActiveRecord::RecordNotFound
 					next
 				end
+				notification.send_push(user)
 				user.post_notification(notification)
 			end
 		end
 	end
 
 	# Returns a hash with all of the relevant information for this event.
-	# { $event: eventID, $name: event_name, $creator: event_creator,  
-	#   $time: time, $location: location, $users: user_list }  
+	# { $event: eventID, $title: event_name, $creator: event_creator,  
+	#   $time: time, $location: location, $description: description,
+	#   $users: user_list }  
 	def get_hash
-<<<<<<< HEAD
 		user_list = {}
 		user_count = 0
 		party_list.each do |key, value|
@@ -170,22 +240,67 @@ class Event < ActiveRecord::Base
 					email: curr_user.email, status: value[:status] }
 		end
 		user_list[:user_count] = user_count
-		{ event: self.id, name: name, creator: admin, 
-			time: time, location: location, users: user_list}
-=======
-		user_list = []
-		status_list = []
-		party_list.each do |key, value|
-			user_list << key
-			status_list << value[:status]
-		end
-		{ event: self.id, name: name, creator: admin, 
-			time: time, location: location, users: user_list.join(','),
-			status_list: status_list.join(',')}
->>>>>>> sampson
+		{ event: self.id, title: name, creator: admin, 
+			time: time, location: location, users: user_list, description: description}
 	end
 
 	private
+
+<<<<<<< HEAD
+=======
+	# solves horn formula
+	# input clauses = [ { operands: [uid] || count, value: uid } ]
+	# returns hash of each value assigned to a satisfying boolean value
+	def compute_horn_formula(clauses)
+		lookup = Hash.new
+		clauses.each { |clause| lookup[clause[:value]] = false }
+		falses = 0
+		begin
+			changed = false
+			lookup.each { |key, value| falses += 1 if !value}
+
+			clauses.each do |clause|
+				if lookup[clause[:value]]
+					next
+				elsif clause[:operands] == nil
+					lookup[clause[:value]] = true
+					changed = true
+				else
+					lhs = true
+
+					if clause[:operands].kind_of?(Array)
+						clause[:operands].each { |operand| lhs = lhs && lookup[operand] }
+					else
+						lhs = (falses < clause[:operands])
+					end
+					
+					if lhs != lookup[clause[:value]]
+						lookup[clause[:value]] = lhs
+						changed = true
+					end
+				end
+			end
+		end while !changed
+		return lookup
+	end
+
+>>>>>>> sampson
+	# Method to change a user's status to STATUS_ATTENDING in this event
+	# due to an acceptance resulting from condition. Changes their status, sets
+	# the condition as met, and notifies the user of the change. For internal 
+	# use by check_conditions to act on users whose conditions are met.
+	# Does nothing if the user's status was already STATUS_ATTENDING or
+	# if the user is not present in the party_list
+	def complete_condition(user_id, condition)
+		return if not party_list.has_key?(user_id)
+		return if get_user_status(user_id) == STATUS_ATTENDING
+		set_user_status(user_id, STATUS_ATTENDING)
+		condition.met
+		notif = ConditionNotification.new(NOTIF_COND_MET, self, condition)
+		notify(notif, [ user_id ])
+		party_list[user_id][:condition][:cond_met] = COND_MET
+		update_attribute(:party_list, party_list)
+	end
 
 	# Takes in a string, USER_ID, and checks if it is a valid 
 	# user id

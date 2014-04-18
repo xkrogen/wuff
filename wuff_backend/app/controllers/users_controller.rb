@@ -73,7 +73,7 @@ class UsersController < ApplicationController
     respond(SUCCESS, { user_id: current_user.id, email: current_user.email, name: current_user.name })
   end
 
-  # GET /user/get_profile_pic
+  # POST /user/get_profile_pic
   # Supports retrival of profile picture via Facebook Graph
   # ERR_UNSUCCESFUL if email not valid, or corresponding user does not have facebook credentials
   # returns url to picture

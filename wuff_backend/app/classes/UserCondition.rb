@@ -20,10 +20,10 @@ class UserCondition < Condition
 				next
 			end
 			user_count += 1
-			user_list[user_count] = { name: user.name, email: user.email, uid: user.id }
+			user_list[user_count] = { name: user.name, email: user.email }
 		end
 		user_list[:user_count] = user_count
-		return { cond_type: @cond_type, cond_met: @cond_met, user_list: user_list }
+		return { cond_type: @cond_type, cond_met: @cond_met, user_list: user_list, id_list: @user_ids }
 	end
 
 	# Return a list of users for condition literal

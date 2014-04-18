@@ -1,5 +1,6 @@
 require 'EventNotification'
 require 'FriendNotification'
+require 'ConditionNotification'
 require 'NoCondition'
 
 class Event < ActiveRecord::Base
@@ -131,41 +132,81 @@ class Event < ActiveRecord::Base
 	# If there are, and the user is currently not attending, their status
 	# is changed to attending and they are notified of the change.
 	def check_conditions
-
-		# Helper method to carry out the change of status, notification,
-		# and marking condition as completed. Just does nothing if the user is 
-		# already attending (so you can call it any time a condition is satisfied
-		# regardless of whether or not the user is already attending)
-
-		# complete_condition( user_id, condition )
-
 		clauses = Array.new
 		party_list.each do |uid, hash|
 			cond = hash[:condition]
 			if cond[:cond_type] != COND_NONE && cond[:cond_met] == COND_MET
-				next
-			end
-			if cond[:cond_type] == COND_NUM_ATTENDING
+				clause.push({ operands: false, value: uid })
+			elsif cond[:cond_type] == COND_NUM_ATTENDING
 				clauses.push({ operands: cond[:num_users], value: uid })
+
 			elsif cond[:cond_type] == COND_USER_ATTENDING_ANY
-				oper = []
-				cond[:user_list].each { |key, value| oper.push(value[:uid]) }
+
+				oper = Array.new
+				cond[:id_list].each { |id| oper.push(id)}
+				#cond[:user_list].each { |key, value| oper.push(value[:uid]) }
 				clauses.push({ operands: oper, value: uid })
+
 			elsif cond[:cond_type] == COND_USER_ATTENDING_ALL
-				cond[:user_list].each do |count, table|
-					clauses.push({ operands: [table[:uid]], value: uid })
+				#cond[:user_list].each do |count, table|
+				cond[:id_list].each do |id|
+					clauses.push({ operands: [id], value: uid})
+					#clauses.push({ operands: [table[:uid]], value: uid })
 				end
 			else
-				clauses.push({ operands: nil, value: uid}) if hash[:status] != STATUS_ATTENDING
+				if hash[:status] == STATUS_ATTENDING
+					clauses.push({ operands: false, value: uid})
+				else
+					clauses.push({ operands: true, value: uid})
+				end
 			end
 		end
-		result = compute_horn_formula(clauses)
+		result = Event.compute_horn_formula(clauses)
 
 		result.each do |uid, value|
 			if party_list[uid][:condition][:cond_met] == COND_NOT_MET && party_list[uid][:condition][:cond_type] != COND_NONE
-
+				complete_condition(uid, Condition.create_from_hash(party_list[uid][:condition])) if !value
+			end
 		end
 
+	end
+
+	# solves horn formula
+	# input clauses = [ { operands: [uid] || count, value: uid } ]
+	# returns hash of each value assigned to a satisfying boolean value
+	def self.compute_horn_formula(clauses)
+		lookup = Hash.new
+		clauses.each do |clause| 
+			lookup[clause[:value]] = false
+		end
+
+		begin
+			changed = false
+			falses = 0
+			lookup.each { |key, value| falses += 1 if !value}
+
+			clauses.each do |clause|
+				if lookup[clause[:value]]
+					next
+				end
+
+				if clause[:operands].kind_of?(Integer)
+					lhs = (falses < clause[:operands])
+				elsif clause[:operands].kind_of?(Array)
+					lhs = true
+					clause[:operands].each { |operand| lhs = lhs && lookup[operand] }
+
+				else
+					lhs = clause[:operands]
+				end
+
+				if lhs != lookup[clause[:value]]
+					lookup[clause[:value]] = lhs
+					changed = true
+				end
+			end
+		end while changed
+		return lookup
 	end
 
 	# Add a conditional acceptance for the given user.
@@ -273,41 +314,6 @@ class Event < ActiveRecord::Base
 
 	private
 
-	# solves horn formula
-	# input clauses = [ { operands: [uid] || count, value: uid } ]
-	# returns hash of each value assigned to a satisfying boolean value
-	def compute_horn_formula(clauses)
-		lookup = Hash.new
-		clauses.each { |clause| lookup[clause[:value]] = false }
-		falses = 0
-		begin
-			changed = false
-			lookup.each { |key, value| falses += 1 if !value}
-
-			clauses.each do |clause|
-				if lookup[clause[:value]]
-					next
-				elsif clause[:operands] == nil
-					lookup[clause[:value]] = true
-					changed = true
-				else
-					lhs = true
-
-					if clause[:operands].kind_of?(Array)
-						clause[:operands].each { |operand| lhs = lhs && lookup[operand] }
-					else
-						lhs = (falses < clause[:operands])
-					end
-					
-					if lhs != lookup[clause[:value]]
-						lookup[clause[:value]] = lhs
-						changed = true
-					end
-				end
-			end
-		end while !changed
-		return lookup
-	end
 
 	# Method to change a user's status to STATUS_ATTENDING in this event
 	# due to an acceptance resulting from condition. Changes their status, sets

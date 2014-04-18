@@ -110,28 +110,28 @@ describe UsersController do
 
 		describe "try to get profile_pic without facebook_id associated with user" do
 			it "should return ERR_UNSUCCESSFUL" do
-				get 'get_profile_pic', { format: 'json', email: 'test@example.com' }
+				post 'get_profile_pic', { format: 'json', email: 'test@example.com' }
 				JSON.parse(response.body)['err_code'].should eq ERR_UNSUCCESSFUL
 			end
 		end
 
 		describe "try to get profile_pic given email" do
 			it "should return url to profile_pic" do
-			@user.update_attribute(:fb_id, '517267866');
-			@user.reload
-			get 'get_profile_pic', { format: 'json', email: 'test@example.com' }
-			JSON.parse(response.body)['err_code'].should eq SUCCESS
-			JSON.parse(response.body)['pic_url'].should_not eq nil
+				@user.update_attribute(:fb_id, '517267866');
+				@user.reload
+				post 'get_profile_pic', { format: 'json', email: 'test@example.com' }
+				JSON.parse(response.body)['err_code'].should eq SUCCESS
+				JSON.parse(response.body)['pic_url'].should_not eq nil
 			end
 		end
 
 		describe "try to get profile_pic given id" do
 			it "should return url to profile_pic" do
-			@user.update_attribute(:fb_id, '517267866');
-			@user.reload
-			get 'get_profile_pic', { format: 'json', user_id: @user.id }
-			JSON.parse(response.body)['err_code'].should eq SUCCESS
-			JSON.parse(response.body)['pic_url'].should_not eq nil
+				@user.update_attribute(:fb_id, '517267866');
+				@user.reload
+				post 'get_profile_pic', { format: 'json', user_id: @user.id }
+				JSON.parse(response.body)['err_code'].should eq SUCCESS
+				JSON.parse(response.body)['pic_url'].should_not eq nil
 			end
 		end
 	end
