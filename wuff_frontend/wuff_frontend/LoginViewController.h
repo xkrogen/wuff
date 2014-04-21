@@ -26,6 +26,8 @@
 
 @property(nonatomic, strong) HandleRequest *myRequester;
 
+@property (nonatomic, readwrite) bool logging_in_fb;
+
 -(void) handleSignInResponse:(NSDictionary *)data;
 
 -(IBAction)login;

@@ -58,8 +58,8 @@
             for(int i=1; i<=group_count; i++)
             {
                 NSDictionary *group = [data objectForKey:[NSString stringWithFormat:@"%d", i]];
-                NSString *groupName = [group objectForKey:@"name"];
-                [self.menuList insertObject:groupName atIndex:3];
+                // insert it after the @"Group"
+                [self.menuList insertObject:group atIndex:3];
             }
             break;
         }
@@ -101,21 +101,35 @@
     }
     
     UIColor *textColor = [UIColor colorWithRed:220.0f/255.0f green:220.0f/255.0f blue:220.0f/255.0f alpha:1.0f];
-    cell.textLabel.attributedText = [[NSAttributedString alloc] initWithString:_menuList[indexPath.row] attributes:@{NSForegroundColorAttributeName:textColor, NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Light" size:16.0f]}];
+    
+    NSString *label;
+    NSLog(@"Class %@",[self.menuList[indexPath.row] class] );
+    if ([self.menuList[indexPath.row] isKindOfClass:[NSString class]])
+    {
+        label = self.menuList[indexPath.row];
+    }
+    else if ([self.menuList[indexPath.row] isKindOfClass:[NSDictionary class]])
+    {
+        label = [self.menuList[indexPath.row] objectForKey:@"name"];
+    }
+    else
+    {
+        label = @"???";
+    }
+    cell.detailTextLabel.attributedText = [[NSAttributedString alloc] initWithString:label attributes:@{NSForegroundColorAttributeName:textColor, NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Light" size:16.0f]}];
     [cell.detailTextLabel setTextAlignment:NSTextAlignmentRight];
     cell.backgroundColor = [UIColor colorWithRed:47.0f/255.0f green:47.0f/255.0f blue:47.0f/255.0f alpha:1.0f];
     
-    if ([_menuList[indexPath.row] isEqualToString:@"Groups"])
+    if ([label isEqualToString:@"Groups"])
     {
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         cell.imageView.image = [UIImage imageNamed:@"groups_icon.png"];
     }
-    else if ([_menuList[indexPath.row] isEqualToString:@""])
+    else if ([label isEqualToString:@""])
     {
-        //
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     }
-    else if ([_menuList[indexPath.row] isEqualToString:@"Self"])
+    else if ([label isEqualToString:@"Self"])
     {
         if (!cell.profpic)
         {
@@ -156,7 +170,19 @@
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *identifier = _menuList[indexPath.row];
+    NSString *identifier;
+    if ([self.menuList[indexPath.row] isKindOfClass:[NSString class]])
+    {
+        identifier = _menuList[indexPath.row];
+    }
+    else if([self.menuList[indexPath.row] isKindOfClass:[NSDictionary class]])
+    {
+        identifier = [_menuList[indexPath.row] objectForKey:@"name"];
+    }
+    else
+    {
+        identifier = @"???";
+    }
     
     if ([identifier isEqualToString:@"Settings"])
     {
@@ -193,8 +219,11 @@
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"name"];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"email"];
     
-    //clear facebook session
-    [FBSession.activeSession closeAndClearTokenInformation];
+    // logout of facebook if it's open
+    if (FBSession.activeSession.isOpen)
+    {
+        [FBSession.activeSession closeAndClearTokenInformation];
+    }
 }
 
 -(void) handleLogout:(NSDictionary *)response
