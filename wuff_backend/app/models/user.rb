@@ -22,11 +22,11 @@ class User < ActiveRecord::Base
 	# Serialize the list of device_tokens (array) for easy storage
 	serialize :device_tokens, Array
 
-  # The maximum length of any user credential field
-  MAX_CREDENTIAL_LENGTH = 128
-  # The minimum length of password field
-  MIN_PW_LENGTH = 6
-  # name format only contains letter or whitespace characters
+ 	# The maximum length of any user credential field
+  	MAX_CREDENTIAL_LENGTH = 128
+  	# The minimum length of password field
+  	MIN_PW_LENGTH = 6
+  	# name format only contains letter or whitespace characters
 	VALID_NAME_REGEX = /\A[a-zA-z\.']+(\s[a-zA-z\.']+)*\z/
 	# email format is [word characters and dashes][@][domain]
 	VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i

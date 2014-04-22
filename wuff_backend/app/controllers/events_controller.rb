@@ -152,6 +152,46 @@ class EventsController < ApplicationController
 		respond(SUCCESS)
 	end
 
+	# POST /event/add_conditional_acceptance
+	# Adds a conditional acceptance for this user. A user’s status will automatically
+	# be changed to STATUS_ATTENDING only if the specified condition is met. 
+	def add_cond_acceptance
+		return if not signed_in_response
+		return if not get_event
+
+		if params[:condition_type] == COND_NUM_ATTENDING
+			if params[:condition] < 0
+				respond(ERR_INVALID_FIELD)
+			end
+			@event.add_condition(current_user, NumberCondition.new(params[:condition]))
+			respond(SUCCESS)
+		elsif params[:condition_type] == COND_USER_ATTENDING_ANY
+			user_list = params[:condition].split(",").map do |email|
+				user = User.find_by(email: email.strip)
+				if user == nil
+					respond(ERR_INVALID_FIELD)
+					return 
+				end
+				user.id
+			end
+			@event.add_condition(current_user, NumberCondition.new(COND_USER_ATTENDING_ANY, params[:condition]))
+			respond(SUCCESS)
+		elsif params[:condition_type] == COND_USER_ATTENDING_ALL
+			user_list = params[:condition].split(",").map do |email|
+				user = User.find_by(email: email.strip)
+				if user == nil
+					respond(ERR_INVALID_FIELD)
+					return 
+				end
+				user.id
+			end
+			@event.add_condition(current_user, NumberCondition.new(COND_USER_ATTENDING_ALL, params[:condition]))
+			respond(SUCCESS)
+		else
+			respond[ERR_UNSUCCESSFUL]
+		end
+	end
+
 	private
 
 	# Checks if there is a properly signed in user. If there is, returns
