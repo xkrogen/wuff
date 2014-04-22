@@ -93,8 +93,6 @@
         self.paramsField.keyboardType = UIKeyboardTypeEmailAddress;
         self.autocompleteTextField.hidden = NO;
     }
-    
-    
 }
 
 -(IBAction)accept

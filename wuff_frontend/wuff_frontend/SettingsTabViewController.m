@@ -240,7 +240,6 @@
             [self presentViewController:navController animated:YES completion:nil];
             
             break;
-            
         }
         case ERR_INVALID_NAME:
             [self.view makeToast:@"Invalid Name"];

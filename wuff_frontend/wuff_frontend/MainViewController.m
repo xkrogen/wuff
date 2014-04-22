@@ -312,7 +312,6 @@ typedef enum {
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     NSDictionary *event = self.eventList[indexPath.row];
     
     NSString *SimpleIdentifier = [NSString stringWithFormat:@"%d", indexPath.row];
