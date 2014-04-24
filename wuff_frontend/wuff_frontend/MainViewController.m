@@ -478,6 +478,10 @@ typedef enum {
         NSDictionary *user = [users objectForKey:[NSString stringWithFormat:@"%d", i]];
         NSString *name = [user objectForKey:@"name"];
         
+        // don't add in your own name
+        if ([name isEqualToString:[[NSUserDefaults standardUserDefaults] objectForKey:@"name"]])
+            continue;
+        
         // +X functionality
         // fix for ", " existing only
         if ([cell.detailTextLabel.text length] > 34)
