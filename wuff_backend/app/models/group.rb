@@ -1,7 +1,7 @@
 class Group < ActiveRecord::Base
 
 	NAME_MAX_LENGTH = 40
-	# Have Rails automatically serialize the hash for storage.
+	# Have Rails automatically serialize the array for storage.
 	serialize :user_list, Array
 	validates :name, { presence: true, length: {maximum: NAME_MAX_LENGTH} }
 	validates :user_list, presence: true
@@ -46,6 +46,11 @@ class Group < ActiveRecord::Base
 		@group.add_to_user_group_lists(user_list)
 
 		return @group.id
+	end
+
+	# Returns an array of all of the IDs of users in this group.
+	def get_user_list
+		return user_list
 	end
 
 	# Edits self, according to the new information given in group_info_hash. 

@@ -239,6 +239,84 @@ describe EventsController do
 		end
 	end
 
+	describe "when inviting a group to an event (event/invite_group)" do
+
+		before do
+			@admin = User.new(name: "Test Name", email: "test@example.com",
+				password: "test_password")
+			@admin.add
+			@other = User.new(name: "Test Other", email: "t_other@example.com",
+				password: "test_password")
+			@other.add
+			@event_id = Event.add_event("Test Event", @admin.id, DateTime.current.to_i + 10, [@admin.id, @other.id])
+			@event = Event.find(@event_id)
+			@admin_token = User.new_token
+			@admin.reload
+			@other.reload
+			@admin.update_attribute(:remember_token, User.hash(@admin_token))
+			@new_user1 = User.new(name: "Friend One", email: "friend1@example.com",
+				password: "test_password")
+			@new_user1.add
+			@new_user2 = User.new(name: "Friend Two", email: "friend2@example.com",
+				password: "test_password")
+			@new_user2.add
+			@new_user1.reload
+			@new_user2.reload
+			@request.cookies['current_user_token'] = @admin_token
+		end
+
+		describe "when adding as admin" do
+			before { @group_id = Group.add_group("Test Group", [@new_user1.id, @new_user2.id]) }
+			describe "with all valid users" do
+				before do
+					post 'invite_group', { format: 'json', event: @event_id,
+						group: @group_id }
+					@admin.reload
+					@other.reload
+					@new_user1.reload
+					@new_user2.reload
+				end
+				it "should be successful" do
+					JSON.parse(response.body)['err_code'].should eq SUCCESS
+					@new_user1.event_list.should include(@event_id)
+					@new_user2.event_list.should include(@event_id) 
+					@new_user1.notification_list.should have(1).items
+					@new_user2.notification_list.should have(1).items
+					@admin.notification_list.should have(0).items
+					@other.notification_list.should have(1).items 
+					@event.reload
+					@event.get_user_status(@new_user1.id).should eq STATUS_NO_RESPONSE
+					@event.get_user_status(@new_user2.id).should eq STATUS_NO_RESPONSE
+				end				 
+			end
+
+			describe "with a duplicate user" do
+				before do
+					@event.set_user_status(@other.id, STATUS_ATTENDING)
+					group_id = Group.add_group("Test Group", [@new_user1.id, @new_user2.id, @other.id])
+					post 'invite_group', { format: 'json', event: @event_id,
+						group: group_id }
+					@admin.reload
+					@other.reload
+					@new_user1.reload
+					@new_user2.reload
+				end
+				it "should be successful but ignore duplicate" do
+					JSON.parse(response.body)['err_code'].should eq SUCCESS
+					@admin.event_list.should include(@event_id)
+					@other.event_list.should include(@event_id) 
+					@new_user2.event_list.should include(@event_id) 
+					@new_user2.notification_list.should have(1).items 
+					@admin.notification_list.should have(0).items
+					@other.notification_list.should have(1).items 
+					@event.reload
+					@event.get_user_status(@other.id).should eq STATUS_ATTENDING
+					@event.get_user_status(@new_user2.id).should eq STATUS_NO_RESPONSE
+				end	
+			end
+		end
+	end
+
 	describe "when updating an existing user's status" do
 		before do
 			@admin = User.new(name: "Test Name", email: "test@example.com",

@@ -67,6 +67,37 @@ class EventsController < ApplicationController
 		respond(SUCCESS)
 	end
 
+	# POST /event/invite_group
+	# Invites all of the members of the group to the event: 
+	# adds them to the event's party_list,
+	# adds the event to their event_list, and notifies them.
+	# You must be signed in, and you must be the admin of the event
+	# for this call to succeed. 
+	# Duplicate users (users already in the event) will be ignored.
+	# Returns ERR_INVALID_FIELD if not a valid group or event.
+	def invite_group
+		return if not signed_in_response
+		return if not get_event
+		return if not user_admin
+
+		begin
+			group = Group.find(params[:group])
+		rescue ActiveRecord::RecordNotFound
+			respond(ERR_INVALID_FIELD)
+			return
+		end
+
+		user_list = group.user_list
+		curr_party_list = @event.party_list
+		user_list.delete_if { |user_id| curr_party_list.has_key?(user_id) }
+
+		@event.add_user_list(user_list)
+		@event.add_to_user_event_lists(user_list)
+		@event.notify( EventNotification.new(NOTIF_NEW_EVENT, @event), user_list)
+
+		respond(SUCCESS)
+	end
+
   # POST /event/update_user_status
   # Updates the currently logged in user's status within this event.
   # Does nothing when attempting to change status within an 
@@ -188,7 +219,7 @@ class EventsController < ApplicationController
 			@event.add_condition(current_user, NumberCondition.new(COND_USER_ATTENDING_ALL, params[:condition]))
 			respond(SUCCESS)
 		else
-			respond[ERR_UNSUCCESSFUL]
+			respond(ERR_INVALID_FIELD)
 		end
 	end
 
