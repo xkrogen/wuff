@@ -136,7 +136,7 @@ class Event < ActiveRecord::Base
 		party_list.each do |uid, hash|
 			cond = hash[:condition]
 			if cond[:cond_type] != COND_NONE && cond[:cond_met] == COND_MET
-				clause.push({ operands: false, value: uid })
+				clauses.push({ operands: false, value: uid })
 			elsif cond[:cond_type] == COND_NUM_ATTENDING
 				clauses.push({ operands: cond[:num_users], value: uid })
 
