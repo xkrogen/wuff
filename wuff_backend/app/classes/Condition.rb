@@ -17,14 +17,8 @@ class Condition
 			return nil if not (hash.has_key?(:num_users))
 			return NumberCondition.new(hash[:num_users])
 		when COND_USER_ATTENDING_ANY, COND_USER_ATTENDING_ALL
-			return nil if not (hash.has_key?(:user_list) && hash[:user_list].has_key?(:user_count))
-			cond_user_list = []
-			for user_num in 1..hash[:user_list][:user_count]
-				user = User.find_by(email: hash[:user_list][user_num][:email])
-				return nil if user == nil
-				cond_user_list |= [ user.id ]
-			end
-			return UserCondition.new(hash[:cond_type], cond_user_list)
+			return nil if not (hash.has_key?(:id_list))
+			return UserCondition.new(hash[:cond_type], hash[:id_list])
 		end
 	end
 
