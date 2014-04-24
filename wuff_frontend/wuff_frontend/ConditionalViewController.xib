@@ -29,7 +29,7 @@
                         <action selector="typeValueChanged" destination="-1" eventType="valueChanged" id="KAr-tp-vPf"/>
                     </connections>
                 </segmentedControl>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a number" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JAe-U0-XEn" customClass="MLPAutoCompleteTextField">
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a number" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JAe-U0-XEn">
                     <rect key="frame" x="20" y="106" width="280" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -39,7 +39,7 @@
                     <rect key="frame" x="20" y="144" width="280" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                    <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
                 </textField>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Kn-Dy-Uhh">
                     <rect key="frame" x="87" y="285" width="146" height="30"/>
