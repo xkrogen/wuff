@@ -84,11 +84,24 @@
 -(IBAction)typeValueChanged {
     
     if(self.condType.selectedSegmentIndex==0) {
+        
+        
+        [self.paramsField resignFirstResponder];
+        [self.autocompleteTextField resignFirstResponder];
+        
+        self.paramsField.text = @"";
+        
         self.paramsField.placeholder = @"Enter a Number";
         self.paramsField.keyboardType = UIKeyboardTypeNumberPad;
         self.autocompleteTextField.hidden = YES;
     }
     else {
+        
+        self.paramsField.text = @"";
+        
+        [self.paramsField resignFirstResponder];
+        [self.autocompleteTextField resignFirstResponder];
+        
         self.paramsField.placeholder = @"Enter a list of Emails";
         self.paramsField.keyboardType = UIKeyboardTypeEmailAddress;
         self.autocompleteTextField.hidden = NO;

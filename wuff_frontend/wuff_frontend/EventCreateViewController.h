@@ -25,6 +25,8 @@
 @property(nonatomic, strong) IBOutlet UIDatePicker *datePicker;
 @property(nonatomic, strong) IBOutlet MLPAutoCompleteTextField *autocompleteTextField;
 
+@property(nonatomic, readwrite) bool eventBeingCreated;
+
 @property (nonatomic,retain)IBOutlet UIButton *myButton;
 
 @property(nonatomic, strong) IBOutlet UIScrollView *scrollView;

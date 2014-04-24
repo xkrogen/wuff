@@ -137,8 +137,9 @@
         case SUCCESS:
         {
             NSLog(@"Moving to main screen");
-            MainViewController *main = [[MainViewController alloc] initWithNibName:nil bundle:nil];
+            
             SettingsTabViewController *settings = [[SettingsTabViewController alloc] initWithNibName:nil bundle:Nil];
+            MainViewController *main = [[MainViewController alloc] initWithNibName:nil bundle:nil andSettingsTab:settings];
             
             MSSlidingPanelController *newView = [[MSSlidingPanelController alloc] initWithCenterViewController:main andLeftPanelController:settings];
             

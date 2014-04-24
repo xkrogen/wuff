@@ -21,11 +21,13 @@ typedef enum {
 
 @implementation MainViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil andSettingsTab:(SettingsTabViewController *)settingsTabViewController
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        self.settingsTabController = settingsTabViewController;
+        
         self.refreshControl = [[UIRefreshControl alloc] init];
         [self.refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
         [self.mainTable addSubview:self.refreshControl];
@@ -477,6 +479,10 @@ typedef enum {
     for (int i=1; i<=user_count; i++) {
         NSDictionary *user = [users objectForKey:[NSString stringWithFormat:@"%d", i]];
         NSString *name = [user objectForKey:@"name"];
+        
+        // don't add in your own name
+        if ([name isEqualToString:[[NSUserDefaults standardUserDefaults] objectForKey:@"name"]])
+            continue;
         
         // +X functionality
         // fix for ", " existing only

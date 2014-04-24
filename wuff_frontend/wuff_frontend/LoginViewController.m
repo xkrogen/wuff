@@ -101,9 +101,8 @@
             [[NSUserDefaults standardUserDefaults] setObject:[data objectForKey:@"email"] forKey:@"email"];
             [[NSUserDefaults standardUserDefaults] setObject:[data objectForKey:@"user_id"] forKey:@"user_id"];
             
-            MainViewController *main = [[MainViewController alloc] initWithNibName:nil bundle:nil];
             SettingsTabViewController *settings = [[SettingsTabViewController alloc] initWithNibName:nil bundle:Nil];
-            main.settingsTabController = settings;
+            MainViewController *main = [[MainViewController alloc] initWithNibName:nil bundle:nil andSettingsTab:settings];
             MSSlidingPanelController *newView = [[MSSlidingPanelController alloc] initWithCenterViewController:main andLeftPanelController:settings];
             [self.navigationController presentViewController:newView animated:YES completion:nil];
              

@@ -297,11 +297,9 @@
 
 -(IBAction)back
 {
-    MainViewController *main = [[MainViewController alloc] initWithNibName:nil bundle:nil];
     SettingsTabViewController *settings = [[SettingsTabViewController alloc] initWithNibName:nil bundle:Nil];
-    
+    MainViewController *main = [[MainViewController alloc] initWithNibName:nil bundle:nil andSettingsTab:settings];
     MSSlidingPanelController *newView = [[MSSlidingPanelController alloc] initWithCenterViewController:main andLeftPanelController:settings];
-    
     [self presentViewController:newView animated:YES completion:nil];
 }
 

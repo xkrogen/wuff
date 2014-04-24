@@ -183,9 +183,8 @@
         // get the UserObject that we just selected's email
         NSString *email = [(UserAutoCompletionObject *)selectedObject getEmail];
         
-
-            // set the new text
-            [self.emailInputView setText:email];
+        // set the new text
+        [self.emailInputView setText:email];
         
         // remove the text in the autocompleteTextField
         [self.autocompleteTextField setText:@""];

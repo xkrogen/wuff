@@ -23,6 +23,7 @@
 
 @interface MainViewController : UIViewController <MSSlidingPanelControllerDelegate, UITableViewDataSource, UITabBarDelegate>
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil andSettingsTab:(SettingsTabViewController *)settingsTabViewController;
 @property(nonatomic, strong) HandleRequest *myRequester;
 @property (nonatomic) NSMutableArray *eventList;
 @property (nonatomic, strong) IBOutlet UITableView *mainTable;
