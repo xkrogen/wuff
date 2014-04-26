@@ -137,9 +137,14 @@ describe Event, "creation" do
   			DateTime.current.to_i + 1000000, [@admin_id]) }
 			specify { expect(@event_id).to be > 0}
 		end
-		describe "is in the past" do
+		describe "is only 5 minutes in the past" do
 			before { @event_id = Event.add_event('Example Event', @admin_id, 
-  			DateTime.current.to_i - 30, [@admin_id]) }
+  			DateTime.current.to_i - 60*5, [@admin_id]) }
+			specify { expect(@event_id).to be > 0}
+		end
+		describe "is > 15 minutes in the past" do
+			before { @event_id = Event.add_event('Example Event', @admin_id, 
+  			DateTime.current.to_i - 60*17, [@admin_id]) }
 			specify { expect(@event_id).to eq(ERR_INVALID_TIME) }
 		end
 		describe "is negative" do

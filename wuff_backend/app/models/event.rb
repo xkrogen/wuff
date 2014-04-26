@@ -16,9 +16,10 @@ class Event < ActiveRecord::Base
 	# Validates the event. Checks to ensure that all of the fields of
 	# the event are valid. Returns SUCCESS if they are. Else, returns
 	# ERR_INVALID_NAME, ERR_INVALID_TIME, or ERR_INVALID_FIELD.
+	# Time is allowed to be up to 10 minutes in the past. 
 	def is_valid?
 		return ERR_INVALID_NAME if name.blank? || name.length > NAME_MAX_LENGTH
-		return ERR_INVALID_TIME if time.blank? || Time.at(time).to_datetime.past?
+		return ERR_INVALID_TIME if time.blank? || (time < DateTime.current.ago(60*15).to_i)
 
 		# NOTE: For future iteration, allow time a few minutes in the past to allow for possible time lags
 

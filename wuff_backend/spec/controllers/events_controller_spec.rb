@@ -75,8 +75,8 @@ describe EventsController do
 					title: "Test Event", user_list: @user.email } }
 				specify { JSON.parse(response.body)['err_code'].should eq ERR_INVALID_TIME }
 			end
-			describe " - time in the past" do
-				before { post 'create_event', { format: 'json', time: DateTime.current.to_i - 50, title: "Test Event", user_list: @user.email} }
+			describe " - time in the far past" do
+				before { post 'create_event', { format: 'json', time: DateTime.current.to_i - 60*20, title: "Test Event", user_list: @user.email} }
 				specify { JSON.parse(response.body)['err_code'].should eq ERR_INVALID_TIME }
 			end
 		end
