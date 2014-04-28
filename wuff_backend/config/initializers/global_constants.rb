@@ -33,6 +33,7 @@ NOTIF_DELETE_EVENT = 2
 NOTIF_EDIT_EVENT = 3
 NOTIF_FRIEND_ADD = 4
 NOTIF_COND_MET = 5
+NOTIF_EVENT_STARTING = 6
 
 # Condition types
 # No condition set. 

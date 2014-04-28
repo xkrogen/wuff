@@ -21,6 +21,9 @@ group :development, :test do
   gem 'simplecov', '0.8.2'
 end
 
+# Use Rufus Scheduler for task scheduling
+gem 'rufus-scheduler'
+
 # Use APNS - Apple Push Notification Service gem
 gem 'apns'
 

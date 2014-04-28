@@ -20,7 +20,7 @@ describe EventsController do
 				@other.add
 				post 'create_event', { format: 'json', 
 					user_list: "#{@user.email},#{@other.email}",
-					title: "Test Event", time: DateTime.current.to_i + 10}
+					title: "Test Event", time: DateTime.now.to_i + 10}
 				@user.reload
 				@other.reload
 				@event_id = JSON.parse(response.body)['event']
@@ -39,7 +39,7 @@ describe EventsController do
 
 			it "should return err_code of ERR_INVALID_SESSION" do
 				post 'create_event', { format: 'json', user_list: @user.email,
-					title: "Test Event", time: DateTime.current.to_i + 10}
+					title: "Test Event", time: DateTime.now.to_i + 10}
 
 				response.status.should eq 200
 				JSON.parse(response.body)['err_code'].should eq ERR_INVALID_SESSION
@@ -50,23 +50,23 @@ describe EventsController do
 		describe "with invalid/missing inputs" do
 			describe " - missing name" do
 				before { post 'create_event', { format: 'json', 
-					user_list: @user.email, time: DateTime.current.to_i} }
+					user_list: @user.email, time: DateTime.now.to_i} }
 				specify { JSON.parse(response.body)['err_code'].should eq ERR_INVALID_NAME }
 			end
 			describe " - missing user_list" do
 				before { post 'create_event', { format: 'json', 
-					title: "Test Event", time: DateTime.current.to_i} }
+					title: "Test Event", time: DateTime.now.to_i} }
 				specify { JSON.parse(response.body)['err_code'].should eq ERR_INVALID_FIELD }
 			end
 			describe " - invalid user_list 1" do
 				before { post 'create_event', { format: 'json', 
-					title: "Test Event", time: DateTime.current.to_i,
+					title: "Test Event", time: DateTime.now.to_i,
 					user_list: "userid"} }
 				specify { JSON.parse(response.body)['err_code'].should eq ERR_INVALID_FIELD }
 			end
 			describe " - invalid user_list 2" do
 				before { post 'create_event', { format: 'json', 
-					title: "Test Event", time: DateTime.current.to_i,
+					title: "Test Event", time: DateTime.now.to_i,
 					user_list: "#{@user.email},userid"} }
 				specify { JSON.parse(response.body)['err_code'].should eq ERR_INVALID_FIELD }
 			end
@@ -76,7 +76,7 @@ describe EventsController do
 				specify { JSON.parse(response.body)['err_code'].should eq ERR_INVALID_TIME }
 			end
 			describe " - time in the far past" do
-				before { post 'create_event', { format: 'json', time: DateTime.current.to_i - 60*20, title: "Test Event", user_list: @user.email} }
+				before { post 'create_event', { format: 'json', time: DateTime.now.to_i - 60*20, title: "Test Event", user_list: @user.email} }
 				specify { JSON.parse(response.body)['err_code'].should eq ERR_INVALID_TIME }
 			end
 		end
@@ -91,7 +91,7 @@ describe EventsController do
 			@other = User.new(name: "Test Other", email: "t_other@example.com",
 				password: "test_password")
 			@other.add
-			@event_id = Event.add_event("Test Event", @admin.id, DateTime.current.to_i + 10, [@admin.id, @other.id])
+			@event_id = Event.add_event("Test Event", @admin.id, DateTime.now.to_i + 10, [@admin.id, @other.id])
 			@event = Event.find(@event_id)
 			@admin_token = User.new_token
 			@other_token = User.new_token
@@ -248,7 +248,7 @@ describe EventsController do
 			@other = User.new(name: "Test Other", email: "t_other@example.com",
 				password: "test_password")
 			@other.add
-			@event_id = Event.add_event("Test Event", @admin.id, DateTime.current.to_i + 10, [@admin.id, @other.id])
+			@event_id = Event.add_event("Test Event", @admin.id, DateTime.now.to_i + 10, [@admin.id, @other.id])
 			@event = Event.find(@event_id)
 			@admin_token = User.new_token
 			@admin.reload
@@ -325,7 +325,7 @@ describe EventsController do
 			@other = User.new(name: "Test Other", email: "t_other@example.com",
 				password: "test_password")
 			@other.add
-			@event_id = Event.add_event("Test Event", @admin.id, DateTime.current.to_i + 10, [@admin.id, @other.id])
+			@event_id = Event.add_event("Test Event", @admin.id, DateTime.now.to_i + 10, [@admin.id, @other.id])
 			@event = Event.find(@event_id)
 			@admin_token = User.new_token
 			@other_token = User.new_token
@@ -378,7 +378,7 @@ describe EventsController do
 			@other = User.new(name: "Test Other", email: "t_other@example.com",
 				password: "test_password")
 			@other.add
-			@event_id = Event.add_event("Test Event", @admin.id, DateTime.current.to_i + 10, [@admin.id, @other.id], "Testing Event", "A Test Facility")
+			@event_id = Event.add_event("Test Event", @admin.id, DateTime.now.to_i + 10, [@admin.id, @other.id], "Testing Event", "A Test Facility")
 			@event = Event.find(@event_id)
 			@admin_token = User.new_token
 			@admin.reload
@@ -430,7 +430,7 @@ describe EventsController do
 			@other = User.new(name: "Test Other", email: "t_other@example.com",
 				password: "test_password")
 			@other.add
-			@event_id = Event.add_event("Test Event", @admin.id, DateTime.current.to_i + 10, [@admin.id, @other.id], "Testing Event", "A Test Facility")
+			@event_id = Event.add_event("Test Event", @admin.id, DateTime.now.to_i + 10, [@admin.id, @other.id], "Testing Event", "A Test Facility")
 			@event = Event.find(@event_id)
 			@admin_token = User.new_token
 			@admin.reload
@@ -488,7 +488,7 @@ describe EventsController do
 			@other = User.new(name: "Test Other", email: "t_other@example.com",
 				password: "test_password")
 			@other.add
-			@event_id = Event.add_event("Test Event", @admin.id, DateTime.current.to_i + 10, [@admin.id, @other.id], "Testing Event", "A Test Facility")
+			@event_id = Event.add_event("Test Event", @admin.id, DateTime.now.to_i + 10, [@admin.id, @other.id], "Testing Event", "A Test Facility")
 			@event = Event.find(@event_id)
 			@admin_token = User.new_token
 			@other_token = User.new_token
@@ -535,14 +535,14 @@ describe EventsController do
 			@other.add
 			@other_token = User.new_token
 			@other.update_attribute(:remember_token, User.hash(@other_token))
-			@event_id = Event.add_event("Test Event", @admin.id, DateTime.current.to_i + 10, [@admin.id, @other.id])
+			@event_id = Event.add_event("Test Event", @admin.id, DateTime.now.to_i + 10, [@admin.id, @other.id])
 			@admin.reload
 			@other.reload
 			@event = Event.find(@event_id)
 		end
 
 		it "should update the fields if they are all filled out and valid" do
-			time = DateTime.current.to_i + 10000
+			time = DateTime.now.to_i + 10000
 			post 'edit_event', { format: 'json', event: @event_id, 
 				title: 'New Test Title', time: time, 
 				description: 'New testing description', 
@@ -555,7 +555,7 @@ describe EventsController do
 		end
 
 		it "should update the filled fields if some are ommitted" do
-			time = DateTime.current.to_i + 10000
+			time = DateTime.now.to_i + 10000
 			post 'edit_event', { format: 'json', event: @event_id,
 				location: 'A new testing facility', time: time }
 			@event.reload
@@ -596,7 +596,7 @@ describe EventsController do
 			end
 			describe " - time in the past" do
 				before { post 'edit_event', { format: 'json', event: @event_id,
-					time: DateTime.current.to_i - 50 } }
+					time: DateTime.now.to_i - 50 } }
 				specify { JSON.parse(response.body)['err_code'].should eq ERR_INVALID_TIME }
 			end
 		end

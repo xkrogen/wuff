@@ -241,7 +241,7 @@ describe UsersController do
 		describe "with a single event" do
 			before do
 				@event_id = Event.add_event("Test Event", @user.id, 
-					DateTime.current.to_i + 10, [@user.id, @other.id] )
+					DateTime.now.to_i + 10, [@user.id, @other.id] )
 				@user.reload
 				@other.reload
 			end
@@ -292,11 +292,11 @@ describe UsersController do
 		describe "with multiple events" do
 			before do
 				@event1_id = Event.add_event("Test Event #1", @user.id, 
-					DateTime.current.to_i + 10, [@user.id, @other.id] )
+					DateTime.now.to_i + 10, [@user.id, @other.id] )
 				@event2_id = Event.add_event("Test Event #2", @other.id, 
-					DateTime.current.to_i + 105, [@other.id, @user.id] )
+					DateTime.now.to_i + 105, [@other.id, @user.id] )
 				@event3_id = Event.add_event("Test Event #3", @other.id, 
-					DateTime.current.to_i + 990, [@other.id] )
+					DateTime.now.to_i + 990, [@other.id] )
 				@user.reload
 				@other.reload
 			end
@@ -345,9 +345,9 @@ describe UsersController do
 		describe "with invalid events in the user's event_list" do
 			before do
 				@event1_id = Event.add_event("Test Event #1", @user.id, 
-					DateTime.current.to_i + 10, [@user.id, @other.id] )
+					DateTime.now.to_i + 10, [@user.id, @other.id] )
 				@event2_id = Event.add_event("Test Event #2", @other.id, 
-					DateTime.current.to_i + 990, [@other.id] )
+					DateTime.now.to_i + 990, [@other.id] )
 				@user.reload
 				@user.update_attribute(:event_list, @user.event_list << @event3_id)
 				@user.reload

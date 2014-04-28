@@ -2,6 +2,7 @@ require 'EventNotification'
 require 'FriendNotification'
 require 'ConditionNotification'
 require 'NoCondition'
+require 'NotifyHandler'
 
 class Event < ActiveRecord::Base
 
@@ -19,7 +20,7 @@ class Event < ActiveRecord::Base
 	# Time is allowed to be up to 10 minutes in the past. 
 	def is_valid?
 		return ERR_INVALID_NAME if name.blank? || name.length > NAME_MAX_LENGTH
-		return ERR_INVALID_TIME if time.blank? || (time < DateTime.current.ago(60*15).to_i)
+		return ERR_INVALID_TIME if time.blank? || (time < DateTime.now.ago(60*15).to_i)
 
 		# NOTE: For future iteration, allow time a few minutes in the past to allow for possible time lags
 
@@ -39,6 +40,7 @@ class Event < ActiveRecord::Base
 	# be a list of integer values corresponding to user IDs. time should
 	# be an integer number of seconds since the Unix epoch. Also adds
 	# the event to all of the users in list_of_users, and notifies them.
+	# Schedules a task to notify users 5 minutes before the event starts. 
 	# Returns:
 	#  * Error code ( < 0 ) upon failure
 	#  * ID of new Event ( > 0 ) upon success
@@ -72,6 +74,14 @@ class Event < ActiveRecord::Base
 		@event.notify( EventNotification.new(NOTIF_NEW_EVENT, @event),
 			user_list )
 
+		# Schedule a notification only if the event is starting more than 10
+		# minutes from now. 
+		if  (time > (DateTime.now.to_i + 10*60))
+			time_string = Time.at(time).to_datetime.to_formatted_s(:rfc822)
+			notify_job_id = NotifyHandler.task_scheduler.in time_string, NotifyHandler
+			NotifyHandler.add_job_mapping(notify_job_id, @event.id)
+		end
+		
 		return @event.id
 	end
 
@@ -101,6 +111,18 @@ class Event < ActiveRecord::Base
 			self.update_attribute(:location, self.location)
 		end
 		return SUCCESS
+	end
+
+	# Should be called 5 minutes before the event is starting.
+	# Notifies users whose status is STATUS_ATTENDING that
+	# the event is about to start. 
+	def notify_starting
+		user_list = []
+		party_list.each do |uid, uhash|
+			user_list <<= uid if uhash[:status] == STATUS_ATTENDING			
+		end
+		notification = EventNotification.new(NOTIF_EVENT_STARTING, self)
+		notify(notification, user_list, false)
 	end
 
 	# Checks if the user is listed as an admin for this event.
@@ -268,11 +290,11 @@ class Event < ActiveRecord::Base
 	# Notifies the users within user_list using NOTIFICATION. 
 	# If user_list isn't specified, uses party_list (all users).
 	# Skips the admin either way (any notification should be generated
-	# by the admin).
-	def notify(notification, user_list = nil)
+	# by the admin), unless skip_admin is explicitly set to false. 
+	def notify(notification, user_list = nil, skip_admin = true)
 		if not user_list
 			party_list.each_key do |key|
-				next if key == admin
+				next if key == admin && skip_admin
 				begin 
 					user = User.find(key)
 				rescue ActiveRecord::RecordNotFound
@@ -283,7 +305,7 @@ class Event < ActiveRecord::Base
 			end
 		else
 			user_list.each do |key|
-				next if key == admin
+				next if key == admin && skip_admin
 				begin 
 					user = User.find(key)
 				rescue ActiveRecord::RecordNotFound

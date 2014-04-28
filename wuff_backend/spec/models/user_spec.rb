@@ -227,7 +227,7 @@ describe User, "#add_event, #delete_event, #post_notification" do
 	describe "when adding/removing a valid event" do
 		before do
 			@event1_id = Event.add_event("Test Event", @user1.id, 
-				DateTime.current.to_i + 10, [@user1.id])
+				DateTime.now.to_i + 10, [@user1.id])
 			@event1 = Event.find(@event1_id)
 			@user1.add_event(@event1.id)
 			@user2.add_event(@event1.id)
