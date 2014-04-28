@@ -39,6 +39,7 @@
     return false;
 }
 
+
 -(bool)createRequestWithType:(HTTPRequestType)requestType forExtension:(NSString *)extensionURL withDictionary:(NSDictionary *)json_dict
 {
     NSError *error = nil;
@@ -47,6 +48,9 @@
     if (error)
     {
         NSLog(@"ERROR: %@, %@", error, [error localizedDescription]);
+        if([[_delegate class] isSubclassOfClass:[UIViewController class]]) {
+            [((UIViewController*)_delegate).view makeToast:[error localizedDescription]];
+        }
     }
     else
     {
@@ -84,13 +88,14 @@
         // if we do have a current user token
         if (!([cookie_stored isEqualToString:@""] || cookie_stored == NULL))
         {
-            NSLog(@"adding cookie to request");
+            //NSLog(@"adding cookie to request");
             [request addValue:[[NSUserDefaults standardUserDefaults] objectForKey:@"cookieString"] forHTTPHeaderField:@"Cookie"];
         }
         
         // if there is no connection going on, start a new connection
         if (!_connection)
         {
+            NSLog(@"URL: %@", URL_str);
             _connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES];
         }
     }
@@ -100,18 +105,31 @@
 
 -(void)connection:(NSURLConnection*)connection didReceiveResponse:(NSURLResponse*)response
 {
-    NSLog(@"received response!");
+    //NSLog(@"received response!");
     _data = [[NSMutableData alloc] init];
     NSHTTPURLResponse *HTTPResponse = (NSHTTPURLResponse *)response;
     
     NSString *cookie_stored = [[NSUserDefaults standardUserDefaults] objectForKey:@"cookieString"];
     // if we don't have a current user token
-    if ([cookie_stored isEqualToString:@""] || cookie_stored == NULL)
+    if ([cookie_stored isEqualToString:@""] || !cookie_stored )
     {
         NSDictionary *fields = [HTTPResponse allHeaderFields];
+        
         NSString *cookieString = [fields valueForKey:@"Set-Cookie"]; // your cookie
-        NSLog(@"storing cookie in NSUserDefaults");
-        [[NSUserDefaults standardUserDefaults] setObject:cookieString forKey:@"cookieString"];
+        
+        NSError *err = nil;
+        
+        if (cookieString)
+        {
+            NSRegularExpression *pat = [[NSRegularExpression alloc] initWithPattern:@"current_user_token=.+" options:NSRegularExpressionCaseInsensitive error:&err];
+            NSTextCheckingResult *result = [pat firstMatchInString:cookieString options:0 range:NSMakeRange(0, [cookieString length])];
+            //NSLog(@"Result: %@", result);
+            if (result)
+            {
+                //NSLog(@"storing cookie: %@ in NSUserDefaults", cookieString);
+                [[NSUserDefaults standardUserDefaults] setObject:cookieString forKey:@"cookieString"];
+            }
+        }
     }
 }
 
@@ -141,6 +159,9 @@
     if (error)
     {
         NSLog(@"ERROR: %@, %@", error, [error localizedDescription]);
+        if([[_delegate class] isSubclassOfClass:[UIViewController class]]) {
+            [((UIViewController*)_delegate).view makeToast:[error localizedDescription]];
+        }
         unsigned char byteBuffer[[_data length]];
         [_data getBytes:byteBuffer];
         NSLog(@"Output: %s", (char *)byteBuffer);

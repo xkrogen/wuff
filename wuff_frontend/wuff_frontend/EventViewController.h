@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+#import "MainViewController.h"
+#import "SettingsTabViewController.h"
+#import "MSSlidingPanelController.h"
+
 @interface EventViewController : UIViewController {
     
     IBOutlet UILabel *eventTitle;
@@ -24,6 +28,10 @@
 @property(nonatomic, strong) NSString *time;
 @property(nonatomic, strong) NSString *attenders;
 @property(nonatomic, strong) NSString *description;
+@property(nonatomic, strong) NSString *eventId;
+
+
+@property(nonatomic) bool owner;
 
 -(IBAction)backButton;
 

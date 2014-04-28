@@ -29,10 +29,19 @@
 {
     [super viewDidLoad];
     
+    // 505 is the minimum you can use for a content-size that doesn't move around but still streches (used for the login page)
+    [self.scrollView setContentSize:CGSizeMake(320, 505)];
+    [self.scrollView addSubview:self.contentView];
+    [self.scrollView setDelegate:self];
+    [self.scrollView setShowsHorizontalScrollIndicator:NO];
+    [self.scrollView setShowsVerticalScrollIndicator:NO];
+    
+    [self.datePicker setMinuteInterval:15];
+    
     [self.autocompleteTextField setBorderStyle:UITextBorderStyleRoundedRect];
-    self.autocompleteTextField.delegate = self;
-    self.autocompleteTextField.autoCompleteDataSource = self;
-    self.autocompleteTextField.autoCompleteDelegate = self;
+    self.autocompleteTextField.delegate = (id)self;
+    self.autocompleteTextField.autoCompleteDataSource = (id)self;
+    self.autocompleteTextField.autoCompleteDelegate = (id)self;
 
     [self.autocompleteTextField setAutoCompleteTableBackgroundColor:[UIColor colorWithWhite:1 alpha:0.9]];
     // no spell checking / auto correction since persons names
@@ -50,6 +59,47 @@
     NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys: nil];
     _myRequester = [[HandleRequest alloc] initWithSelector:@"handleUserList:" andDelegate:self];
     [_myRequester createRequestWithType:POST forExtension:@"/user/get_all_users" withDictionary:d];
+    
+    // USE THIS CODE TO CREATE THE NAVIGATION CONTROLLER PROGRAMMATICALLY
+    UINavigationBar *navigationBar;
+    UINavigationItem *navigationBarItem;
+    
+    CGSize windowSize = [[UIScreen mainScreen] bounds].size;
+    navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, windowSize.width, 64)];
+    
+    [self.navigationItem setHidesBackButton:YES];
+    
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont boldSystemFontOfSize: 18.0f]}];
+    [self.navigationItem setTitle:@"Wuff"];
+    
+    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel)];
+    [cancelButton setTintColor:[UIColor whiteColor]];
+    [cancelButton setAccessibilityLabel:@"Cancel Button"];
+    [self.navigationItem setLeftBarButtonItem:cancelButton];
+    
+    // END CODE
+    
+    if (self.editMode) {
+        _locationInputView.textField.text = self.location;
+        
+        _nameInputView.textField.text = self.myTitle;
+        
+        //TODO set date as well
+        //[_datePicker date]timeIntervalSince1970] stringValue] = self.time;
+        
+        _emailListInputView.textField.text = self.attenders;
+        
+        _descriptionInputView.textField.text = self.description;
+        
+        [_myButton setTitle:@"Edit" forState:UIControlStateNormal];
+        
+        UIBarButtonItem *deleteButton = [[UIBarButtonItem alloc] initWithTitle:@"Delete" style:UIBarButtonItemStylePlain target:self action:@selector(delete)];
+        [deleteButton setTintColor:[UIColor whiteColor]];
+        [deleteButton setAccessibilityLabel:@"Delete Button"];
+        [self.navigationItem setRightBarButtonItem:deleteButton];
+        
+        [self.navigationItem setTitle:@"Edit Event"];
+    }
 }
 
 -(void)handleUserList:(NSDictionary *)response
@@ -60,28 +110,38 @@
         NSDictionary *user = [response objectForKey:[NSString stringWithFormat:@"%d", i]];
         [_userList addObject:[[UserAutoCompletionObject alloc] initWithUserDictionary:user]];
     }
-    NSLog(@"hello");
 }
 
 -(IBAction)createEvent
 {
-    _myRequester = [[HandleRequest alloc] initWithSelector:@"handleCreateEvent:" andDelegate:self];
-    NSMutableDictionary *d = [NSMutableDictionary dictionary];
-    [d setObject:_nameInputView.textField.text forKey:@"title"];
-    [d setObject:_descriptionInputView.textField.text forKey:@"description"];
-    
-    // add the current user logged in to the user_list
-    NSString *userlist = [NSString stringWithFormat:@"%@, %@", _emailListInputView.textField.text, [[NSUserDefaults standardUserDefaults] objectForKey:@"email"]];
-    [d setObject:userlist forKey:@"user_list"];
-    
-    [d setObject:[[NSNumber numberWithDouble:[[_datePicker date]timeIntervalSince1970]] stringValue] forKey:@"time"];
-    [d setObject:_locationInputView.textField.text forKey:@"location"];
-    
-    for(id key in d)
-        NSLog(@"key=%@ value=%@", key, [d objectForKey:key]);
-    
-    [_myRequester createRequestWithType:POST forExtension:@"/event/create_event" withDictionary:d];
-    NSLog(@"sent create event request!");
+    if (!self.eventBeingCreated)
+    {
+        self.eventBeingCreated = true;
+        _myRequester = [[HandleRequest alloc] initWithSelector:@"handleCreateEvent:" andDelegate:self];
+        NSMutableDictionary *d = [NSMutableDictionary dictionary];
+        
+        [d setObject:_nameInputView.textField.text forKey:@"title"];
+        [d setObject:_descriptionInputView.textField.text forKey:@"description"];
+        
+        // add the current user logged in to the user_list
+        NSString *userlist = [NSString stringWithFormat:@"%@, %@", _emailListInputView.textField.text, [[NSUserDefaults standardUserDefaults] objectForKey:@"email"]];
+        [d setObject:userlist forKey:@"user_list"];
+        
+        [d setObject:[[NSNumber numberWithDouble:[[_datePicker date]timeIntervalSince1970]] stringValue] forKey:@"time"];
+        [d setObject:_locationInputView.textField.text forKey:@"location"];
+        
+        for(id key in d)
+            NSLog(@"key=%@ value=%@", key, [d objectForKey:key]);
+        
+        if (self.editMode) {
+            [d setObject:[NSNumber numberWithInt:[self.eventId intValue]] forKey:@"event"];
+            [_myRequester createRequestWithType:POST forExtension:@"/event/edit_event" withDictionary:d];
+            
+        } else {
+            [_myRequester createRequestWithType:POST forExtension:@"/event/create_event" withDictionary:d];
+        }
+        //NSLog(@"sent create event request!");
+    }
     
     // close the keyboard
     [self.view endEditing:YES];
@@ -89,10 +149,26 @@
 
 -(IBAction)cancel
 {
+    /*
     MainViewController *main = [[MainViewController alloc] initWithNibName:nil bundle:nil];
-    [self presentViewController:main animated:YES completion:NULL];
+    SettingsTabViewController *settings = [[SettingsTabViewController alloc] initWithNibName:nil bundle:Nil];
+    
+    MSSlidingPanelController *newView = [[MSSlidingPanelController alloc] initWithCenterViewController:main andLeftPanelController:settings];
+    
+    [self presentViewController:newView animated:YES completion:nil];
+     */
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+-(IBAction)delete
+{
+    _myRequester = [[HandleRequest alloc] initWithSelector:@"handleCreateEvent:" andDelegate:self];
+    NSMutableDictionary *d = [NSMutableDictionary dictionary];
+    [d setObject:[NSNumber numberWithInt:[self.eventId intValue]] forKey:@"event"];
+    
+    [_myRequester createRequestWithType:POST forExtension:@"/event/cancel_event" withDictionary:d];
+    //[self dismissViewControllerAnimated:YES completion:nil];
+}
 
 -(void)handleCreateEvent:(NSDictionary *)response
 {
@@ -102,29 +178,38 @@
         case SUCCESS:
         {
             NSLog(@"Moving to main screen");
-            MainViewController *main = [[MainViewController alloc] initWithNibName:nil bundle:nil];
-            [self presentViewController:main animated:YES completion:NULL];
+            SettingsTabViewController *settings = [[SettingsTabViewController alloc] initWithNibName:nil bundle:Nil];
+            MainViewController *main = [[MainViewController alloc] initWithNibName:nil bundle:nil andSettingsTab:settings];
+            
+            MSSlidingPanelController *newView = [[MSSlidingPanelController alloc] initWithCenterViewController:main andLeftPanelController:settings];
+            
+            [self presentViewController:newView animated:YES completion:nil];
             break;
         }
             
         case ERR_INVALID_NAME:
             [self.view makeToast:@"Invalid Name"];
+            self.eventBeingCreated = false;
             break;
             
         case ERR_INVALID_EMAIL:
             [self.view makeToast:@"Invalid Email"];
+            self.eventBeingCreated = false;
             break;
             
         case ERR_INVALID_PASSWORD:
             [self.view makeToast:@"Password must be longer"];
+            self.eventBeingCreated = false;
             break;
             
         case ERR_EMAIL_TAKEN:
             [self.view makeToast:@"Email Already Taken"];
+            self.eventBeingCreated = false;
             break;
             
         case ERR_INVALID_CREDENTIALS:
             [self.view makeToast:@"Incorrect Email/Password"];
+            self.eventBeingCreated = false;
             break;
             
         case ERR_INVALID_FIELD:
@@ -133,14 +218,21 @@
             
         case ERR_UNSUCCESSFUL:
             [self.view makeToast:@"Attempt unsuccessful. Please try again"];
+            self.eventBeingCreated = false;
             break;
             
         case ERR_INVALID_TIME:
             [self.view makeToast:@"Invalid Time"];
+            self.eventBeingCreated = false;
             break;
             
         case ERR_INVALID_SESSION:
             [self.view makeToast:@"Invalid Session. Try logging out and back in"];
+            self.eventBeingCreated = false;
+            break;
+            
+        default:
+            self.eventBeingCreated = false;
             break;
     }
 }
@@ -210,6 +302,7 @@
                 addendum = [NSString stringWithFormat:@"%@", email];
             else
                 addendum = [NSString stringWithFormat:@"%@, %@", previousText, email];
+            
             // set the new text
             [self.emailListInputView.textField setText:addendum];
             [self.emailList addObject:email];

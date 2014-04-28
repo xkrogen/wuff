@@ -27,6 +27,13 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+    // USE THIS CODE TO CREATE THE NAVIGATION CONTROLLER PROGRAMMATICALLY
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont boldSystemFontOfSize: 18.0f]}];
+    [self.navigationItem setTitle:@"Sign Up"];
+    
+    [self.navigationItem setHidesBackButton:YES];
+    // END CODE
 }
 
 - (void)didReceiveMemoryWarning
@@ -41,7 +48,7 @@
     _myRequester = [[HandleRequest alloc] initWithSelector:@"handleSignUpResponse:" andDelegate:self];
     NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:_emailInputView.textField.text, @"email", _passwordInputView.textField.text, @"password", _nameInputView.textField.text, @"name", nil];
     [_myRequester createRequestWithType:POST forExtension:@"/user/add_user" withDictionary:d];
-    NSLog(@"sent request!");
+    //NSLog(@"sent request!");
     
     // close the keyboard
     [self.view endEditing:YES];
@@ -54,8 +61,16 @@
 
         case SUCCESS:
         {
-        MainViewController *mainVC = [[MainViewController alloc] initWithNibName:nil bundle:nil];
-        [self presentViewController:mainVC animated:YES completion:NULL];
+            NSLog(@"Storing user logged-in to Standard User Defaults!");
+            [[NSUserDefaults standardUserDefaults] setObject:[data objectForKey:@"name"] forKey:@"name"];
+            [[NSUserDefaults standardUserDefaults] setObject:[data objectForKey:@"email"] forKey:@"email"];
+            
+            MainViewController *main = [[MainViewController alloc] initWithNibName:nil bundle:nil];
+            SettingsTabViewController *settings = [[SettingsTabViewController alloc] initWithNibName:nil bundle:Nil];
+            
+            MSSlidingPanelController *newView = [[MSSlidingPanelController alloc] initWithCenterViewController:main andLeftPanelController:settings];
+            
+            [self.navigationController presentViewController:newView animated:YES completion:nil];
         }
             
         case ERR_INVALID_NAME:
@@ -93,14 +108,12 @@
         case ERR_INVALID_SESSION:
             [self.view makeToast:@"Invalid Session. Try logging out and back in"];
             break;
-        
     }
     
 }
 
 -(IBAction)backButton {
-    LoginViewController *login = [[LoginViewController alloc] initWithNibName:nil bundle:nil];
-    [self presentViewController:login animated:YES completion:NULL];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

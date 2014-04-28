@@ -4,25 +4,45 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Pods-MCSwipeTableViewCell.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-MLPAutoCompleteTextField.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>2</integer>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-MSSlidingPanelController.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>Pods.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>1</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>B140223B4015418F9FB376D9</key>
+		<key>0E54928CDDF544ECBA5EBB9E</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B253EF640D2C4CB68728145B</key>
+		<key>3FB83CE284214A9290524E82</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>4892191404AB4ED0A364DDB6</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>561CE74E7B9E418E9EDE02B2</key>
 		<dict>
 			<key>primary</key>
 			<true/>

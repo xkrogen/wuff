@@ -9,15 +9,24 @@
 #import <UIKit/UIKit.h>
 #import "InputView.h"
 #import "HandleRequest.h"
-#import "MainViewController.h"
 #import "SignUpViewController.h"
+#import "MainViewController.h"
+#import "SettingsTabViewController.h"
+#import "MSSlidingPanelController.h"
 
-@interface LoginViewController : UIViewController
+@interface LoginViewController : UIViewController <FBLoginViewDelegate>
 
 @property(nonatomic, strong) IBOutlet InputView *emailInputView;
 @property(nonatomic, strong) IBOutlet InputView *passwordInputView;
 
+@property(nonatomic, strong) IBOutlet UIScrollView *scrollView;
+@property(nonatomic, strong) IBOutlet UIView *contentView;
+
+@property (nonatomic,retain) IBOutlet FBLoginView *fbLoginButton;
+
 @property(nonatomic, strong) HandleRequest *myRequester;
+
+@property (nonatomic, readwrite) bool logging_in_fb;
 
 -(void) handleSignInResponse:(NSDictionary *)data;
 

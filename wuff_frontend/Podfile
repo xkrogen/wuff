@@ -1,1 +1,3 @@
 pod 'MLPAutoCompleteTextField', '~> 1.5'
+pod 'MSSlidingPanelController'
+pod 'MCSwipeTableViewCell'

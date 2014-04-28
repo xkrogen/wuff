@@ -11,10 +11,11 @@
 #import "UIView+Toast.h"
 #import "InputView.h"
 #import "MainViewController.h"
+#import "SettingsTabViewController.h"
 #import "MLPAutoCompleteTextField.h"
 #import "UserAutoCompletionObject.h"
 
-@interface EventCreateViewController : UIViewController
+@interface EventCreateViewController : UIViewController <UIScrollViewDelegate>
 
 @property(nonatomic, strong) IBOutlet InputView *nameInputView;
 @property(nonatomic, strong) IBOutlet InputView *descriptionInputView;
@@ -24,14 +25,24 @@
 @property(nonatomic, strong) IBOutlet UIDatePicker *datePicker;
 @property(nonatomic, strong) IBOutlet MLPAutoCompleteTextField *autocompleteTextField;
 
+@property(nonatomic, readwrite) bool eventBeingCreated;
+
+@property (nonatomic,retain)IBOutlet UIButton *myButton;
+
+@property(nonatomic, strong) IBOutlet UIScrollView *scrollView;
+@property(nonatomic, strong) IBOutlet UIView *contentView;
+
 @property(nonatomic, strong) NSMutableArray *userList;
 
 @property(nonatomic, strong) HandleRequest *myRequester;
 
-
--(IBAction)createEvent;
-
--(IBAction)cancel;
+@property(nonatomic) bool editMode;
+@property(nonatomic, strong) NSString *myTitle;
+@property(nonatomic, strong) NSString *location;
+@property(nonatomic, strong) NSString *time;
+@property(nonatomic, strong) NSString *attenders;
+@property(nonatomic, strong) NSString *description;
+@property(nonatomic, strong) NSString *eventId;
 
 
 @end
