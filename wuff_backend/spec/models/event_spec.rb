@@ -20,7 +20,7 @@ describe Event, "creation" do
 	describe "when everything is valid" do
 		before do
 			@event_id = Event.add_event('Example Event', @admin_id, 
-  			DateTime.current.to_i + 10, [@admin_id, @other_id])
+  			DateTime.now.to_i + 10, [@admin_id, @other_id])
 			@admin.reload
 			@other.reload
 		end
@@ -47,7 +47,7 @@ describe Event, "creation" do
 			specify { @other.notification_list.first[:notif_type].
 					should eq NOTIF_NEW_EVENT }
 			specify { @other.notification_list.first[:notif_time].should 
-				be_within(1).of(DateTime.current.to_i) }
+				be_within(1).of(DateTime.now.to_i) }
 			specify { @other.notification_list.first[:event].should eq @event_id }
 			specify { @other.notification_list.first[:name].should eq "Example Event" }
 			specify { @other.notification_list.first[:location].should eq "" }
@@ -59,25 +59,25 @@ describe Event, "creation" do
 	describe "when name field" do
 		describe "is empty" do
 			before { @event_id = Event.add_event('', @admin_id, 
-  			DateTime.current.to_i + 10, [@admin_id])}
+  			DateTime.now.to_i + 10, [@admin_id])}
 			specify { @event_id.should eq ERR_INVALID_NAME }
 		end
 		describe "is too long" do
 			before { @event_id = Event.add_event('A' * (NAME_MAX_LENGTH + 1), 
-				@admin_id, DateTime.current.to_i + 10, [@admin_id]) }
+				@admin_id, DateTime.now.to_i + 10, [@admin_id]) }
 			specify { @event_id.should eq ERR_INVALID_NAME }
 		end
 	end
 
 	describe "when admin field is empty" do
 		before { @event_id = Event.add_event('Example Event', 0, 
-  		DateTime.current.to_i + 10, [@admin_id]) }
+  		DateTime.now.to_i + 10, [@admin_id]) }
 		specify { expect(@event_id).to eq(ERR_INVALID_FIELD) }
 	end
 
 	describe "when party list" do
 		before { @event = Event.new(name: 'Example Name', 
-			admin: 1, time: (DateTime.current.to_i + 10), 
+			admin: 1, time: (DateTime.now.to_i + 10), 
 			party_list: { 1 => { status: STATUS_ATTENDING } }) }
 		describe "is not a hash" do
 			before { @event.party_list = '' }
@@ -111,22 +111,22 @@ describe Event, "creation" do
 	describe "when list_of_users" do
 		describe "is not an array" do
 			before { @event_id = Event.add_event('Example Event', @admin_id, 
-  			DateTime.current.to_i + 10, '') }
+  			DateTime.now.to_i + 10, '') }
 			specify { expect(@event_id).to eq(ERR_INVALID_FIELD) }
 		end
 		describe "is an empty array" do
 			before { @event_id = Event.add_event('Example Event', @admin_id, 
-  			DateTime.current.to_i + 10, []) }
+  			DateTime.now.to_i + 10, []) }
 			specify { expect(@event_id).to eq(ERR_INVALID_FIELD) }
 		end
 		describe "does not contain the admin" do
 			before { @event_id = Event.add_event('Example Event', @admin_id, 
-  			DateTime.current.to_i + 10, [@other_id]) }
+  			DateTime.now.to_i + 10, [@other_id]) }
 			specify { expect(@event_id).to eq(ERR_INVALID_FIELD) }
 		end
 		describe "contains the admin and other users" do
 			before { @event_id = Event.add_event('Example Event', @admin_id, 
-  			DateTime.current.to_i + 10, [@admin_id, @other_id]) }
+  			DateTime.now.to_i + 10, [@admin_id, @other_id]) }
 			specify { expect(@event_id).to be > 0 }
 		end
 	end
@@ -134,12 +134,17 @@ describe Event, "creation" do
 	describe "when time" do
 		describe "is far in the future" do
 			before { @event_id = Event.add_event('Example Event', @admin_id, 
-  			DateTime.current.to_i + 1000000, [@admin_id]) }
+  			DateTime.now.to_i + 1000000, [@admin_id]) }
 			specify { expect(@event_id).to be > 0}
 		end
-		describe "is in the past" do
+		describe "is only 5 minutes in the past" do
 			before { @event_id = Event.add_event('Example Event', @admin_id, 
-  			DateTime.current.to_i - 30, [@admin_id]) }
+  			DateTime.now.to_i - 60*5, [@admin_id]) }
+			specify { expect(@event_id).to be > 0}
+		end
+		describe "is > 15 minutes in the past" do
+			before { @event_id = Event.add_event('Example Event', @admin_id, 
+  			DateTime.now.to_i - 60*17, [@admin_id]) }
 			specify { expect(@event_id).to eq(ERR_INVALID_TIME) }
 		end
 		describe "is negative" do
@@ -166,7 +171,7 @@ describe Event, "misc" do
 	  		email: 'examplefriend@example.com')
 	  	@other_id = @other.id
 	  	@event_id = Event.add_event('Example Event', @admin_id, 
-	  		DateTime.current.to_i + 10, [@admin_id, @other_id])
+	  		DateTime.now.to_i + 10, [@admin_id, @other_id])
 	  	@event = Event.find(@event_id)
 	  	@admin.reload
 	  	@other.reload
@@ -206,7 +211,7 @@ describe Event, "misc" do
 
 		it "should match the hash data 1" do
 			@event_id = Event.add_event('Example Event', @admin.id, 
-	  		DateTime.current.to_i + 10, [@admin.id, @other.id])
+	  		DateTime.now.to_i + 10, [@admin.id, @other.id])
 	  	@event = Event.find(@event_id)
 			hash = @event.get_hash
 			hash[:event].should eq @event_id
@@ -231,7 +236,7 @@ describe Event, "misc" do
 
 		it "should match the hash data 2" do
 			@event_id = Event.add_event('Example Event', @admin.id, 
-	  		DateTime.current.to_i + 10, [@admin.id, @other.id], "This is the description of an example event!", "In an example area")
+	  		DateTime.now.to_i + 10, [@admin.id, @other.id], "This is the description of an example event!", "In an example area")
 	  	@event = Event.find(@event_id)
 			hash = @event.get_hash
 			hash[:event].should eq @event_id
@@ -251,6 +256,38 @@ describe Event, "misc" do
 			user_emails.should include("examplefriend@example.com")
 			user_status.should include(STATUS_NO_RESPONSE)
 			user_status.should include(STATUS_ATTENDING)
+		end
+	end
+
+	describe "#notify_starting" do
+		before do
+	  	@admin = User.create(name: 'Example User', 
+	  		email: 'exampleuser@example.com')
+	  	@other1 = User.create(name: 'Example Friend',
+	  		email: 'examplefriend@example.com')
+	  	@other2 = User.create(name: 'Example Friendess', 
+	  		email: 'examplefriendess@example.com')
+	  	@event_id = Event.add_event('Example Event', @admin.id, 
+	  		DateTime.now.to_i + 10, [@admin.id, @other1.id, @other2.id])
+	  	@event = Event.find(@event_id)
+	  	@admin.reload
+	  	@other1.reload
+	  	@other2.reload
+	  	@event.set_user_status(@other2.id, STATUS_ATTENDING)
+		end
+		it "should notify all of the users who are attending" do
+			@other2.notification_list.should have(1).items
+			@other1.notification_list.should have(1).items
+			@admin.notification_list.should have(0).items
+			@event.notify_starting
+			@other2.reload
+			@other1.reload
+			@admin.reload
+			@other2.notification_list.should have(2).items
+			@other1.notification_list.should have(1).items
+			@admin.notification_list.should have(1).items			
+			@other2.notification_list[1][:notif_type].should eq NOTIF_EVENT_STARTING
+			@other2.notification_list[1][:event].should eq @event_id
 		end
 	end
 end
@@ -277,7 +314,7 @@ describe Event, "conditional acceptances" do
 			password: "test_password")
 		@other2.add
 		@event_id = Event.add_event("Test Event", @admin.id, 
-			DateTime.current.to_i + 10, [@admin.id, @other1.id])
+			DateTime.now.to_i + 10, [@admin.id, @other1.id])
 		@event = Event.find(@event_id)
 	end
 	describe "when adding a conditional acceptance" do

@@ -23,6 +23,8 @@ WuffBackend::Application.routes.draw do
 	delete '/event/remove_user', to: 'events#remove_user'
 	delete '/event/cancel_event', to: 'events#cancel_event'
 	post '/event/edit_event', to: 'events#edit_event'
+	post '/event/add_conditional_acceptance', to: 'events#add_cond_acceptance'
+	post '/event/invite_group', to: 'events#invite_group'
 
 	post '/group/add_users', to: 'groups#add_users'
 	post '/group/create_group', to: 'groups#create_group'

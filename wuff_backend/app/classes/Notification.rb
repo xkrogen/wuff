@@ -13,7 +13,8 @@ class Notification
 			notification_list <<= APNS::Notification.new(token, 
 				:alert => get_push_message, :badge => 1, :sound => 'default')
 		end
-		APNS.send_notifications(notification_list)
+		APNS.send_notifications(notification_list) if not notification_list.empty?
+		puts "Sending push notif to #{user.email} at #{device_tokens}. Notification message: \"#{get_push_message}\""
 	end
 
 	# Dummy method. Notifications should never be initialized or 

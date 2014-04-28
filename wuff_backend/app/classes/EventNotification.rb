@@ -7,6 +7,7 @@ class EventNotification < Notification
 	NOTIF_NEW_EVENT = 1
 	NOTIF_DELETE_EVENT = 2
 	NOTIF_EDIT_EVENT = 3
+	NOTIF_EVENT_STARTING = 6
 
 	def initialize(notif_type, event)	
 		@type = notif_type
@@ -29,6 +30,8 @@ class EventNotification < Notification
 			return "#{@event.name} has been cancelled."
 		when NOTIF_EDIT_EVENT
 			return "#{@event.name} has been updated!"
+		when NOTIF_EVENT_STARTING
+			return "#{@event.name} is starting in 5 minutes!"
 		end
 	end
 
