@@ -115,7 +115,12 @@
     [d setObject:self.event forKey:@"event"];
     [d setObject:[NSNumber numberWithInt:self.condType.selectedSegmentIndex+1] forKey:@"condition_type"];
     
-    [d setObject:self.paramsField.text forKey:@"condition"];
+    if(self.condType.selectedSegmentIndex==0) {
+        [d setObject:[NSNumber numberWithInteger:[self.paramsField.text integerValue]] forKey:@"condition"];
+    }
+    else {
+        [d setObject:self.paramsField.text forKey:@"condition"];
+    }
     
     for(id key in d)
         NSLog(@"key=%@ value=%@", key, [d objectForKey:key]);
