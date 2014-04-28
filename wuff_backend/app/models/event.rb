@@ -80,11 +80,11 @@ class Event < ActiveRecord::Base
 			time_string = Time.at(time).to_datetime.to_formatted_s(:rfc822)
 			notify_job_id = NotifyHandler.task_scheduler.in time_string, NotifyHandler
 			NotifyHandler.add_job_mapping(notify_job_id, @event.id)
-			self.scheduler_job_id = notify_job_id
-			self.update_attribute(:scheduler_job_id, self.scheduler_job_id)
+			@event.scheduler_job_id = notify_job_id
+			@event.update_attribute(:scheduler_job_id, @event.scheduler_job_id)
 		else
-			self.scheduler_job_id = -1
-			self.update_attribute(:scheduler_job_id, -1)
+			@event.scheduler_job_id = -1
+			@event.update_attribute(:scheduler_job_id, -1)
 		end
 		
 		return @event.id
@@ -112,7 +112,7 @@ class Event < ActiveRecord::Base
 			if  (self.time > (DateTime.now.to_i + 10*60))
 				time_string = Time.at(self.time).to_datetime.to_formatted_s(:rfc822)
 				notify_job_id = NotifyHandler.task_scheduler.in time_string, NotifyHandler
-				NotifyHandler.add_job_mapping(notify_job_id, @event.id)
+				NotifyHandler.add_job_mapping(notify_job_id, self.id)
 			end
 		end
 		if event_info_hash.has_key?(:description)
