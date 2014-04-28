@@ -80,6 +80,11 @@ class Event < ActiveRecord::Base
 			time_string = Time.at(time).to_datetime.to_formatted_s(:rfc822)
 			notify_job_id = NotifyHandler.task_scheduler.in time_string, NotifyHandler
 			NotifyHandler.add_job_mapping(notify_job_id, @event.id)
+			self.scheduler_job_id = notify_job_id
+			self.update_attribute(:scheduler_job_id, self.scheduler_job_id)
+		else
+			self.scheduler_job_id = -1
+			self.update_attribute(:scheduler_job_id, -1)
 		end
 		
 		return @event.id
@@ -101,6 +106,14 @@ class Event < ActiveRecord::Base
 			return ERR_INVALID_TIME if new_time.blank? || Time.at(new_time).to_datetime.past?
 			self.time = new_time
 			self.update_attribute(:time, new_time)
+			NotifyHandler.task_scheduler.unschedule(self.scheduler_job_id) if self.scheduler_job_id != -1
+			# Schedule a notification only if the event is starting more than 10
+			# minutes from now. 
+			if  (self.time > (DateTime.now.to_i + 10*60))
+				time_string = Time.at(self.time).to_datetime.to_formatted_s(:rfc822)
+				notify_job_id = NotifyHandler.task_scheduler.in time_string, NotifyHandler
+				NotifyHandler.add_job_mapping(notify_job_id, @event.id)
+			end
 		end
 		if event_info_hash.has_key?(:description)
 			self.description = event_info_hash[:description]
@@ -253,9 +266,11 @@ class Event < ActiveRecord::Base
 	end
 
 	# Cancels this event, removing it from all of it's associated
-	# users. Does not actually delete the event -- should subsequently
+	# users. Also removes any scheduled tasks to notify users of the event
+	# starting soon. Does not actually delete the event -- should subsequently
 	# call event.destroy to remove it from the database. 
 	def cancel_self
+		NotifyHandler.task_scheduler.unschedule(self.scheduler_job_id) if self.scheduler_job_id != -1
 		party_list.each_key { |user_id| User.find(user_id).delete_event(self.id) }
 	end
 
