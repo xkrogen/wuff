@@ -370,6 +370,89 @@ describe EventsController do
 		end
 	end
 
+	describe "when updating a status with conditions" do
+		before do
+			@admin = User.new(name: "Test Name", email: "test@example.com",
+				password: "test_password")
+			@admin.add
+			@other = User.new(name: "Test Other", email: "t_other@example.com",
+				password: "test_password")
+			@other.add
+			@other1 = User.new(name: "Test Other1", email: "t_other1@example.com",
+				password: "test_password")
+			@other1.add
+			@event_id = Event.add_event("Test Event", @admin.id, DateTime.now.to_i + 10,
+				[@admin.id, @other.id, @other1.id])
+			@event = Event.find(@event_id)
+			@admin_token = User.new_token
+			@other_token = User.new_token
+			@admin.reload
+			@other.reload
+			@admin.update_attribute(:remember_token, User.hash(@admin_token))
+			@other.update_attribute(:remember_token, User.hash(@other_token))
+		end
+
+		describe "add COND_NUM_ATTENDING with a negative number" do
+			it "error and respond with ERR_INVALID_FIELD" do
+				@request.cookies['current_user_token'] = @other_token
+				post 'add_conditional_acceptance', { format: 'json', event: @event_id,
+					condition_type: COND_NUM_ATTENDING, condition: -1 }
+				JSON.parse(response.body)['err_code'].should eq ERR_INVALID_FIELD
+			end
+		end
+
+		describe "add COND_NUM_ATTENDING with a valid number" do
+			it "should add condition to user in party_list. Respond SUCCESS" do
+				@request.cookies['current_user_token'] = @other_token
+				post 'add_conditional_acceptance', { format: 'json', event: @event_id,
+					condition_type: COND_NUM_ATTENDING, condition: 3 }
+				JSON.parse(response.body)['err_code'].should eq SUCCESS
+				@event.reload
+				@event.party_list[@other.id][:condition].should_not eq nil
+			end
+		end
+
+		describe "add COND_USER_ATTENDING_ANY with invalid emails" do
+			it "error and respond with ERR_INVALID_FIELD" do
+				@request.cookies['current_user_token'] = @other_token
+				post 'add_conditional_acceptance', { format: 'json', event: @event_id,
+					condition_type: COND_USER_ATTENDING_ANY, condition: "nosfdfsf,dasfd" }
+				JSON.parse(response.body)['err_code'].should eq ERR_INVALID_FIELD
+			end
+		end
+
+		describe "add COND_USER_ATTENDING_ANY with valid emails" do
+			it "should add condition to user in party_list. Respond SUCCESS" do
+				@request.cookies['current_user_token'] = @other_token
+				post 'add_conditional_acceptance', { format: 'json', event: @event_id,
+					condition_type: COND_USER_ATTENDING_ANY, condition: "t_other@example.com,t_other1@example.com" }
+				JSON.parse(response.body)['err_code'].should eq SUCCESS
+				@event.reload
+				@event.party_list[@other.id][:condition].should_not eq nil
+			end
+		end
+
+		describe "add COND_USER_ATTENDING_ALL with invalid emails" do
+			it "error and respond with ERR_INVALID_FIELD" do
+				@request.cookies['current_user_token'] = @other_token
+				post 'add_conditional_acceptance', { format: 'json', event: @event_id,
+					condition_type: COND_USER_ATTENDING_ALL, condition: "nosfdfsf,dasfd" }
+				JSON.parse(response.body)['err_code'].should eq ERR_INVALID_FIELD
+			end
+		end
+
+		describe "add COND_USER_ATTENDING_ALL with valid emails" do
+			it "should add condition to user in party_list. Respond SUCCESS" do
+				@request.cookies['current_user_token'] = @other_token
+				post 'add_conditional_acceptance', { format: 'json', event: @event_id,
+					condition_type: COND_USER_ATTENDING_ALL, condition: "t_other@example.com,t_other1@example.com" }
+				JSON.parse(response.body)['err_code'].should eq SUCCESS
+				@event.reload
+				@event.party_list[@other.id][:condition].should_not eq nil
+			end
+		end
+	end
+
 	describe "when viewing an event (event/view)" do
 		before do
 			@admin = User.new(name: "Test Name", email: "test@example.com",
