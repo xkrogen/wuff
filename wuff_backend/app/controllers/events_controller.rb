@@ -1,4 +1,6 @@
 require 'user'
+require 'NumberCondition'
+require 'UserCondition'
 
 class EventsController < ApplicationController
 
@@ -193,6 +195,7 @@ class EventsController < ApplicationController
 		if params[:condition_type] == COND_NUM_ATTENDING
 			if params[:condition] < 0
 				respond(ERR_INVALID_FIELD)
+				return
 			end
 			@event.add_condition(current_user, NumberCondition.new(params[:condition]))
 			respond(SUCCESS)
