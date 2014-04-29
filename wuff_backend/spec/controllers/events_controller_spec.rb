@@ -677,10 +677,15 @@ describe EventsController do
 					time: '' } }
 				specify { JSON.parse(response.body)['err_code'].should eq ERR_INVALID_TIME }
 			end
-			describe " - time in the past" do
+			describe " - time too far in the past" do
 				before { post 'edit_event', { format: 'json', event: @event_id,
-					time: DateTime.now.to_i - 50 } }
+					time: DateTime.now.to_i - 60*20 } }
 				specify { JSON.parse(response.body)['err_code'].should eq ERR_INVALID_TIME }
+			end
+			describe " - time 10 minutes in the past" do
+				before { post 'edit_event', { format: 'json', event: @event_id,
+					time: DateTime.now.to_i - 60*10 } }
+				specify { JSON.parse(response.body)['err_code'].should eq SUCCESS }
 			end
 		end
 	end
