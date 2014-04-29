@@ -19,10 +19,13 @@
 		3224245E18EC949F003E7E7F /* AddFriendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3224245C18EC949F003E7E7F /* AddFriendViewController.m */; };
 		3224246318EC9EA0003E7E7F /* FriendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3224246118EC9EA0003E7E7F /* FriendViewController.m */; };
 		3224246418EC9EA0003E7E7F /* FriendViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3224246218EC9EA0003E7E7F /* FriendViewController.xib */; };
-		322B9B2F18D013C70084AAF9 /* EventViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 322B9B2D18D013C70084AAF9 /* EventViewController.m */; };
-		322B9B3018D013C70084AAF9 /* EventViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 322B9B2E18D013C70084AAF9 /* EventViewController.xib */; };
 		322B9B3E18D256C80084AAF9 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 322B9B3C18D256C80084AAF9 /* MainViewController.m */; };
 		322B9B3F18D256C80084AAF9 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 322B9B3D18D256C80084AAF9 /* MainViewController.xib */; };
+		6C101FE619101B3F009A0DD2 /* EventViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C101FE419101B3F009A0DD2 /* EventViewController.m */; };
+		6C101FE719101B3F009A0DD2 /* EventViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C101FE519101B3F009A0DD2 /* EventViewController.xib */; };
+		6C101FEB19101ECF009A0DD2 /* GroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C101FE919101ECF009A0DD2 /* GroupViewController.m */; };
+		6C101FEC19101ECF009A0DD2 /* GroupViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C101FEA19101ECF009A0DD2 /* GroupViewController.xib */; };
+		6C101FEF19104251009A0DD2 /* SOLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C101FEE19104251009A0DD2 /* SOLabel.m */; };
 		6C13DD9518C41EFD0032A56C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C13DD9418C41EFD0032A56C /* Foundation.framework */; };
 		6C13DD9718C41EFD0032A56C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C13DD9618C41EFD0032A56C /* CoreGraphics.framework */; };
 		6C13DD9918C41EFD0032A56C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C13DD9818C41EFD0032A56C /* UIKit.framework */; };
@@ -97,12 +100,17 @@
 		3224246018EC9EA0003E7E7F /* FriendViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendViewController.h; sourceTree = "<group>"; };
 		3224246118EC9EA0003E7E7F /* FriendViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendViewController.m; sourceTree = "<group>"; };
 		3224246218EC9EA0003E7E7F /* FriendViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FriendViewController.xib; sourceTree = "<group>"; };
-		322B9B2C18D013C70084AAF9 /* EventViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventViewController.h; sourceTree = "<group>"; };
-		322B9B2D18D013C70084AAF9 /* EventViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventViewController.m; sourceTree = "<group>"; };
-		322B9B2E18D013C70084AAF9 /* EventViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventViewController.xib; sourceTree = "<group>"; };
 		322B9B3B18D256C80084AAF9 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		322B9B3C18D256C80084AAF9 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		322B9B3D18D256C80084AAF9 /* MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
+		6C101FE319101B3F009A0DD2 /* EventViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventViewController.h; sourceTree = "<group>"; };
+		6C101FE419101B3F009A0DD2 /* EventViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventViewController.m; sourceTree = "<group>"; };
+		6C101FE519101B3F009A0DD2 /* EventViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventViewController.xib; sourceTree = "<group>"; };
+		6C101FE819101ECF009A0DD2 /* GroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupViewController.h; sourceTree = "<group>"; };
+		6C101FE919101ECF009A0DD2 /* GroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupViewController.m; sourceTree = "<group>"; };
+		6C101FEA19101ECF009A0DD2 /* GroupViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GroupViewController.xib; sourceTree = "<group>"; };
+		6C101FED19104251009A0DD2 /* SOLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOLabel.h; sourceTree = "<group>"; };
+		6C101FEE19104251009A0DD2 /* SOLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOLabel.m; sourceTree = "<group>"; };
 		6C13DD9118C41EFD0032A56C /* wuff_frontend.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = wuff_frontend.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C13DD9418C41EFD0032A56C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6C13DD9618C41EFD0032A56C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -251,6 +259,14 @@
 				6C4AFBD718E78D66001BCEBB /* SettingsTabViewController.h */,
 				6C4AFBD818E78D67001BCEBB /* SettingsTabViewController.m */,
 				6C4AFBD918E78D67001BCEBB /* SettingsTabViewController.xib */,
+				6C101FE819101ECF009A0DD2 /* GroupViewController.h */,
+				6C101FE919101ECF009A0DD2 /* GroupViewController.m */,
+				6C101FEA19101ECF009A0DD2 /* GroupViewController.xib */,
+				6C101FED19104251009A0DD2 /* SOLabel.h */,
+				6C101FEE19104251009A0DD2 /* SOLabel.m */,
+				6C101FE319101B3F009A0DD2 /* EventViewController.h */,
+				6C101FE419101B3F009A0DD2 /* EventViewController.m */,
+				6C101FE519101B3F009A0DD2 /* EventViewController.xib */,
 				6C71D55018FDE113004334EA /* SettingsTableViewCell.h */,
 				6C71D55118FDE113004334EA /* SettingsTableViewCell.m */,
 				6C8CB86818E89C6D0077E9BB /* SettingsViewController.h */,
@@ -265,9 +281,6 @@
 				3224245B18EC949F003E7E7F /* AddFriendViewController.h */,
 				3224245C18EC949F003E7E7F /* AddFriendViewController.m */,
 				3224245D18EC949F003E7E7F /* AddFriendViewController.xib */,
-				322B9B2C18D013C70084AAF9 /* EventViewController.h */,
-				322B9B2D18D013C70084AAF9 /* EventViewController.m */,
-				322B9B2E18D013C70084AAF9 /* EventViewController.xib */,
 				18A7C1421900D3B4003D135D /* GroupCreateViewController.h */,
 				18A7C1431900D3C2003D135D /* GroupCreateViewController.m */,
 				18A7C1451900D3D4003D135D /* GroupCreateViewController.xib */,
@@ -424,10 +437,11 @@
 			files = (
 				6C71D55F19004C8C004334EA /* cross.png in Resources */,
 				6C13DDAD18C41EFD0032A56C /* Images.xcassets in Resources */,
+				6C101FEC19101ECF009A0DD2 /* GroupViewController.xib in Resources */,
 				6C6216BB18D037AA0006048A /* EventCreateViewController.xib in Resources */,
-				322B9B3018D013C70084AAF9 /* EventViewController.xib in Resources */,
 				6C71D56D190059B6004334EA /* profilepic.png in Resources */,
 				6C71D56219004C8C004334EA /* list@2x.png in Resources */,
+				6C101FE719101B3F009A0DD2 /* EventViewController.xib in Resources */,
 				187D8D5A18EA4F7400E5EA1B /* README.txt in Resources */,
 				6C4AFBDB18E78D67001BCEBB /* SettingsTabViewController.xib in Resources */,
 				6C71D55E19004C8C004334EA /* clock@2x.png in Resources */,
@@ -501,14 +515,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6C101FEB19101ECF009A0DD2 /* GroupViewController.m in Sources */,
 				186A197418CD270000E4BEB5 /* UIView+Toast.m in Sources */,
 				6C71D56A19005550004334EA /* RectUIVew.m in Sources */,
 				6C6216BA18D037AA0006048A /* EventCreateViewController.m in Sources */,
-				322B9B2F18D013C70084AAF9 /* EventViewController.m in Sources */,
 				6C4AFBDA18E78D67001BCEBB /* SettingsTabViewController.m in Sources */,
 				18A7C14A1900EB2F003D135D /* ConditionalViewController.m in Sources */,
 				3224245E18EC949F003E7E7F /* AddFriendViewController.m in Sources */,
 				322B9B3E18D256C80084AAF9 /* MainViewController.m in Sources */,
+				6C101FEF19104251009A0DD2 /* SOLabel.m in Sources */,
 				6CF7E1B618CA538F00880712 /* HandleRequest.m in Sources */,
 				3224246318EC9EA0003E7E7F /* FriendViewController.m in Sources */,
 				6C6216BF18D0390F0006048A /* LoginViewController.m in Sources */,
@@ -519,6 +534,7 @@
 				6C71D55218FDE113004334EA /* SettingsTableViewCell.m in Sources */,
 				6C6216C418D0397A0006048A /* SignUpViewController.m in Sources */,
 				6C4AFBD618E52FAE001BCEBB /* UserAutoCompletionObject.m in Sources */,
+				6C101FE619101B3F009A0DD2 /* EventViewController.m in Sources */,
 				18A7C1441900D3C2003D135D /* GroupCreateViewController.m in Sources */,
 				6C8CB86B18E89C6D0077E9BB /* SettingsViewController.m in Sources */,
 			);
