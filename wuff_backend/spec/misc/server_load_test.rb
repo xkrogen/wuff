@@ -1,7 +1,9 @@
 require 'net/http'
 
-#BASEURL = 'http://wuff.herokuapp.com'
-BASEURL = 'http://localhost:3000'
+BASEURL = 'http://wuff.herokuapp.com'
+#BASEURL = 'http://localhost:3000'
+
+SKIP_TESTS = false
 
 # Declare an exclusion filter so that these tests are normally disabled. 
 RSpec.configure do |c|
@@ -9,7 +11,7 @@ RSpec.configure do |c|
   c.filter_run_excluding :external_server => true
 end
 
-describe "submitting many rapid requests to the heroku server" do
+describe "submitting many rapid requests to the heroku server", :external_server => SKIP_TESTS do
 	before do
 		@login_uri = URI(BASEURL + '/user/login_user')
 		@update_status_uri = URI(BASEURL + '/event/update_user_status')

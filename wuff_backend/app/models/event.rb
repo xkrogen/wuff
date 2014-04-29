@@ -167,9 +167,7 @@ class Event < ActiveRecord::Base
 	# is changed to attending and they are notified of the change.
 	def check_conditions
 		clauses = Array.new
-		puts "PARTY_LIST: " + party_list.to_s
 		party_list.each do |uid, hash|
-			puts "PARTY_LIST in loop. UID: #{uid}, HASH: #{hash}"
 			cond = hash[:condition]
 			if cond[:cond_type] != COND_NONE && cond[:cond_met] == COND_MET
 				clauses.push({ operands: false, value: uid })
