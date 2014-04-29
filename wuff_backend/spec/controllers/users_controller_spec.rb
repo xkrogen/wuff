@@ -2,6 +2,44 @@ require 'spec_helper'
 require 'json'
 
 describe UsersController do
+	
+=begin
+	describe "Facebook Graph API Initial Testing (not a real unit test)" do
+
+		before do
+			# token may need to be refreshed with FB Graph API Explorer
+			@token = 'CAAG3tpE5O1UBAKl31Y80KmStU0azLLZBIgZAjJZCwvAH6EaXNDtXk9hcQVQYbioMNrb3YVsoqmTGENOO4F7zyLwYAr5ZAlJkm47TEWpETS7QZCVR5UpH9DS6eNMESHhhZAmW789KnuqDqz39ZCITQRKkpgfnLPXmSHEuQPqSDbNZCZBpSLzA9O1bxTjS9i2HuvJ9iACygNsGmiNxCeqimZBtyd'
+
+			post 'auth_facebook', { format: 'json', facebook_id: '100008122715374', facebook_token: @token }
+			@fb_user = User.find_by(fb_id: '100008122715374')
+			@rg = RestGraph.new(:access_token => @token)
+		end
+
+		describe "getting friends list"  do
+			it "should return a list of friends" do
+		    frienddata = @rg.get('me/friends')['data']
+		    # frienddata is now an array of hashes representing each friend's
+		    # name and facebook id
+			end
+		end
+
+		describe "checking permissions" do
+			it "should show all current permissions" do
+				permission_data = @rg.get('me/permissions')['data'][0]
+				publish_permission = permission_data['publish_actions']
+				# publish_permission is now 1 if we are allowed to publish 
+				# things on the user's wall
+				#puts permission_data.to_s
+			end
+		end
+
+		describe "posting to your wall" do
+			it "should post onto the wall" do
+				#@rg.post('me/feed', message: 'Test message', privacy: { value: 'CUSTOM', allow: 'id1,id2,id3' )
+			end
+		end
+	end
+=end
 
 	describe "add_user" do
 		before do
@@ -80,6 +118,7 @@ describe UsersController do
 	end
 
 	describe "auth_facebook" do
+
 		before do
 			# token may need to be refreshed with FB Graph API Explorer
 			@token = 'CAAG3tpE5O1UBAKl31Y80KmStU0azLLZBIgZAjJZCwvAH6EaXNDtXk9hcQVQYbioMNrb3YVsoqmTGENOO4F7zyLwYAr5ZAlJkm47TEWpETS7QZCVR5UpH9DS6eNMESHhhZAmW789KnuqDqz39ZCITQRKkpgfnLPXmSHEuQPqSDbNZCZBpSLzA9O1bxTjS9i2HuvJ9iACygNsGmiNxCeqimZBtyd'

@@ -3,11 +3,10 @@ require 'net/http'
 BASEURL = 'http://wuff.herokuapp.com'
 #BASEURL = 'http://localhost:3000'
 
-SKIP_TESTS = false
+SKIP_TESTS = true
 
 # Declare an exclusion filter so that these tests are normally disabled. 
 RSpec.configure do |c|
-  # declare an exclusion filter
   c.filter_run_excluding :external_server => true
 end
 
@@ -62,11 +61,9 @@ describe "submitting many rapid requests to the heroku server", :external_server
 	end
 
 	it "should print out the body for now" do
-		#Kernel.sleep(1)
-		puts change_status(@tester_token, 1, -1)
-		puts change_status(@tester2_token, 92, -1)
-		puts change_status(@tester_token, 1, 1)
-		puts change_status(@tester2_token, 92, 1)
+		20.times do
+			puts change_status(@tester_token, 1, -1) + " " + change_status(@tester2_token, 92, -1) + " " + change_status(@tester_token, 1, 1) + " " + change_status(@tester2_token, 92, 1)
+		end
 	end
 end
 
