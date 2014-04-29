@@ -22,8 +22,6 @@ class Event < ActiveRecord::Base
 		return ERR_INVALID_NAME if name.blank? || name.length > NAME_MAX_LENGTH
 		return ERR_INVALID_TIME if time.blank? || (time < DateTime.now.ago(60*15).to_i)
 
-		# NOTE: For future iteration, allow time a few minutes in the past to allow for possible time lags
-
 		return ERR_INVALID_FIELD if (admin.blank? || party_list.blank? || !party_list.is_a?(Hash))
 
 		return ERR_INVALID_FIELD if not party_list.has_key?(admin)
@@ -103,7 +101,7 @@ class Event < ActiveRecord::Base
 		end
 		if event_info_hash.has_key?(:time)
 			new_time = event_info_hash[:time].to_i
-			return ERR_INVALID_TIME if new_time.blank? || Time.at(new_time).to_datetime.past?
+				return ERR_INVALID_TIME if new_time.blank? || (new_time < DateTime.now.ago(60*15).to_i)
 			self.time = new_time
 			self.update_attribute(:time, new_time)
 			NotifyHandler.task_scheduler.unschedule(self.scheduler_job_id) if self.scheduler_job_id != -1
