@@ -154,13 +154,7 @@
     {
         case SUCCESS:
         {
-            NSLog(@"Moving to main screen");
-            MainViewController *main = [[MainViewController alloc] initWithNibName:nil bundle:nil];
-            SettingsTabViewController *settings = [[SettingsTabViewController alloc] initWithNibName:nil bundle:Nil];
-            
-            MSSlidingPanelController *newView = [[MSSlidingPanelController alloc] initWithCenterViewController:main andLeftPanelController:settings];
-            
-            [self presentViewController:newView animated:YES completion:nil];
+            [self.view makeToast:@"Condition Added! Add another or press 'Cancel' to go back to your events"];
             break;
         }
             
