@@ -39,6 +39,19 @@
     // auto capitalize words (names)
     [self.autocompleteTextField setAutocapitalizationType:UITextAutocapitalizationTypeWords];
     
+    
+    [self.autocompleteTextField2 setBorderStyle:UITextBorderStyleRoundedRect];
+    self.autocompleteTextField2.delegate = (id)self;
+    self.autocompleteTextField2.autoCompleteDataSource = (id)self;
+    self.autocompleteTextField2.autoCompleteDelegate = (id)self;
+    
+    [self.autocompleteTextField2 setAutoCompleteTableBackgroundColor:[UIColor colorWithWhite:1 alpha:0.9]];
+    // no spell checking / auto correction since persons names
+    [self.autocompleteTextField2 setSpellCheckingType:UITextSpellCheckingTypeNo];
+    [self.autocompleteTextField2 setAutocorrectionType:UITextAutocorrectionTypeNo];
+    // auto capitalize words (names)
+    [self.autocompleteTextField2 setAutocapitalizationType:UITextAutocapitalizationTypeWords];
+    
     self.emailList = [NSMutableArray arrayWithCapacity:5];
     
     self.userList = [[NSMutableArray alloc] init];
@@ -97,6 +110,19 @@
     [self.view endEditing:YES];
 }
 
+-(IBAction)deleteMembers {
+    _myRequester = [[HandleRequest alloc] initWithSelector:@"handleRemoveUsers:" andDelegate:self];
+    NSMutableDictionary *d = [NSMutableDictionary dictionary];
+    [d setObject:_removeEmailInputView.text forKey:@"user_list"];
+    [d setObject:self.groupID forKey:@"group"];
+    
+    for(id key in d)
+        NSLog(@"key=%@ value=%@", key, [d objectForKey:key]);
+    
+    [_myRequester createRequestWithType:POST forExtension:@"/group/remove_users" withDictionary:d];
+    [self.view endEditing:YES];
+}
+
 -(IBAction)back
 {
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -104,6 +130,31 @@
 
 
 -(void)handleAddFriends:(NSDictionary *)response
+{
+    ErrorCode err_code = (ErrorCode)[[response objectForKey:@"err_code"] integerValue];
+    switch (err_code)
+    {
+        case SUCCESS:
+        {
+            [self dismissViewControllerAnimated:YES completion:nil];
+            break;
+        }
+            
+        case ERR_INVALID_FIELD:
+            [self.view makeToast:@"Invalid Field."];
+            break;
+            
+        case ERR_UNSUCCESSFUL:
+            [self.view makeToast:@"Attempt unsuccessful. Please try again"];
+            break;
+            
+        case ERR_INVALID_SESSION:
+            [self.view makeToast:@"Invalid Session. Try logging out and back in"];
+            break;
+    }
+}
+
+-(void)handleRemoveUsers:(NSDictionary *)response
 {
     ErrorCode err_code = (ErrorCode)[[response objectForKey:@"err_code"] integerValue];
     switch (err_code)
@@ -170,7 +221,7 @@
        withAutoCompleteObject:(id<MLPAutoCompletionObject>)selectedObject
             forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(selectedObject){
+    if(selectedObject && textField==self.autocompleteTextField){
         NSLog(@"selected object from autocomplete menu %@ with string %@", selectedObject, [selectedObject autocompleteString]);
         
         // get the UserObject that we just selected's email
@@ -204,7 +255,34 @@
         
         // close the keyboard
         [self.view endEditing:YES];
-    } else {
+    }
+    
+    else if(selectedObject && textField==self.autocompleteTextField2){
+        NSLog(@"selected object from autocomplete menu %@ with string %@", selectedObject, [selectedObject autocompleteString]);
+        
+        // get the UserObject that we just selected's email
+        NSString *email = [(UserAutoCompletionObject *)selectedObject getEmail];
+        
+        if ([self.removeEmailList containsObject:email])
+        {
+            [self.view makeToast:@"User already added!"];
+        }
+        else
+        {
+            [self.removeEmailInputView setText:email];
+            [self.removeEmailList addObject:email];
+        }
+        
+        // remove the text in the autocompleteTextField
+        [self.autocompleteTextField2 setText:@""];
+        
+        // close the keyboard
+        [self.view endEditing:YES];
+    }
+    
+    
+    
+    else {
         NSLog(@"selected string '%@' from autocomplete menu", selectedString);
     }
 }
