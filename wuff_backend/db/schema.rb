@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140429180131) do
+ActiveRecord::Schema.define(version: 20140430221559) do
 
   create_table "events", force: true do |t|
     t.string   "name"
@@ -46,6 +46,7 @@ ActiveRecord::Schema.define(version: 20140429180131) do
     t.text     "group_list"
     t.string   "fb_id"
     t.text     "device_tokens"
+    t.string   "fb_token"
   end
 
   add_index "users", ["device_tokens"], name: "index_users_on_device_tokens"
