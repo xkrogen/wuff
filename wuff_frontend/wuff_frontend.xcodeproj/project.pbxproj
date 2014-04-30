@@ -15,6 +15,8 @@
 		18A7C1461900D3D4003D135D /* GroupCreateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18A7C1451900D3D4003D135D /* GroupCreateViewController.xib */; };
 		18A7C14A1900EB2F003D135D /* ConditionalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A7C1481900EB2F003D135D /* ConditionalViewController.m */; };
 		18A7C14B1900EB2F003D135D /* ConditionalViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18A7C1491900EB2F003D135D /* ConditionalViewController.xib */; };
+		18E2985F1911880A00D05153 /* GroupEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E2985D1911880A00D05153 /* GroupEditViewController.m */; };
+		18E298601911880A00D05153 /* GroupEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18E2985E1911880A00D05153 /* GroupEditViewController.xib */; };
 		2FA263EFF5754A148A72C75D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 044995168A7147F2923F3E70 /* libPods.a */; };
 		3224245E18EC949F003E7E7F /* AddFriendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3224245C18EC949F003E7E7F /* AddFriendViewController.m */; };
 		3224246318EC9EA0003E7E7F /* FriendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3224246118EC9EA0003E7E7F /* FriendViewController.m */; };
@@ -93,6 +95,9 @@
 		18A7C1471900EB2F003D135D /* ConditionalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConditionalViewController.h; sourceTree = "<group>"; };
 		18A7C1481900EB2F003D135D /* ConditionalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConditionalViewController.m; sourceTree = "<group>"; };
 		18A7C1491900EB2F003D135D /* ConditionalViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConditionalViewController.xib; sourceTree = "<group>"; };
+		18E2985C1911880A00D05153 /* GroupEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupEditViewController.h; sourceTree = "<group>"; };
+		18E2985D1911880A00D05153 /* GroupEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupEditViewController.m; sourceTree = "<group>"; };
+		18E2985E1911880A00D05153 /* GroupEditViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GroupEditViewController.xib; sourceTree = "<group>"; };
 		21C7EA91E60F44E4B5D21A16 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		3224245B18EC949F003E7E7F /* AddFriendViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddFriendViewController.h; sourceTree = "<group>"; };
 		3224245C18EC949F003E7E7F /* AddFriendViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddFriendViewController.m; sourceTree = "<group>"; };
@@ -262,6 +267,9 @@
 				6C101FE819101ECF009A0DD2 /* GroupViewController.h */,
 				6C101FE919101ECF009A0DD2 /* GroupViewController.m */,
 				6C101FEA19101ECF009A0DD2 /* GroupViewController.xib */,
+				18E2985C1911880A00D05153 /* GroupEditViewController.h */,
+				18E2985D1911880A00D05153 /* GroupEditViewController.m */,
+				18E2985E1911880A00D05153 /* GroupEditViewController.xib */,
 				6C101FED19104251009A0DD2 /* SOLabel.h */,
 				6C101FEE19104251009A0DD2 /* SOLabel.m */,
 				6C101FE319101B3F009A0DD2 /* EventViewController.h */,
@@ -447,6 +455,7 @@
 				6C71D55E19004C8C004334EA /* clock@2x.png in Resources */,
 				6CAAB38118E7A67E008A686A /* settings_icon.png in Resources */,
 				6C71D56119004C8C004334EA /* list.png in Resources */,
+				18E298601911880A00D05153 /* GroupEditViewController.xib in Resources */,
 				6C8CB87918EC6E880077E9BB /* AddFriendViewController.xib in Resources */,
 				6C13DD9F18C41EFD0032A56C /* InfoPlist.strings in Resources */,
 				18A7C1461900D3D4003D135D /* GroupCreateViewController.xib in Resources */,
@@ -522,6 +531,7 @@
 				6C4AFBDA18E78D67001BCEBB /* SettingsTabViewController.m in Sources */,
 				18A7C14A1900EB2F003D135D /* ConditionalViewController.m in Sources */,
 				3224245E18EC949F003E7E7F /* AddFriendViewController.m in Sources */,
+				18E2985F1911880A00D05153 /* GroupEditViewController.m in Sources */,
 				322B9B3E18D256C80084AAF9 /* MainViewController.m in Sources */,
 				6C101FEF19104251009A0DD2 /* SOLabel.m in Sources */,
 				6CF7E1B618CA538F00880712 /* HandleRequest.m in Sources */,

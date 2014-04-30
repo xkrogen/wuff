@@ -63,6 +63,11 @@
     [backButton setAccessibilityLabel:@"GroupView Back Button"];
     [navigationBarItem setLeftBarButtonItem:backButton];
     
+    UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:self action:@selector(edit)];
+    [editButton setTintColor:[UIColor whiteColor]];
+    [editButton setAccessibilityLabel:@"GroupView Edit Button"];
+    [navigationBarItem setRightBarButtonItem:editButton];
+    
     [navigationBar setBarTintColor:[UIColor colorWithRed:49.0f/255.0f green:103.0f/255.0f blue:157.0f/255.0f alpha:1.0f]];
     [navigationBar pushNavigationItem:navigationBarItem animated:NO];
     [navigationBar setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
@@ -76,6 +81,19 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
+-(void)edit {
+    
+    GroupEditViewController *editView = [[GroupEditViewController alloc] initWithNibName:nil bundle:nil];
+    editView.groupID = self.groupInfo[@"group"];
+    NSLog(@"GROUP ID: %@", self.groupInfo[@"group"] );
+    [self presentViewController:editView animated:YES completion:nil];
+    
+    
+    
+}
+
 
 -(IBAction)back
 {

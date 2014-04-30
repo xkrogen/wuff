@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SOLabel.h"
+#import "GroupEditViewController.h"
 
 @interface GroupViewController : UIViewController
 
