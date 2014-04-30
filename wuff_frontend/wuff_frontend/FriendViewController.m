@@ -90,6 +90,11 @@
                 //NSLog(@"Friend: %@", friend);
                 [self.friendList addObject:friend];
             }
+            
+            //sort friends alphabetically
+            NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"name"  ascending:YES];
+            self.friendList =[NSMutableArray arrayWithArray:[self.friendList sortedArrayUsingDescriptors:[NSArray arrayWithObjects:descriptor,nil]]];
+            
             break;
         }
         case ERR_INVALID_NAME:
