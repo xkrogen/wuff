@@ -1,4 +1,5 @@
-require 'user'
+#require 'user'
+require 'Condition'
 require 'NumberCondition'
 require 'UserCondition'
 
@@ -107,6 +108,7 @@ class EventsController < ApplicationController
   def update_user_status
 		return if not signed_in_response
 		return if not get_event
+		return if not member_of_event
 		
 		new_status = params[:status]
 		if not [STATUS_NO_RESPONSE, STATUS_NOT_ATTENDING,

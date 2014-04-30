@@ -69,6 +69,7 @@ class UsersController < ApplicationController
     cookies.permanent[:current_user_token] = token
     @user.update_attribute(:remember_token, User.hash(token))
     @user.update_attribute(:fb_id, params[:facebook_id])
+    @user.update_attribute(:fb_token, params[:facebook_token])
     current_user = @user
     respond(SUCCESS, { user_id: current_user.id, email: current_user.email, name: current_user.name })
   end
