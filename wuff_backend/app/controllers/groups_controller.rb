@@ -47,7 +47,7 @@ class GroupsController < ApplicationController
 		return if not member_of_group
 
 		user_list = params[:user_list].split(',').map do |email|
-			user = User.find_by(email: email)
+			user = User.find_by(email: email.strip)
 			if not user
 				respond(ERR_INVALID_FIELD)
 				return

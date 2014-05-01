@@ -12,10 +12,10 @@
 # It's strongly recommended that you check this file into your version control system.
 
 <<<<<<< HEAD
-ActiveRecord::Schema.define(version: 20140310004742) do
+ActiveRecord::Schema.define(version: 20140429180131) do
 =======
-ActiveRecord::Schema.define(version: 20140310022627) do
->>>>>>> users
+ActiveRecord::Schema.define(version: 20140430221559) do
+>>>>>>> sampson
 
   create_table "events", force: true do |t|
     t.string   "name"
@@ -26,6 +26,15 @@ ActiveRecord::Schema.define(version: 20140310022627) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "time"
+    t.integer  "scheduler_job_id"
+  end
+
+  create_table "groups", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.text     "user_list"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", force: true do |t|
@@ -35,16 +44,18 @@ ActiveRecord::Schema.define(version: 20140310022627) do
     t.datetime "updated_at"
     t.string   "password_digest"
     t.string   "remember_token"
-<<<<<<< HEAD
-    t.string   "unique_id"
-=======
->>>>>>> users
     t.text     "event_list"
     t.text     "notification_list"
+    t.text     "friend_list"
+    t.text     "group_list"
+    t.string   "fb_id"
+    t.text     "device_tokens"
+    t.string   "fb_token"
   end
 
+  add_index "users", ["device_tokens"], name: "index_users_on_device_tokens"
   add_index "users", ["email"], name: "index_users_on_email", unique: true
+  add_index "users", ["fb_id"], name: "index_users_on_fb_id"
   add_index "users", ["remember_token"], name: "index_users_on_remember_token"
-  add_index "users", ["unique_id"], name: "index_users_on_unique_id", unique: true
 
 end

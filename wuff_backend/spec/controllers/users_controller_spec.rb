@@ -1,7 +1,40 @@
 require 'spec_helper'
 require 'json'
 
+	# Facebook token for wufftest@gmail.com. May need to be refreshed with
+	# FB Graph API Explorer
+	FB_TOKEN = 'CAACEdEose0cBAEkcrXhhSV2oVj2CfZBYifH7b969ZC6TE6BpbwZBepKZBVKOaXd3U5Au82ZA4rZALjxX9qzQzEfxb2ZCL0M2geUpbRCrVWDo3r0s4dCs13Ox7mvF3cWm8GuD9ZAAzkRFtMFsXgkyvYGm2XxDZCvWR7rpqC8rRjspBsZBUbK88lIVEqPg7gU8eAZAilfzWfbjZAeDgwZDZD'
+	# Facebook ID for wufftest@gmail.com
+	FB_ID = '100008122715374'
+
 describe UsersController do
+	
+=begin
+	describe "Facebook Graph API Initial Testing (not a real unit test)" do
+		before do
+			post 'auth_facebook', { format: 'json', facebook_id: FB_ID, facebook_token: FB_TOKEN }
+			@fb_user = User.find_by(fb_id: FB_ID)
+			@rg = RestGraph.new(:access_token => FB_TOKEN)
+		end
+
+		describe "checking permissions" do
+			it "should show all current permissions" do
+				permission_data = @rg.get('me/permissions')['data'][0]
+				publish_permission = permission_data['publish_actions']
+				publish_permission.should eq 1
+				# publish_permission is now 1 if we are allowed to publish 
+				# things on the user's wall
+				#puts permission_data.to_s
+			end
+		end
+
+		describe "posting to your wall" do
+			it "should post onto the wall" do
+				@rg.post('me/feed', message: 'Test message sent from Wuff!') #, privacy: { value: 'CUSTOM', allow: '776266971,id2,id3' } )
+			end
+		end
+	end
+=end
 
 	describe "add_user" do
 		before do
@@ -13,6 +46,9 @@ describe UsersController do
 				post 'add_user', { format: 'json', name: 'Test Name', email: 'test@example.com', password: 'nopassword' }
 				JSON.parse(response.body)['err_code'].should eq SUCCESS
 				JSON.parse(response.body)['user_id'].should_not eq nil
+				@request.cookies['current_user_token'] =  @user_token 
+				get 'get_events'
+				JSON.parse(response.body)['event_count'].should eq 1
 			end
 		end
 
@@ -80,9 +116,9 @@ describe UsersController do
 	end
 
 	describe "auth_facebook" do
+
 		before do
-			# token may need to be refreshed with FB Graph API Explorer
-			@token = 'CAAG3tpE5O1UBAKl31Y80KmStU0azLLZBIgZAjJZCwvAH6EaXNDtXk9hcQVQYbioMNrb3YVsoqmTGENOO4F7zyLwYAr5ZAlJkm47TEWpETS7QZCVR5UpH9DS6eNMESHhhZAmW789KnuqDqz39ZCITQRKkpgfnLPXmSHEuQPqSDbNZCZBpSLzA9O1bxTjS9i2HuvJ9iACygNsGmiNxCeqimZBtyd'
+			@token = FB_TOKEN
 		end
 
 		describe "authenticate w/o token" do
@@ -95,9 +131,48 @@ describe UsersController do
 		describe "autenticate w/ proper token, email not in db" do
 			it "should create new user with fb_id in database" do
 				User.find_by(email: 'wufftest@gmail.com').should eq nil
-				post 'auth_facebook', { format: 'json', facebook_id: '100008122715374', facebook_token: @token }
+				post 'auth_facebook', { format: 'json', facebook_id: FB_ID, facebook_token: @token }
 				JSON.parse(response.body)['err_code'].should eq SUCCESS
-				User.find_by(fb_id: '100008122715374').should_not eq nil
+				User.find_by(fb_id: FB_ID).should_not eq nil
+			end
+		end
+	end
+
+	describe "get_facebook_friends" do
+
+		describe "as a valid Facebook user" do
+			before do
+				post 'auth_facebook', { format: 'json', facebook_id: FB_ID, facebook_token: FB_TOKEN }
+				@fb_user_token = @response.cookies['current_user_token'] 
+			end
+			it "should return all of their Facebook friends" do
+				@request.cookies['current_user_token'] =  @fb_user_token 
+				get 'get_facebook_friends'
+				JSON.parse(response.body)['err_code'].should eq SUCCESS
+				user_count = JSON.parse(response.body)['count']
+				user_count.should >= 2
+				user_name_list = []
+				for i in 1..user_count
+					JSON.parse(response.body)[i.to_s]['id'].should be_kind_of(String) 
+					user_name_list <<= JSON.parse(response.body)[i.to_s]['name']
+				end
+				user_name_list.should include("Erik T Krogen", "Sampson Gu")
+			end
+		end
+
+		describe "as a non-Facebook user" do
+			before do
+				@other = User.new(name: "Test Other", email: "t_other@example.com",
+					password: "test_password")
+				@other.add
+				@other_token = User.new_token
+				@other.update_attribute(:remember_token, User.hash(@other_token))
+				@request.cookies['current_user_token'] =  @other_token 
+			end
+			it "should return all of their Facebook friends" do
+				get 'get_facebook_friends'
+				JSON.parse(response.body)['err_code'].should eq SUCCESS
+				JSON.parse(response.body)['count'].should eq 0
 			end
 		end
 	end
