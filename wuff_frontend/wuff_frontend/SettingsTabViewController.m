@@ -46,6 +46,10 @@
     
 }
 
+-(void)viewDidAppear:(BOOL)animated {
+    [self loadGroups];
+}
+
 -(void) handleGroupResponse:(NSDictionary *)data
 {
     ErrorCode err_code = (ErrorCode)[[data objectForKey:@"err_code"] integerValue];
@@ -54,6 +58,7 @@
         case SUCCESS:
         {
             int group_count = [[data objectForKey:@"group_count"] integerValue];
+            self.menuList = [[NSMutableArray alloc] initWithArray:@[@"Self", @"Friends", @"Groups", @"+ Add Group", @"", @"", @"Logout"]];
             
             for(int i=1; i<=group_count; i++)
             {

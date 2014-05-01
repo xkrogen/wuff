@@ -72,7 +72,7 @@
     [self.navigationItem setHidesBackButton:YES];
     
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont boldSystemFontOfSize: 18.0f]}];
-    [self.navigationItem setTitle:@"Wuff"];
+    [self.navigationItem setTitle:@"Create Event"];
     
     UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel)];
     [cancelButton setTintColor:[UIColor whiteColor]];

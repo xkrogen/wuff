@@ -28,7 +28,7 @@
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="znY-Sd-VJ9">
                     <rect key="frame" x="20" y="153" width="33" height="33"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <accessibility key="accessibilityConfiguration" label="AddFriend_AddButton"/>
+                    <accessibility key="accessibilityConfiguration" label="Group Edit Add Name Button"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <state key="normal" title="Add">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -48,7 +48,7 @@
                     <rect key="frame" x="129" y="74" width="171" height="31"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    <accessibility key="accessibilityConfiguration" label="AddFriend_NameField">
+                    <accessibility key="accessibilityConfiguration" label="Group Edit Add Name Field">
                         <bool key="isElement" value="YES"/>
                     </accessibility>
                 </view>
@@ -62,13 +62,12 @@
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ejh-bo-P0N">
                     <rect key="frame" x="20" y="275" width="49" height="33"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <accessibility key="accessibilityConfiguration" label="AddFriend_AddButton"/>
+                    <accessibility key="accessibilityConfiguration" label="Group Edit Delete Name Button"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <state key="normal" title="Delete">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="addMembers" destination="-1" eventType="touchUpInside" id="z9P-Rw-wIv"/>
                         <action selector="deleteMembers" destination="-1" eventType="touchUpInside" id="Ipo-4l-qAu"/>
                     </connections>
                 </button>
@@ -83,7 +82,7 @@
                     <rect key="frame" x="138" y="196" width="162" height="31"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    <accessibility key="accessibilityConfiguration" label="AddFriend_NameField">
+                    <accessibility key="accessibilityConfiguration" label="Group Edit Delete Name Field">
                         <bool key="isElement" value="YES"/>
                     </accessibility>
                 </view>

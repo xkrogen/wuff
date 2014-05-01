@@ -52,7 +52,6 @@ typedef enum {
                                                fromDate:currentDate
                                                  toDate:date
                                                 options:0];
-    NSLog(@"%@", components);
     if (components.year == 0) {
         // same year
         if (components.month == 0) {
@@ -63,7 +62,7 @@ typedef enum {
                     // same day
                     if (components.hour == 0) {
                         // same hour
-                        if (components.minute < 10 && components.minute >= 0) {
+                        if (components.minute < 10) {
                             // in 10 mins
                             return @"now";
                         } else {
@@ -107,7 +106,6 @@ typedef enum {
     [_myRequester createRequestWithType:GET forExtension:@"/user/get_events" withDictionary:d];
     [self.refreshControl endRefreshing];
 }
-
 
 
 - (void)viewDidLoad
@@ -167,9 +165,6 @@ typedef enum {
 }
 
 -(void)viewDidAppear:(BOOL)animated {
-    
-    if (self.settingsTabController)
-        [self.settingsTabController loadGroups];
     
     if(![[NSUserDefaults standardUserDefaults] boolForKey:@"seenEventHelpButton"]) {
     
@@ -541,7 +536,7 @@ typedef enum {
     
     // detail (user list)
     cell.detailTextLabel.text = @"";
-    NSDictionary *users = [event objectForKey:@"users"];
+    NSDictionary *users = [self.eventList[indexPath.row] objectForKey:@"users"];
     int user_count = [[users objectForKey:@"user_count"] intValue];
     for (int i=1; i<=user_count; i++) {
         NSDictionary *user = [users objectForKey:[NSString stringWithFormat:@"%d", i]];
@@ -602,7 +597,7 @@ typedef enum {
     }
     
     EventViewController *eventView = [[EventViewController alloc]  initWithNibName:nil bundle:nil];
-    eventView.myTitle = [event objectForKey:@"title"];
+    eventView.myTitle = [self.eventList[indexPath.row] objectForKey:@"title"];
     
     NSDate *time = [NSDate dateWithTimeIntervalSince1970:[[event objectForKey:@"time"] integerValue]];
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
@@ -615,8 +610,16 @@ typedef enum {
     eventView.description = [event objectForKey:@"description"];
     
     // parse attendees
+<<<<<<< HEAD
+<<<<<<< HEAD
+    eventView.attenders = @"";
     NSDictionary *users = [event objectForKey:@"users"];
+=======
+=======
+>>>>>>> FETCH_HEAD
     eventView.attenders = [[NSAttributedString alloc] initWithString:@""];
+    NSDictionary *users = [self.eventList[indexPath.row] objectForKey:@"users"];
+>>>>>>> FETCH_HEAD
     int user_count = [[users objectForKey:@"user_count"] intValue];
     bool flag = false, going_flag = false;
     for (int i=1; i<=user_count; i++) {
@@ -640,10 +643,8 @@ typedef enum {
             going_flag = false;
         }
         
-        if ([eventView.attenders isEqualToAttributedString:[[NSAttributedString alloc] initWithString:@""]]) {
-            eventView.attenders = [[NSMutableAttributedString alloc] initWithString:@""];
-            [eventView.attenders appendAttributedString:name];
-        }
+        if ([eventView.attenders isEqualToAttributedString:[[NSAttributedString alloc] initWithString:@""]])
+            eventView.attenders = [[NSMutableAttributedString alloc] initWithString:[user objectForKey:@"name"]];
         else if (flag) {
             [eventView.attenders appendAttributedString:name];
             flag = false;
@@ -665,8 +666,8 @@ typedef enum {
             flag = true;
         }
     }
-    eventView.eventId = [event objectForKey:@"event"];
-    eventView.owner = ([event objectForKey:@"creator"]==[[NSUserDefaults standardUserDefaults] objectForKey:@"user_id"]);
+    eventView.eventId = [self.eventList[indexPath.row] objectForKey:@"event"];
+    eventView.owner = true;
     [self presentViewController:eventView animated:YES completion:NULL];
 }
 
