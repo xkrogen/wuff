@@ -452,9 +452,11 @@ typedef enum {
         
     }];
     
-    [cell setSwipeGestureWithView:listView color:brownColor mode:MCSwipeTableViewCellModeSwitch state:MCSwipeTableViewCellState4 completionBlock:^(MCSwipeTableViewCell *cell, MCSwipeTableViewCellState state, MCSwipeTableViewCellMode mode) {
+    /*
+     [cell setSwipeGestureWithView:listView color:brownColor mode:MCSwipeTableViewCellModeSwitch state:MCSwipeTableViewCellState4 completionBlock:^(MCSwipeTableViewCell *cell, MCSwipeTableViewCellState state, MCSwipeTableViewCellMode mode) {
         NSLog(@"Did swipe \"List\" cell");
     }];
+     */
     
     // test
     NSDate *time = [NSDate dateWithTimeIntervalSince1970:[[event objectForKey:@"time"] integerValue]];
@@ -559,12 +561,29 @@ typedef enum {
     eventView.attenders = @"";
     NSDictionary *users = [self.eventList[indexPath.row] objectForKey:@"users"];
     int user_count = [[users objectForKey:@"user_count"] intValue];
+    bool flag = false;
     for (int i=1; i<=user_count; i++) {
         NSDictionary *user = [users objectForKey:[NSString stringWithFormat:@"%d", i]];
         if ([eventView.attenders isEqualToString:@""])
             eventView.attenders = [user objectForKey:@"name"];
+        else if (flag) {
+            eventView.attenders = [NSString stringWithFormat:@"%@%@", eventView.attenders, [user objectForKey:@"name"]];
+            flag = false;
+        }
         else
             eventView.attenders = [NSString stringWithFormat:@"%@, %@", eventView.attenders, [user objectForKey:@"name"]];
+        
+        int a1 = [eventView.attenders length];
+        int a2 = [eventView.attenders rangeOfString:@"\n"].location;
+        
+        if (a2 == NSNotFound) {
+            a2 = 0;
+        }
+        
+        if (a1 - a2 > 26) {
+            eventView.attenders = [NSString stringWithFormat:@"%@\n", eventView.attenders];
+            flag = true;
+        }
     }
     eventView.eventId = [self.eventList[indexPath.row] objectForKey:@"event"];
     eventView.owner = true;

@@ -40,7 +40,7 @@
     
     eventAttenders.text = self.attenders;
     eventAttenders.lineBreakMode = NSLineBreakByWordWrapping;
-    eventAttenders.numberOfLines = 1;
+    eventAttenders.numberOfLines = 0;
     [eventAttenders sizeToFit];
     
     eventDescription.text = self.description;
