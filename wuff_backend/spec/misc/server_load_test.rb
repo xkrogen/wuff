@@ -25,9 +25,8 @@ describe "submitting many rapid requests to the heroku server", :external_server
 		  http.request(req)
 		end
 
-		#puts "ERROR: #{res.code}" if res.code != "200"
-		puts "RESPONSE CODE 1: #{res.code}"
-		puts "RESPONSE BODY 1: #{res.body}"
+		#puts "RESPONSE CODE 1: #{res.code}"
+		#puts "RESPONSE BODY 1: #{res.body}"
 
 		@tester_token = /current_user_token=([^;]+)/.match(res['Set-Cookie'])[1].to_s
 
@@ -40,9 +39,8 @@ describe "submitting many rapid requests to the heroku server", :external_server
 		  http.request(req)
 		end
 
-		puts "ERROR2: #{res.code}" if res.code != "200"
-		puts "RESPONSE CODE 2: #{res.code}"
-		puts "RESPONSE BODY 2: #{res.body}"
+		#puts "RESPONSE CODE 2: #{res.code}"
+		#puts "RESPONSE BODY 2: #{res.body}"
 
 		@tester2_token = /current_user_token=([^;]+)/.match(res['Set-Cookie'])[1].to_s
 
@@ -62,7 +60,10 @@ describe "submitting many rapid requests to the heroku server", :external_server
 
 	it "should print out the body for now" do
 		20.times do
-			puts change_status(@tester_token, 1, -1) + " " + change_status(@tester2_token, 92, -1) + " " + change_status(@tester_token, 1, 1) + " " + change_status(@tester2_token, 92, 1)
+			change_status(@tester_token, 1, -1).split(':')[1][0].should eq '1'
+			change_status(@tester2_token, 92, -1).split(':')[1][0].should eq '1'
+			change_status(@tester_token, 1, 1).split(':')[1][0].should eq '1'
+			change_status(@tester2_token, 92, 1).split(':')[1][0].should eq '1'
 		end
 	end
 end
