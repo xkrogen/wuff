@@ -77,6 +77,7 @@
     UIBarButtonItem *settingsTabButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(back)];
     [settingsTabButton setTintColor:[UIColor whiteColor]];
     [navigationBarItem setLeftBarButtonItem:settingsTabButton];
+    [settingsTabButton setAccessibilityLabel:@"Group Edit Done Button"];
     
     [navigationBar setBarTintColor:[UIColor colorWithRed:49.0f/255.0f green:103.0f/255.0f blue:157.0f/255.0f alpha:1.0f]];
     [navigationBar pushNavigationItem:navigationBarItem animated:NO];
