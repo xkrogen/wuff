@@ -52,6 +52,8 @@
     
     [[_nameInputView textField] setAutocapitalizationType:UITextAutocapitalizationTypeSentences];
     [[_locationInputView textField] setAutocapitalizationType:UITextAutocapitalizationTypeSentences];
+    
+    self.datePicker.minimumDate = [NSDate date];
 
     self.userList = [[NSMutableArray alloc] init];
     self.emailList = [[NSMutableSet alloc] init];

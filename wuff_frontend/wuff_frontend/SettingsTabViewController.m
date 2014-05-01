@@ -171,13 +171,16 @@
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *identifier;
-    if ([self.menuList[indexPath.row] isKindOfClass:[NSString class]])
+    id item = self.menuList[indexPath.row];
+    if ([item isKindOfClass:[NSString class]])
     {
         identifier = _menuList[indexPath.row];
     }
-    else if([self.menuList[indexPath.row] isKindOfClass:[NSDictionary class]])
+    else if([item isKindOfClass:[NSDictionary class]])
     {
-        identifier = [_menuList[indexPath.row] objectForKey:@"name"];
+        identifier = [item objectForKey:@"name"];
+        GroupViewController *eview = [[GroupViewController alloc] initWithNibName:nil bundle:nil andGroup:item];
+        [self presentViewController:eview animated:YES completion:nil];
     }
     else
     {

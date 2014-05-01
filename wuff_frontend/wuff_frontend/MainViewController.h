@@ -21,7 +21,7 @@
 
 #pragma mark - Interface
 
-@interface MainViewController : UIViewController <MSSlidingPanelControllerDelegate, UITableViewDataSource, UITabBarDelegate>
+@interface MainViewController : UIViewController <MSSlidingPanelControllerDelegate, UITableViewDataSource, UITabBarDelegate,CMPopTipViewDelegate>
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil andSettingsTab:(SettingsTabViewController *)settingsTabViewController;
 @property(nonatomic, strong) HandleRequest *myRequester;
@@ -29,6 +29,7 @@
 @property (nonatomic, strong) IBOutlet UITableView *mainTable;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) SettingsTabViewController *settingsTabController;
+@property (nonatomic,retain) UIBarButtonItem *addButton;
 
 -(IBAction)createEvent;
 -(IBAction)openSettingsPanel;

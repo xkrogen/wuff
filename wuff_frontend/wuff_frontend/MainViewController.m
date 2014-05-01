@@ -147,6 +147,7 @@ typedef enum {
     [addButton setTintColor:[UIColor whiteColor]];
     [addButton setAccessibilityLabel:@"Add Button"];
     [navigationBarItem setRightBarButtonItem:addButton];
+    self.addButton = addButton;
     
     [navigationBar setBarTintColor:[UIColor colorWithRed:49.0f/255.0f green:103.0f/255.0f blue:157.0f/255.0f alpha:1.0f]];
     [navigationBar pushNavigationItem:navigationBarItem animated:NO];
@@ -161,6 +162,22 @@ typedef enum {
      selector:@selector(didReceiveRemoteNotification:)
      name:UIApplicationDidReceiveRemoteNotification
      object:nil];
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+    
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"seenEventHelpButton"]) {
+    
+        CMPopTipView *addEventPopTipView = [[CMPopTipView alloc] initWithMessage:@"Click this button to get started making events!"];
+        addEventPopTipView.delegate = self;
+        [addEventPopTipView presentPointingAtBarButtonItem:self.addButton animated:YES];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"seenEventHelpButton"];
+    }
+}
+
+
+-(void)popTipViewWasDismissedByUser:(CMPopTipView *)popTipView {
+    
 }
 
 -(void)didReceiveRemoteNotification:(NSDictionary *)userInfo {

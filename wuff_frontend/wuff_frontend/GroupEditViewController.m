@@ -1,18 +1,18 @@
 //
-//  ConditionalViewController.m
+//  GroupEditViewController.m
 //  wuff_frontend
 //
-//  Created by Matthew Griffin on 4/17/14.
+//  Created by Matthew Griffin on 4/30/14.
 //  Copyright (c) 2014 Wuff Productions. All rights reserved.
 //
 
-#import "ConditionalViewController.h"
+#import "GroupEditViewController.h"
 
-@interface ConditionalViewController ()
+@interface GroupEditViewController ()
 
 @end
 
-@implementation ConditionalViewController
+@implementation GroupEditViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -26,8 +26,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.autocompleteTextField.autoCompleteDataSource = self;
-    self.autocompleteTextField.autoCompleteDelegate = self;
+    
+    [self.autocompleteTextField setBorderStyle:UITextBorderStyleRoundedRect];
+    self.autocompleteTextField.delegate = (id)self;
+    self.autocompleteTextField.autoCompleteDataSource = (id)self;
+    self.autocompleteTextField.autoCompleteDelegate = (id)self;
     
     [self.autocompleteTextField setAutoCompleteTableBackgroundColor:[UIColor colorWithWhite:1 alpha:0.9]];
     // no spell checking / auto correction since persons names
@@ -37,10 +40,27 @@
     [self.autocompleteTextField setAutocapitalizationType:UITextAutocapitalizationTypeWords];
     
     
+    [self.autocompleteTextField2 setBorderStyle:UITextBorderStyleRoundedRect];
+    self.autocompleteTextField2.delegate = (id)self;
+    self.autocompleteTextField2.autoCompleteDataSource = (id)self;
+    self.autocompleteTextField2.autoCompleteDelegate = (id)self;
+    
+    [self.autocompleteTextField2 setAutoCompleteTableBackgroundColor:[UIColor colorWithWhite:1 alpha:0.9]];
+    // no spell checking / auto correction since persons names
+    [self.autocompleteTextField2 setSpellCheckingType:UITextSpellCheckingTypeNo];
+    [self.autocompleteTextField2 setAutocorrectionType:UITextAutocorrectionTypeNo];
+    // auto capitalize words (names)
+    [self.autocompleteTextField2 setAutocapitalizationType:UITextAutocapitalizationTypeWords];
+    
+    self.emailList = [NSMutableArray arrayWithCapacity:5];
+    
+    self.userList = [[NSMutableArray alloc] init];
+    
     NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys: nil];
     _myRequester = [[HandleRequest alloc] initWithSelector:@"handleUserList:" andDelegate:self];
     [_myRequester createRequestWithType:POST forExtension:@"/user/get_all_users" withDictionary:d];
     
+    // USE THIS CODE TO CREATE THE NAVIGATION CONTROLLER PROGRAMMATICALLY
     UINavigationBar *navigationBar;
     UINavigationItem *navigationBarItem;
     
@@ -49,27 +69,22 @@
     
     [[self view] addSubview:navigationBar];
     
-    [self.navigationItem setHidesBackButton:NO];
+    [self.navigationItem setHidesBackButton:YES];
     
     [navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont boldSystemFontOfSize: 18.0f]}];
     navigationBarItem = [[UINavigationItem alloc] initWithTitle:@"Wuff"];
     
-    UIBarButtonItem *settingsTabButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancel)];
+    UIBarButtonItem *settingsTabButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(back)];
     [settingsTabButton setTintColor:[UIColor whiteColor]];
-    [settingsTabButton setAccessibilityLabel:@"Settings Tab Button"];
     [navigationBarItem setLeftBarButtonItem:settingsTabButton];
-
+    
     [navigationBar setBarTintColor:[UIColor colorWithRed:49.0f/255.0f green:103.0f/255.0f blue:157.0f/255.0f alpha:1.0f]];
     [navigationBar pushNavigationItem:navigationBarItem animated:NO];
     [navigationBar setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
     
     [[self view] addSubview:navigationBar];
-    
-    self.userList = [[NSMutableArray alloc] init];
-    self.emailList = [[NSMutableSet alloc] init];
-    
+    // END CODE
 }
-
 
 -(void)handleUserList:(NSDictionary *)response
 {
@@ -77,106 +92,53 @@
     for (int i=1; i<=userCount; i++)
     {
         NSDictionary *user = [response objectForKey:[NSString stringWithFormat:@"%d", i]];
-        [self.userList addObject:[[UserAutoCompletionObject alloc] initWithUserDictionary:user]];
+        [_userList addObject:[[UserAutoCompletionObject alloc] initWithUserDictionary:user]];
     }
 }
 
--(IBAction)typeValueChanged {
-    
-    if(self.condType.selectedSegmentIndex==0) {
-        
-        
-        [self.paramsField resignFirstResponder];
-        [self.autocompleteTextField resignFirstResponder];
-        
-        self.paramsField.text = @"";
-        
-        self.paramsField.placeholder = @"Enter a Number";
-        self.paramsField.keyboardType = UIKeyboardTypeNumberPad;
-        self.autocompleteTextField.hidden = YES;
-    }
-    else {
-        
-        self.paramsField.text = @"";
-        
-        [self.paramsField resignFirstResponder];
-        [self.autocompleteTextField resignFirstResponder];
-        
-        self.paramsField.placeholder = @"Enter a list of Emails";
-        self.paramsField.keyboardType = UIKeyboardTypeEmailAddress;
-        self.autocompleteTextField.hidden = NO;
-    }
-}
-
--(IBAction)accept
+-(IBAction)addMembers
 {
-    _myRequester = [[HandleRequest alloc] initWithSelector:@"handleAdd:" andDelegate:self];
+    _myRequester = [[HandleRequest alloc] initWithSelector:@"handleAddFriends:" andDelegate:self];
     NSMutableDictionary *d = [NSMutableDictionary dictionary];
-    [d setObject:self.event forKey:@"event"];
-    [d setObject:[NSNumber numberWithInt:self.condType.selectedSegmentIndex+1] forKey:@"condition_type"];
-    
-    if(self.condType.selectedSegmentIndex==0) {
-        [d setObject:[NSNumber numberWithInteger:[self.paramsField.text integerValue]] forKey:@"condition"];
-    }
-    else {
-        [d setObject:self.paramsField.text forKey:@"condition"];
-    }
+    [d setObject:_emailInputView.text forKey:@"user_list"];
+    [d setObject:self.groupID forKey:@"group"];
     
     for(id key in d)
         NSLog(@"key=%@ value=%@", key, [d objectForKey:key]);
     
-    [_myRequester createRequestWithType:POST forExtension:@"/event/add_conditional_acceptance" withDictionary:d];
-    //NSLog(@"sent create event request!");
-    
-    // close the keyboard
+    [_myRequester createRequestWithType:POST forExtension:@"/group/add_users" withDictionary:d];
     [self.view endEditing:YES];
 }
 
--(IBAction)cancel
+-(IBAction)deleteMembers {
+    _myRequester = [[HandleRequest alloc] initWithSelector:@"handleRemoveUsers:" andDelegate:self];
+    NSMutableDictionary *d = [NSMutableDictionary dictionary];
+    [d setObject:_removeEmailInputView.text forKey:@"user_list"];
+    [d setObject:self.groupID forKey:@"group"];
+    
+    for(id key in d)
+        NSLog(@"key=%@ value=%@", key, [d objectForKey:key]);
+    
+    [_myRequester createRequestWithType:POST forExtension:@"/group/remove_users" withDictionary:d];
+    [self.view endEditing:YES];
+}
+
+-(IBAction)back
 {
-    /*
-     MainViewController *main = [[MainViewController alloc] initWithNibName:nil bundle:nil];
-     SettingsTabViewController *settings = [[SettingsTabViewController alloc] initWithNibName:nil bundle:Nil];
-     
-     MSSlidingPanelController *newView = [[MSSlidingPanelController alloc] initWithCenterViewController:main andLeftPanelController:settings];
-     
-     [self presentViewController:newView animated:YES completion:nil];
-     */
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 
-
--(void)handleAdd:(NSDictionary *)response
+-(void)handleAddFriends:(NSDictionary *)response
 {
     ErrorCode err_code = (ErrorCode)[[response objectForKey:@"err_code"] integerValue];
     switch (err_code)
     {
         case SUCCESS:
         {
-            [self.view makeToast:@"Condition Added! Add another or press 'Cancel' to go back to your events"];
+            [self dismissViewControllerAnimated:YES completion:nil];
             break;
         }
-            
-        case ERR_INVALID_NAME:
-            [self.view makeToast:@"Invalid Name"];
-            break;
-            
-        case ERR_INVALID_EMAIL:
-            [self.view makeToast:@"Invalid Email"];
-            break;
-            
-        case ERR_INVALID_PASSWORD:
-            [self.view makeToast:@"Password must be longer"];
-            break;
-            
-        case ERR_EMAIL_TAKEN:
-            [self.view makeToast:@"Email Already Taken"];
-            break;
-            
-        case ERR_INVALID_CREDENTIALS:
-            [self.view makeToast:@"Incorrect Email/Password"];
-            break;
             
         case ERR_INVALID_FIELD:
             [self.view makeToast:@"Invalid Field."];
@@ -186,8 +148,29 @@
             [self.view makeToast:@"Attempt unsuccessful. Please try again"];
             break;
             
-        case ERR_INVALID_TIME:
-            [self.view makeToast:@"Invalid Time"];
+        case ERR_INVALID_SESSION:
+            [self.view makeToast:@"Invalid Session. Try logging out and back in"];
+            break;
+    }
+}
+
+-(void)handleRemoveUsers:(NSDictionary *)response
+{
+    ErrorCode err_code = (ErrorCode)[[response objectForKey:@"err_code"] integerValue];
+    switch (err_code)
+    {
+        case SUCCESS:
+        {
+            [self dismissViewControllerAnimated:YES completion:nil];
+            break;
+        }
+            
+        case ERR_INVALID_FIELD:
+            [self.view makeToast:@"Invalid Field."];
+            break;
+            
+        case ERR_UNSUCCESSFUL:
+            [self.view makeToast:@"Attempt unsuccessful. Please try again"];
             break;
             
         case ERR_INVALID_SESSION:
@@ -238,7 +221,7 @@
        withAutoCompleteObject:(id<MLPAutoCompletionObject>)selectedObject
             forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(selectedObject){
+    if(selectedObject && textField==self.autocompleteTextField){
         NSLog(@"selected object from autocomplete menu %@ with string %@", selectedObject, [selectedObject autocompleteString]);
         
         // get the UserObject that we just selected's email
@@ -255,14 +238,15 @@
         else
         {
             // append the email to emailList text
-            NSString *previousText = self.paramsField.text;
+            NSString *previousText = self.emailInputView.text;
             NSString *addendum = @"";
             if ([previousText isEqualToString:@""])
                 addendum = [NSString stringWithFormat:@"%@", email];
             else
-                addendum = [NSString stringWithFormat:@"%@, %@", previousText, email];
+                addendum = [NSString stringWithFormat:@"%@,%@", previousText, email];
+            
             // set the new text
-            [self.paramsField setText:addendum];
+            [self.emailInputView setText:addendum];
             [self.emailList addObject:email];
         }
         
@@ -271,17 +255,37 @@
         
         // close the keyboard
         [self.view endEditing:YES];
-    } else {
+    }
+    
+    else if(selectedObject && textField==self.autocompleteTextField2){
+        NSLog(@"selected object from autocomplete menu %@ with string %@", selectedObject, [selectedObject autocompleteString]);
+        
+        // get the UserObject that we just selected's email
+        NSString *email = [(UserAutoCompletionObject *)selectedObject getEmail];
+        
+        if ([self.removeEmailList containsObject:email])
+        {
+            [self.view makeToast:@"User already added!"];
+        }
+        else
+        {
+            [self.removeEmailInputView setText:email];
+            [self.removeEmailList addObject:email];
+        }
+        
+        // remove the text in the autocompleteTextField
+        [self.autocompleteTextField2 setText:@""];
+        
+        // close the keyboard
+        [self.view endEditing:YES];
+    }
+    
+    
+    
+    else {
         NSLog(@"selected string '%@' from autocomplete menu", selectedString);
     }
 }
 
-
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 @end

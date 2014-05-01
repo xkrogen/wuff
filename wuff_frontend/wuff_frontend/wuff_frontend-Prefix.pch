@@ -16,4 +16,5 @@
     #import "UIView+Toast.h"
     #import <FacebookSDK/FacebookSDK.h>
     #import "HandleRequest.h"
+    #import "CMPopTipView.h"
 #endif
