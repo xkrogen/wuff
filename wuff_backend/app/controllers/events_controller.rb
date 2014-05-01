@@ -130,7 +130,7 @@ class EventsController < ApplicationController
 		respond(SUCCESS, @event.get_hash)
 	end
 
-	# DELETE /event/cancel_event
+	# POST /event/cancel_event
 	# Deletes the given event. Removes it from all of the associated
 	# user's event_lists, and removes it from the database.
 	# Will fail if not called by the admin.

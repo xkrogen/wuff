@@ -46,6 +46,9 @@ describe UsersController do
 				post 'add_user', { format: 'json', name: 'Test Name', email: 'test@example.com', password: 'nopassword' }
 				JSON.parse(response.body)['err_code'].should eq SUCCESS
 				JSON.parse(response.body)['user_id'].should_not eq nil
+				@request.cookies['current_user_token'] =  @user_token 
+				get 'get_events'
+				JSON.parse(response.body)['event_count'].should eq 1
 			end
 		end
 
