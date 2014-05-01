@@ -26,10 +26,9 @@
 @property(nonatomic, strong) NSString *myTitle;
 @property(nonatomic, strong) NSString *location;
 @property(nonatomic, strong) NSString *time;
-@property(nonatomic, strong) NSString *attenders;
+@property(nonatomic, strong) NSMutableAttributedString *attenders;
 @property(nonatomic, strong) NSString *description;
 @property(nonatomic, strong) NSString *eventId;
-
 
 @property(nonatomic) bool owner;
 
