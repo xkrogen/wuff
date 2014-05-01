@@ -23,7 +23,8 @@ class UsersController < ApplicationController
   		@user.update_attribute(:remember_token, User.hash(token))
   		current_user = @user
       respond(rval, { user_id: current_user.id,  email: current_user.email, name: current_user.name })
-      Event.add_event("Welcome to WUFF", current_user.id, DateTime.now.to_i + 10, [current_user.id])
+      Event.add_event("Welcome to WUFF", current_user.id, DateTime.now.to_i + 10,
+        [current_user.id], "", "WUFF Community")
   	end
   end
 
@@ -60,6 +61,8 @@ class UsersController < ApplicationController
         if @user == nil
           @user = User.new(name: medata['name'], email:  medata['email'], password: SecureRandom.urlsafe_base64)
           @user.add
+          Event.add_event("Welcome to WUFF", @user.id, DateTime.now.to_i + 10,
+            [@user.id], "", "WUFF Community")
         end
       rescue => exception
         respond(ERR_BAD_CREDENTIALS)
@@ -73,7 +76,6 @@ class UsersController < ApplicationController
     @user.update_attribute(:fb_token, params[:facebook_token])
     current_user = @user
     respond(SUCCESS, { user_id: current_user.id, email: current_user.email, name: current_user.name })
-    Event.add_event("Welcome to WUFF", current_user.id, DateTime.now.to_i + 10, [current_user.id])
   end
 
   # Returns information about every Facebook friend of the currently 

@@ -38,7 +38,7 @@
     eventTime.lineBreakMode = NSLineBreakByWordWrapping;
     eventTime.numberOfLines = 1;
     
-    eventAttenders.text = self.attenders;
+    eventAttenders.attributedText = self.attenders;
     eventAttenders.lineBreakMode = NSLineBreakByWordWrapping;
     eventAttenders.numberOfLines = 0;
     [eventAttenders sizeToFit];
