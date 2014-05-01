@@ -48,7 +48,7 @@
     [self.navigationItem setHidesBackButton:YES];
     
     [navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont boldSystemFontOfSize: 18.0f]}];
-    navigationBarItem = [[UINavigationItem alloc] initWithTitle:@"Wuff"];
+    navigationBarItem = [[UINavigationItem alloc] initWithTitle:@"Friends"];
     
 
     UIBarButtonItem *settingsTabButton = [[UIBarButtonItem alloc] initWithTitle:@"Back"
@@ -72,7 +72,6 @@
     // END CODE
     
 }
-
 
 -(void) handleFriendResponse:(NSDictionary *)data {
     NSLog(@"Handle response here!");
