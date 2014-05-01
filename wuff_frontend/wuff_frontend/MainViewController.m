@@ -598,7 +598,7 @@ typedef enum {
     }
     
     EventViewController *eventView = [[EventViewController alloc]  initWithNibName:nil bundle:nil];
-    eventView.myTitle = [self.eventList[indexPath.row] objectForKey:@"title"];
+    eventView.myTitle = [event objectForKey:@"title"];
     
     NSDate *time = [NSDate dateWithTimeIntervalSince1970:[[event objectForKey:@"time"] integerValue]];
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
@@ -613,7 +613,6 @@ typedef enum {
     // parse attendees
     NSDictionary *users = [event objectForKey:@"users"];
     eventView.attenders = [[NSAttributedString alloc] initWithString:@""];
-    NSDictionary *users = [self.eventList[indexPath.row] objectForKey:@"users"];
     int user_count = [[users objectForKey:@"user_count"] intValue];
     bool flag = false, going_flag = false;
     for (int i=1; i<=user_count; i++) {
@@ -660,7 +659,7 @@ typedef enum {
             flag = true;
         }
     }
-    eventView.eventId = [self.eventList[indexPath.row] objectForKey:@"event"];
+    eventView.eventId = [event objectForKey:@"event"];
     eventView.owner = true;
     [self presentViewController:eventView animated:YES completion:NULL];
 }
