@@ -314,8 +314,30 @@ typedef enum {
     // Dispose of any resources that can be recreated.
 }
 
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 2;
+}
+
+-(NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    
+    if(section==0) {
+        return @"Upcoming Events";
+    }
+    else {
+        return @"Past Events";
+    }
+    
+    
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.eventList count];
+    
+    if(section==0) { //current events
+        return [[self.eventList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"time >= %f",[[NSDate date]timeIntervalSince1970]]] count];
+    }
+    else { //old events
+        return [[self.eventList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"time < %f",[[NSDate date]timeIntervalSince1970]]] count];
+    }
 }
 
 - (UIView *)viewWithImageName:(NSString *)imageName {
@@ -331,7 +353,18 @@ typedef enum {
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSDictionary *event = self.eventList[indexPath.row];
+    
+    NSLog(@"made it here %f", [[NSDate date] timeIntervalSince1970]);
+    
+    NSDictionary *event;
+    if(indexPath.section==0) {
+        event = [[self.eventList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"time >= %f",[[NSDate date]timeIntervalSince1970]]] sortedArrayUsingDescriptors:@[ [[NSSortDescriptor alloc]initWithKey:@"time"  ascending:YES]]][indexPath.row];
+    }
+    else {
+        event = [[self.eventList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"time < %f",[[NSDate date]timeIntervalSince1970]]] sortedArrayUsingDescriptors:@[ [[NSSortDescriptor alloc]initWithKey:@"time"  ascending:NO]]][indexPath.row];
+    }
+    
+    
     
     NSString *SimpleIdentifier = [NSString stringWithFormat:@"%d", indexPath.row];
     
