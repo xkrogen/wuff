@@ -640,8 +640,10 @@ typedef enum {
             going_flag = false;
         }
         
-        if ([eventView.attenders isEqualToAttributedString:[[NSAttributedString alloc] initWithString:@""]])
-            eventView.attenders = [[NSMutableAttributedString alloc] initWithString:[user objectForKey:@"name"]];
+        if ([eventView.attenders isEqualToAttributedString:[[NSAttributedString alloc] initWithString:@""]]) {
+            eventView.attenders = [[NSMutableAttributedString alloc] initWithString:@""];
+            [eventView.attenders appendAttributedString:name];
+        }
         else if (flag) {
             [eventView.attenders appendAttributedString:name];
             flag = false;
