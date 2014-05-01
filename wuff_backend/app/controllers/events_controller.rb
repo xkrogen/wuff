@@ -161,7 +161,7 @@ class EventsController < ApplicationController
 		respond(rval)
 	end
 
-	# DELETE /event/remove_user
+	# POST /event/remove_user
 	# Removes the given user from the event only if the currently
 	# signed in user is the admin for the event. You cannot 
 	# remove the admin from the event.
