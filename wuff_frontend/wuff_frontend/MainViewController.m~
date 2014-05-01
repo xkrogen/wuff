@@ -610,9 +610,16 @@ typedef enum {
     eventView.description = [event objectForKey:@"description"];
     
     // parse attendees
+<<<<<<< HEAD
+<<<<<<< HEAD
+    eventView.attenders = @"";
     NSDictionary *users = [event objectForKey:@"users"];
+=======
+=======
+>>>>>>> FETCH_HEAD
     eventView.attenders = [[NSAttributedString alloc] initWithString:@""];
     NSDictionary *users = [self.eventList[indexPath.row] objectForKey:@"users"];
+>>>>>>> FETCH_HEAD
     int user_count = [[users objectForKey:@"user_count"] intValue];
     bool flag = false, going_flag = false;
     for (int i=1; i<=user_count; i++) {
