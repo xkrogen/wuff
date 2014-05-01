@@ -537,7 +537,7 @@ typedef enum {
     
     // detail (user list)
     cell.detailTextLabel.text = @"";
-    NSDictionary *users = [self.eventList[indexPath.row] objectForKey:@"users"];
+    NSDictionary *users = [event objectForKey:@"users"];
     int user_count = [[users objectForKey:@"user_count"] intValue];
     for (int i=1; i<=user_count; i++) {
         NSDictionary *user = [users objectForKey:[NSString stringWithFormat:@"%d", i]];
