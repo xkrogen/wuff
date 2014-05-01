@@ -1,5 +1,4 @@
 include RestGraph::RailsUtil
-require 'Event'
 
 class UsersController < ApplicationController
 
