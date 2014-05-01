@@ -26,6 +26,7 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil andSettingsTab:(SettingsTabViewController *)settingsTabViewController;
 @property(nonatomic, strong) HandleRequest *myRequester;
 @property (nonatomic) NSMutableArray *eventList;
+@property (nonatomic) NSMutableArray *oldEventList;
 @property (nonatomic, strong) IBOutlet UITableView *mainTable;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) SettingsTabViewController *settingsTabController;

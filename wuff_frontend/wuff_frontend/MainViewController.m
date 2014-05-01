@@ -52,6 +52,7 @@ typedef enum {
                                                fromDate:currentDate
                                                  toDate:date
                                                 options:0];
+    NSLog(@"%@", components);
     if (components.year == 0) {
         // same year
         if (components.month == 0) {
@@ -62,7 +63,7 @@ typedef enum {
                     // same day
                     if (components.hour == 0) {
                         // same hour
-                        if (components.minute < 10) {
+                        if (components.minute < 10 && components.minute >= 0) {
                             // in 10 mins
                             return @"now";
                         } else {
@@ -314,8 +315,30 @@ typedef enum {
     // Dispose of any resources that can be recreated.
 }
 
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 2;
+}
+
+-(NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    
+    if(section==0) {
+        return @"Upcoming Events";
+    }
+    else {
+        return @"Past Events";
+    }
+    
+    
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.eventList count];
+    
+    if(section==0) { //current events
+        return [[self.eventList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"time >= %f",[[NSDate date]timeIntervalSince1970]]] count];
+    }
+    else { //old events
+        return [[self.eventList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"time < %f",[[NSDate date]timeIntervalSince1970]]] count];
+    }
 }
 
 - (UIView *)viewWithImageName:(NSString *)imageName {
@@ -331,7 +354,18 @@ typedef enum {
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSDictionary *event = self.eventList[indexPath.row];
+    
+    NSLog(@"made it here %f", [[NSDate date] timeIntervalSince1970]);
+    
+    NSDictionary *event;
+    if(indexPath.section==0) {
+        event = [[self.eventList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"time >= %f",[[NSDate date]timeIntervalSince1970]]] sortedArrayUsingDescriptors:@[ [[NSSortDescriptor alloc]initWithKey:@"time"  ascending:YES]]][indexPath.row];
+    }
+    else {
+        event = [[self.eventList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"time < %f",[[NSDate date]timeIntervalSince1970]]] sortedArrayUsingDescriptors:@[ [[NSSortDescriptor alloc]initWithKey:@"time"  ascending:NO]]][indexPath.row];
+    }
+    
+    
     
     NSString *SimpleIdentifier = [NSString stringWithFormat:@"%d", indexPath.row];
     
@@ -558,30 +592,51 @@ typedef enum {
     eventView.description = [self.eventList[indexPath.row] objectForKey:@"description"];
     
     // parse attendees
-    eventView.attenders = @"";
+    eventView.attenders = [[NSAttributedString alloc] initWithString:@""];
     NSDictionary *users = [self.eventList[indexPath.row] objectForKey:@"users"];
     int user_count = [[users objectForKey:@"user_count"] intValue];
-    bool flag = false;
+    bool flag = false, going_flag = false;
     for (int i=1; i<=user_count; i++) {
         NSDictionary *user = [users objectForKey:[NSString stringWithFormat:@"%d", i]];
-        if ([eventView.attenders isEqualToString:@""])
-            eventView.attenders = [user objectForKey:@"name"];
+        UIFont *cellTitleFont = [UIFont fontWithName:@"HelveticaNeue-Medium" size:15.0f];
+    
+        NSDictionary *lightGray = [NSDictionary dictionaryWithObject:[UIColor lightGrayColor] forKey:NSForegroundColorAttributeName];
+        
+        NSAttributedString *name, *comma;
+        if (going_flag)
+            comma = [[NSAttributedString alloc] initWithString:@", "];
+        else
+            comma = [[NSAttributedString alloc] initWithString:@", " attributes:lightGray];
+        
+        if ([[user objectForKey:@"status"] integerValue] == 1) {
+            name = [[NSAttributedString alloc] initWithString:[user objectForKey:@"name"]];
+            going_flag = true;
+        }
+        else {
+            name = [[NSAttributedString alloc] initWithString:[user objectForKey:@"name"] attributes:lightGray];
+            going_flag = false;
+        }
+        
+        if ([eventView.attenders isEqualToAttributedString:[[NSAttributedString alloc] initWithString:@""]])
+            eventView.attenders = [[NSMutableAttributedString alloc] initWithString:[user objectForKey:@"name"]];
         else if (flag) {
-            eventView.attenders = [NSString stringWithFormat:@"%@%@", eventView.attenders, [user objectForKey:@"name"]];
+            [eventView.attenders appendAttributedString:name];
             flag = false;
         }
-        else
-            eventView.attenders = [NSString stringWithFormat:@"%@, %@", eventView.attenders, [user objectForKey:@"name"]];
+        else {
+            [eventView.attenders appendAttributedString:comma];
+            [eventView.attenders appendAttributedString:name];
+        }
         
         int a1 = [eventView.attenders length];
-        int a2 = [eventView.attenders rangeOfString:@"\n"].location;
+        int a2 = [eventView.attenders.string rangeOfString:@"\n"].location;
         
         if (a2 == NSNotFound) {
             a2 = 0;
         }
         
         if (a1 - a2 > 26) {
-            eventView.attenders = [NSString stringWithFormat:@"%@\n", eventView.attenders];
+            [eventView.attenders appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
             flag = true;
         }
     }
