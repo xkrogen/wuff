@@ -61,6 +61,7 @@
                 // insert it after the @"Group"
                 [self.menuList insertObject:group atIndex:3];
             }
+            [self.table reloadData];
             break;
         }
         case ERR_INVALID_SESSION:
@@ -203,6 +204,7 @@
     else if ([identifier isEqualToString:@"+ Add Group"])
     {
         GroupCreateViewController *settings = [[GroupCreateViewController alloc] initWithNibName:nil bundle:nil];
+        settings.prev = self;
         [self presentViewController:settings animated:YES completion:nil];
     }
     else if ([identifier isEqualToString:@"Friends"])

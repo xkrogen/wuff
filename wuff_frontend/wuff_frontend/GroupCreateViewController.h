@@ -11,7 +11,7 @@
 #import "UIView+Toast.h"
 #import "InputView.h"
 #import "MainViewController.h"
-#import "SettingsTabViewController.h"
+@class SettingsTabViewController;
 #import "MLPAutoCompleteTextField.h"
 #import "UserAutoCompletionObject.h"
 
@@ -21,6 +21,8 @@
 @property(nonatomic, strong) IBOutlet InputView *emailListInputView;
 @property(nonatomic, strong) IBOutlet InputView *descriptionInputView;
 @property(nonatomic, strong) IBOutlet MLPAutoCompleteTextField *autocompleteTextField;
+
+@property(nonatomic, strong) IBOutlet SettingsTabViewController *prev;
 
 @property(nonatomic, strong) IBOutlet UIScrollView *scrollView;
 @property(nonatomic, strong) IBOutlet UIView *contentView;

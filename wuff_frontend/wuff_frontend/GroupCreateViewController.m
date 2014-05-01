@@ -7,6 +7,7 @@
 //
 
 #import "GroupCreateViewController.h"
+#import "SettingsTabViewController.h"
 
 @interface GroupCreateViewController ()
 
@@ -137,13 +138,11 @@
         case SUCCESS:
         {
             NSLog(@"Moving to main screen");
-            
-            SettingsTabViewController *settings = [[SettingsTabViewController alloc] initWithNibName:nil bundle:Nil];
-            MainViewController *main = [[MainViewController alloc] initWithNibName:nil bundle:nil andSettingsTab:settings];
-            
-            MSSlidingPanelController *newView = [[MSSlidingPanelController alloc] initWithCenterViewController:main andLeftPanelController:settings];
-            
-            [self presentViewController:newView animated:YES completion:nil];
+            if (self.prev)
+            {
+                [self.prev loadGroups];
+            }
+            [self dismissViewControllerAnimated:YES completion:nil];
             break;
         }
             
