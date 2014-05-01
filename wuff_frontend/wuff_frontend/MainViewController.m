@@ -52,6 +52,7 @@ typedef enum {
                                                fromDate:currentDate
                                                  toDate:date
                                                 options:0];
+    NSLog(@"%@", components);
     if (components.year == 0) {
         // same year
         if (components.month == 0) {
@@ -62,7 +63,7 @@ typedef enum {
                     // same day
                     if (components.hour == 0) {
                         // same hour
-                        if (components.minute < 10) {
+                        if (components.minute < 10 && components.minute >= 0) {
                             // in 10 mins
                             return @"now";
                         } else {
