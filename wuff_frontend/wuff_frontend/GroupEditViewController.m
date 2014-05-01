@@ -120,6 +120,7 @@
     for(id key in d)
         NSLog(@"key=%@ value=%@", key, [d objectForKey:key]);
     
+    
     [_myRequester createRequestWithType:POST forExtension:@"/group/remove_user" withDictionary:d];
     [self.view endEditing:YES];
 }
