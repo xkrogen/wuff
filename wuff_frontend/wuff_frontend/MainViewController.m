@@ -109,6 +109,7 @@ typedef enum {
 }
 
 
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -166,6 +167,9 @@ typedef enum {
 }
 
 -(void)viewDidAppear:(BOOL)animated {
+    
+    if (self.settingsTabController)
+        [self.settingsTabController loadGroups];
     
     if(![[NSUserDefaults standardUserDefaults] boolForKey:@"seenEventHelpButton"]) {
     
@@ -660,7 +664,7 @@ typedef enum {
         }
     }
     eventView.eventId = [event objectForKey:@"event"];
-    eventView.owner = true;
+    eventView.owner = ([event objectForKey:@"creator"]==[[NSUserDefaults standardUserDefaults] objectForKey:@"user_id"]);
     [self presentViewController:eventView animated:YES completion:NULL];
 }
 
