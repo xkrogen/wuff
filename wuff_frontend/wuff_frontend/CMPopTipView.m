@@ -692,20 +692,20 @@
         // Initialization code
 		self.opaque = NO;
 
-		_topMargin = 2.0;
+		_topMargin = 10.0;
 		_pointerSize = 12.0;
-		_sidePadding = 2.0;
-        _borderWidth = 1.0;
+		_sidePadding = 2;
+        _borderWidth = 0;
 		
 		self.textFont = [UIFont boldSystemFontOfSize:14.0];
 		self.textColor = [UIColor whiteColor];
 		self.textAlignment = NSTextAlignmentCenter;
-		self.backgroundColor = [UIColor colorWithRed:0/255.0 green:80/255.0 blue:200.0/255.0 alpha:1.0];
-        self.has3DStyle = YES;
+		self.backgroundColor = [UIColor colorWithRed:64./255.0 green:109./255.0 blue:153./255.0 alpha:1.0];
+        self.has3DStyle = NO;
         self.borderColor = [UIColor blackColor];
-        self.hasShadow = YES;
+        self.hasShadow = NO;
         self.animation = CMPopTipAnimationSlide;
-        self.dismissTapAnywhere = NO;
+        self.dismissTapAnywhere = YES;
         self.preferredPointDirection = PointDirectionAny;
         self.hasGradientBackground = NO;
         self.cornerRadius = 10.0;
