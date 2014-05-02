@@ -228,6 +228,23 @@ class EventsController < ApplicationController
 		end
 	end
 
+	# POST /event/get_conditional_acceptance
+	# Gets the conditional acceptance for this user
+	def get_cond_acceptance
+		return if not signed_in_response
+		return if not get_event
+		cond = @event.party_list[current_user.id][:condition]
+		if cond[:cond_type] == COND_NONE
+			respond(ERR_UNSUCCESSFUL)
+		elsif cond[:cond_type] == COND_NUM_ATTENDING
+			respond(SUCCESS, { event: @event.id, condition_type: cond[:cond_type], condition: cond[:num_users] })
+		else
+			stringlist = ""
+			cond[:id_list].each { |id| stringlist += id }
+			respond(SUCCESS, { event: @event.id, condition_type: cond[:cond_type], condition: stringlist })
+		end
+	end
+
 	private
 
 	# Checks if there is a properly signed in user. If there is, returns

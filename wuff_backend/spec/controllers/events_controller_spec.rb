@@ -451,6 +451,15 @@ describe EventsController do
 				@event.party_list[@other.id][:condition].should_not eq nil
 			end
 		end
+
+		describe "get event condition when no condition set" do
+			it "should respond UNSUCCESSFUL" do
+				@request.cookies['current_user_token'] = @other_token
+				post 'get_cond_acceptance', { format: 'json', event: @event_id }
+				JSON.parse(response.body)['err_code'].should eq ERR_UNSUCCESSFUL
+			end
+		end
+
 	end
 
 	describe "when viewing an event (event/view)" do
