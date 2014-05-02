@@ -114,7 +114,7 @@
     }
 }
 
--(IBAction)createEvent
+-(IBAction)createModifyEvent
 {
     if (!self.eventBeingCreated)
     {
@@ -136,8 +136,10 @@
             NSLog(@"key=%@ value=%@", key, [d objectForKey:key]);
         
         if (self.editMode) {
-            [d setObject:[NSNumber numberWithInt:[self.eventId intValue]] forKey:@"event"];
+            [d setObject: self.eventId forKey:@"event"];
             [_myRequester createRequestWithType:POST forExtension:@"/event/edit_event" withDictionary:d];
+            NSLog([NSString stringWithFormat: @"The EventID is: %@", self.eventId]);
+
             
         } else {
             [_myRequester createRequestWithType:POST forExtension:@"/event/create_event" withDictionary:d];
@@ -166,9 +168,10 @@
 {
     _myRequester = [[HandleRequest alloc] initWithSelector:@"handleCreateEvent:" andDelegate:self];
     NSMutableDictionary *d = [NSMutableDictionary dictionary];
-    [d setObject:[NSNumber numberWithInt:[self.eventId intValue]] forKey:@"event"];
+    [d setObject:self.eventId forKey:@"event"];
     
     [_myRequester createRequestWithType:POST forExtension:@"/event/cancel_event" withDictionary:d];
+    NSLog([NSString stringWithFormat: @"The EventID is: %@", self.eventId]);
     //[self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -216,6 +219,7 @@
             
         case ERR_INVALID_FIELD:
             [self.view makeToast:@"Invalid Field."];
+            self.eventBeingCreated = false;
             break;
             
         case ERR_UNSUCCESSFUL:

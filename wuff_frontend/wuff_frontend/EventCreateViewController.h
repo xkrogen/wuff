@@ -44,5 +44,8 @@
 @property(nonatomic, strong) NSString *description;
 @property(nonatomic, strong) NSString *eventId;
 
+-(IBAction) createModifyEvent;
+
+
 
 @end

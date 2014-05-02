@@ -665,7 +665,8 @@ typedef enum {
             flag = true;
         }
     }
-    eventView.eventId = [event objectForKey:@"event"];
+    int tempId = [self.eventList[indexPath.row] objectForKey:@"event"];
+    eventView.eventId = [NSString stringWithFormat:@"%d", tempId];
     eventView.owner = ([event objectForKey:@"creator"]==[[NSUserDefaults standardUserDefaults] objectForKey:@"user_id"]);
     [self presentViewController:eventView animated:YES completion:NULL];
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EventCreateViewController">
@@ -12,7 +12,7 @@
                 <outlet property="descriptionInputView" destination="FfL-yr-81A" id="WkA-Ca-gjE"/>
                 <outlet property="emailListInputView" destination="XDK-n5-44F" id="Jde-ze-OKV"/>
                 <outlet property="locationInputView" destination="A4q-2S-MBb" id="Fkz-oi-BHs"/>
-                <outlet property="myButton" destination="YNz-GS-jlF" id="0YP-Ja-4Nr"/>
+                <outlet property="myButton" destination="YNz-GS-jlF" id="btD-Dy-XQS"/>
                 <outlet property="nameInputView" destination="jsm-zc-GtV" id="0Qt-Xh-8p2"/>
                 <outlet property="scrollView" destination="xgb-wo-JMh" id="VaZ-yA-l3d"/>
                 <outlet property="view" destination="xgb-wo-JMh" id="j01-8J-i98"/>
@@ -136,7 +136,7 @@
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="createEvent" destination="-1" eventType="touchUpInside" id="QF5-K2-rbo"/>
+                        <action selector="createModifyEvent" destination="-1" eventType="touchDown" id="seS-eB-flS"/>
                     </connections>
                 </button>
                 <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="15" translatesAutoresizingMaskIntoConstraints="NO" id="2af-JH-G4b">
