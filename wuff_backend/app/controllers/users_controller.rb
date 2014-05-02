@@ -1,5 +1,4 @@
 include RestGraph::RailsUtil
-require 'Event'
 
 class UsersController < ApplicationController
 
@@ -24,7 +23,8 @@ class UsersController < ApplicationController
   		@user.update_attribute(:remember_token, User.hash(token))
   		current_user = @user
       respond(rval, { user_id: current_user.id,  email: current_user.email, name: current_user.name })
-      Event.add_event("Welcome to WUFF", current_user.id, DateTime.now.to_i + 10, [current_user.id])
+      Event.add_event("Welcome to WUFF", current_user.id, DateTime.now.to_i + 10,
+        [current_user.id], "", "WUFF Community")
   	end
   end
 
@@ -61,6 +61,8 @@ class UsersController < ApplicationController
         if @user == nil
           @user = User.new(name: medata['name'], email:  medata['email'], password: SecureRandom.urlsafe_base64)
           @user.add
+          Event.add_event("Welcome to WUFF", @user.id, DateTime.now.to_i + 10,
+            [@user.id], "", "WUFF Community")
         end
       rescue => exception
         respond(ERR_BAD_CREDENTIALS)
@@ -74,7 +76,37 @@ class UsersController < ApplicationController
     @user.update_attribute(:fb_token, params[:facebook_token])
     current_user = @user
     respond(SUCCESS, { user_id: current_user.id, email: current_user.email, name: current_user.name })
-    Event.add_event("Welcome to WUFF", current_user.id, DateTime.now.to_i + 10, [current_user.id])
+  end
+
+  # Returns information about every Facebook friend of the currently 
+  # logged in user. If the currently logged in user is not a Facebook user, returns 0 users. Each user is { $name: user_name, $fb_id: user_facebook_id }
+  # Return { $count: user_count, 1: user_1, 2: user_2, … }
+  def get_facebook_friends
+    if not signed_in?
+      session_fail_response
+      return
+    end
+    if not is_facebook_user?
+      respond(SUCCESS, { count: 0 })
+      return
+    end
+
+    fb_id = @current_user.fb_id
+    fb_token = @current_user.fb_token
+    if fb_token == nil
+      respond(ERR_UNSUCCESSFUL)
+      return
+    end
+    rest_graph = RestGraph.new(:access_token => fb_token)
+    friend_list = rest_graph.get('me/friends')['data']
+    friend_count = 0
+    output_hash = {}
+    friend_list.each do |friend_hash|
+      friend_count += 1
+      output_hash[friend_count] = friend_hash
+    end
+    output_hash[:count] = friend_count
+    respond(SUCCESS, output_hash)
   end
 
   # Returns information about every Facebook friend of the currently 

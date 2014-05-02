@@ -3,7 +3,7 @@ require 'json'
 
 	# Facebook token for wufftest@gmail.com. May need to be refreshed with
 	# FB Graph API Explorer
-	FB_TOKEN = 'CAACEdEose0cBAEkcrXhhSV2oVj2CfZBYifH7b969ZC6TE6BpbwZBepKZBVKOaXd3U5Au82ZA4rZALjxX9qzQzEfxb2ZCL0M2geUpbRCrVWDo3r0s4dCs13Ox7mvF3cWm8GuD9ZAAzkRFtMFsXgkyvYGm2XxDZCvWR7rpqC8rRjspBsZBUbK88lIVEqPg7gU8eAZAilfzWfbjZAeDgwZDZD'
+	FB_TOKEN = 'CAAG3tpE5O1UBAOFZAXashFyWCBMbBfPEXFbBjwtftoHHfNHbBrJk5NcKKhTYocLTMLdJrombHAv1IBDpBKKimXuLsJg9fQos8ZBdcyMJ7zzAloIO19l9P1UxZAG6K2LOSwJ1z7SEKzBeW08ZC09xK0vcUudgsSLVXRXF8BjG33bbNMIUUKq7Qj7SuETbjrMJWJqdYTKVrq256KtYSHDZC'
 	# Facebook ID for wufftest@gmail.com
 	FB_ID = '100008122715374'
 
