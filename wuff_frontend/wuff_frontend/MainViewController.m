@@ -400,7 +400,7 @@ typedef enum {
             cell.separatorInset = UIEdgeInsetsZero;
         }
         
-        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+        [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
         
         cell.firstTrigger = 0.2;
         cell.secondTrigger = 0.7;
@@ -674,6 +674,8 @@ typedef enum {
     eventView.eventId = [NSString stringWithFormat:@"%d", tempId];
     eventView.owner = ([event objectForKey:@"creator"]==[[NSUserDefaults standardUserDefaults] objectForKey:@"user_id"]);
     [self presentViewController:eventView animated:YES completion:NULL];
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 
