@@ -535,9 +535,9 @@ typedef enum {
     subString = [[NSAttributedString alloc] initWithString:[event objectForKey:@"location"] attributes:attributes];
     [title appendAttributedString:subString];
     
-    if ([title length] > 24)
+    if ([title length] > 23)
     {
-        title = [[NSMutableAttributedString alloc] initWithAttributedString:[title attributedSubstringFromRange:NSMakeRange(0, 24)]];
+        title = [[NSMutableAttributedString alloc] initWithAttributedString:[title attributedSubstringFromRange:NSMakeRange(0, 23)]];
         subString = [[NSAttributedString alloc] initWithString:@".." attributes:attributes];
         [title appendAttributedString:subString];
     }

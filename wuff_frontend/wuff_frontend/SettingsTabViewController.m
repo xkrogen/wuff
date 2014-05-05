@@ -43,7 +43,10 @@
     self.table.backgroundColor = bg_color;
     [self.table setSeparatorColor:sep_color];
     
+    [self.table setShowsHorizontalScrollIndicator:NO];
+    [self.table setShowsVerticalScrollIndicator:NO];
     
+    self.table.autoresizingMask &= ~UIViewAutoresizingFlexibleBottomMargin;
 }
 
 -(void)viewDidAppear:(BOOL)animated {
@@ -97,7 +100,7 @@
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *SimpleIdentifier = @"SimpleIdentifier";
+    NSString *SimpleIdentifier = [NSString stringWithFormat:@"%d", indexPath.row];
     
     MainViewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:SimpleIdentifier];
     
@@ -116,6 +119,22 @@
     else if ([self.menuList[indexPath.row] isKindOfClass:[NSDictionary class]])
     {
         label = [self.menuList[indexPath.row] objectForKey:@"name"];
+        
+        cell.imageView.image = [UIImage imageNamed:@"blank.png"];
+        UIImage *image = cell.imageView.image;
+        CGSize targetSize = CGSizeMake(29,42);
+        UIGraphicsBeginImageContext(targetSize);
+        
+        CGRect thumbnailRect = CGRectMake(0, 0, 0, 0);
+        thumbnailRect.origin = CGPointMake(0.0,0.0);
+        thumbnailRect.size.width  = targetSize.width;
+        thumbnailRect.size.height = targetSize.height;
+        
+        [image drawInRect:thumbnailRect];
+        
+        cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
+        
+        UIGraphicsEndImageContext();
     }
     else
     {
