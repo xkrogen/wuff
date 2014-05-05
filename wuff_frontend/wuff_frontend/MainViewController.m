@@ -68,7 +68,7 @@ typedef enum {
                             return @"now";
                         } else {
                             // 10 mins age
-                            return [NSString stringWithFormat:@"%dm", (int)(components.minute/10)*10];
+                            return [NSString stringWithFormat:@"%dm", (int)floor(components.minute)];
                         }
                     } else {
                         // different hour
@@ -182,9 +182,14 @@ typedef enum {
     
     if(![[NSUserDefaults standardUserDefaults] boolForKey:@"seenSwipeButton"]) {
         
-        CMPopTipView *addEventPopTipView = [[CMPopTipView alloc] initWithMessage:@"Swipe this cell to accept or reject event (or swipe far right for more fun!)"];
+        CMPopTipView *addEventPopTipView = [[CMPopTipView alloc] initWithMessage:@"Swipe this cell to accept or decline the event (or swipe far right for conditional acceptances!)"];
         addEventPopTipView.delegate = self;
-        [addEventPopTipView presentPointingAtView:[self.mainTable cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]] inView:self.view animated:YES];
+        [addEventPopTipView setPreferredPointDirection:PointDirectionUp];
+        
+        UIView *thingToPointAt = [[UIView alloc] initWithFrame:CGRectMake(24, 129, 20, 20)];
+        [self.view addSubview:thingToPointAt];
+        
+        [addEventPopTipView presentPointingAtView:thingToPointAt inView:self.view animated:YES];
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"seenSwipeButton"];
     }
     
@@ -530,9 +535,9 @@ typedef enum {
     subString = [[NSAttributedString alloc] initWithString:[event objectForKey:@"location"] attributes:attributes];
     [title appendAttributedString:subString];
     
-    if ([title length] > 27)
+    if ([title length] > 24)
     {
-        title = [[NSMutableAttributedString alloc] initWithAttributedString:[title attributedSubstringFromRange:NSMakeRange(0, 27)]];
+        title = [[NSMutableAttributedString alloc] initWithAttributedString:[title attributedSubstringFromRange:NSMakeRange(0, 24)]];
         subString = [[NSAttributedString alloc] initWithString:@".." attributes:attributes];
         [title appendAttributedString:subString];
     }
@@ -665,7 +670,7 @@ typedef enum {
             flag = true;
         }
     }
-    int tempId = [self.eventList[indexPath.row] objectForKey:@"event"];
+    int tempId = [[event objectForKey:@"event"] integerValue];
     eventView.eventId = [NSString stringWithFormat:@"%d", tempId];
     eventView.owner = ([event objectForKey:@"creator"]==[[NSUserDefaults standardUserDefaults] objectForKey:@"user_id"]);
     [self presentViewController:eventView animated:YES completion:NULL];

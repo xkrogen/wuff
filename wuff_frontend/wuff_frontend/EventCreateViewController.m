@@ -193,7 +193,7 @@
         }
             
         case ERR_INVALID_NAME:
-            [self.view makeToast:@"Invalid Name"];
+            [self.view makeToast:@"Invalid Title: "];
             self.eventBeingCreated = false;
             break;
             
