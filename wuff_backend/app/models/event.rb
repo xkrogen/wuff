@@ -104,7 +104,10 @@ class Event < ActiveRecord::Base
 				return ERR_INVALID_TIME if new_time.blank? || (new_time < DateTime.now.ago(60*15).to_i)
 			self.time = new_time
 			self.update_attribute(:time, new_time)
-			NotifyHandler.task_scheduler.unschedule(self.scheduler_job_id) if self.scheduler_job_id != -1
+			begin
+				NotifyHandler.task_scheduler.unschedule(self.scheduler_job_id) if self.scheduler_job_id != -1
+			rescue ArgumentException
+			end
 			# Schedule a notification only if the event is starting more than 10
 			# minutes from now. 
 			if  (self.time > (DateTime.now.to_i + 10*60))
