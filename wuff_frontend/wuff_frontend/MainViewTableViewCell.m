@@ -35,7 +35,7 @@
 - (NSString *)accessibilityValue
 {
     return [NSString stringWithFormat:
-            @"{'isAttending':%@}", (self.textLabel.textColor == [UIColor blackColor]) ? @"true" : @"false"];
+            @"{\"isAttending\":\"%@\", \"eventName\":\"%@\"}", (self.textLabel.textColor == [UIColor blackColor]) ? @"true" : @"false", self.textLabel.text];
 }
 
 -(void) setTransparentDisabled

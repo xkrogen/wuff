@@ -70,7 +70,7 @@
     [self.navigationItem setHidesBackButton:NO];
     
     [navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont boldSystemFontOfSize: 18.0f]}];
-    navigationBarItem = [[UINavigationItem alloc] initWithTitle:@"Wuff"];
+    navigationBarItem = [[UINavigationItem alloc] initWithTitle:@"Group Create"];
     
     UIBarButtonItem *settingsTabButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancel)];
     [settingsTabButton setTintColor:[UIColor whiteColor]];

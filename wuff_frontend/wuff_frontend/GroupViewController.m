@@ -7,6 +7,7 @@
 //
 
 #import "GroupViewController.h"
+#import "SettingsTabViewController.h"
 
 @interface GroupViewController ()
 
@@ -24,9 +25,26 @@
     return self;
 }
 
+
+-(void)viewDidAppear:(BOOL)animated {
+    
+    NSLog(@"MADE IT HERE");
+    HandleRequest *loadGroupRequest = [[HandleRequest alloc] initWithSelector:@"handleLoadGroup:" andDelegate:self];
+    NSMutableDictionary *d = [NSMutableDictionary dictionary];
+    [d setObject:self.groupInfo[@"group"] forKey:@"group"];
+    
+    for(id key in d)
+        NSLog(@"key=%@ value=%@", key, [d objectForKey:key]);
+    
+    [loadGroupRequest createRequestWithType:POST forExtension:@"/group/view" withDictionary:d];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+
+    
     
     self.myTitle = [self.groupInfo objectForKey:@"name"];
     NSDictionary *users = [self.groupInfo objectForKey:@"users"];
@@ -75,6 +93,31 @@
     [[self view] addSubview:navigationBar];
     // END CODE
 }
+
+
+-(void)handleLoadGroup:(NSDictionary *)response
+{
+    self.groupInfo = response;
+    NSLog(@"received group: %@", response);
+    
+    self.myTitle = [self.groupInfo objectForKey:@"name"];
+    NSDictionary *users = [self.groupInfo objectForKey:@"users"];
+    NSInteger userCount = [[users objectForKey:@"user_count"] integerValue];
+    self.membersLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    self.membersLabel.numberOfLines = 0;
+    self.membersLabel.text = @"";
+    for (int i=1; i<=userCount; i++)
+    {
+        NSDictionary *user = [users objectForKey:[NSString stringWithFormat:@"%d", i]];
+        NSString *displayName = [NSString stringWithFormat:@"%@\n%@\n\n", [user objectForKey:@"name"], [user objectForKey:@"email"]];
+        self.membersLabel.text = [NSString stringWithFormat:@"%@%@", self.membersLabel.text, displayName];
+    }
+    [self.membersLabel sizeToFit];
+    
+    self.description.text = [self.groupInfo objectForKey:@"description"];
+
+}
+
 
 - (void)didReceiveMemoryWarning
 {

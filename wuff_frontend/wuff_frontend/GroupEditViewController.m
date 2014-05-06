@@ -72,11 +72,12 @@
     [self.navigationItem setHidesBackButton:YES];
     
     [navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont boldSystemFontOfSize: 18.0f]}];
-    navigationBarItem = [[UINavigationItem alloc] initWithTitle:@"Wuff"];
+    navigationBarItem = [[UINavigationItem alloc] initWithTitle:@"Edit Group"];
     
     UIBarButtonItem *settingsTabButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(back)];
     [settingsTabButton setTintColor:[UIColor whiteColor]];
     [navigationBarItem setLeftBarButtonItem:settingsTabButton];
+    [settingsTabButton setAccessibilityLabel:@"Group Edit Done Button"];
     
     [navigationBar setBarTintColor:[UIColor colorWithRed:49.0f/255.0f green:103.0f/255.0f blue:157.0f/255.0f alpha:1.0f]];
     [navigationBar pushNavigationItem:navigationBarItem animated:NO];
@@ -113,13 +114,14 @@
 -(IBAction)deleteMembers {
     _myRequester = [[HandleRequest alloc] initWithSelector:@"handleRemoveUsers:" andDelegate:self];
     NSMutableDictionary *d = [NSMutableDictionary dictionary];
-    [d setObject:_removeEmailInputView.text forKey:@"user_list"];
+    [d setObject:_removeEmailInputView.text forKey:@"user_remove"];
     [d setObject:self.groupID forKey:@"group"];
     
     for(id key in d)
         NSLog(@"key=%@ value=%@", key, [d objectForKey:key]);
     
-    [_myRequester createRequestWithType:POST forExtension:@"/group/remove_users" withDictionary:d];
+    
+    [_myRequester createRequestWithType:POST forExtension:@"/group/remove_user" withDictionary:d];
     [self.view endEditing:YES];
 }
 

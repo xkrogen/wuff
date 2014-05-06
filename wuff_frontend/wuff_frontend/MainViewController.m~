@@ -52,7 +52,6 @@ typedef enum {
                                                fromDate:currentDate
                                                  toDate:date
                                                 options:0];
-    NSLog(@"%@", components);
     if (components.year == 0) {
         // same year
         if (components.month == 0) {
@@ -63,12 +62,12 @@ typedef enum {
                     // same day
                     if (components.hour == 0) {
                         // same hour
-                        if (components.minute < 10 && components.minute >= 0) {
+                        if (components.minute < 10) {
                             // in 10 mins
                             return @"now";
                         } else {
                             // 10 mins age
-                            return [NSString stringWithFormat:@"%dm", (int)floor(components.minute)];
+                            return [NSString stringWithFormat:@"%dm", (int)(components.minute/10)*10];
                         }
                     } else {
                         // different hour
@@ -107,7 +106,6 @@ typedef enum {
     [_myRequester createRequestWithType:GET forExtension:@"/user/get_events" withDictionary:d];
     [self.refreshControl endRefreshing];
 }
-
 
 
 - (void)viewDidLoad
@@ -168,9 +166,6 @@ typedef enum {
 
 -(void)viewDidAppear:(BOOL)animated {
     
-    if (self.settingsTabController)
-        [self.settingsTabController loadGroups];
-    
     if(![[NSUserDefaults standardUserDefaults] boolForKey:@"seenEventHelpButton"]) {
     
         CMPopTipView *addEventPopTipView = [[CMPopTipView alloc] initWithMessage:@"Click this button to get started making events!"];
@@ -182,14 +177,9 @@ typedef enum {
     
     if(![[NSUserDefaults standardUserDefaults] boolForKey:@"seenSwipeButton"]) {
         
-        CMPopTipView *addEventPopTipView = [[CMPopTipView alloc] initWithMessage:@"Swipe this cell to accept or decline the event (or swipe far right for conditional acceptances!)"];
+        CMPopTipView *addEventPopTipView = [[CMPopTipView alloc] initWithMessage:@"Swipe this cell to accept or reject event (or swipe far right for more fun!)"];
         addEventPopTipView.delegate = self;
-        [addEventPopTipView setPreferredPointDirection:PointDirectionUp];
-        
-        UIView *thingToPointAt = [[UIView alloc] initWithFrame:CGRectMake(24, 129, 20, 20)];
-        [self.view addSubview:thingToPointAt];
-        
-        [addEventPopTipView presentPointingAtView:thingToPointAt inView:self.view animated:YES];
+        [addEventPopTipView presentPointingAtView:[self.mainTable cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]] inView:self.view animated:YES];
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"seenSwipeButton"];
     }
     
@@ -400,7 +390,7 @@ typedef enum {
             cell.separatorInset = UIEdgeInsetsZero;
         }
         
-        [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
+        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         
         cell.firstTrigger = 0.2;
         cell.secondTrigger = 0.7;
@@ -535,9 +525,9 @@ typedef enum {
     subString = [[NSAttributedString alloc] initWithString:[event objectForKey:@"location"] attributes:attributes];
     [title appendAttributedString:subString];
     
-    if ([title length] > 23)
+    if ([title length] > 27)
     {
-        title = [[NSMutableAttributedString alloc] initWithAttributedString:[title attributedSubstringFromRange:NSMakeRange(0, 23)]];
+        title = [[NSMutableAttributedString alloc] initWithAttributedString:[title attributedSubstringFromRange:NSMakeRange(0, 27)]];
         subString = [[NSAttributedString alloc] initWithString:@".." attributes:attributes];
         [title appendAttributedString:subString];
     }
@@ -546,7 +536,7 @@ typedef enum {
     
     // detail (user list)
     cell.detailTextLabel.text = @"";
-    NSDictionary *users = [event objectForKey:@"users"];
+    NSDictionary *users = [self.eventList[indexPath.row] objectForKey:@"users"];
     int user_count = [[users objectForKey:@"user_count"] intValue];
     for (int i=1; i<=user_count; i++) {
         NSDictionary *user = [users objectForKey:[NSString stringWithFormat:@"%d", i]];
@@ -607,7 +597,7 @@ typedef enum {
     }
     
     EventViewController *eventView = [[EventViewController alloc]  initWithNibName:nil bundle:nil];
-    eventView.myTitle = [event objectForKey:@"title"];
+    eventView.myTitle = [self.eventList[indexPath.row] objectForKey:@"title"];
     
     NSDate *time = [NSDate dateWithTimeIntervalSince1970:[[event objectForKey:@"time"] integerValue]];
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
@@ -620,8 +610,16 @@ typedef enum {
     eventView.description = [event objectForKey:@"description"];
     
     // parse attendees
+<<<<<<< HEAD
+<<<<<<< HEAD
+    eventView.attenders = @"";
     NSDictionary *users = [event objectForKey:@"users"];
+=======
+=======
+>>>>>>> FETCH_HEAD
     eventView.attenders = [[NSAttributedString alloc] initWithString:@""];
+    NSDictionary *users = [self.eventList[indexPath.row] objectForKey:@"users"];
+>>>>>>> FETCH_HEAD
     int user_count = [[users objectForKey:@"user_count"] intValue];
     bool flag = false, going_flag = false;
     for (int i=1; i<=user_count; i++) {
@@ -645,10 +643,8 @@ typedef enum {
             going_flag = false;
         }
         
-        if ([eventView.attenders isEqualToAttributedString:[[NSAttributedString alloc] initWithString:@""]]) {
-            eventView.attenders = [[NSMutableAttributedString alloc] initWithString:@""];
-            [eventView.attenders appendAttributedString:name];
-        }
+        if ([eventView.attenders isEqualToAttributedString:[[NSAttributedString alloc] initWithString:@""]])
+            eventView.attenders = [[NSMutableAttributedString alloc] initWithString:[user objectForKey:@"name"]];
         else if (flag) {
             [eventView.attenders appendAttributedString:name];
             flag = false;
@@ -670,12 +666,9 @@ typedef enum {
             flag = true;
         }
     }
-    int tempId = [[event objectForKey:@"event"] integerValue];
-    eventView.eventId = [NSString stringWithFormat:@"%d", tempId];
-    eventView.owner = ([event objectForKey:@"creator"]==[[NSUserDefaults standardUserDefaults] objectForKey:@"user_id"]);
+    eventView.eventId = [self.eventList[indexPath.row] objectForKey:@"event"];
+    eventView.owner = true;
     [self presentViewController:eventView animated:YES completion:NULL];
-    
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 

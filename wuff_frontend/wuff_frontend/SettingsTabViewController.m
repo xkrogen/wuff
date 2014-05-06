@@ -43,7 +43,14 @@
     self.table.backgroundColor = bg_color;
     [self.table setSeparatorColor:sep_color];
     
+    [self.table setShowsHorizontalScrollIndicator:NO];
+    [self.table setShowsVerticalScrollIndicator:NO];
     
+    self.table.autoresizingMask &= ~UIViewAutoresizingFlexibleBottomMargin;
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+    [self loadGroups];
 }
 
 -(void) handleGroupResponse:(NSDictionary *)data
@@ -54,6 +61,7 @@
         case SUCCESS:
         {
             int group_count = [[data objectForKey:@"group_count"] integerValue];
+            self.menuList = [[NSMutableArray alloc] initWithArray:@[@"Self", @"Friends", @"Groups", @"+ Add Group", @"", @"", @"Logout"]];
             
             for(int i=1; i<=group_count; i++)
             {
@@ -92,7 +100,7 @@
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *SimpleIdentifier = @"SimpleIdentifier";
+    NSString *SimpleIdentifier = [NSString stringWithFormat:@"%d", indexPath.row];
     
     MainViewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:SimpleIdentifier];
     
@@ -104,7 +112,6 @@
     UIColor *textColor = [UIColor colorWithRed:220.0f/255.0f green:220.0f/255.0f blue:220.0f/255.0f alpha:1.0f];
     
     NSString *label;
-    NSLog(@"Class %@",[self.menuList[indexPath.row] class] );
     if ([self.menuList[indexPath.row] isKindOfClass:[NSString class]])
     {
         label = self.menuList[indexPath.row];
@@ -112,6 +119,22 @@
     else if ([self.menuList[indexPath.row] isKindOfClass:[NSDictionary class]])
     {
         label = [self.menuList[indexPath.row] objectForKey:@"name"];
+        
+        cell.imageView.image = [UIImage imageNamed:@"blank.png"];
+        UIImage *image = cell.imageView.image;
+        CGSize targetSize = CGSizeMake(29,42);
+        UIGraphicsBeginImageContext(targetSize);
+        
+        CGRect thumbnailRect = CGRectMake(0, 0, 0, 0);
+        thumbnailRect.origin = CGPointMake(0.0,0.0);
+        thumbnailRect.size.width  = targetSize.width;
+        thumbnailRect.size.height = targetSize.height;
+        
+        [image drawInRect:thumbnailRect];
+        
+        cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
+        
+        UIGraphicsEndImageContext();
     }
     else
     {
@@ -223,6 +246,8 @@
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"cookieString"];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"name"];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"email"];
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"seenSwipeButton"];
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"seenEventHelpButton"];
     
     // logout of facebook if it's open
     if (FBSession.activeSession.isOpen)
