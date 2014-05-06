@@ -164,7 +164,7 @@
     {
         case SUCCESS:
         {
-            [self.view makeToast:@"Condition Added! Add another or press 'Cancel' to go back to your events"];
+            [self.view makeToast:@"Condition Added! Submit again to replace it or press 'Cancel' to go back to your events"];
             break;
         }
             

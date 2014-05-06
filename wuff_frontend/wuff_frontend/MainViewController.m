@@ -26,7 +26,6 @@ typedef enum {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        self.eventList = [[NSMutableArray alloc] init];
         
         self.settingsTabController = settingsTabViewController;
         
@@ -119,6 +118,9 @@ typedef enum {
     
     if (self.settingsTabController)
         [self.settingsTabController loadGroups];
+    
+    
+    self.eventList = [[NSMutableArray alloc] init];
     
     //Code to send POST Request
      _myRequester = [[HandleRequest alloc] initWithSelector:@"handleMainResponse:" andDelegate:self];
