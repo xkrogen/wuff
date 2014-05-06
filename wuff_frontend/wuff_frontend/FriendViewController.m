@@ -160,6 +160,7 @@
     if (cell == nil) {
         cell = [[MainViewTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:SimpleIdentifier];
     }
+
     [cell.statusBar removeFromSuperview];
     NSDictionary *friend = self.friendList[indexPath.row];
     
@@ -213,15 +214,16 @@
      cell.imageView.image = theImage;
      */
     [_mainTable setSeparatorInset:UIEdgeInsetsZero];
+    
     return cell;
     
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
 /*
  *MyFriend view, which will have detailed options
  */
+    [_mainTable deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
