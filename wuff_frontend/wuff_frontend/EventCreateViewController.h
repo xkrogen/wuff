@@ -33,6 +33,7 @@
 @property(nonatomic, strong) IBOutlet UIView *contentView;
 
 @property(nonatomic, strong) NSMutableArray *userList;
+@property(nonatomic, strong) NSMutableArray *groupList;
 
 @property(nonatomic, strong) HandleRequest *myRequester;
 

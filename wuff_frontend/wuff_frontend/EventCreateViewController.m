@@ -7,10 +7,12 @@
 //
 
 #import "EventCreateViewController.h"
+#import "GroupAutoCompletionObject.h"
 
 @interface EventCreateViewController ()
 
 @property (nonatomic, strong) NSMutableSet *emailList;
+@property (nonatomic, strong) NSMutableSet *groupIDList;
 
 @end
 
@@ -50,17 +52,24 @@
     // auto capitalize words (names)
     [self.autocompleteTextField setAutocapitalizationType:UITextAutocapitalizationTypeWords];
     
+    
+    
     [[_nameInputView textField] setAutocapitalizationType:UITextAutocapitalizationTypeSentences];
     [[_locationInputView textField] setAutocapitalizationType:UITextAutocapitalizationTypeSentences];
     
     self.datePicker.minimumDate = [NSDate date];
 
     self.userList = [[NSMutableArray alloc] init];
+    self.groupList = [[NSMutableArray alloc] init];
     self.emailList = [[NSMutableSet alloc] init];
+    self.groupIDList = [[NSMutableSet alloc] init];
     
     NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys: nil];
     _myRequester = [[HandleRequest alloc] initWithSelector:@"handleUserList:" andDelegate:self];
     [_myRequester createRequestWithType:POST forExtension:@"/user/get_all_users" withDictionary:d];
+    
+    HandleRequest * groupRequester = [[HandleRequest alloc] initWithSelector:@"handleGroupList:" andDelegate:self];
+    [groupRequester createRequestWithType:GET forExtension:@"/user/get_groups" withDictionary:d];
     
     // USE THIS CODE TO CREATE THE NAVIGATION CONTROLLER PROGRAMMATICALLY
     UINavigationBar *navigationBar;
@@ -106,12 +115,30 @@
 
 -(void)handleUserList:(NSDictionary *)response
 {
+    
+    NSLog(@"HANDLING USER LIST");
     NSInteger userCount = [[response objectForKey:@"count"] integerValue];
     for (int i=1; i<=userCount; i++)
     {
         NSDictionary *user = [response objectForKey:[NSString stringWithFormat:@"%d", i]];
         [_userList addObject:[[UserAutoCompletionObject alloc] initWithUserDictionary:user]];
     }
+}
+
+-(void)handleGroupList:(NSDictionary*)response
+{
+    
+    NSLog(@"HANDLING GROUP LIST");
+    NSInteger groupCount = [[response objectForKey:@"group_count"] integerValue];
+    for (int i=1; i<=groupCount; i++)
+    {
+        NSDictionary *group = [response objectForKey:[NSString stringWithFormat:@"%d", i]];
+        
+        NSLog(@"group: %@", group);
+        
+        [_groupList addObject:[[GroupAutoCompletionObject alloc] initWithGroupDictionary:group]];
+    }
+    
 }
 
 -(IBAction)createModifyEvent
@@ -131,6 +158,11 @@
         
         [d setObject:[[NSNumber numberWithDouble:[[_datePicker date]timeIntervalSince1970]] stringValue] forKey:@"time"];
         [d setObject:_locationInputView.textField.text forKey:@"location"];
+        NSMutableString *groupString = [NSMutableString stringWithString:@""];
+        for (NSNumber *groupID in self.groupIDList) {
+            [groupString appendFormat:@"%@,",groupID];
+        }
+        [d setObject:groupString forKey:@"group_list"];
         
         for(id key in d)
             NSLog(@"key=%@ value=%@", key, [d objectForKey:key]);
@@ -138,10 +170,11 @@
         if (self.editMode) {
             [d setObject: self.eventId forKey:@"event"];
             [_myRequester createRequestWithType:POST forExtension:@"/event/edit_event" withDictionary:d];
-            NSLog([NSString stringWithFormat: @"The EventID is: %@", self.eventId]);
+            //NSLog([NSString stringWithFormat: @"The EventID is: %@", self.eventId]);
 
             
         } else {
+            NSLog(@"sending %@",d);
             [_myRequester createRequestWithType:POST forExtension:@"/event/create_event" withDictionary:d];
         }
         //NSLog(@"sent create event request!");
@@ -274,7 +307,7 @@
         handler(completions);
         */
         
-        handler(self.userList);
+        handler([self.groupList arrayByAddingObjectsFromArray:self.userList]);
     });
 }
 
@@ -288,30 +321,55 @@
     if(selectedObject){
         NSLog(@"selected object from autocomplete menu %@ with string %@", selectedObject, [selectedObject autocompleteString]);
         
-        // get the UserObject that we just selected's email
-        NSString *email = [(UserAutoCompletionObject *)selectedObject getEmail];
         
-        if ([self.emailList containsObject:email])
-        {
-            [self.view makeToast:@"User already added!"];
-        }
-        else if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"email"] isEqualToString:email])
-        {
-            [self.view makeToast:@"No need to add yourself to the event!"];
-        }
-        else
-        {
-            // append the email to emailList text
-            NSString *previousText = self.emailListInputView.textField.text;
-            NSString *addendum = @"";
-            if ([previousText isEqualToString:@""])
-                addendum = [NSString stringWithFormat:@"%@", email];
-            else
-                addendum = [NSString stringWithFormat:@"%@, %@", previousText, email];
+        if([selectedObject respondsToSelector:@selector(getEmail)]) {
+        
+            // get the UserObject that we just selected's email
+            NSString *email = [(UserAutoCompletionObject *)selectedObject getEmail];
             
-            // set the new text
-            [self.emailListInputView.textField setText:addendum];
-            [self.emailList addObject:email];
+            if ([self.emailList containsObject:email])
+            {
+                [self.view makeToast:@"User already added!"];
+            }
+            else if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"email"] isEqualToString:email])
+            {
+                [self.view makeToast:@"No need to add yourself to the event!"];
+            }
+            else
+            {
+                // append the email to emailList text
+                NSString *previousText = self.emailListInputView.textField.text;
+                NSString *addendum = @"";
+                if ([previousText isEqualToString:@""])
+                    addendum = [NSString stringWithFormat:@"%@", email];
+                else
+                    addendum = [NSString stringWithFormat:@"%@, %@", previousText, email];
+                
+                // set the new text
+                [self.emailListInputView.textField setText:addendum];
+                [self.emailList addObject:email];
+            }
+        }
+        
+        else {
+            
+            
+            
+            // get the UserObject that we just selected's email
+            NSNumber *groupID = [(GroupAutoCompletionObject *)selectedObject getGroupID];
+            NSLog(@"selected group %@",groupID);
+            
+            if ([self.groupIDList containsObject:groupID])
+            {
+                NSLog(@"already made");
+                [self.view makeToast:@"Group already added!"];
+            }
+            else
+            {
+                NSLog(@"mmot already made");
+                [self.groupIDList addObject:groupID];
+            }
+            
         }
         
         // remove the text in the autocompleteTextField

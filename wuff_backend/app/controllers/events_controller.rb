@@ -21,7 +21,9 @@ class EventsController < ApplicationController
 			return
 		end
 
-		user_list = params[:user_list].split(",").map do |email|
+		user_list_p = params[:user_list].strip
+		user_list_p = user_list_p[1..-1] if user_list_p.start_with?(',')
+		user_list = user_list_p.split(",").map do |email|
 			user = User.find_by(email: email.strip)
 			if user == nil
 				respond(ERR_INVALID_FIELD)
@@ -30,18 +32,20 @@ class EventsController < ApplicationController
 			user.id
 		end
 
-		if params[:group_list]
-			group_list = params[:group_list].split(",") do |group_id|
+		if params[:group_list] != nil
+			group_list_p = params[:group_list].strip
+			group_list_p = group_list_p[1..-1] if group_list_p.start_with?(',')
+			group_list_p.split(",").each do |group_id|
 				begin
 					group = Group.find(group_id.strip)
 				rescue ActiveRecord::RecordNotFound
 					respond(ERR_INVALID_FIELD)
 					return
 				end
-				user_list ||= group.user_list
+				user_list |= group.user_list
 			end
 		end
-		
+
 		rval = Event.add_event(params[:title], creator.id, params[:time].to_i,
 			user_list, params[:description], params[:location])
 
@@ -211,7 +215,7 @@ class EventsController < ApplicationController
 				respond(ERR_INVALID_FIELD)
 				return
 			end
-			@event.add_condition(current_user, NumberCondition.new(params[:condition]))
+			@event.add_condition(current_user.id, NumberCondition.new(params[:condition]))
 			respond(SUCCESS)
 		elsif params[:condition_type] == COND_USER_ATTENDING_ANY
 			user_list = params[:condition].split(",").map do |email|
@@ -222,7 +226,7 @@ class EventsController < ApplicationController
 				end
 				user.id
 			end
-			@event.add_condition(current_user, UserCondition.new(COND_USER_ATTENDING_ANY, params[:condition]))
+			@event.add_condition(current_user.id, UserCondition.new(COND_USER_ATTENDING_ANY, params[:condition]))
 			respond(SUCCESS)
 		elsif params[:condition_type] == COND_USER_ATTENDING_ALL
 			user_list = params[:condition].split(",").map do |email|
@@ -233,7 +237,7 @@ class EventsController < ApplicationController
 				end
 				user.id
 			end
-			@event.add_condition(current_user, UserCondition.new(COND_USER_ATTENDING_ALL, params[:condition]))
+			@event.add_condition(current_user.id, UserCondition.new(COND_USER_ATTENDING_ALL, params[:condition]))
 			respond(SUCCESS)
 		else
 			respond(ERR_INVALID_FIELD)

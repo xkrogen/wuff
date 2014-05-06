@@ -29,6 +29,10 @@
     self.autocompleteTextField.autoCompleteDataSource = self;
     self.autocompleteTextField.autoCompleteDelegate = self;
     
+    self.paramsView.text = @"";
+    self.numberLabel.text = @"None";
+    self.typeField.text = @"None";
+    
     [self.autocompleteTextField setAutoCompleteTableBackgroundColor:[UIColor colorWithWhite:1 alpha:0.9]];
     // no spell checking / auto correction since persons names
     [self.autocompleteTextField setSpellCheckingType:UITextSpellCheckingTypeNo];
@@ -40,6 +44,10 @@
     NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys: nil];
     _myRequester = [[HandleRequest alloc] initWithSelector:@"handleUserList:" andDelegate:self];
     [_myRequester createRequestWithType:POST forExtension:@"/user/get_all_users" withDictionary:d];
+    
+    NSDictionary *d2 = [NSDictionary dictionaryWithObjectsAndKeys:self.event, @"event", nil];
+    HandleRequest *cond = [[HandleRequest alloc] initWithSelector:@"handleCond:" andDelegate:self];
+    [cond createRequestWithType:POST forExtension:@"/event/get_conditional_acceptance" withDictionary:d2];
     
     UINavigationBar *navigationBar;
     UINavigationItem *navigationBarItem;
@@ -69,6 +77,31 @@
     self.emailList = [[NSMutableSet alloc] init];
     
     self.explanation.text = @"How many Wuffers should be attending before you automatically accept?";
+    
+}
+
+-(void)handleCond:(NSDictionary*)response
+{
+    NSLog(@"response %@",response);
+    
+    if(![[response objectForKey:@"err_code"] isEqualToNumber:@1]) {
+        return;
+    }
+    
+    if([[response objectForKey:@"condition_type"] isEqualToNumber:@1]) {
+        self.typeField.text = @"Number Going";
+        self.numberLabel.text = [NSString stringWithFormat:@"%@", [response objectForKey:@"condition"]];
+    }
+    else if([[response objectForKey:@"condition_type"] isEqualToNumber:@2]) {
+        self.typeField.text = @"Any Going";
+        self.numberLabel.hidden = YES;
+        self.paramsView.text = [response objectForKey:@"condition"];
+    }
+    else {
+        self.typeField.text = @"All Going";
+        self.numberLabel.hidden = YES;
+        self.paramsView.text = [response objectForKey:@"condition"];
+    }
     
 }
 
