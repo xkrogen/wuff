@@ -13,6 +13,38 @@ describe EventsController do
 			@request.cookies['current_user_token'] = @token
 		end
 
+		describe "with valid inputs and only one user, comma before" do
+			before do
+				post 'create_event', { format: 'json', 
+					user_list: ", #{@user.email}",
+					title: "Test Event", time: DateTime.now.to_i + 10}
+				@user.reload
+				@event_id = JSON.parse(response.body)['event']
+			end
+
+			specify { JSON.parse(response.body)['err_code'].should eq SUCCESS }
+
+			describe "the event_list of the users involved" do
+				specify { @user.event_list.should include(@event_id) }
+			end
+		end
+
+		describe "with valid inputs and only one user" do
+			before do
+				post 'create_event', { format: 'json', 
+					user_list: "#{@user.email},",
+					title: "Test Event", time: DateTime.now.to_i + 10}
+				@user.reload
+				@event_id = JSON.parse(response.body)['event']
+			end
+
+			specify { JSON.parse(response.body)['err_code'].should eq SUCCESS }
+
+			describe "the event_list of the users involved" do
+				specify { @user.event_list.should include(@event_id) }
+			end
+		end
+
 		describe "with valid inputs" do
 			before do
 				@other = User.new(name: "Test Other", email: "t_other@example.com",
@@ -31,6 +63,35 @@ describe EventsController do
 			describe "the event_list of the users involved" do
 				specify { @user.event_list.should include(@event_id) }
 				specify { @other.event_list.should include(@event_id) }
+			end
+		end
+
+		describe "with valid inputs and a group" do
+			before do
+				@user1 = User.create(name: 'Example User', 
+	  			email: 'exampleuser@example.com')
+	  		@user1_id = @user1.id
+	  		@user2 = User.create(name: 'Example Friend',
+	  			email: 'examplefriend@example.com')
+	  		@user2_id = @user2.id
+	  		@group_id = Group.add_group('Example Group', [@user1_id, @user2_id],
+					'Awesome example group!')
+				post 'create_event', { format: 'json', 
+					user_list: ", #{@user.email}",
+					group_list: "#{@group_id}",
+					title: "Test Event", time: DateTime.now.to_i + 10}
+				@user.reload
+				@user1.reload
+				@user2.reload
+				@event_id = JSON.parse(response.body)['event']
+			end
+
+			specify { JSON.parse(response.body)['err_code'].should eq SUCCESS }
+
+			describe "the event_list of the users involved" do
+				specify { @user.event_list.should include(@event_id) }
+				specify { @user1.event_list.should include(@event_id) }
+				specify { @user2.event_list.should include(@event_id) }
 			end
 		end
 
