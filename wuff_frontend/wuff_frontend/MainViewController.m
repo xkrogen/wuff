@@ -667,7 +667,7 @@ typedef enum {
             a2 = 0;
         }
         
-        if (a1 - a2 > 26) {
+        if (a1 - a2 > 24) {
             [eventView.attenders appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
             flag = true;
         }

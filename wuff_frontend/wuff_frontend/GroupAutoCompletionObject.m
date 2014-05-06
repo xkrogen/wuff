@@ -33,4 +33,9 @@
     return self.name;
 }
 
+-(UIColor *)getTextColor
+{
+    return [UIColor colorWithRed:81.0/255.0f green:127/255.0f blue:172.0/255.0f alpha:1.0f];
+}
+
 @end

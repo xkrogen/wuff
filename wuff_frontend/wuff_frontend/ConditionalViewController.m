@@ -76,7 +76,7 @@
     self.userList = [[NSMutableArray alloc] init];
     self.emailList = [[NSMutableSet alloc] init];
     
-    self.explanation.text = @"How many Wuffers should be attending before you automatically accept?";
+    self.explanation.text = @"\"I only want to go if X people are going.\"";
     
 }
 
@@ -128,15 +128,15 @@
         self.paramsField.keyboardType = UIKeyboardTypeNumberPad;
         self.autocompleteTextField.hidden = YES;
         
-        self.explanation.text = @"How many Wuffers should be attending before you automatically accept?";
+        self.explanation.text = @"\"I only want to go if X people are going.\"";
     }
     else {
         
         if(self.condType.selectedSegmentIndex==1) {
-            self.explanation.text = @"If any of these Wuffers accept, you'll automatically accept as well.";
+            self.explanation.text = @"If any of these people accept, I want to go as well.";
         }
         else {
-            self.explanation.text = @"You'll only automatically accept if all of these Wuffers accept first.";
+            self.explanation.text = @"I'll go if all of these people accept first.";
         }
         
         
@@ -198,6 +198,9 @@
         case SUCCESS:
         {
             [self.view makeToast:@"Condition Added! Submit again to replace it or press 'Cancel' to go back to your events"];
+            NSDictionary *d2 = [NSDictionary dictionaryWithObjectsAndKeys:self.event, @"event", nil];
+            HandleRequest *cond = [[HandleRequest alloc] initWithSelector:@"handleCond:" andDelegate:self];
+            [cond createRequestWithType:POST forExtension:@"/event/get_conditional_acceptance" withDictionary:d2];
             break;
         }
             

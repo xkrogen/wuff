@@ -153,7 +153,16 @@
         [d setObject:_descriptionInputView.textField.text forKey:@"description"];
         
         // add the current user logged in to the user_list
-        NSString *userlist = [NSString stringWithFormat:@"%@, %@", _emailListInputView.textField.text, [[NSUserDefaults standardUserDefaults] objectForKey:@"email"]];
+        NSString *userlist;
+        if (self.editMode)
+        {
+            userlist = _emailListInputView.textField.text;
+        }
+        else
+        {
+            userlist = [NSString stringWithFormat:@"%@, %@", _emailListInputView.textField.text, [[NSUserDefaults standardUserDefaults] objectForKey:@"email"]];
+        }
+        
         [d setObject:userlist forKey:@"user_list"];
         
         [d setObject:[[NSNumber numberWithDouble:[[_datePicker date]timeIntervalSince1970]] stringValue] forKey:@"time"];

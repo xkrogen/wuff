@@ -106,7 +106,7 @@
     eventView.editMode = true;
     eventView.location = self.location;
     eventView.description = self.description;
-    eventView.attenders = [self.attenders string];
+    eventView.attenders = [[self.attenders string] stringByReplacingOccurrencesOfString:@"\n" withString:@", "];
     eventView.time = self.time;
     eventView.myTitle = self.myTitle;
     eventView.eventId = self.eventId;
