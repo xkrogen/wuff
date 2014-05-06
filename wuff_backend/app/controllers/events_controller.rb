@@ -30,6 +30,18 @@ class EventsController < ApplicationController
 			user.id
 		end
 
+		if params[:group_list]
+			group_list = params[:group_list].split(",") do |group_id|
+				begin
+					group = Group.find(group_id.strip)
+				rescue ActiveRecord::RecordNotFound
+					respond(ERR_INVALID_FIELD)
+					return
+				end
+				user_list ||= group.user_list
+			end
+		end
+		
 		rval = Event.add_event(params[:title], creator.id, params[:time].to_i,
 			user_list, params[:description], params[:location])
 
@@ -161,7 +173,7 @@ class EventsController < ApplicationController
 		respond(rval)
 	end
 
-	# DELETE /event/remove_user
+	# POST /event/remove_user
 	# Removes the given user from the event only if the currently
 	# signed in user is the admin for the event. You cannot 
 	# remove the admin from the event.
