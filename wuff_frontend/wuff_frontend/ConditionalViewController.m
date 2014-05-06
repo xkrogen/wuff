@@ -86,8 +86,6 @@
 -(IBAction)typeValueChanged {
     
     if(self.condType.selectedSegmentIndex==0) {
-        
-        
         [self.paramsField resignFirstResponder];
         [self.autocompleteTextField resignFirstResponder];
         
@@ -287,7 +285,6 @@
         NSLog(@"selected string '%@' from autocomplete menu", selectedString);
     }
 }
-
 
 
 - (void)didReceiveMemoryWarning

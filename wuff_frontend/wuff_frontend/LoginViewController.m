@@ -19,8 +19,20 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"cookieString"];
         self.logging_in_fb = false;
+        
+        // clear defaults
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"cookieString"];
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"name"];
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"email"];
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"seenSwipeButton"];
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"seenEventHelpButton"];
+        
+        // logout of facebook if it's open
+        if (FBSession.activeSession.isOpen)
+        {
+            [FBSession.activeSession closeAndClearTokenInformation];
+        }
         
         /*
         // CODE FOR FINDING OUT THE FONT FAMILYS ON IOS

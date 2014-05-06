@@ -34,11 +34,16 @@
 }
 
 
-#pragma mark - MLPAutoCompletionObject Protocl
+#pragma mark - MLPAutoCompletionObject Protocol
 
 - (NSString *)autocompleteString
 {
     return self.name;
+}
+
+- (UIColor *)getTextColor
+{
+    return [UIColor darkGrayColor];
 }
 
 @end
