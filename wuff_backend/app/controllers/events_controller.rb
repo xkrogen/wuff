@@ -175,11 +175,12 @@ class EventsController < ApplicationController
 		event_info_hash[:time] = params[:time].to_i if params[:time]
 		rval = @event.edit_event(event_info_hash)
 
+        user_list = []
 		if params[:user_list] != nil
 			@event.reload
 			user_list_p = params[:user_list].strip
 			user_list_p = user_list_p[1..-1] if user_list_p.start_with?(',')
-			user_list = params[:user_list].split(',').map do |email|
+			user_list_temp = params[:user_list].split(',').map do |email|
 				user = User.find_by(email: email.strip)
 				if not user
 					respond(ERR_INVALID_FIELD)
@@ -187,7 +188,24 @@ class EventsController < ApplicationController
 				end
 				user.id
 			end
+            user_list |= user_list_temp
+        end
+        
+		if params[:group_list] != nil
+			group_list_p = params[:group_list].strip
+			group_list_p = group_list_p[1..-1] if group_list_p.start_with?(',')
+			group_list_p.split(",").each do |group_id|
+				begin
+					group = Group.find(group_id.strip)
+                    rescue ActiveRecord::RecordNotFound
+					respond(ERR_INVALID_FIELD)
+					return
+				end
+				user_list |= group.user_list
+			end
+		end
 
+        if not user_list.empty?
 			curr_party_list = @event.party_list
 			user_list.delete_if { |user_id| curr_party_list.has_key?(user_id) }
 
