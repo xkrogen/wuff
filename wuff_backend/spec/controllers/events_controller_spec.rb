@@ -489,7 +489,7 @@ describe EventsController do
 					condition_type: COND_USER_ATTENDING_ANY, condition: "t_other@example.com,t_other1@example.com" }
 				JSON.parse(response.body)['err_code'].should eq SUCCESS
 				@event.reload
-				@event.party_list[@other.id][:condition].should_not eq nil
+				@event.party_list[@other.id][:condition][:id_list].size.should eq 2
 			end
 		end
 
@@ -510,6 +510,7 @@ describe EventsController do
 				JSON.parse(response.body)['err_code'].should eq SUCCESS
 				@event.reload
 				@event.party_list[@other.id][:condition].should_not eq nil
+				@event.party_list[@other.id][:condition][:id_list].size.should eq 2
 			end
 		end
 

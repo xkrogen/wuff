@@ -226,7 +226,7 @@ class EventsController < ApplicationController
 				end
 				user.id
 			end
-			@event.add_condition(current_user.id, UserCondition.new(COND_USER_ATTENDING_ANY, params[:condition]))
+			@event.add_condition(current_user.id, UserCondition.new(COND_USER_ATTENDING_ANY, user_list))
 			respond(SUCCESS)
 		elsif params[:condition_type] == COND_USER_ATTENDING_ALL
 			user_list = params[:condition].split(",").map do |email|
@@ -237,7 +237,7 @@ class EventsController < ApplicationController
 				end
 				user.id
 			end
-			@event.add_condition(current_user.id, UserCondition.new(COND_USER_ATTENDING_ALL, params[:condition]))
+			@event.add_condition(current_user.id, UserCondition.new(COND_USER_ATTENDING_ALL, user_list))
 			respond(SUCCESS)
 		else
 			respond(ERR_INVALID_FIELD)
