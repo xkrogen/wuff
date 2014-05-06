@@ -255,7 +255,11 @@ class EventsController < ApplicationController
 		elsif cond[:cond_type] == COND_NUM_ATTENDING
 			respond(SUCCESS, { event: @event.id, condition_type: cond[:cond_type], condition: cond[:num_users] })
 		else
-			respond(SUCCESS, { event: @event.id, condition_type: cond[:cond_type], condition: cond[:user_list] })
+			nameslist = []
+			for i in 1..cond[:user_list][:user_count]
+				nameslist <<= cond[:user_list][i][:name]
+			end
+			respond(SUCCESS, { event: @event.id, condition_type: cond[:cond_type], condition: nameslist.join(",") })
 		end
 	end
 
