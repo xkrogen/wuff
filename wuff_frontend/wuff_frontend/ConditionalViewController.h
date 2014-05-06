@@ -24,6 +24,9 @@
 @property (nonatomic,strong) IBOutlet UISegmentedControl *condType;
 @property (nonatomic, strong) IBOutlet UITextView *explanation;
 @property id event;
+@property (nonatomic,retain) IBOutlet UILabel *typeField;
+@property (nonatomic ,retain) IBOutlet UILabel *numberLabel;
+@property (nonatomic,retain) IBOutlet UITextView *paramsView;
 
 
 
