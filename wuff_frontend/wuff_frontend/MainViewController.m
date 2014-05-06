@@ -612,6 +612,7 @@ typedef enum {
     eventView.myTitle = [event objectForKey:@"title"];
     
     NSDate *time = [NSDate dateWithTimeIntervalSince1970:[[event objectForKey:@"time"] integerValue]];
+    eventView.timeDate = time;
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
     [format setDateFormat:@"MMM dd, yyyy | hh:mm a"];
     eventView.time = [format stringFromDate:time];

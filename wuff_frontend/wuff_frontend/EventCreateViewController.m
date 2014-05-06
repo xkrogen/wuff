@@ -180,8 +180,6 @@
             [d setObject: self.eventId forKey:@"event"];
             [_myRequester createRequestWithType:POST forExtension:@"/event/edit_event" withDictionary:d];
             //NSLog([NSString stringWithFormat: @"The EventID is: %@", self.eventId]);
-
-            
         } else {
             NSLog(@"sending %@",d);
             [_myRequester createRequestWithType:POST forExtension:@"/event/create_event" withDictionary:d];
