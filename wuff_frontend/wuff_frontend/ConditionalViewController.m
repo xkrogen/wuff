@@ -68,6 +68,8 @@
     self.userList = [[NSMutableArray alloc] init];
     self.emailList = [[NSMutableSet alloc] init];
     
+    self.explanation.text = @"How many Wuffers should be attending before you automatically accept?";
+    
 }
 
 
@@ -94,8 +96,18 @@
         self.paramsField.placeholder = @"Enter a Number";
         self.paramsField.keyboardType = UIKeyboardTypeNumberPad;
         self.autocompleteTextField.hidden = YES;
+        
+        self.explanation.text = @"How many Wuffers should be attending before you automatically accept?";
     }
     else {
+        
+        if(self.condType.selectedSegmentIndex==1) {
+            self.explanation.text = @"If any of these Wuffers accept, you'll automatically accept as well.";
+        }
+        else {
+            self.explanation.text = @"You'll only automatically accept if all of these Wuffers accept first.";
+        }
+        
         
         self.paramsField.text = @"";
         

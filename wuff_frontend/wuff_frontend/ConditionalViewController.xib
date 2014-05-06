@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="13A598" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
@@ -8,6 +8,7 @@
             <connections>
                 <outlet property="autocompleteTextField" destination="sVc-uv-Oap" id="w3P-V4-95h"/>
                 <outlet property="condType" destination="FGH-Ob-hXq" id="Mvl-vd-g5G"/>
+                <outlet property="explanation" destination="aU6-bG-h5e" id="YBl-IL-Xg8"/>
                 <outlet property="paramsField" destination="JAe-U0-XEn" id="zEW-CK-h7c"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
@@ -53,6 +54,13 @@
                         <action selector="accept" destination="-1" eventType="touchUpInside" id="Z63-sX-jmh"/>
                     </connections>
                 </button>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Text Here" translatesAutoresizingMaskIntoConstraints="NO" id="aU6-bG-h5e">
+                    <rect key="frame" x="20" y="182" width="280" height="70"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                </textView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>

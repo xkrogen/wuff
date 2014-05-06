@@ -22,6 +22,7 @@
 @property (nonatomic,strong) NSMutableArray *userList;
 @property (nonatomic,strong) NSMutableSet *emailList;
 @property (nonatomic,strong) IBOutlet UISegmentedControl *condType;
+@property (nonatomic, strong) IBOutlet UITextView *explanation;
 @property id event;
 
 
