@@ -30,6 +30,18 @@ class EventsController < ApplicationController
 			user.id
 		end
 
+		if params[:group_list]
+			group_list = params[:group_list].split(",") do |group_id|
+				begin
+					group = Group.find(group_id.strip)
+				rescue ActiveRecord::RecordNotFound
+					respond(ERR_INVALID_FIELD)
+					return
+				end
+				user_list ||= group.user_list
+			end
+		end
+		
 		rval = Event.add_event(params[:title], creator.id, params[:time].to_i,
 			user_list, params[:description], params[:location])
 

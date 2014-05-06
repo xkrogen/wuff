@@ -1,14 +1,14 @@
 {
   "RSpec": {
     "coverage": {
-      "/Users/sampsongu/Documents/Berkeley/CS169/wuff/wuff_backend/config/environment.rb": [
+      "/home/erik/wuff/wuff_backend/config/environment.rb": [
         null,
         1,
         null,
         null,
         1
       ],
-      "/Users/sampsongu/Documents/Berkeley/CS169/wuff/wuff_backend/config/application.rb": [
+      "/home/erik/wuff/wuff_backend/config/application.rb": [
         1,
         null,
         null,
@@ -43,13 +43,13 @@
         null,
         null
       ],
-      "/Users/sampsongu/Documents/Berkeley/CS169/wuff/wuff_backend/config/boot.rb": [
+      "/home/erik/wuff/wuff_backend/config/boot.rb": [
         null,
         1,
         null,
         1
       ],
-      "/Users/sampsongu/Documents/Berkeley/CS169/wuff/wuff_backend/config/environments/test.rb": [
+      "/home/erik/wuff/wuff_backend/config/environments/test.rb": [
         1,
         null,
         null,
@@ -87,7 +87,7 @@
         1,
         null
       ],
-      "/Users/sampsongu/Documents/Berkeley/CS169/wuff/wuff_backend/config/initializers/backtrace_silencers.rb": [
+      "/home/erik/wuff/wuff_backend/config/initializers/backtrace_silencers.rb": [
         null,
         null,
         null,
@@ -96,20 +96,20 @@
         null,
         null
       ],
-      "/Users/sampsongu/Documents/Berkeley/CS169/wuff/wuff_backend/config/initializers/facebook.rb": [
+      "/home/erik/wuff/wuff_backend/config/initializers/facebook.rb": [
         null,
         1,
         null,
         null,
         1
       ],
-      "/Users/sampsongu/Documents/Berkeley/CS169/wuff/wuff_backend/config/initializers/filter_parameter_logging.rb": [
+      "/home/erik/wuff/wuff_backend/config/initializers/filter_parameter_logging.rb": [
         null,
         null,
         null,
         1
       ],
-      "/Users/sampsongu/Documents/Berkeley/CS169/wuff/wuff_backend/config/initializers/global_constants.rb": [
+      "/home/erik/wuff/wuff_backend/config/initializers/global_constants.rb": [
         null,
         1,
         null,
@@ -162,7 +162,7 @@
         null,
         1
       ],
-      "/Users/sampsongu/Documents/Berkeley/CS169/wuff/wuff_backend/config/initializers/inflections.rb": [
+      "/home/erik/wuff/wuff_backend/config/initializers/inflections.rb": [
         null,
         null,
         null,
@@ -180,14 +180,14 @@
         null,
         null
       ],
-      "/Users/sampsongu/Documents/Berkeley/CS169/wuff/wuff_backend/config/initializers/mime_types.rb": [
+      "/home/erik/wuff/wuff_backend/config/initializers/mime_types.rb": [
         null,
         null,
         null,
         null,
         null
       ],
-      "/Users/sampsongu/Documents/Berkeley/CS169/wuff/wuff_backend/config/initializers/push_setup.rb": [
+      "/home/erik/wuff/wuff_backend/config/initializers/push_setup.rb": [
         null,
         null,
         1,
@@ -199,7 +199,7 @@
         1,
         null
       ],
-      "/Users/sampsongu/Documents/Berkeley/CS169/wuff/wuff_backend/config/initializers/secret_token.rb": [
+      "/home/erik/wuff/wuff_backend/config/initializers/secret_token.rb": [
         null,
         null,
         null,
@@ -213,12 +213,12 @@
         null,
         1
       ],
-      "/Users/sampsongu/Documents/Berkeley/CS169/wuff/wuff_backend/config/initializers/session_store.rb": [
+      "/home/erik/wuff/wuff_backend/config/initializers/session_store.rb": [
         null,
         null,
         1
       ],
-      "/Users/sampsongu/Documents/Berkeley/CS169/wuff/wuff_backend/config/initializers/wrap_parameters.rb": [
+      "/home/erik/wuff/wuff_backend/config/initializers/wrap_parameters.rb": [
         null,
         null,
         null,
@@ -234,7 +234,7 @@
         null,
         null
       ],
-      "/Users/sampsongu/Documents/Berkeley/CS169/wuff/wuff_backend/config/routes.rb": [
+      "/home/erik/wuff/wuff_backend/config/routes.rb": [
         1,
         1,
         null,
@@ -273,23 +273,23 @@
         1,
         null
       ],
-      "/Users/sampsongu/Documents/Berkeley/CS169/wuff/wuff_backend/app/helpers/application_helper.rb": [
+      "/home/erik/wuff/wuff_backend/app/helpers/application_helper.rb": [
         1,
         null
       ],
-      "/Users/sampsongu/Documents/Berkeley/CS169/wuff/wuff_backend/app/helpers/events_helper.rb": [
+      "/home/erik/wuff/wuff_backend/app/helpers/events_helper.rb": [
         1,
         null
       ],
-      "/Users/sampsongu/Documents/Berkeley/CS169/wuff/wuff_backend/app/helpers/groups_helper.rb": [
+      "/home/erik/wuff/wuff_backend/app/helpers/groups_helper.rb": [
         1,
         null
       ],
-      "/Users/sampsongu/Documents/Berkeley/CS169/wuff/wuff_backend/app/helpers/users_helper.rb": [
+      "/home/erik/wuff/wuff_backend/app/helpers/users_helper.rb": [
         1,
         null
       ],
-      "/Users/sampsongu/Documents/Berkeley/CS169/wuff/wuff_backend/app/classes/Condition.rb": [
+      "/home/erik/wuff/wuff_backend/app/classes/Condition.rb": [
         null,
         null,
         null,
@@ -342,7 +342,7 @@
         null,
         null
       ],
-      "/Users/sampsongu/Documents/Berkeley/CS169/wuff/wuff_backend/app/classes/UserCondition.rb": [
+      "/home/erik/wuff/wuff_backend/app/classes/UserCondition.rb": [
         null,
         null,
         1,
@@ -378,7 +378,7 @@
         null,
         null
       ],
-      "/Users/sampsongu/Documents/Berkeley/CS169/wuff/wuff_backend/app/classes/NumberCondition.rb": [
+      "/home/erik/wuff/wuff_backend/app/classes/NumberCondition.rb": [
         null,
         null,
         1,
@@ -408,7 +408,7 @@
         null,
         null
       ],
-      "/Users/sampsongu/Documents/Berkeley/CS169/wuff/wuff_backend/app/classes/NoCondition.rb": [
+      "/home/erik/wuff/wuff_backend/app/classes/NoCondition.rb": [
         null,
         1,
         null,
@@ -435,7 +435,7 @@
         null,
         null
       ],
-      "/Users/sampsongu/Documents/Berkeley/CS169/wuff/wuff_backend/spec/classes/notification_spec.rb": [
+      "/home/erik/wuff/wuff_backend/spec/classes/notification_spec.rb": [
         null,
         1,
         1,
@@ -488,7 +488,7 @@
         null,
         null
       ],
-      "/Users/sampsongu/Documents/Berkeley/CS169/wuff/wuff_backend/app/classes/EventNotification.rb": [
+      "/home/erik/wuff/wuff_backend/app/classes/EventNotification.rb": [
         null,
         1,
         null,
@@ -528,7 +528,7 @@
         null,
         null
       ],
-      "/Users/sampsongu/Documents/Berkeley/CS169/wuff/wuff_backend/app/classes/Notification.rb": [
+      "/home/erik/wuff/wuff_backend/app/classes/Notification.rb": [
         null,
         null,
         null,
@@ -562,7 +562,7 @@
         null,
         null
       ],
-      "/Users/sampsongu/Documents/Berkeley/CS169/wuff/wuff_backend/app/classes/FriendNotification.rb": [
+      "/home/erik/wuff/wuff_backend/app/classes/FriendNotification.rb": [
         null,
         1,
         null,
@@ -588,7 +588,7 @@
         null,
         null
       ],
-      "/Users/sampsongu/Documents/Berkeley/CS169/wuff/wuff_backend/app/classes/ConditionNotification.rb": [
+      "/home/erik/wuff/wuff_backend/app/classes/ConditionNotification.rb": [
         null,
         1,
         null,
@@ -618,7 +618,7 @@
         null,
         null
       ],
-      "/Users/sampsongu/Documents/Berkeley/CS169/wuff/wuff_backend/spec/controllers/events_controller_spec.rb": [
+      "/home/erik/wuff/wuff_backend/spec/controllers/events_controller_spec.rb": [
         1,
         1,
         null,
@@ -1321,7 +1321,7 @@
         null,
         null
       ],
-      "/Users/sampsongu/Documents/Berkeley/CS169/wuff/wuff_backend/app/controllers/events_controller.rb": [
+      "/home/erik/wuff/wuff_backend/app/controllers/events_controller.rb": [
         null,
         1,
         1,
@@ -1352,6 +1352,18 @@
         2,
         null,
         10,
+        null,
+        null,
+        6,
+        0,
+        0,
+        0,
+        null,
+        0,
+        0,
+        null,
+        0,
+        null,
         null,
         null,
         6,
@@ -1637,14 +1649,14 @@
         null,
         null
       ],
-      "/Users/sampsongu/Documents/Berkeley/CS169/wuff/wuff_backend/app/controllers/application_controller.rb": [
+      "/home/erik/wuff/wuff_backend/app/controllers/application_controller.rb": [
         1,
         null,
         null,
         null,
         null
       ],
-      "/Users/sampsongu/Documents/Berkeley/CS169/wuff/wuff_backend/spec/controllers/groups_controller_spec.rb": [
+      "/home/erik/wuff/wuff_backend/spec/controllers/groups_controller_spec.rb": [
         1,
         1,
         null,
@@ -2134,7 +2146,7 @@
         null,
         null
       ],
-      "/Users/sampsongu/Documents/Berkeley/CS169/wuff/wuff_backend/app/controllers/groups_controller.rb": [
+      "/home/erik/wuff/wuff_backend/app/controllers/groups_controller.rb": [
         1,
         null,
         1,
@@ -2317,7 +2329,7 @@
         null,
         null
       ],
-      "/Users/sampsongu/Documents/Berkeley/CS169/wuff/wuff_backend/app/models/user.rb": [
+      "/home/erik/wuff/wuff_backend/app/models/user.rb": [
         1,
         1,
         null,
@@ -2544,7 +2556,7 @@
         null,
         null
       ],
-      "/Users/sampsongu/Documents/Berkeley/CS169/wuff/wuff_backend/spec/controllers/users_controller_spec.rb": [
+      "/home/erik/wuff/wuff_backend/spec/controllers/users_controller_spec.rb": [
         1,
         1,
         null,
@@ -3225,7 +3237,7 @@
         null,
         null
       ],
-      "/Users/sampsongu/Documents/Berkeley/CS169/wuff/wuff_backend/app/controllers/users_controller.rb": [
+      "/home/erik/wuff/wuff_backend/app/controllers/users_controller.rb": [
         1,
         null,
         1,
@@ -3616,7 +3628,7 @@
         null,
         null
       ],
-      "/Users/sampsongu/Documents/Berkeley/CS169/wuff/wuff_backend/spec/models/event_spec.rb": [
+      "/home/erik/wuff/wuff_backend/spec/models/event_spec.rb": [
         1,
         1,
         1,
@@ -4176,7 +4188,7 @@
         null,
         null
       ],
-      "/Users/sampsongu/Documents/Berkeley/CS169/wuff/wuff_backend/app/models/event.rb": [
+      "/home/erik/wuff/wuff_backend/app/models/event.rb": [
         1,
         1,
         1,
@@ -4560,7 +4572,7 @@
         null,
         null
       ],
-      "/Users/sampsongu/Documents/Berkeley/CS169/wuff/wuff_backend/app/classes/NotifyHandler.rb": [
+      "/home/erik/wuff/wuff_backend/app/classes/NotifyHandler.rb": [
         null,
         1,
         1,
@@ -4590,7 +4602,7 @@
         null,
         null
       ],
-      "/Users/sampsongu/Documents/Berkeley/CS169/wuff/wuff_backend/spec/models/group_spec.rb": [
+      "/home/erik/wuff/wuff_backend/spec/models/group_spec.rb": [
         1,
         null,
         1,
@@ -4708,7 +4720,7 @@
         null,
         null
       ],
-      "/Users/sampsongu/Documents/Berkeley/CS169/wuff/wuff_backend/app/models/group.rb": [
+      "/home/erik/wuff/wuff_backend/app/models/group.rb": [
         1,
         null,
         1,
@@ -4842,7 +4854,7 @@
         null,
         null
       ],
-      "/Users/sampsongu/Documents/Berkeley/CS169/wuff/wuff_backend/spec/models/user_spec.rb": [
+      "/home/erik/wuff/wuff_backend/spec/models/user_spec.rb": [
         null,
         1,
         null,
@@ -5154,6 +5166,6 @@
         null
       ]
     },
-    "timestamp": 1399014850
+    "timestamp": 1399345770
   }
 }
