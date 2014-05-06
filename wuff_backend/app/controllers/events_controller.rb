@@ -174,6 +174,28 @@ class EventsController < ApplicationController
 		event_info_hash[:description] = params[:description] if params[:description]
 		event_info_hash[:time] = params[:time].to_i if params[:time]
 		rval = @event.edit_event(event_info_hash)
+
+		if params[:user_list] != nil
+			@event.reload
+			user_list_p = params[:user_list].strip
+			user_list_p = user_list_p[1..-1] if user_list_p.start_with?(',')
+			user_list = params[:user_list].split(',').map do |email|
+				user = User.find_by(email: email.strip)
+				if not user
+					respond(ERR_INVALID_FIELD)
+					return
+				end
+				user.id
+			end
+
+			curr_party_list = @event.party_list
+			user_list.delete_if { |user_id| curr_party_list.has_key?(user_id) }
+
+			@event.add_user_list(user_list)
+			@event.add_to_user_event_lists(user_list)
+			@event.notify( EventNotification.new(NOTIF_NEW_EVENT, @event), user_list)
+		end
+
 		respond(rval)
 	end
 
