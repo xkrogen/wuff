@@ -15,6 +15,7 @@
 		18A7C1461900D3D4003D135D /* GroupCreateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18A7C1451900D3D4003D135D /* GroupCreateViewController.xib */; };
 		18A7C14A1900EB2F003D135D /* ConditionalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A7C1481900EB2F003D135D /* ConditionalViewController.m */; };
 		18A7C14B1900EB2F003D135D /* ConditionalViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18A7C1491900EB2F003D135D /* ConditionalViewController.xib */; };
+		18B4994F19188E5F00B78E42 /* GroupAutoCompletionObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B4994E19188E5F00B78E42 /* GroupAutoCompletionObject.m */; };
 		18E2985F1911880A00D05153 /* GroupEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E2985D1911880A00D05153 /* GroupEditViewController.m */; };
 		18E298601911880A00D05153 /* GroupEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18E2985E1911880A00D05153 /* GroupEditViewController.xib */; };
 		18E298631911998900D05153 /* CMPopTipView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E298621911998900D05153 /* CMPopTipView.m */; };
@@ -96,6 +97,8 @@
 		18A7C1471900EB2F003D135D /* ConditionalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConditionalViewController.h; sourceTree = "<group>"; };
 		18A7C1481900EB2F003D135D /* ConditionalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConditionalViewController.m; sourceTree = "<group>"; };
 		18A7C1491900EB2F003D135D /* ConditionalViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConditionalViewController.xib; sourceTree = "<group>"; };
+		18B4994D19188E5F00B78E42 /* GroupAutoCompletionObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupAutoCompletionObject.h; sourceTree = "<group>"; };
+		18B4994E19188E5F00B78E42 /* GroupAutoCompletionObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupAutoCompletionObject.m; sourceTree = "<group>"; };
 		18E2985C1911880A00D05153 /* GroupEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupEditViewController.h; sourceTree = "<group>"; };
 		18E2985D1911880A00D05153 /* GroupEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupEditViewController.m; sourceTree = "<group>"; };
 		18E2985E1911880A00D05153 /* GroupEditViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GroupEditViewController.xib; sourceTree = "<group>"; };
@@ -330,6 +333,8 @@
 				6C13DDA218C41EFD0032A56C /* wuff_frontend-Prefix.pch */,
 				6C4AFBD418E52FAE001BCEBB /* UserAutoCompletionObject.h */,
 				6C4AFBD518E52FAE001BCEBB /* UserAutoCompletionObject.m */,
+				18B4994D19188E5F00B78E42 /* GroupAutoCompletionObject.h */,
+				18B4994E19188E5F00B78E42 /* GroupAutoCompletionObject.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -538,6 +543,7 @@
 				18A7C14A1900EB2F003D135D /* ConditionalViewController.m in Sources */,
 				3224245E18EC949F003E7E7F /* AddFriendViewController.m in Sources */,
 				18E2985F1911880A00D05153 /* GroupEditViewController.m in Sources */,
+				18B4994F19188E5F00B78E42 /* GroupAutoCompletionObject.m in Sources */,
 				322B9B3E18D256C80084AAF9 /* MainViewController.m in Sources */,
 				6C101FEF19104251009A0DD2 /* SOLabel.m in Sources */,
 				6CF7E1B618CA538F00880712 /* HandleRequest.m in Sources */,
