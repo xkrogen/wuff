@@ -39,6 +39,8 @@
     [self.scrollView setShowsVerticalScrollIndicator:NO];
     
     [self.datePicker setMinuteInterval:15];
+    // set display date to 15 minutes from now
+    [self.datePicker setDate:[NSDate dateWithTimeIntervalSinceNow:15*60]];
     
     [self.autocompleteTextField setBorderStyle:UITextBorderStyleRoundedRect];
     self.autocompleteTextField.delegate = (id)self;

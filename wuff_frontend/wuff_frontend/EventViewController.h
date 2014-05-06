@@ -27,6 +27,7 @@
 @property(nonatomic, strong) NSString *location;
 @property(nonatomic, strong) NSString *time;
 @property(nonatomic, strong) NSMutableAttributedString *attenders;
+@property(nonatomic, strong) NSString *attendersEmailList;
 @property(nonatomic, strong) NSString *description;
 @property(nonatomic, strong) NSString *eventId;
 @property(nonatomic, strong) NSDate *timeDate;

@@ -625,6 +625,7 @@ typedef enum {
     // parse attendees
     NSDictionary *users = [event objectForKey:@"users"];
     eventView.attenders = [[NSAttributedString alloc] initWithString:@""];
+    eventView.attendersEmailList = @"";
     int user_count = [[users objectForKey:@"user_count"] intValue];
     bool flag = false, going_flag = false;
     for (int i=1; i<=user_count; i++) {
@@ -646,6 +647,15 @@ typedef enum {
         else {
             name = [[NSAttributedString alloc] initWithString:[user objectForKey:@"name"] attributes:lightGray];
             going_flag = false;
+        }
+        
+        if ([eventView.attendersEmailList isEqualToString:@""])
+        {
+            eventView.attendersEmailList = [NSString stringWithFormat:@"%@", [user objectForKey:@"email"]];
+        }
+        else
+        {
+            eventView.attendersEmailList = [NSString stringWithFormat:@"%@, %@", eventView.attendersEmailList, [user objectForKey:@"email"]];
         }
         
         if ([eventView.attenders isEqualToAttributedString:[[NSAttributedString alloc] initWithString:@""]]) {

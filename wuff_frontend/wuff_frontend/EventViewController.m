@@ -110,7 +110,7 @@
     eventView.editMode = true;
     eventView.location = self.location;
     eventView.description = self.description;
-    eventView.attenders = [[[self.attenders string] stringByReplacingOccurrencesOfString:@"\n" withString:@", " options:nil range:NSMakeRange(0, [[self.attenders string] length]-2)] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    eventView.attenders = [self.attendersEmailList stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 ;
     eventView.time = self.time;
     eventView.myTitle = self.myTitle;
