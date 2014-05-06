@@ -255,9 +255,7 @@ class EventsController < ApplicationController
 		elsif cond[:cond_type] == COND_NUM_ATTENDING
 			respond(SUCCESS, { event: @event.id, condition_type: cond[:cond_type], condition: cond[:num_users] })
 		else
-			stringlist = ""
-			cond[:id_list].each { |id| stringlist += id }
-			respond(SUCCESS, { event: @event.id, condition_type: cond[:cond_type], condition: stringlist })
+			respond(SUCCESS, { event: @event.id, condition_type: cond[:cond_type], condition: cond[:user_list] })
 		end
 	end
 
