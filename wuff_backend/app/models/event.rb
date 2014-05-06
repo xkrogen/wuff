@@ -147,8 +147,11 @@ class Event < ActiveRecord::Base
 	def add_user_list(user_list, skip_attribute_update = false)
 		user_hash = {}
 		user_list.each do |user_id|
+			#user_hash[user_id] = { status: STATUS_NO_RESPONSE, 
+			#	condition: NoCondition.new.get_hash }
 			user_hash[user_id] = { status: STATUS_NO_RESPONSE, 
-				condition: NoCondition.new.get_hash }
+				cond_num: NoCondition.new.get_hash, cond_any: NoCondition.new.get_hash,
+				cond_all: NoCondition.new.get_hash }
 		end
 		self.party_list.merge!(user_hash) { |key, old, new| old }
 		self.update_attribute(:party_list, self.party_list) if !skip_attribute_update
@@ -168,7 +171,39 @@ class Event < ActiveRecord::Base
 	def check_conditions
 		clauses = Array.new
 		party_list.each do |uid, hash|
-			cond = hash[:condition]
+			cond_num, cond_any, cond_all = nil, nil, nil
+			cond_num = hash[:cond_num] if hash[:cond_num][:cond_type] != COND_NONE
+			cond_any = hash[:cond_any] if hash[:cond_any][:cond_type] != COND_NONE
+			cond_all = hash[:cond_all] if hash[:cond_all][:cond_type] != COND_NONE
+
+			if cond_all != nil
+				clauses.push({ operands: false, value: uid }) if cond_all[:cond_met] == COND_MET
+
+				oper = Array.new
+				if cond_any != nil
+					cond_any[:id_list].each { |id| oper.push(id)}
+				end
+				cond[:id_list].each do |id|
+					oper += [id]
+					clauses.push({ operands: [id], value: uid})
+				end
+				oper = Array.new
+				cond[:id_list].each { |id| oper.push(id)}
+				#cond[:user_list].each { |key, value| oper.push(value[:uid]) }
+				clauses.push({ operands: oper, value: uid })
+
+
+			end
+
+			if cond_num != nil && cond_num[:cond_met] == COND_MET
+				clauses.push({ operands: false, value: uid })
+			elsif cond_any != nil && cond_any[:cond_met] == COND_MET
+				clauses.push({ operands: false, value: uid })
+			elsif cond_all != nil && cond_all[:cond_met] == COND_MET
+				clauses.push({ operands: false, value: uid })
+
+			end
+
 			if cond[:cond_type] != COND_NONE && cond[:cond_met] == COND_MET
 				clauses.push({ operands: false, value: uid })
 			elsif cond[:cond_type] == COND_NUM_ATTENDING
@@ -249,7 +284,14 @@ class Event < ActiveRecord::Base
 	# and takes appropriate action. 
 	def add_condition(user_id, condition)
 		return if not party_list.has_key?(user_id)
-		party_list[user_id][:condition] = condition.get_hash
+		hash = condition.get_hash
+		if hash[:cond_type] == COND_NUM_ATTENDING
+			party_list[user_id][:cond_num] = condition.get_hash
+		elsif hash[:cond_type] == COND_USER_ATTENDING_ANY
+			party_list[user_id][:cond_any] = condition.get_hash
+		elsif hash[:cond_type] == COND_USER_ATTENDING_ALL 
+			party_list[user_id][:cond_all] = condition.get_hash
+		end
 		update_attribute(:party_list, party_list)
 		check_conditions
 	end
@@ -364,7 +406,14 @@ class Event < ActiveRecord::Base
 		condition.met
 		notif = ConditionNotification.new(NOTIF_COND_MET, self, condition)
 		notify(notif, [ user_id ])
-		party_list[user_id][:condition][:cond_met] = COND_MET
+		hash = condition.get_hash
+		if hash[:cond_type] == COND_NUM_ATTENDING
+			party_list[user_id][:cond_num][:cond_met] = COND_MET
+		elsif hash[:cond_type] == COND_USER_ATTENDING_ANY
+			party_list[user_id][:cond_any][:cond_met] = COND_MET
+		elsif hash[:cond_type] == COND_USER_ATTENDING_ALL 
+			party_list[user_id][:cond_all][:cond_met] = COND_MET
+		end
 		update_attribute(:party_list, party_list)
 	end
 
