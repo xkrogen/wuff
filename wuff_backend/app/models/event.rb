@@ -268,7 +268,6 @@ class Event < ActiveRecord::Base
 	# starting soon. Does not actually delete the event -- should subsequently
 	# call event.destroy to remove it from the database. 
 	def cancel_self
-		NotifyHandler.task_scheduler.unschedule(self.scheduler_job_id) if self.scheduler_job_id != -1
 		party_list.each_key { |user_id| User.find(user_id).delete_event(self.id) }
 	end
 
