@@ -67,7 +67,11 @@
     [backButton setAccessibilityLabel:@"Back Button"];
     [navigationBarItem setLeftBarButtonItem:backButton];
     
-    if (self.owner) {
+    NSDate *today = [NSDate date];
+    NSComparisonResult result;
+    
+    result = [today compare:self.timeDate];
+    if (self.owner && result!=NSOrderedDescending) {
         UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:self action:@selector(editButton)];
         [editButton setTintColor:[UIColor whiteColor]];
         [editButton setAccessibilityLabel:@"Edit Button"];
@@ -106,7 +110,8 @@
     eventView.editMode = true;
     eventView.location = self.location;
     eventView.description = self.description;
-    eventView.attenders = [self.attenders string];
+    eventView.attenders = [[[self.attenders string] stringByReplacingOccurrencesOfString:@"\n" withString:@", " options:nil range:NSMakeRange(0, [[self.attenders string] length]-2)] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+;
     eventView.time = self.time;
     eventView.myTitle = self.myTitle;
     eventView.eventId = self.eventId;

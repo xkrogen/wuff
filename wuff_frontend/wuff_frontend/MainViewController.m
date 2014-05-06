@@ -26,7 +26,6 @@ typedef enum {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        self.eventList = [[NSMutableArray alloc] init];
         
         self.settingsTabController = settingsTabViewController;
         
@@ -119,6 +118,9 @@ typedef enum {
     
     if (self.settingsTabController)
         [self.settingsTabController loadGroups];
+    
+    
+    self.eventList = [[NSMutableArray alloc] init];
     
     //Code to send POST Request
      _myRequester = [[HandleRequest alloc] initWithSelector:@"handleMainResponse:" andDelegate:self];
@@ -610,6 +612,7 @@ typedef enum {
     eventView.myTitle = [event objectForKey:@"title"];
     
     NSDate *time = [NSDate dateWithTimeIntervalSince1970:[[event objectForKey:@"time"] integerValue]];
+    eventView.timeDate = time;
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
     [format setDateFormat:@"MMM dd, yyyy | hh:mm a"];
     eventView.time = [format stringFromDate:time];
@@ -665,7 +668,7 @@ typedef enum {
             a2 = 0;
         }
         
-        if (a1 - a2 > 26) {
+        if (a1 - a2 > 24) {
             [eventView.attenders appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
             flag = true;
         }

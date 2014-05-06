@@ -23,8 +23,6 @@
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"cookieString"];
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"name"];
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"email"];
-        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"seenSwipeButton"];
-        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"seenEventHelpButton"];
         
         // logout of facebook if it's open
         if (FBSession.activeSession.isOpen)
@@ -77,6 +75,9 @@
             [[NSUserDefaults standardUserDefaults] setObject:[data objectForKey:@"name"] forKey:@"name"];
             [[NSUserDefaults standardUserDefaults] setObject:[data objectForKey:@"email"] forKey:@"email"];
             [[NSUserDefaults standardUserDefaults] setObject:[data objectForKey:@"user_id"] forKey:@"user_id"];
+            
+            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"seenSwipeButton"];
+            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"seenEventHelpButton"];
             
             MainViewController *main = [[MainViewController alloc] initWithNibName:nil bundle:nil];
             SettingsTabViewController *settings = [[SettingsTabViewController alloc] initWithNibName:nil bundle:Nil];

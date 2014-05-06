@@ -29,6 +29,7 @@
 @property(nonatomic, strong) NSMutableAttributedString *attenders;
 @property(nonatomic, strong) NSString *description;
 @property(nonatomic, strong) NSString *eventId;
+@property(nonatomic, strong) NSDate *timeDate;
 
 @property(nonatomic) bool owner;
 
