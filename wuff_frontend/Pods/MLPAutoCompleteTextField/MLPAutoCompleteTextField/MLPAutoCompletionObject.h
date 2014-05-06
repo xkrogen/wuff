@@ -26,10 +26,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  autoCompleteTextField:possibleCompletionsForString: method, your model object must implement this protocol.
  */
 @protocol MLPAutoCompletionObject <NSObject>
+
 @required
+
 
 /*Return the string that should be displayed in the autocomplete menu that 
  represents this object. (For example: a person's name.)*/
 - (NSString *)autocompleteString;
+- (UIColor *)getTextColor;
 
 @end

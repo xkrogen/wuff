@@ -239,19 +239,25 @@ static NSString *kDefaultAutoCompleteCellIdentifier = @"_DefaultAutoCompleteCell
 withAutoCompleteString:(NSString *)string
 {
     
-    NSAttributedString *boldedString = nil;
+    NSMutableAttributedString *boldedString = nil;
     if(self.applyBoldEffectToAutoCompleteSuggestions){
         BOOL attributedTextSupport = [cell.textLabel respondsToSelector:@selector(setAttributedText:)];
         NSAssert(attributedTextSupport, @"Attributed strings on UILabels are  not supported before iOS 6.0");
         NSRange boldedRange = [[string lowercaseString]
                                rangeOfString:[self.text lowercaseString]];
-        boldedString = [self boldedString:string withRange:boldedRange];
+        boldedString = [[NSMutableAttributedString alloc] initWithAttributedString:[self boldedString:string withRange:boldedRange]];
     }
-    
+
     id autoCompleteObject = self.autoCompleteSuggestions[indexPath.row];
     if(![autoCompleteObject conformsToProtocol:@protocol(MLPAutoCompletionObject)]){
         autoCompleteObject = nil;
     }
+    
+    if ([autoCompleteObject respondsToSelector:@selector(getTextColor)])
+    {
+        [cell.textLabel setTextColor:[(id <MLPAutoCompletionObject>)autoCompleteObject getTextColor]];
+    }
+    [boldedString addAttribute:NSForegroundColorAttributeName value:[(id <MLPAutoCompletionObject>)autoCompleteObject getTextColor] range:NSMakeRange(0, [boldedString length])];
     
     if([self.autoCompleteDelegate respondsToSelector:@selector(autoCompleteTextField:shouldConfigureCell:withAutoCompleteString:withAttributedString:forAutoCompleteObject:forRowAtIndexPath:)])
     {
@@ -261,7 +267,13 @@ withAutoCompleteString:(NSString *)string
         }
     }
     
-    [cell.textLabel setTextColor:self.textColor];
+    
+    if ([autoCompleteObject respondsToSelector:@selector(getTextColor)])
+    {
+        [cell.textLabel setTextColor:[(id <MLPAutoCompletionObject>)autoCompleteObject getTextColor]];
+    } else {
+        [cell.textLabel setTextColor:self.textColor];
+    }
     
     if(boldedString){
         if ([cell.textLabel respondsToSelector:@selector(setAttributedText:)]) {
@@ -276,9 +288,11 @@ withAutoCompleteString:(NSString *)string
         [cell.textLabel setFont:[UIFont fontWithName:self.font.fontName size:self.autoCompleteFontSize]];
     }
     
+    /*
     if(self.autoCompleteTableCellTextColor){
         [cell.textLabel setTextColor:self.autoCompleteTableCellTextColor];
     }
+     */
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath

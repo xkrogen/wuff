@@ -86,8 +86,6 @@
 -(IBAction)typeValueChanged {
     
     if(self.condType.selectedSegmentIndex==0) {
-        
-        
         [self.paramsField resignFirstResponder];
         [self.autocompleteTextField resignFirstResponder];
         
