@@ -106,7 +106,7 @@ class Event < ActiveRecord::Base
 			self.update_attribute(:time, new_time)
 			begin
 				NotifyHandler.task_scheduler.unschedule(self.scheduler_job_id) if self.scheduler_job_id != -1
-			rescue ArgumentException
+			rescue 
 			end
 			# Schedule a notification only if the event is starting more than 10
 			# minutes from now. 
