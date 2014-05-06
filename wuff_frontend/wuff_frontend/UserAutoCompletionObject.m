@@ -43,7 +43,7 @@
 
 - (UIColor *)getTextColor
 {
-    return [UIColor blackColor];
+    return [UIColor darkGrayColor];
 }
 
 @end

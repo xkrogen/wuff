@@ -26,11 +26,14 @@ typedef enum {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        self.eventList = [[NSMutableArray alloc] init];
+        
         self.settingsTabController = settingsTabViewController;
         
         self.refreshControl = [[UIRefreshControl alloc] init];
         [self.refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
         [self.mainTable addSubview:self.refreshControl];
+        
     }
     return self;
 }
@@ -124,8 +127,6 @@ typedef enum {
      [_myRequester createRequestWithType:GET forExtension:@"/user/get_events" withDictionary:d];
      //NSLog(@"sent request!");
     
-    self.eventList = [[NSMutableArray alloc] init];
-    
     // USE THIS CODE TO CREATE THE NAVIGATION CONTROLLER PROGRAMMATICALLY
     UINavigationBar *navigationBar;
     UINavigationItem *navigationBarItem;
@@ -164,6 +165,7 @@ typedef enum {
      selector:@selector(didReceiveRemoteNotification:)
      name:UIApplicationDidReceiveRemoteNotification
      object:nil];
+
 }
 
 -(void)viewDidAppear:(BOOL)animated {
@@ -178,26 +180,25 @@ typedef enum {
         [addEventPopTipView presentPointingAtBarButtonItem:self.addButton animated:YES];
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"seenEventHelpButton"];
     }
-    
-    
-    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"seenSwipeButton"]) {
-        
-        CMPopTipView *addEventPopTipView = [[CMPopTipView alloc] initWithMessage:@"Swipe this cell to accept or decline the event (or swipe far right for conditional acceptances!)"];
-        addEventPopTipView.delegate = self;
-        [addEventPopTipView setPreferredPointDirection:PointDirectionUp];
-        
-        UIView *thingToPointAt = [[UIView alloc] initWithFrame:CGRectMake(24, 129, 20, 20)];
-        [self.view addSubview:thingToPointAt];
-        
-        [addEventPopTipView presentPointingAtView:thingToPointAt inView:self.view animated:YES];
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"seenSwipeButton"];
-    }
-    
 }
 
-
--(void)popTipViewWasDismissedByUser:(CMPopTipView *)popTipView {
-    
+- (void)popTipViewWasDismissedByUser:(CMPopTipView *)popTipView {
+    // Any cleanup code, such as releasing a CMPopTipView instance variable, if necessary
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"seenEventHelpButton"])
+    {
+        if (![[NSUserDefaults standardUserDefaults] boolForKey:@"seenSwipeButton"])
+        {
+            CMPopTipView *addEventPopTipView = [[CMPopTipView alloc] initWithMessage:@"Swipe this cell to accept or decline the event (or swipe far right for conditional acceptances!)"];
+            addEventPopTipView.delegate = self;
+            [addEventPopTipView setPreferredPointDirection:PointDirectionUp];
+            
+            UIView *thingToPointAt = [[UIView alloc] initWithFrame:CGRectMake(24, 118, 20, 20)];
+            [self.view addSubview:thingToPointAt];
+            
+            [addEventPopTipView presentPointingAtView:thingToPointAt inView:self.view animated:YES];
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"seenSwipeButton"];
+        }
+    }
 }
 
 -(void)didReceiveRemoteNotification:(NSDictionary *)userInfo {
@@ -265,7 +266,6 @@ typedef enum {
             //Sort Newest Events to be at top of page
             NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"time"  ascending:NO];
             self.eventList= [[self.eventList sortedArrayUsingDescriptors:[NSArray arrayWithObjects:descriptor,nil]] copy];
-            
             
             break;
         }
