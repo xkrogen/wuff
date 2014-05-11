@@ -11,3 +11,6 @@ iOS frontend and Rails backend app for event creation + management.
  * Cocoapods
  * Rails modules (bundle install)
 
+## Build
+
+ * Make sure you open the .xcworkspace instead of the .xcodeproj with XCode.
